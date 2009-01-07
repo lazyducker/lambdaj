@@ -3,6 +3,7 @@ package ch.lambdaj;
 import static ch.lambdaj.Lambda.*;
 import static ch.lambdaj.Matchers.*;
 import static java.util.Arrays.*;
+import static java.util.Collections.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
@@ -13,13 +14,12 @@ import org.junit.*;
 import ch.lambdaj.function.aggregate.*;
 import ch.lambdaj.function.convert.*;
 import ch.lambdaj.mock.*;
-
 /**
  * @author Mario Fusco
  * @author Luca Marrocco
  */
 public class LambdaTest {
-
+	
 	@Test
 	public void testSelect() {
 		List<String> strings = asList("first", "second", "third");
@@ -47,7 +47,7 @@ public class LambdaTest {
 	public void testSelectFirst() {
 		List<CharSequence> strings = new ArrayList<CharSequence>();
 		strings.add("first");
-		strings.add("first");
+		strings.add("third");
 
 		CharSequence result = selectFirst(from(strings).subSequence(0, 5), equalTo("first"));
 
@@ -184,5 +184,22 @@ public class LambdaTest {
 	public void testJoinStrings() {
 		assertThat(join(from(asList("many", "strings"))), is(equalTo("many, strings")));
 		assertThat(join(asList("many", "strings")), is(equalTo("many, strings")));
+		assertThat(join(emptyList()), is(equalTo("")));
+		assertThat(join(null), is(equalTo("")));
+		assertThat(join(""), is(equalTo("")));
+		assertThat(join(1), is(equalTo("1")));
+		assertThat(join(1l), is(equalTo("1")));
+		assertThat(join(1f), is(equalTo("1.0")));
+		assertThat(join(1d), is(equalTo("1.0")));
 	}
+	
+	@Test
+	public void testJoinEmptyStringWithSeparatorAlwaysProduceEmptyString(){
+		assertThat(join("", ";"), is(equalTo("")));
+		assertThat(join("", ","), is(equalTo("")));
+		assertThat(join("", "%"), is(equalTo("")));
+		assertThat(join("", ":"), is(equalTo("")));
+		assertThat(join("", "$"), is(equalTo("")));
+		assertThat(join("", "."), is(equalTo("")));
+}
 }
