@@ -1,4 +1,4 @@
-package ch.lambdaj.function.aggregator;
+package ch.lambdaj.function.aggregate;
 
 
 public abstract class Chooser<T> implements Aggregator<Comparable<T>> {

@@ -5,7 +5,7 @@ import static ch.lambdaj.Lambda.aggregate;
 import java.lang.reflect.Method;
 
 import net.sf.cglib.proxy.MethodProxy;
-import ch.lambdaj.function.aggregator.Aggregator;
+import ch.lambdaj.function.aggregate.*;
 
 public class ProxyAggregator<T, A> extends ProxyIterator<T> {
 

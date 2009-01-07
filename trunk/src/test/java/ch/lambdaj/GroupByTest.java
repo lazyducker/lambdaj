@@ -17,6 +17,10 @@ import org.junit.*;
 
 import ch.lambdaj.mock.*;
 
+/**
+ * @author Mario Fusco
+ * @author Luca Marrocco
+ */
 public class GroupByTest {
 	private Mockery context = new Mockery();
 

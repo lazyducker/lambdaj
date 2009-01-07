@@ -1,4 +1,4 @@
-package ch.lambdaj.function.converter;
+package ch.lambdaj.function.convert;
 
 
 public class StringLengthConverter extends PropertyExtractor<String, Integer> {

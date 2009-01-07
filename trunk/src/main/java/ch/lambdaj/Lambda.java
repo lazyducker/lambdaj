@@ -5,11 +5,15 @@ import java.util.*;
 
 import org.hamcrest.*;
 
-import ch.lambdaj.function.aggregator.*;
-import ch.lambdaj.function.comparator.*;
-import ch.lambdaj.function.converter.*;
+import ch.lambdaj.function.aggregate.*;
+import ch.lambdaj.function.compare.*;
+import ch.lambdaj.function.convert.*;
 import ch.lambdaj.proxy.*;
 
+/**
+ * @author Mario Fusco
+ * @author Luca Marrocco
+ */
 @SuppressWarnings("unchecked")
 public class Lambda {
 

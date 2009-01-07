@@ -1,4 +1,4 @@
-package ch.lambdaj.function.aggregator;
+package ch.lambdaj.function.aggregate;
 
 
 public class StringConcatenator implements Aggregator<Object> {

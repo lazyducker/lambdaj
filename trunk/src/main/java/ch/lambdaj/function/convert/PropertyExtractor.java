@@ -1,4 +1,4 @@
-package ch.lambdaj.function.converter;
+package ch.lambdaj.function.convert;
 
 import ch.lambdaj.util.IntrospectionUtil;
 

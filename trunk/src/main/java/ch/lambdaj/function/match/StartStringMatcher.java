@@ -1,4 +1,4 @@
-package ch.lambdaj.function.matcher;
+package ch.lambdaj.function.match;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
