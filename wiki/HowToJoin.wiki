@@ -18,8 +18,8 @@ join(objects, that(accomplishSomething()));
 }}}
 
 where join is a lambdaj function that take 2 arguments:
-* an iterable of object
-* an hamcrest matcher
+ * an iterable of object
+ * an hamcrest matcher
 
 our good worker join iterate over iterable and try to match every object with accomplishSomething matcher. Each object that matches, is joined in a string using comma separator.
 
