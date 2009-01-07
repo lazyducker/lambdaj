@@ -22,7 +22,7 @@ function netPremium(programme, premiumRate) {
   franceInsureds = collect(forEach(programme).getCountries().getInsureds(), where("country", is(France)))
   exposuresValue = sum(forEach(franceInsureds).getExposures().getValue())
   deductionValue = sum(forEach(franceInsureds).getDeductions().getValue())
-return premiumRate.of(exposuresValue - deductionValues);
+  return premiumRate.of(exposuresValue - deductionValues);
 }
 }}}
 
