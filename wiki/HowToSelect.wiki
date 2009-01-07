@@ -12,7 +12,7 @@ exposuresValue = sum(forEach(franceInsureds).getExposures().getValue())
 
 and we sum deductions' values of same franceInsureds
 {{{
-deductionValue = sum(forEach(franceInsureds).getExposures().getValue())
+deductionValue = sum(forEach(franceInsureds).getDeductions().getValue())
 }}}
 
 
