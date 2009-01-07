@@ -1,4 +1,6 @@
-lambdaj is borned as idea reading follow blog post. in our real complex insurance software implementation we use domain object strong connected. where there are many level of nested object from root to leaf that contains values. those objects was aggregated with in many manner and we have many repeated code:
+lambdaj is borned as idea reading follow blog post http://jroller.com/ghettoJedi/entry/using_hamcrest_for_iterators. Special thanks to Håkan Råberg that have suggested this idea.
+
+In our real complex insurance software implementation we use domain object strong connected. where there are many level of nested object from root to leaf that contains values. those objects was aggregated with in many manner and we have many repeated code:
 {{{
 for(Object o: objects)
   for(Object o1: o.getChildren())
