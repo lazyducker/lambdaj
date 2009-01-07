@@ -1,10 +1,8 @@
 package ch.lambdaj;
 
-import org.hamcrest.Factory;
-import org.hamcrest.Matcher;
+import org.hamcrest.*;
 
-import ch.lambdaj.function.matcher.PropertyMatcher;
-import ch.lambdaj.function.matcher.StartStringMatcher;
+import ch.lambdaj.function.match.*;
 
 /** @author Luca Marrocco */
 public class Matchers {

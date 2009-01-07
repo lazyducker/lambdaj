@@ -1,4 +1,4 @@
-package ch.lambdaj.function.converter;
+package ch.lambdaj.function.convert;
 
 
 public class StringPropertyExtractor<T> extends PropertyExtractor<T, String> implements StringConverter<T> {

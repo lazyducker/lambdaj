@@ -1,4 +1,4 @@
-package ch.lambdaj.function.comparator;
+package ch.lambdaj.function.compare;
 
 import java.util.Comparator;
 
