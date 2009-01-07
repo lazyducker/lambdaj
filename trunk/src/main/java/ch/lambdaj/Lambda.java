@@ -217,22 +217,21 @@ public class Lambda {
 	}
 
 	public static String join(Object iterable) {
-		return (String) aggregate((Iterable<?>) iterable, STRING_CONCATENATOR);
+		return join(iterable, ", ");
 	}
 
 	private static void flatten(List collection, Iterable iterable) {
-		for(Object object: iterable) {
-			if(object instanceof Iterable) {
+		for (Object object : iterable) {
+			if (object instanceof Iterable) {
 				flatten(collection, (Iterable) object);
-			}
-			else if(object instanceof Map) {
+			} else if (object instanceof Map) {
 				flatten(collection, ((Map) object).values());
-			}
-			else {
+			} else {
 				collection.add(object);
 			}
 		}
 	}
+
 	public static List flatten(Iterable iterable) {
 		List collection = new LinkedList();
 		flatten(collection, iterable);
@@ -240,6 +239,11 @@ public class Lambda {
 	}
 
 	public static String join(Object iterable, String separator) {
+		if(iterable instanceof String) return iterable.toString();
+		if(iterable instanceof Long) return iterable.toString();
+		if(iterable instanceof Double) return iterable.toString();
+		if(iterable instanceof Float) return iterable.toString();
+		if(iterable instanceof Integer) return iterable.toString();
 		return (String) aggregate((Iterable<?>) iterable, new StringConcatenator(separator));
 	}
 
