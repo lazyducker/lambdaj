@@ -46,6 +46,7 @@
             <artifactId>json-lib</artifactId>
             <classifier>jdk15</classifier>
             <version>2.1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>

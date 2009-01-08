@@ -1,45 +1,39 @@
 package ch.lambdaj.mock;
 
-import java.util.*;
+import ch.lambdaj.group.*;
 
-public class ExposureBy extends LinkedList {
+@SuppressWarnings("serial")
+public class ExposureBy extends GroupConditions {
 
 	public static final ExposureBy Exposure = new ExposureBy();
 
 	public ExposureBy insuredName() {
-		add("insuredName");
-		add("by");
-		return this;
-	}
-
-	public ExposureBy id() {
-		add("id");
-		add("by");
+		by("insuredName");
 		return this;
 	}
 
 	public ExposureBy countryName() {
-		add("countryName");
-		add("by");
+		by("countryName");
 		return this;
 	}
 
 	public ExposureBy asInsureds() {
-		add("insureds");
-		add("as");
+		as("insureds");
 		return this;
 	}
 
 	public ExposureBy asCountries() {
-		add("countries");
-		add("as");
+		as("countries");
 		return this;
 	}
 
 	public ExposureBy asExposures() {
-		add("exposures");
-		add("as");
+		as("exposures");
 		return this;
 	}
-
+	
+	public ExposureBy headCountryIso() {
+		head("countryIso");
+		return this;
+	}	
 }

@@ -1,13 +1,15 @@
 package ch.lambdaj.group;
 
-import java.util.Set;
+import java.util.*;
 
-
-public interface Group<T> extends Iterable<T> {
-
-	boolean add(T item);
+public interface Group<T> {
 	
-	Group<T> get(Object key);
-
 	Set<String> keySet();
+	
+	Group<T> findGroup(String key);
+	
+	Iterable<T> find(String key);
+	
+	Iterable<T> findAll();
+
 }
