@@ -1,8 +1,7 @@
-/**
- * // Modified or written by Ex Machina SAGL for inclusion with lambdaj.
- * // Copyright (c) 2008 Mario Fusco, Luca Marrocco.
- * // Licensed under the Apache License, Version 2.0 (the "License")
- */
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Licensed under the Apache License, Version 2.0 (the "License")
+
 package ch.lambdaj.function.aggregate;
 
 /**
@@ -12,15 +11,15 @@ package ch.lambdaj.function.aggregate;
 public class Sum implements Aggregator<Number> {
 	public Number aggregate(Number first, Number second) {
 
-		if(first == null && second == null) return 0.0;
-		if(first == null && second != null) return second;
-		if(first != null && second == null) return first;
+		if (first == null && second == null) return 0.0;
+		if (first == null && second != null) return second;
+		if (first != null && second == null) return first;
 
 		if (second instanceof Integer) return aggregate(first, (Integer) second);
 		if (second instanceof Long) return aggregate(first, (Long) second);
 		if (second instanceof Float) return aggregate(first, (Float) second);
 		if (second instanceof Double) return aggregate(first, (Double) second);
-		
+
 		throw new RuntimeException("unable to aggregate " + first + " and " + second);
 	}
 

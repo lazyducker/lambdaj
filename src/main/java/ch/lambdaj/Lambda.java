@@ -1,8 +1,7 @@
-/**
- * // Modified or written by Ex Machina SAGL for inclusion with lambdaj.
- * // Copyright (c) 2008 Mario Fusco, Luca Marrocco.
- * // Licensed under the Apache License, Version 2.0 (the "License")
- */
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Licensed under the Apache License, Version 2.0 (the "License")
+
 package ch.lambdaj;
 
 import java.lang.reflect.*;
@@ -244,11 +243,11 @@ public class Lambda {
 	}
 
 	public static String join(Object iterable, String separator) {
-		if(iterable instanceof String) return iterable.toString();
-		if(iterable instanceof Long) return iterable.toString();
-		if(iterable instanceof Double) return iterable.toString();
-		if(iterable instanceof Float) return iterable.toString();
-		if(iterable instanceof Integer) return iterable.toString();
+		if (iterable instanceof String) return iterable.toString();
+		if (iterable instanceof Long) return iterable.toString();
+		if (iterable instanceof Double) return iterable.toString();
+		if (iterable instanceof Float) return iterable.toString();
+		if (iterable instanceof Integer) return iterable.toString();
 		return (String) aggregate((Iterable<?>) iterable, new Concat(separator));
 	}
 

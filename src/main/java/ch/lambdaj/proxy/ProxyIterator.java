@@ -1,8 +1,7 @@
-/**
- * // Modified or written by Ex Machina SAGL for inclusion with lambdaj.
- * // Copyright (c) 2008 Mario Fusco, Luca Marrocco.
- * // Licensed under the Apache License, Version 2.0 (the "License")
- */
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Licensed under the Apache License, Version 2.0 (the "License")
+
 package ch.lambdaj.proxy;
 
 import java.lang.reflect.Method;
@@ -17,6 +16,9 @@ import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 import ch.lambdaj.Lambda;
 
+/**
+ * @author Mario Fusco
+ */
 public class ProxyIterator<T> implements MethodInterceptor, Iterable<T> {
 
 	private Iterable<T> proxiedCollection;
@@ -66,7 +68,7 @@ public class ProxyIterator<T> implements MethodInterceptor, Iterable<T> {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	private static boolean canBeEnhanced(Class<?> clazz) {
 		if (Proxy.isProxyClass(clazz) || Modifier.isFinal(clazz.getModifiers())) return false;
 		try {
