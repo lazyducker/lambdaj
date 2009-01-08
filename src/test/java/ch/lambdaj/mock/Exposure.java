@@ -33,6 +33,6 @@ public class Exposure {
 	
 	@Override
 	public String toString() {
-		return join(from(asList(countryName, insuredName)));
+		return join(forEach(asList(countryName, insuredName)));
 	}
 }

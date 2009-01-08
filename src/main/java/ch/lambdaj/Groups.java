@@ -27,7 +27,7 @@ public class Groups {
 		if (op.equals("by")) {
 			List<Map> listOfSelected = new LinkedList<Map>();
 			for (Object value : criteriavalues(criteria, iterable)) {
-				Collection selected = select(from(iterable), where(criteria, is(equalTo(value))));
+				Collection selected = select(forEach(iterable), where(criteria, is(equalTo(value))));
 				Map selectedmap = new HashMap();
 				selectedmap.put("value", value);
 				selectedmap.put("selected", selected);

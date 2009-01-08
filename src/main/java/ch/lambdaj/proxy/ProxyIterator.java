@@ -22,7 +22,7 @@ public class ProxyIterator<T> implements MethodInterceptor, Iterable<T> {
 
 	public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
 		if (method.getName().equals("iterator")) return iterator();
-		return Lambda.from(collectValues(method, args), method.getReturnType());
+		return Lambda.forEach(collectValues(method, args), method.getReturnType());
 	}
 
 	protected List<Object> collectValues(Method method, Object[] args) throws Throwable {
