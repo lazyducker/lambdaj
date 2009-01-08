@@ -49,18 +49,20 @@ public class GroupByTest {
 	public void testGroupByInsuredName() {
 		String string = toJsonString(group(exposures, by(Exposure).insuredName()));
 
-		assertThat(string, containsString("\"insuredName\":\"Fex France"));
-		assertThat(string, containsString("\"insuredName\":\"Fex Canada"));
+		string = cleanJsonString(string);
+		assertThat(string, containsString("insuredName:Fex France"));
+		assertThat(string, containsString("insuredName:Fex Canada"));
 	}
 
 	@Test
 	public void testGroupByInsuredNameAndCountryName() {
 		String string = toJsonString(group(exposures, by(Exposure).insuredName().countryName()));
 
-		assertThat(string, containsString("\"insuredName\":\"Fex France\",\"children\":"));
-		assertThat(string, containsString("\"countryName\":\"France\",\"children\":"));
-		assertThat(string, containsString("\"insuredName\":\"Fex Canada\",\"children\":"));
-		assertThat(string, containsString("\"countryName\":\"Canada\",\"children\":"));
+		string = cleanJsonString(string);
+		assertThat(string, containsString("insuredName:Fex France,children:"));
+		assertThat(string, containsString("countryName:France,children:"));
+		assertThat(string, containsString("insuredName:Fex Canada,children:"));
+		assertThat(string, containsString("countryName:Canada,children:"));
 	}
 
 	@Test
@@ -90,10 +92,12 @@ public class GroupByTest {
 	@Test
 	public void testGroupByCountryNameAsCountries() {
 		String string = toJsonString(group(exposures, by(Exposure).countryName().asCountries()));
+		string = cleanJsonString(string);
 	}
 
 	@Test
 	public void testGroupByCountryNameAsExposures() {
 		String string = toJsonString(group(exposures, by(Exposure).countryName().asExposures()));
+		string = cleanJsonString(string);
 	}
 }
