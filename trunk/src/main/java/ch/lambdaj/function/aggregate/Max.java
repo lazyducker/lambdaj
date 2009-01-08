@@ -1,10 +1,16 @@
 package ch.lambdaj.function.aggregate;
 
 
-public class MaxFinder<T> extends Chooser<T> {
+/**
+ * @author Mario Fusco
+ * @author Luca Marrocco
+ */
+public class Max<T> extends Chooser<T> {
 
 	@Override
 	public Comparable<T> choose(Comparable<T> first, Comparable<T> second) {
+		if (first == null) return second;
+		if (second == null) return first;
 		return first.compareTo((T)second) > 0 ? first : second;
 	}
 }
