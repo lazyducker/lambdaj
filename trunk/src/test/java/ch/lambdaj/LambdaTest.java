@@ -38,7 +38,7 @@ public class LambdaTest {
 		strings.add("second");
 		strings.add("third");
 
-		CharSequence result = selectUnique(from(strings).subSequence(0, 1), equalTo("t"));
+		CharSequence result = selectUnique(forEach(strings).subSequence(0, 1), equalTo("t"));
 
 		assertThat(result, is(equalTo((CharSequence) "t")));
 	}
@@ -49,7 +49,7 @@ public class LambdaTest {
 		strings.add("first");
 		strings.add("third");
 
-		CharSequence result = selectFirst(from(strings).subSequence(0, 5), equalTo("first"));
+		CharSequence result = selectFirst(forEach(strings).subSequence(0, 5), equalTo("first"));
 
 		assertThat(result, is(equalTo((CharSequence) "first")));
 	}
@@ -117,7 +117,7 @@ public class LambdaTest {
 	@Test
 	public void testConcat() {
 		List<String> strings = asList("first", "second", "third");
-		String result = join(from(strings));
+		String result = join(forEach(strings));
 		assertThat(result, is(equalTo("first, second, third")));
 	}
 
@@ -157,7 +157,7 @@ public class LambdaTest {
 		strings.add(new Text("second"));
 		strings.add(new Text("third"));
 
-		String result = join(from(strings).subString(1, 3));
+		String result = join(forEach(strings).subString(1, 3));
 		assertThat(result, is(equalTo("ir, ec, hi")));
 	}
 
@@ -167,8 +167,8 @@ public class LambdaTest {
 		Comparable greater = new Long(2);
 		List comparables = asList(lesser, greater);
 
-		assertThat((Comparable) min(from(comparables)), is(equalTo(lesser)));
-		assertThat((Comparable) max(from(comparables)), is(equalTo(greater)));
+		assertThat((Comparable) min(forEach(comparables)), is(equalTo(lesser)));
+		assertThat((Comparable) max(forEach(comparables)), is(equalTo(greater)));
 	}
 
 	@Test
@@ -182,7 +182,7 @@ public class LambdaTest {
 
 	@Test
 	public void testJoinStrings() {
-		assertThat(join(from(asList("many", "strings"))), is(equalTo("many, strings")));
+		assertThat(join(forEach(asList("many", "strings"))), is(equalTo("many, strings")));
 		assertThat(join(asList("many", "strings")), is(equalTo("many, strings")));
 		assertThat(join(emptyList()), is(equalTo("")));
 		assertThat(join(null), is(equalTo("")));

@@ -27,13 +27,13 @@ public class Lambda {
 		return result;
 	}
 
-	public static <T> T from(Iterable<T> iterable) {
+	public static <T> T forEach(Iterable<T> iterable) {
 		if (iterable == null) return null;
 		Iterator<T> iterator = iterable.iterator();
-		return (iterator.hasNext()) ? from(iterable, iterator.next().getClass()) : null;
+		return (iterator.hasNext()) ? forEach(iterable, iterator.next().getClass()) : null;
 	}
 
-	public static <T> T from(Iterable<T> iterable, Class<?> clazz) {
+	public static <T> T forEach(Iterable<T> iterable, Class<?> clazz) {
 		return ProxyIterator.createProxyIterator(iterable, clazz);
 	}
 
