@@ -56,6 +56,7 @@ public class GroupByTest {
 	@Test
 	public void testGroupByInsuredNameAndCountryName() {
 		String string = toJsonString(group(exposures, by(Exposure).insuredName().countryName()));
+
 		assertThat(string, containsString("\"insuredName\":\"Fex France\",\"children\":"));
 		assertThat(string, containsString("\"countryName\":\"France\",\"children\":"));
 		assertThat(string, containsString("\"insuredName\":\"Fex Canada\",\"children\":"));
@@ -70,11 +71,10 @@ public class GroupByTest {
 	@Test
 	public void testGroupByCountryName() {
 		String string = toJsonString(group(exposures, by(Exposure).countryName().asInsureds().headCountryIso()));
-		System.out.println(string);
 		
 		string = cleanJsonString(string);
-		assertThat(string, containsString("insureds:[{countryName:France,insuredName:Fex France,countryFlag:/flags/fr.jpg,countryIso:FR}]"));
-		assertThat(string, containsString("insureds:[{countryName:Canada,insuredName:Fex Canada,countryFlag:/flags/ca.jpg,countryIso:CA}]"));
+		assertThat(string, allOf(containsString("insureds:[{"), containsString("countryName:France"), containsString("insuredName:Fex France"),containsString("countryFlag:/flags/fr.jpg"),containsString("countryIso:FR")));
+		assertThat(string, allOf(containsString("insureds:[{"), containsString("countryName:Canada"), containsString("insuredName:Fex Canada"),containsString("countryFlag:/flags/fr.jpg"),containsString("countryIso:FR")));
 		
 		string = cleanJsonString(string, cleanJsonString(toJsonString(FexFrance)));
 		string = cleanJsonString(string, cleanJsonString(toJsonString(FexCanada)));
