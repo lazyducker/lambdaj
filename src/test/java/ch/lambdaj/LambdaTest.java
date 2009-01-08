@@ -1,10 +1,9 @@
 package ch.lambdaj;
 
 import static ch.lambdaj.Lambda.*;
-import static ch.lambdaj.Matchers.*;
+import static org.hamcrest.Matchers.*;
 import static java.util.Arrays.*;
 import static java.util.Collections.*;
-import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 import java.util.*;
@@ -21,7 +20,7 @@ import ch.lambdaj.mock.*;
 public class LambdaTest {
 	
 	@Test
-	public void testSelect() {
+	public void testSelectStringsThatEndsWithD() {
 		List<String> strings = asList("first", "second", "third");
 
 		Collection<String> results = select(strings, endsWith("d"));
@@ -105,16 +104,6 @@ public class LambdaTest {
 	}
 
 	@Test
-	public void testLength() {
-		List<String> strings = asList("first", "second", "third");
-
-		Collection<String> results = select(strings, where("length", equalTo(5)));
-
-		assertThat(results.size(), is(equalTo(2)));
-		assertThat(results, hasItems("first", "third"));
-	}
-
-	@Test
 	public void testConcat() {
 		List<String> strings = asList("first", "second", "third");
 		String result = join(forEach(strings));
@@ -137,6 +126,18 @@ public class LambdaTest {
 		List<Exposure> exposures = asList(new Exposure("france", "first"), new Exposure("brazil", "second"));
 		String result = joinFrom(exposures).getCountryName();
 		assertThat(result, is(equalTo("france, brazil")));
+	}
+
+	
+	@Test
+	public void testSelectFranceExposures() {
+		Exposure franceExposure = new Exposure("france", "first");
+		Exposure brazilExposure = new Exposure("brazil", "second");
+		Collection<Exposure> exposures = asList(franceExposure, brazilExposure);
+		Collection<Exposure> result = select(exposures, hasProperty("countryName", is(equalTo("france"))));
+		
+		assertThat(result.size(), is(equalTo(1)));
+		assertThat(result, hasItem(franceExposure));
 	}
 
 	@Test
