@@ -10,7 +10,7 @@ public class SumTest {
 
 	@Test
 	public void testSumNull() {
-		assertThatSum(null, null, is(equalTo(0)));
+		assertThatSum(null, null, is(equalTo(0.0)));
 	}
 
 	@Test

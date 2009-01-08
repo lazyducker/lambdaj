@@ -7,7 +7,7 @@ package ch.lambdaj.function.aggregate;
 public class Sum implements Aggregator<Number> {
 	public Number aggregate(Number first, Number second) {
 
-		if(first == null && second == null) return 0;
+		if(first == null && second == null) return 0.0;
 		if(first == null && second != null) return second;
 		if(first != null && second == null) return first;
 
@@ -44,6 +44,6 @@ public class Sum implements Aggregator<Number> {
 	}
 
 	public Number emptyItem() {
-		return 0;
+		return 0.0;
 	}
 }
