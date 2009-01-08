@@ -134,10 +134,10 @@ public class Lambda {
 	// /// Aggregation
 	// ////////////////////////////////////////////////////////////////////////
 
-	private static final Summer SUMMER = new Summer();
-	private static final MinFinder MIN_FINDER = new MinFinder();
-	private static final MaxFinder MAX_FINDER = new MaxFinder();
-	private static final StringConcatenator STRING_CONCATENATOR = new StringConcatenator();
+	private static final Sum SUMMER = new Sum();
+	private static final Min MIN_FINDER = new Min();
+	private static final Max MAX_FINDER = new Max();
+	private static final Concat STRING_CONCATENATOR = new Concat();
 
 	public static <T> T aggregate(Object iterable, Aggregator<T> aggregator) {
 		T result = aggregator.emptyItem();
@@ -205,7 +205,7 @@ public class Lambda {
 	}
 
 	public static <T> T joinFrom(Iterable<T> c, String separator) {
-		return aggregateFrom(c, new StringConcatenator(separator));
+		return aggregateFrom(c, new Concat(separator));
 	}
 
 	public static <T> T joinFrom(Iterable<T> c, Class<?> t) {
@@ -213,7 +213,7 @@ public class Lambda {
 	}
 
 	public static <T> T joinFrom(Iterable<T> c, Class<?> t, String separator) {
-		return aggregateFrom(c, t, new StringConcatenator(separator));
+		return aggregateFrom(c, t, new Concat(separator));
 	}
 
 	public static String join(Object iterable) {
@@ -244,7 +244,7 @@ public class Lambda {
 		if(iterable instanceof Double) return iterable.toString();
 		if(iterable instanceof Float) return iterable.toString();
 		if(iterable instanceof Integer) return iterable.toString();
-		return (String) aggregate((Iterable<?>) iterable, new StringConcatenator(separator));
+		return (String) aggregate((Iterable<?>) iterable, new Concat(separator));
 	}
 
 	// ////////////////////////////////////////////////////////////////////////

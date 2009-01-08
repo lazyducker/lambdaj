@@ -78,7 +78,7 @@ public class LambdaTest {
 	public void testAggregate() {
 		List<String> strings = asList("first", "second", "third");
 
-		int totalLenght = aggregate(convert(strings, new StringLengthConverter()), new Summer()).intValue();
+		int totalLenght = aggregate(convert(strings, new StringLengthConverter()), new Sum()).intValue();
 		
 		assertThat(totalLenght, is(equalTo(16)));
 	}
