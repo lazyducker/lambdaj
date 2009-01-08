@@ -138,10 +138,13 @@ public class Lambda {
 	// /// Aggregation
 	// ////////////////////////////////////////////////////////////////////////
 
-	private static final Sum SUMMER = new Sum();
-	private static final Min MIN_FINDER = new Min();
-	private static final Max MAX_FINDER = new Max();
-	private static final Concat STRING_CONCATENATOR = new Concat();
+	private static final Sum Sum = new Sum();
+
+	private static final Min Min = new Min();
+	
+	private static final Max Max = new Max();
+	
+	private static final Concat Concat = new Concat();
 
 	public static <T> T aggregate(Object iterable, Aggregator<T> aggregator) {
 		T result = aggregator.emptyItem();
@@ -163,49 +166,49 @@ public class Lambda {
 	// -- (Sum) ---------------------------------------------------------------
 
 	public static Number sum(Object iterable) {
-		return aggregate((Iterable<Number>) iterable, SUMMER);
+		return aggregate((Iterable<Number>) iterable, Sum);
 	}
 
 	public static <T> T sumFrom(Iterable<T> c) {
-		return aggregateFrom(c, SUMMER);
+		return aggregateFrom(c, Sum);
 	}
 
 	public static <T> T sumFrom(Iterable<T> c, Class<?> t) {
-		return aggregateFrom(c, t, SUMMER);
+		return aggregateFrom(c, t, Sum);
 	}
 
 	// -- (Min) ---------------------------------------------------------------
 
 	public static <T> T min(Object iterable) {
-		return (T) aggregate((Iterable<T>) iterable, MIN_FINDER);
+		return (T) aggregate((Iterable<T>) iterable, Min);
 	}
 
 	public static <T> T minFrom(Iterable<T> c) {
-		return (T) aggregateFrom(c, MIN_FINDER);
+		return (T) aggregateFrom(c, Min);
 	}
 
 	public static <T> T minFrom(Iterable<T> c, Class<?> t) {
-		return (T) aggregateFrom(c, t, MIN_FINDER);
+		return (T) aggregateFrom(c, t, Min);
 	}
 
 	// -- (Max) ---------------------------------------------------------------
 
 	public static <T> T max(Object iterable) {
-		return (T) aggregate((Iterable<T>) iterable, MAX_FINDER);
+		return (T) aggregate((Iterable<T>) iterable, Max);
 	}
 
 	public static <T> T maxFrom(Iterable<T> c) {
-		return (T) aggregateFrom(c, MAX_FINDER);
+		return (T) aggregateFrom(c, Max);
 	}
 
 	public static <T> T maxFrom(Iterable<T> c, Class<?> t) {
-		return (T) aggregateFrom(c, t, MAX_FINDER);
+		return (T) aggregateFrom(c, t, Max);
 	}
 
 	// -- (Concat) ------------------------------------------------------------
 
 	public static <T> T joinFrom(Iterable<T> c) {
-		return aggregateFrom(c, STRING_CONCATENATOR);
+		return aggregateFrom(c, Concat);
 	}
 
 	public static <T> T joinFrom(Iterable<T> c, String separator) {
@@ -213,7 +216,7 @@ public class Lambda {
 	}
 
 	public static <T> T joinFrom(Iterable<T> c, Class<?> t) {
-		return aggregateFrom(c, t, STRING_CONCATENATOR);
+		return aggregateFrom(c, t, Concat);
 	}
 
 	public static <T> T joinFrom(Iterable<T> c, Class<?> t, String separator) {
@@ -249,20 +252,5 @@ public class Lambda {
 		if (iterable instanceof Float) return iterable.toString();
 		if (iterable instanceof Integer) return iterable.toString();
 		return (String) aggregate((Iterable<?>) iterable, new Concat(separator));
-	}
-
-	// ////////////////////////////////////////////////////////////////////////
-	// /// Conversion
-	// ////////////////////////////////////////////////////////////////////////
-
-	public static <F, T> Collection<T> convert(Object iterable, Converter<F, T> convertor) {
-		Collection<T> collected = new ArrayList<T>();
-		if (iterable != null) for (F item : (Iterable<F>) iterable)
-			collected.add(convertor.convert(item));
-		return collected;
-	}
-
-	public static <F, T> Collection<T> extract(Object iterable, String propertyName) {
-		return convert((Iterable<F>) iterable, new PropertyExtractor<F, T>(propertyName));
 	}
 }

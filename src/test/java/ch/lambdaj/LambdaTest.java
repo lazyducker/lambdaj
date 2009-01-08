@@ -5,17 +5,15 @@
 package ch.lambdaj;
 
 import static ch.lambdaj.Lambda.*;
-import static org.hamcrest.Matchers.*;
 import static java.util.Arrays.*;
 import static java.util.Collections.*;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 import java.util.*;
 
 import org.junit.*;
 
-import ch.lambdaj.function.aggregate.*;
-import ch.lambdaj.function.convert.*;
 import ch.lambdaj.mock.*;
 
 /**
@@ -79,24 +77,6 @@ public class LambdaTest {
 	}
 
 	@Test
-	public void testAggregate() {
-		List<String> strings = asList("first", "second", "third");
-
-		int totalLenght = aggregate(convert(strings, new StringLengthConverter()), new Sum()).intValue();
-
-		assertThat(totalLenght, is(equalTo(16)));
-	}
-
-	@Test
-	public void testSum() {
-		List<String> strings = asList("first", "second", "third");
-
-		int totalLenght = sum(extract(strings, "length")).intValue();
-
-		assertThat(totalLenght, is(equalTo(16)));
-	}
-
-	@Test
 	public void testTypedSum() {
 		List<CharSequence> strings = new ArrayList<CharSequence>();
 		strings.add("first");
@@ -116,17 +96,6 @@ public class LambdaTest {
 	}
 
 	@Test
-	public void testConvertAndConcat() {
-		List<String> strings = asList("first", "second", "third");
-		String result = join(convert(strings, new Converter<String, String>() {
-			public String convert(String from) {
-				return from.substring(0, 2);
-			}
-		}));
-		assertThat(result, is(equalTo("fi, se, th")));
-	}
-
-	@Test
 	public void testConcatFrom() {
 		List<Exposure> exposures = asList(new Exposure("france", "first"), new Exposure("brazil", "second"));
 		String result = joinFrom(exposures).getCountryName();
@@ -142,17 +111,6 @@ public class LambdaTest {
 
 		assertThat(result.size(), is(equalTo(1)));
 		assertThat(result, hasItem(franceExposure));
-	}
-
-	@Test
-	public void testSumFromConcreteClass() {
-		List<Text> strings = new ArrayList<Text>();
-		strings.add(new Text("first"));
-		strings.add(new Text("second"));
-		strings.add(new Text("third"));
-		int totalLenght = sum(extract(strings, "length")).intValue();
-
-		assertThat(totalLenght, is(equalTo(16)));
 	}
 
 	@Test
