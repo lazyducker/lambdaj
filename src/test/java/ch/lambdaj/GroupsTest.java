@@ -1,3 +1,8 @@
+/**
+ * // Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+ * // Copyright (c) 2008 Mario Fusco, Luca Marrocco.
+ * // Licensed under the Apache License, Version 2.0 (the "License")
+ */
 package ch.lambdaj;
 
 import static ch.lambdaj.Util.*;
@@ -78,8 +83,6 @@ public class GroupsTest {
 
 		Iterable<Exposure> groupCanada = group.find("Canada");
 		assertThat(groupCanada, hasItems(FexCanada1, FexCanada2));
-
-System.out.println(toJsonString(group));
 	}
 	
 	@Test
@@ -112,8 +115,6 @@ System.out.println(toJsonString(group));
 
 		Iterable<Exposure> groupFexCanada = groupCanada.find("Fex Canada 2");
 		assertThat(groupFexCanada, hasItems(FexCanada2));
-		
-System.out.println(toJsonString(group));
 	}
 
 	@Test
