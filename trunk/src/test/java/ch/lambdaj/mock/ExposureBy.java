@@ -1,12 +1,15 @@
-/**
- * // Modified or written by Ex Machina SAGL for inclusion with lambdaj.
- * // Copyright (c) 2008 Mario Fusco, Luca Marrocco.
- * // Licensed under the Apache License, Version 2.0 (the "License")
- */
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Licensed under the Apache License, Version 2.0 (the "License")
+
 package ch.lambdaj.mock;
 
 import ch.lambdaj.group.*;
 
+/**
+ * @author Mario Fusco
+ * @author Luca Marrocco
+ */
 @SuppressWarnings("serial")
 public class ExposureBy extends GroupConditions {
 
@@ -36,9 +39,9 @@ public class ExposureBy extends GroupConditions {
 		as("exposures");
 		return this;
 	}
-	
+
 	public ExposureBy headCountryIso() {
 		head("countryIso");
 		return this;
-	}	
+	}
 }

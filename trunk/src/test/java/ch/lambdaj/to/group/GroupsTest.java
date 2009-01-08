@@ -1,11 +1,11 @@
-/**
- * // Modified or written by Ex Machina SAGL for inclusion with lambdaj.
- * // Copyright (c) 2008 Mario Fusco, Luca Marrocco.
- * // Licensed under the Apache License, Version 2.0 (the "License")
- */
-package ch.lambdaj;
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Licensed under the Apache License, Version 2.0 (the "License")
 
-import static ch.lambdaj.Util.*;
+package ch.lambdaj.to.group;
+
+import static ch.lambdaj.Lambda.*;
+import static ch.lambdaj.group.Groups.*;
 import static ch.lambdaj.mock.ExposureBy.*;
 import static java.util.Arrays.*;
 import static org.hamcrest.collection.IsCollectionContaining.*;
@@ -18,6 +18,10 @@ import org.junit.*;
 import ch.lambdaj.group.*;
 import ch.lambdaj.mock.*;
 
+/**
+ * @author Mario Fusco
+ * @author Luca Marrocco
+ */
 public class GroupsTest {
 
 	@Before
@@ -57,16 +61,6 @@ public class GroupsTest {
 
 	private List<Exposure> exposures;
 
-	private static final <T> T by(T t) {
-		T result = null;
-		try {
-			result = (T) t.getClass().newInstance();
-		} catch (Exception e) {
-			e.printStackTrace(); // TODO
-		}
-		return result;
-	}
-
 	@Test
 	public void testByCriteria() {
 		by(Exposure).countryName().insuredName();
@@ -74,23 +68,23 @@ public class GroupsTest {
 
 	@Test
 	public void testGroupByCountry() {
-		Group<Exposure> group = Groups.group(exposures, "countryName");
-		
+		Group<Exposure> group = group(exposures, "countryName");
+
 		assertThat(group.keySet(), hasItems("France", "Canada"));
-		
+
 		Iterable<Exposure> groupFrance = group.find("France");
 		assertThat(groupFrance, hasItems(FexFrance1, FexFrance2));
 
 		Iterable<Exposure> groupCanada = group.find("Canada");
 		assertThat(groupCanada, hasItems(FexCanada1, FexCanada2));
 	}
-	
+
 	@Test
 	public void testGroupByInsuredName() {
-		Group<Exposure> group = Groups.group(exposures, "insuredName");
-		
+		Group<Exposure> group = group(exposures, "insuredName");
+
 		assertThat(group.keySet(), hasItems("Fex France 1", "Fex France 2", "Fex Canada 1", "Fex Canada 2"));
-		
+
 		Iterable<Exposure> groupFrance = group.find("Fex France 2");
 		assertThat(groupFrance, hasItems(FexFrance2));
 
@@ -100,8 +94,8 @@ public class GroupsTest {
 
 	@Test
 	public void testGroupByCountryAndInsuredName() {
-		Group<Exposure> group = Groups.group(exposures, "countryName", "insuredName");
-		
+		Group<Exposure> group = group(exposures, "countryName", "insuredName");
+
 		assertThat(group.keySet(), hasItems("France", "Canada"));
 
 		Group<Exposure> groupFrance = group.findGroup("France");
@@ -119,8 +113,8 @@ public class GroupsTest {
 
 	@Test
 	public void testGroupTypedByCountryAndInsuredName() {
-		Group<Exposure> group = Groups.group(exposures, by(Exposure).countryName().insuredName());
-		
+		Group<Exposure> group = group(exposures, by(Exposure).countryName().insuredName());
+
 		assertThat(group.keySet(), hasItems("France", "Canada"));
 
 		Group<Exposure> groupFrance = group.findGroup("France");

@@ -1,14 +1,16 @@
-/**
- * // Modified or written by Ex Machina SAGL for inclusion with lambdaj.
- * // Copyright (c) 2008 Mario Fusco, Luca Marrocco.
- * // Licensed under the Apache License, Version 2.0 (the "License")
- */
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Licensed under the Apache License, Version 2.0 (the "License")
+
 package ch.lambdaj.function.compare;
 
 import java.util.Comparator;
 
 import ch.lambdaj.util.IntrospectionUtil;
 
+/**
+ * @author Mario Fusco
+ */
 public class PropertyComparator<T> implements Comparator<T> {
 
 	private String propertyName;
@@ -18,8 +20,8 @@ public class PropertyComparator<T> implements Comparator<T> {
 	}
 
 	public int compare(T o1, T o2) {
-		Comparable val1 = (Comparable)IntrospectionUtil.getPropertyValue(o1, propertyName);
-		Comparable val2 = (Comparable)IntrospectionUtil.getPropertyValue(o2, propertyName);
+		Comparable val1 = (Comparable) IntrospectionUtil.getPropertyValue(o1, propertyName);
+		Comparable val2 = (Comparable) IntrospectionUtil.getPropertyValue(o2, propertyName);
 		return val1.compareTo(val2);
 	}
 

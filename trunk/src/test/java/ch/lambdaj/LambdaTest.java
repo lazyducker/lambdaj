@@ -1,8 +1,7 @@
-/**
- * // Modified or written by Ex Machina SAGL for inclusion with lambdaj.
- * // Copyright (c) 2008 Mario Fusco, Luca Marrocco.
- * // Licensed under the Apache License, Version 2.0 (the "License")
- */
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Licensed under the Apache License, Version 2.0 (the "License")
+
 package ch.lambdaj;
 
 import static ch.lambdaj.Lambda.*;
@@ -18,12 +17,13 @@ import org.junit.*;
 import ch.lambdaj.function.aggregate.*;
 import ch.lambdaj.function.convert.*;
 import ch.lambdaj.mock.*;
+
 /**
  * @author Mario Fusco
  * @author Luca Marrocco
  */
 public class LambdaTest {
-	
+
 	@Test
 	public void testSelectStringsThatEndsWithD() {
 		List<String> strings = asList("first", "second", "third");
@@ -37,7 +37,7 @@ public class LambdaTest {
 	@Test
 	public void testSelectUnique() {
 		List<CharSequence> strings = new ArrayList<CharSequence>();
-		
+
 		strings.add("first");
 		strings.add("second");
 		strings.add("third");
@@ -83,7 +83,7 @@ public class LambdaTest {
 		List<String> strings = asList("first", "second", "third");
 
 		int totalLenght = aggregate(convert(strings, new StringLengthConverter()), new Sum()).intValue();
-		
+
 		assertThat(totalLenght, is(equalTo(16)));
 	}
 
@@ -92,7 +92,7 @@ public class LambdaTest {
 		List<String> strings = asList("first", "second", "third");
 
 		int totalLenght = sum(extract(strings, "length")).intValue();
-		
+
 		assertThat(totalLenght, is(equalTo(16)));
 	}
 
@@ -125,7 +125,7 @@ public class LambdaTest {
 		}));
 		assertThat(result, is(equalTo("fi, se, th")));
 	}
-	
+
 	@Test
 	public void testConcatFrom() {
 		List<Exposure> exposures = asList(new Exposure("france", "first"), new Exposure("brazil", "second"));
@@ -133,14 +133,13 @@ public class LambdaTest {
 		assertThat(result, is(equalTo("france, brazil")));
 	}
 
-	
 	@Test
 	public void testSelectFranceExposures() {
 		Exposure franceExposure = new Exposure("france", "first");
 		Exposure brazilExposure = new Exposure("brazil", "second");
 		Collection<Exposure> exposures = asList(franceExposure, brazilExposure);
 		Collection<Exposure> result = select(exposures, hasProperty("countryName", is(equalTo("france"))));
-		
+
 		assertThat(result.size(), is(equalTo(1)));
 		assertThat(result, hasItem(franceExposure));
 	}
@@ -198,14 +197,14 @@ public class LambdaTest {
 		assertThat(join(1f), is(equalTo("1.0")));
 		assertThat(join(1d), is(equalTo("1.0")));
 	}
-	
+
 	@Test
-	public void testJoinEmptyStringWithSeparatorAlwaysProduceEmptyString(){
+	public void testJoinEmptyStringWithSeparatorAlwaysProduceEmptyString() {
 		assertThat(join("", ";"), is(equalTo("")));
 		assertThat(join("", ","), is(equalTo("")));
 		assertThat(join("", "%"), is(equalTo("")));
 		assertThat(join("", ":"), is(equalTo("")));
 		assertThat(join("", "$"), is(equalTo("")));
 		assertThat(join("", "."), is(equalTo("")));
-}
+	}
 }

@@ -1,10 +1,12 @@
-/**
- * // Modified or written by Ex Machina SAGL for inclusion with lambdaj.
- * // Copyright (c) 2008 Mario Fusco, Luca Marrocco.
- * // Licensed under the Apache License, Version 2.0 (the "License")
- */
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Licensed under the Apache License, Version 2.0 (the "License")
+
 package ch.lambdaj.util;
 
+/**
+ * @author Mario Fusco
+ */
 public class IntrospectionUtil {
 
 	IntrospectionUtil() {}
@@ -12,8 +14,8 @@ public class IntrospectionUtil {
 	public static Object getPropertyValue(Object bean, String propertyName) {
 		if (bean == null) return null;
 		int dotPos = propertyName.indexOf('.');
-		if (dotPos > 0) return getPropertyValue(getPropertyValue(bean, propertyName.substring(0, dotPos)), propertyName.substring(dotPos+1));
-		
+		if (dotPos > 0) return getPropertyValue(getPropertyValue(bean, propertyName.substring(0, dotPos)), propertyName.substring(dotPos + 1));
+
 		String accessorName = propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
 		Object value = null;
 		try {
