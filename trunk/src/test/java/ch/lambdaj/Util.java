@@ -3,7 +3,7 @@ package ch.lambdaj;
 import net.sf.json.*;
 import net.sf.json.util.*;
 
-public class TestUtil {
+public class Util {
 
 	public static String toJsonString(Object object) {
 		if (JSONUtils.isArray(object)) return JSONArray.fromObject(object).toString();

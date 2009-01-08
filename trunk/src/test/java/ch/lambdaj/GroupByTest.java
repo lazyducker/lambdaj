@@ -2,7 +2,7 @@ package ch.lambdaj;
 
 import static ch.lambdaj.group.Groups.*;
 import static ch.lambdaj.Lambda.*;
-import static ch.lambdaj.TestUtil.*;
+import static ch.lambdaj.Util.*;
 import static ch.lambdaj.mock.ExposureBy.*;
 import static java.util.Arrays.*;
 import static org.hamcrest.Matchers.*;
