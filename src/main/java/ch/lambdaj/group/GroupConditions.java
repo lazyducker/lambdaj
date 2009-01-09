@@ -17,7 +17,7 @@ public class GroupConditions extends LinkedList<GroupCondition> {
 	}
 
 	public void as(String alias) {
-		getLast().setAlias("insureds");
+		getLast().setAlias(alias);
 	}
 
 	public void head(String property) {
