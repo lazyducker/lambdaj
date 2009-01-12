@@ -83,10 +83,9 @@ public class GroupByTest {
 		String string = json(group(exposures, by(Exposure).countryName().asInsureds().headCountryIso()));
 
 		string = removeApos(string);
-		assertThat(string, allOf(containsString("insureds:[{"), containsString("countryName:France"), containsString("insuredName:Fex France"), containsString("countryFlag:/flags/fr.jpg"),
-				containsString("countryIso:FR")));
-		assertThat(string, allOf(containsString("insureds:[{"), containsString("countryName:Canada"), containsString("insuredName:Fex Canada"), containsString("countryFlag:/flags/fr.jpg"),
-				containsString("countryIso:FR")));
+		assertThat(string, containsString("insureds:[{"));
+		assertThat(string, allOf(containsString("countryName:France"), containsString("insuredName:Fex France"), containsString("countryFlag:/flags/fr.jpg"), containsString("countryIso:FR")));
+		assertThat(string, allOf(containsString("countryName:Canada"), containsString("insuredName:Fex Canada"), containsString("countryFlag:/flags/fr.jpg"), containsString("countryIso:FR")));
 
 		string = removeString(string, removeApos(json(FexFrance)));
 		string = removeString(string, removeApos(json(FexCanada)));
