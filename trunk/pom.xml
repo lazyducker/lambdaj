@@ -6,8 +6,8 @@
     <version>1.2-SNAPSHOT</version>
     <name>lambdaJ</name>
     <scm>
-        <connection>scm:svn:http://192.168.0.1/svn/incubator/lambdaJ/trunk</connection>
-        <developerConnection>scm:svn:http://192.168.0.1/svn/incubator/lambdaJ/trunk</developerConnection>
+        <connection>scm:svn:http://lambdaj.googlecode.com/svn/trunk</connection>
+        <developerConnection>scm:svn:http://lambdaj.googlecode.com/svn/trunk</developerConnection>
     </scm>
     <distributionManagement>
         <repository>
