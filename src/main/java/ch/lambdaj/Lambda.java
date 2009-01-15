@@ -11,7 +11,6 @@ import org.hamcrest.*;
 
 import ch.lambdaj.function.aggregate.*;
 import ch.lambdaj.function.compare.*;
-import ch.lambdaj.function.convert.*;
 import ch.lambdaj.proxy.*;
 
 /**
@@ -78,6 +77,10 @@ public class Lambda {
 		for (T item : iterable)
 			if (matcher.matches(item)) collected.add(item);
 		return collected;
+	}
+
+	public static <T> Collection<T> to(Iterable<T> iterable, Matcher<?> matcher) {
+		return select(iterable, matcher);
 	}
 
 	public static <T> Collection<T> select(Object iterable, Matcher<?> matcher) {
@@ -148,8 +151,12 @@ public class Lambda {
 
 	public static <T> T aggregate(Object iterable, Aggregator<T> aggregator) {
 		T result = aggregator.emptyItem();
-		if (iterable != null) for (T item : (Iterable<T>) iterable)
+		
+		if (iterable == null) return result;
+		
+		for (T item : (Iterable<T>) iterable)
 			result = aggregator.aggregate(result, item);
+		
 		return result;
 	}
 
@@ -254,19 +261,4 @@ public class Lambda {
 		return (String) aggregate((Iterable<?>) iterable, new Concat(separator));
 	}
 
-
-	// ////////////////////////////////////////////////////////////////////////
-	// /// Conversion
-	// ////////////////////////////////////////////////////////////////////////
-
-	public static <F, T> Collection<T> convert(Object iterable, Converter<F, T> convertor) {
-		Collection<T> collected = new ArrayList<T>();
-		if (iterable != null) for (F item : (Iterable<F>) iterable)
-			collected.add(convertor.convert(item));
-		return collected;
-	}
-
-	public static <F, T> Collection<T> extract(Object iterable, String propertyName) {
-		return convert((Iterable<F>) iterable, new PropertyExtractor<F, T>(propertyName));
-	}
 }
