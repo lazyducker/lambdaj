@@ -14,6 +14,7 @@ import java.util.*;
 
 import org.junit.*;
 
+import ch.lambdaj.function.convert.StringLengthConverter;
 import ch.lambdaj.mock.*;
 
 /**
@@ -22,6 +23,13 @@ import ch.lambdaj.mock.*;
  */
 public class LambdaTest {
 
+	@Test
+	public void testForEach() {
+		List<Person> family = asList(new Person("Domenico"), new Person("Mario"), new Person("Irma"));
+		forEach(family).setLastName("Fusco");
+		for (Person person : family) assertEquals("Fusco", person.getLastName());
+	}
+	
 	@Test
 	public void testSelectStringsThatEndsWithD() {
 		List<String> strings = asList("first", "second", "third");
@@ -89,14 +97,14 @@ public class LambdaTest {
 	}
 
 	@Test
-	public void testConcat() {
+	public void testJoin() {
 		List<String> strings = asList("first", "second", "third");
-		String result = join(forEach(strings));
+		String result = join(strings);
 		assertThat(result, is(equalTo("first, second, third")));
 	}
 
 	@Test
-	public void testConcatFrom() {
+	public void testJoinFrom() {
 		List<Exposure> exposures = asList(new Exposure("france", "first"), new Exposure("brazil", "second"));
 		String result = joinFrom(exposures).getCountryName();
 		assertThat(result, is(equalTo("france, brazil")));
@@ -164,5 +172,31 @@ public class LambdaTest {
 		assertThat(join("", ":"), is(equalTo("")));
 		assertThat(join("", "$"), is(equalTo("")));
 		assertThat(join("", "."), is(equalTo("")));
+	}
+	
+	@Test
+	public void testExtract() {
+		List<Exposure> exposures = asList(new Exposure("france", "first"), new Exposure("brazil", "second"));
+		Collection<String> countries = extract(exposures, "countryName");
+		assertThat(countries, hasItem("france"));
+		assertThat(countries, hasItem("brazil"));
+	}
+
+	@Test
+	public void testConvert() {
+		List<String> strings = asList("first", "second", "third", "four");
+		Collection<Integer> lengths = convert(strings, new StringLengthConverter());
+		int i = 0;
+		for (int length : lengths) assertEquals(strings.get(i++).length(), length);
+	}
+
+	@Test
+	public void testIndex() {
+		Exposure frenchExposure = new Exposure("france", "first");
+		Exposure brazilianExposure = new Exposure("brazil", "second");
+		List<Exposure> exposures = asList(frenchExposure, brazilianExposure);
+		Map<String, Exposure> indexed = index(exposures, "countryName");
+		assertSame(frenchExposure, indexed.get("france"));
+		assertSame(brazilianExposure, indexed.get("brazil"));
 	}
 }
