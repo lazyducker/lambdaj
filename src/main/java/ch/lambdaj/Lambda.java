@@ -4,15 +4,31 @@
 
 package ch.lambdaj;
 
-import java.lang.reflect.*;
-import java.util.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
-import org.hamcrest.*;
+import org.hamcrest.Matcher;
 
-import ch.lambdaj.function.aggregate.*;
-import ch.lambdaj.function.compare.*;
-import ch.lambdaj.function.convert.*;
-import ch.lambdaj.proxy.*;
+import ch.lambdaj.function.aggregate.Aggregator;
+import ch.lambdaj.function.aggregate.Concat;
+import ch.lambdaj.function.aggregate.Max;
+import ch.lambdaj.function.aggregate.Min;
+import ch.lambdaj.function.aggregate.Sum;
+import ch.lambdaj.function.compare.PropertyComparator;
+import ch.lambdaj.function.convert.Converter;
+import ch.lambdaj.function.convert.PropertyExtractor;
+import ch.lambdaj.proxy.ProxyAggregator;
+import ch.lambdaj.proxy.ProxyIterator;
 
 /**
  * @author Mario Fusco
@@ -31,13 +47,28 @@ public class Lambda {
 		return result;
 	}
 
-	public static <T> T forEach(Iterable<T> iterable) {
+	/**
+	 * Transforms a collection of Ts in a single object having the same methods of a single instance of T.
+	 * That allows to invoke a method on each T in the collection with a single strong typed method call as in the following example:
+	 * <p/>
+	 * <code>
+	 * 		List<Person> personInFamily = asList(new Person("Domenico"), new Person("Mario"), new Person("Irma"));
+	 *		forEach(personInFamily).setLastName("Fusco");
+	 * </code>
+	 * <p/>
+	 * The actual class of T is inferred from the class of the first iterable's item, but you can
+	 * specify a particular class by using the overloaded method.
+	 * @param <T> The type of the items in the iterable
+	 * @param iterable The iterable to be transformed
+	 * @return An object that proxies all the item in the iterable or null if the iterable is null or empty
+	 */
+	public static <T> T forEach(Iterable<? extends T> iterable) {
 		if (iterable == null) return null;
-		Iterator<T> iterator = iterable.iterator();
+		Iterator<? extends T> iterator = iterable.iterator();
 		return (iterator.hasNext()) ? forEach(iterable, iterator.next().getClass()) : null;
 	}
 
-	public static <T> T forEach(Iterable<T> iterable, Class<?> clazz) {
+	public static <T> T forEach(Iterable<? extends T> iterable, Class<?> clazz) {
 		return ProxyIterator.createProxyIterator(iterable, clazz);
 	}
 
@@ -271,6 +302,17 @@ public class Lambda {
 	}
 
 	public static <F, T> Collection<T> extract(Object iterable, String propertyName) {
-		return convert((Iterable<F>) iterable, new PropertyExtractor<F, T>(propertyName));
+		return convert(iterable, new PropertyExtractor<F, T>(propertyName));
+	}
+	
+	public static <F, T> Map<T, F> map(Object iterable, Converter<F, T> convertor) {
+		Map<T, F> map = new HashMap<T, F>();
+		if (iterable != null) for (F item : (Iterable<F>) iterable)
+			map.put(convertor.convert(item), item);
+		return map;
+	}
+	
+	public static <F, T> Map<T, F> index(Object iterable, String propertyName) {
+		return map(iterable, new PropertyExtractor<F, T>(propertyName));
 	}
 }
