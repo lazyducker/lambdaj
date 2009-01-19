@@ -56,8 +56,8 @@ public class GroupByTest {
 	@Test
 	public void testGroupByInsuredName() {
 		String string = json(group(exposures, by(Exposure).insuredName()));
-		System.out.println(string);
 		string = removeApos(string);
+
 		assertThat(string, containsString("insuredName:Fex France"));
 		assertThat(string, containsString("insuredName:Fex Canada"));
 	}
@@ -65,12 +65,17 @@ public class GroupByTest {
 	@Test
 	public void testGroupByInsuredNameAndCountryName() {
 		String string = json(group(exposures, by(Exposure).insuredName().countryName()));
+
 		string = removeApos(string);
+		string = removeString(string, removeApos(json(FexFrance)));
+		string = removeString(string, removeApos(json(FexCanada)));
+		string = removeString(string, "");
 		
-		assertThat(string, containsString("insuredName:Fex France,children:"));
-		assertThat(string, containsString("countryName:France,children:"));
-		assertThat(string, containsString("insuredName:Fex Canada,children:"));
-		assertThat(string, containsString("countryName:Canada,children:"));
+		System.out.println(string);
+		assertThat(string, containsString("children:[{children:[],countryName:France}],insuredName:Fex France}"));
+		assertThat(string, containsString("children:[],countryName:France"));
+		assertThat(string, containsString("children:[{children:[],countryName:Canada}],insuredName:Fex Canada}"));
+		assertThat(string, containsString("children:[],countryName:Canada"));
 	}
 
 	@Test
