@@ -4,7 +4,7 @@ import org.hamcrest.*;
 
 import ch.lambdaj.util.*;
 
-public class HasNestedPropertyWithValue<T> extends TypeSafeMatcher<T> {
+public class HasNestedPropertyWithValue<T> extends BaseMatcher<T> {
 
     private final String propertyName;
     private final Matcher<? extends Object> value;
@@ -14,14 +14,14 @@ public class HasNestedPropertyWithValue<T> extends TypeSafeMatcher<T> {
         this.value = value;
     }
 
-    public boolean matchesSafely(T argument) {
+	public boolean matches(Object item) {
         try {
-            return value.matches(IntrospectionUtil.getPropertyValue(argument, propertyName));
+            return value.matches(IntrospectionUtil.getPropertyValue(item, propertyName));
         } catch (Exception e) {
             return false;
         } 
-    }
-
+	}
+	
     public void describeTo(Description description) {
         description.appendText("hasProperty(");
         description.appendValue(propertyName);

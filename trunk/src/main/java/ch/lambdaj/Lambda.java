@@ -8,7 +8,6 @@ import java.lang.reflect.*;
 import java.util.*;
 
 import org.hamcrest.*;
-import static org.hamcrest.Matchers.*;
 
 import ch.lambdaj.function.aggregate.*;
 import ch.lambdaj.function.compare.*;
