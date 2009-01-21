@@ -5,6 +5,7 @@
 package ch.lambdaj;
 
 import static ch.lambdaj.Lambda.*;
+import static ch.lambdaj.function.matcher.HasNestedPropertyWithValue.*;
 import static java.util.Arrays.*;
 import static java.util.Collections.*;
 import static org.hamcrest.Matchers.*;
@@ -14,7 +15,7 @@ import java.util.*;
 
 import org.junit.*;
 
-import ch.lambdaj.function.convert.StringLengthConverter;
+import ch.lambdaj.function.convert.*;
 import ch.lambdaj.mock.*;
 
 /**
@@ -28,6 +29,14 @@ public class LambdaTest {
 		List<Person> family = asList(new Person("Domenico"), new Person("Mario"), new Person("Irma"));
 		forEach(family).setLastName("Fusco");
 		for (Person person : family) assertEquals("Fusco", person.getLastName());
+	}
+	
+	@Test
+	public void testSelectPersonWith4LettersName() {
+		List<Person> family = asList(new Person("Domenico"), new Person("Mario"), new Person("Irma"));
+		Collection<Person> results = select(family, hasNestedProperty("firstName.length", equalTo(4)));
+		assertThat(results.size(), is(equalTo(1)));
+		assertThat(results.iterator().next().getFirstName(), is(equalTo("Irma")));
 	}
 	
 	@Test
