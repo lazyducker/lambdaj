@@ -4,31 +4,15 @@
 
 package ch.lambdaj;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.lang.reflect.*;
+import java.util.*;
 
-import org.hamcrest.Matcher;
+import org.hamcrest.*;
 
-import ch.lambdaj.function.aggregate.Aggregator;
-import ch.lambdaj.function.aggregate.Concat;
-import ch.lambdaj.function.aggregate.Max;
-import ch.lambdaj.function.aggregate.Min;
-import ch.lambdaj.function.aggregate.Sum;
-import ch.lambdaj.function.compare.PropertyComparator;
-import ch.lambdaj.function.convert.Converter;
-import ch.lambdaj.function.convert.PropertyExtractor;
-import ch.lambdaj.proxy.ProxyAggregator;
-import ch.lambdaj.proxy.ProxyIterator;
+import ch.lambdaj.function.aggregate.*;
+import ch.lambdaj.function.compare.*;
+import ch.lambdaj.function.convert.*;
+import ch.lambdaj.proxy.*;
 
 /**
  * @author Mario Fusco
@@ -99,6 +83,10 @@ public class Lambda {
 	// /// Selection
 	// ////////////////////////////////////////////////////////////////////////
 
+	public static <T> Collection<T> filter(Matcher<?> matcher, Iterable<T> iterable) {
+		return select(iterable, matcher);
+	}
+	
 	public static <T> Collection<T> select(Class<T> tClass, Object iterable, Matcher<?> matcher) {
 		return select((Iterable<T>) iterable, matcher);
 	}
