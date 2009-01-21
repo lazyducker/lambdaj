@@ -8,6 +8,7 @@ import java.lang.reflect.*;
 import java.util.*;
 
 import org.hamcrest.*;
+import static org.hamcrest.Matchers.*;
 
 import ch.lambdaj.function.aggregate.*;
 import ch.lambdaj.function.compare.*;
@@ -164,9 +165,9 @@ public class Lambda {
 	private static final Sum Sum = new Sum();
 
 	private static final Min Min = new Min();
-	
+
 	private static final Max Max = new Max();
-	
+
 	private static final Concat Concat = new Concat();
 
 	public static <T> T aggregate(Object iterable, Aggregator<T> aggregator) {
@@ -276,7 +277,6 @@ public class Lambda {
 		if (iterable instanceof Integer) return iterable.toString();
 		return (String) aggregate((Iterable<?>) iterable, new Concat(separator));
 	}
-
 
 	// ////////////////////////////////////////////////////////////////////////
 	// /// Conversion
