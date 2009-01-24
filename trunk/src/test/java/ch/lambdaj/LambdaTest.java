@@ -5,7 +5,9 @@
 package ch.lambdaj;
 
 import static ch.lambdaj.Lambda.*;
+import static ch.lambdaj.function.argument.ArgumentsFactory.*;
 import static ch.lambdaj.function.matcher.HasNestedPropertyWithValue.*;
+import static ch.lambdaj.function.matcher.HasArgumentWithValue.*;
 import static java.util.Arrays.*;
 import static java.util.Collections.*;
 import static org.hamcrest.Matchers.*;
@@ -37,6 +39,59 @@ public class LambdaTest {
 		Collection<Person> results = select(family, hasNestedProperty("firstName.length", equalTo(4)));
 		assertThat(results.size(), is(equalTo(1)));
 		assertThat(results.iterator().next().getFirstName(), is(equalTo("Irma")));
+	}
+	
+	@Test
+	public void testWhere() {
+		Person me = new Person("Mario", "Fusco", 35);
+		Person luca = new Person("Luca", "Marrocco", 29);
+		Person biagio = new Person("Biagio", "Beatrice", 39);
+		Person celestino = new Person("Celestino", "Bellone", 29);
+		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+
+		Collection<Person> friends29aged = select(meAndMyFriends, where(on(Person.class).getAge(), is(equalTo(29))));
+		assertEquals(2, friends29aged.size());
+		Iterator<Person> friendsIterator = friends29aged.iterator();
+		assertSame(luca, friendsIterator.next());
+		assertSame(celestino, friendsIterator.next());
+	}
+	
+	@Test
+	public void testSumFrom() {
+		Person me = new Person("Mario", "Fusco", 35);
+		Person luca = new Person("Luca", "Marrocco", 29);
+		Person biagio = new Person("Biagio", "Beatrice", 39);
+		Person celestino = new Person("Celestino", "Bellone", 29);
+		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+
+		int totalAge = sumFrom(meAndMyFriends).getAge();
+		assertThat(totalAge, is(equalTo(35+29+39+29)));
+	}
+	
+	@Test
+	public void testTypedSum() {
+		Person me = new Person("Mario", "Fusco", 35);
+		Person luca = new Person("Luca", "Marrocco", 29);
+		Person biagio = new Person("Biagio", "Beatrice", 39);
+		Person celestino = new Person("Celestino", "Bellone", 29);
+		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+
+		int totalAge = sum(meAndMyFriends, on(Person.class).getAge());
+		assertThat(totalAge, is(equalTo(35+29+39+29)));
+	}
+	
+	@Test
+	public void testTypedSum2() {
+		Person me = new Person("Mario", "Fusco", 35);
+		Person luca = new Person("Luca", "Marrocco", 29);
+		Person biagio = new Person("Biagio", "Beatrice", 39);
+		Person celestino = new Person("Celestino", "Bellone", 29);
+		
+		List<Person> myFriends = asList(luca, biagio, celestino);
+		forEach(myFriends).setBestFriend(me);
+
+		int totalBestFriendAge = sum(myFriends, on(Person.class).getBestFriend().getAge());
+		assertThat(totalBestFriendAge, is(equalTo(35*3)));
 	}
 	
 	@Test
@@ -91,18 +146,6 @@ public class LambdaTest {
 			}
 		});
 		assertThat(results.size(), is(equalTo(2)));
-	}
-
-	@Test
-	public void testTypedSum() {
-		List<CharSequence> strings = new ArrayList<CharSequence>();
-		strings.add("first");
-		strings.add("second");
-		strings.add("third");
-
-		int totalLenght = sumFrom(strings).length();
-
-		assertThat(totalLenght, is(equalTo(16)));
 	}
 
 	@Test
