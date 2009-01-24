@@ -1,8 +1,8 @@
 package ch.lambdaj.function.matcher;
 
-import org.hamcrest.*;
+import static ch.lambdaj.util.IntrospectionUtil.*;
 
-import ch.lambdaj.util.*;
+import org.hamcrest.*;
 
 public class HasNestedPropertyWithValue<T> extends BaseMatcher<T> {
 
@@ -16,7 +16,7 @@ public class HasNestedPropertyWithValue<T> extends BaseMatcher<T> {
 
 	public boolean matches(Object item) {
         try {
-            return value.matches(IntrospectionUtil.getPropertyValue(item, propertyName));
+            return value.matches(getPropertyValue(item, propertyName));
         } catch (Exception e) {
             return false;
         } 

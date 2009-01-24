@@ -1,10 +1,13 @@
 package ch.lambdaj.mock;
 
+
 public class Person {
 	
 	private String firstName;
 	private String lastName;
 	private int age;
+	
+	private Person bestFriend;
 	
 	public Person() { }
 
@@ -41,5 +44,12 @@ public class Person {
 	}
 	public void setAge(int age) {
 		this.age = age;
+	}
+
+	public Person getBestFriend() {
+		return bestFriend;
+	}
+	public void setBestFriend(Person bestFriend) {
+		this.bestFriend = bestFriend;
 	}
 }

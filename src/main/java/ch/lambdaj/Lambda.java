@@ -52,6 +52,22 @@ public class Lambda {
 		return (iterator.hasNext()) ? forEach(iterable, iterator.next().getClass()) : null;
 	}
 
+	/**
+	 * Transforms a collection of Ts in a single object having the same methods of a single instance of T.
+	 * That allows to invoke a method on each T in the collection with a single strong typed method call as in the following example:
+	 * <p/>
+	 * <code>
+	 * 		List<Person> personInFamily = asList(new Person("Domenico"), new Person("Mario"), new Person("Irma"));
+	 *		forEach(personInFamily, Person.class).setLastName("Fusco");
+	 * </code>
+	 * <p/>
+	 * The given class represents the proxied by the returned object, so it should be a superclass of all the objects in the iterable.
+	 * @param <T> The type of the items in the iterable
+	 * @param iterable The iterable to be transformed
+	 * @param clazz The class proxied by the returned object
+	 * @return An object that proxies all the item in the iterable. If the given iterable is null or empty it returns
+	 * an instance of T that actually proxies an empty Iterable of Ts
+	 */
 	public static <T> T forEach(Iterable<? extends T> iterable, Class<?> clazz) {
 		return ProxyIterator.createProxyIterator(iterable, clazz);
 	}
@@ -83,12 +99,9 @@ public class Lambda {
 	// /// Selection
 	// ////////////////////////////////////////////////////////////////////////
 
+
 	public static <T> Collection<T> filter(Matcher<?> matcher, Iterable<T> iterable) {
 		return select(iterable, matcher);
-	}
-	
-	public static <T> Collection<T> select(Class<T> tClass, Object iterable, Matcher<?> matcher) {
-		return select((Iterable<T>) iterable, matcher);
 	}
 
 	public static <T> Collection<T> select(Iterable<T> iterable, Matcher<?> matcher) {
@@ -188,10 +201,14 @@ public class Lambda {
 
 	// -- (Sum) ---------------------------------------------------------------
 
-	public static Number sum(Object iterable) {
-		return aggregate((Iterable<Number>) iterable, Sum);
+	public static <T extends Number> T sum(Object iterable) {
+		return (T)aggregate(iterable, Sum);
 	}
 
+	public static <T extends Number> T sum(Object iterable, Object argument) {
+		return sum(convert(iterable, new ArgumentConverter<Object, Object>(argument)));
+	}
+	
 	public static <T> T sumFrom(Iterable<T> c) {
 		return aggregateFrom(c, Sum);
 	}
