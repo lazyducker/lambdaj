@@ -4,22 +4,17 @@ import java.util.*;
 
 public class Argument implements Iterable<Invocation> {
 
-	private List<Invocation> invocationSequence = new ArrayList<Invocation>();
+	private InvocationSequence invocationSequence;
 	
 	private Integer rootArgumentId;
 	
-	private Argument(Integer rootArgumentId) {
+	Argument(Integer rootArgumentId, InvocationSequence invocationSequence) {
 		this.rootArgumentId = rootArgumentId;
-	}
-	
-	Argument(Integer rootArgumentId, Class<?> invokedClass) {
-		this(rootArgumentId);
-		invocationSequence.add(new Invocation(invokedClass));
-	}
-	
-	Argument(Integer rootArgumentId, List<Invocation> invocationSequence) {
-		this(rootArgumentId);
 		this.invocationSequence = invocationSequence;
+	}
+	
+	public InvocationSequence getInvocationSequence() {
+		return invocationSequence;
 	}
 
 	public Iterator<Invocation> iterator() {
@@ -37,7 +32,7 @@ public class Argument implements Iterable<Invocation> {
 	}
 
 	public Class<?> getRootArgumentClass() {
-		return invocationSequence.get(0).getInvokedClass();
+		return invocationSequence.getRootInvokedClass();
 	}
 	
 	/**
@@ -50,5 +45,16 @@ public class Argument implements Iterable<Invocation> {
 	@Override
 	public String toString() {
 		return invocationSequence.toString();
+	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if (object == null || !(object instanceof Argument)) return false;
+		return invocationSequence.equals(((Argument)object).getInvocationSequence());
+	}
+	
+	@Override
+	public int hashCode() {
+		return invocationSequence.hashCode();
 	}
 }
