@@ -1,6 +1,7 @@
 package ch.lambdaj.function.argument;
 
 import java.lang.reflect.*;
+import java.util.*;
 
 public class Invocation {
 
@@ -8,10 +9,6 @@ public class Invocation {
 	private Method invokedMethod;
 	private Object[] args;
 
-	Invocation(Class<?> invokedClass) {
-		this(invokedClass, null, null);
-	}
-			
 	Invocation(Class<?> invokedClass, Method invokedMethod, Object[] args) {
 		this.invokedClass = invokedClass;
 		this.invokedMethod = invokedMethod;
@@ -50,5 +47,28 @@ public class Invocation {
 			for (int i = 0; i < args.length; i++) sb.append(i == 0 ? "" : ", ").append(args[i]);
 		}
 		return sb.toString();
+	}
+	
+	@Override
+	public int hashCode() {
+		int hashCode = 13 * invokedClass.hashCode();
+		if (invokedMethod != null) hashCode += 17 * invokedMethod.hashCode();
+		if (args != null) hashCode += 19 + args.length;
+		return hashCode;
+	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if (object == null || !(object instanceof Invocation)) return false;
+		Invocation otherInvocation = (Invocation)object;
+		if (!areNullSafeEquals(invokedClass, otherInvocation.getInvokedClass())) return false;
+		if (!areNullSafeEquals(invokedMethod, otherInvocation.getInvokedMethod())) return false;
+		return Arrays.equals(args, otherInvocation.getArgs());
+	}
+	
+	private boolean areNullSafeEquals(Object first, Object second) {
+		if (first == null && second == null) return true;
+		if (first == null || second == null) return false;
+		return first.equals(second);
 	}
 }

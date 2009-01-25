@@ -1,6 +1,5 @@
 package ch.lambdaj.function.argument;
 
-import java.lang.reflect.*;
 import java.util.*;
 
 import ch.lambdaj.proxy.*;
@@ -17,31 +16,43 @@ public class ArgumentsFactory {
 	
 	public static <T> T on(Class<T> clazz) {
 		Integer rootArgumentId = argumentCounter++;
-		T argument = createArgument(rootArgumentId, clazz, new ArrayList<Invocation>());
-		bindArgument(argument, new Argument(rootArgumentId, clazz));
+		T argument = createArgument(rootArgumentId, clazz, new InvocationSequence(clazz));
 		return argument;
 	}
 	
 	@SuppressWarnings("unchecked")
-	static <T> T createArgument(Integer rootArgumentId, Class<T> clazz, List<Invocation> invocationSequence) {
-		return (T)ProxyUtil.createProxy(new ProxyArgument(rootArgumentId, clazz, invocationSequence), clazz);
+	static <T> T createArgument(Integer rootArgumentId, Class<T> clazz, InvocationSequence invocationSequence) {
+		T argument = (T)placeholderByInvocation.get(invocationSequence);
+		if (argument == null) {
+			argument = (T)ProxyUtil.createProxy(new ProxyArgument(rootArgumentId, clazz, invocationSequence), clazz);
+			placeholderByInvocation.put(invocationSequence, argument);
+			bindArgument(argument, new Argument(rootArgumentId, invocationSequence));
+		}
+		return argument;
 	}
 	
 	// ////////////////////////////////////////////////////////////////////////
 	// /// Placeholders
 	// ////////////////////////////////////////////////////////////////////////
 	
-	private static ThreadLocal<Map<Object, Argument>> argumentsStore = new ThreadLocal<Map<Object, Argument>>() {
-        protected Map<Object, Argument> initialValue() {
-            return new HashMap<Object, Argument>();
-        }
-    };
+	private static Map<InvocationSequence, Object> placeholderByInvocation = new HashMap<InvocationSequence, Object>();
     
-    static void bindArgument(Object placeholder, Argument argument) {
-    	argumentsStore.get().put(placeholder, argument);
+	static void bindPlaceholder(InvocationSequence invocationSequence, Object placeholder, Argument argument) {
+    	placeholderByInvocation.put(invocationSequence, placeholder);
+    	bindArgument(placeholder, argument);
+    }
+
+    static Object getPlaceholder(InvocationSequence invocationSequence) {
+    	return placeholderByInvocation.get(invocationSequence);
+    }
+    
+	private static Map<Object, Argument> argumentByPlaceholder = new HashMap<Object, Argument>();
+	
+	private static void bindArgument(Object placeholder, Argument argument) {
+    	argumentByPlaceholder.put(placeholder, argument);
     }
     
     public static Argument actualArgument(Object placeholder) {
-    	return argumentsStore.get().get(placeholder);
+    	return argumentByPlaceholder.get(placeholder);
     }
 }

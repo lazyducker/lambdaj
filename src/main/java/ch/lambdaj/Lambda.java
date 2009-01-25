@@ -189,6 +189,10 @@ public class Lambda {
 		return result;
 	}
 
+	public static <T> T aggregate(Object iterable, Aggregator<T> aggregator, Object argument) {
+		return aggregate(convert(iterable, new ArgumentConverter<Object, Object>(argument)), aggregator);
+	}
+	
 	public static <T, A> T aggregateFrom(Iterable<T> iterable, Aggregator<A> a) {
 		if (iterable == null) return null;
 		Iterator<T> i = iterable.iterator();
@@ -201,12 +205,12 @@ public class Lambda {
 
 	// -- (Sum) ---------------------------------------------------------------
 
-	public static <T extends Number> T sum(Object iterable) {
-		return (T)aggregate(iterable, Sum);
+	public static Number sum(Object iterable) {
+		return aggregate(iterable, Sum);
 	}
 
-	public static <T extends Number> T sum(Object iterable, Object argument) {
-		return sum(convert(iterable, new ArgumentConverter<Object, Object>(argument)));
+	public static <T> T sum(Object iterable, T argument) {
+		return (T)aggregate(iterable, Sum, argument);
 	}
 	
 	public static <T> T sumFrom(Iterable<T> c) {

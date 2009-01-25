@@ -95,6 +95,30 @@ public class LambdaTest {
 	}
 	
 	@Test
+	public void testTypedMixedSums() {
+		Person me = new Person("Mario", "Fusco", 35);
+		Person luca = new Person("Luca", "Marrocco", 29);
+		Person biagio = new Person("Biagio", "Beatrice", 39);
+		Person celestino = new Person("Celestino", "Bellone", 29);
+		
+		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+		int onPersonAge = on(Person.class).getAge();
+		
+		List<Person> myFriends = asList(luca, biagio, celestino);
+		forEach(myFriends).setBestFriend(me);
+		int onBestFriendsAge = on(Person.class).getBestFriend().getAge();
+
+		int totalAge = sum(meAndMyFriends, onPersonAge);
+		assertThat(totalAge, is(equalTo(35+29+39+29)));
+
+		int totalBestFriendAge = sum(myFriends, onBestFriendsAge);
+		assertThat(totalBestFriendAge, is(equalTo(35*3)));
+
+		int totalMyFriendsAge = sum(myFriends, onPersonAge);
+		assertThat(totalMyFriendsAge, is(equalTo(29+39+29)));
+	}
+
+	@Test
 	public void testSelectStringsThatEndsWithD() {
 		List<String> strings = asList("first", "second", "third");
 

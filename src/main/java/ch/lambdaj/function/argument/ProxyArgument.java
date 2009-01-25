@@ -1,7 +1,8 @@
 package ch.lambdaj.function.argument;
 
+import static ch.lambdaj.function.argument.ArgumentsFactory.*;
+
 import java.lang.reflect.*;
-import java.util.*;
 
 import net.sf.cglib.proxy.*;
 
@@ -11,11 +12,11 @@ public class ProxyArgument implements MethodInterceptor {
 	
 	private Class<?> proxiedClass;
 	
-	private List<Invocation> invocationSequence;
+	private InvocationSequence invocationSequence;
 	
 	private int proxyId;
 	
-	ProxyArgument(Integer rootArgumentId, Class<?> proxiedClass, List<Invocation> invocationSequence) {
+	ProxyArgument(Integer rootArgumentId, Class<?> proxiedClass, InvocationSequence invocationSequence) {
 		this.rootArgumentId = rootArgumentId;
 		this.proxiedClass = proxiedClass;
 		this.invocationSequence = invocationSequence;
@@ -28,24 +29,24 @@ public class ProxyArgument implements MethodInterceptor {
 		if (methodName.equals("equals")) return equals(args[0]);
 		
 		// Add this invocation to the current invocation sequence
-		List<Invocation> currentInvocationSequence = new ArrayList<Invocation>();
-		currentInvocationSequence.addAll(invocationSequence);
-		currentInvocationSequence.add(new Invocation(proxiedClass, method, args));
+		InvocationSequence currentInvocationSequence = new InvocationSequence(invocationSequence, new Invocation(proxiedClass, method, args));
 		
 		Class<?> returnClass = method.getReturnType();
 		Object result = null;
 		if (!Modifier.isFinal(returnClass.getModifiers())) {
 			// Creates a new proxy propagating the invocation sequence
-			result = ArgumentsFactory.createArgument(rootArgumentId, returnClass, currentInvocationSequence);
+			result = createArgument(rootArgumentId, returnClass, currentInvocationSequence);
 		} else {
 			// If the returned class is final it just returns a dummy object (of the right class) that acts as a 
 			// place holder allowing to bind this proxy argument to the actual one. This means that you can't do a further invocation
 			// on this sequence since there is no way to generate a proxy for this object 
-			result = createArgumentPlaceholder(returnClass);
+			result = getPlaceholder(currentInvocationSequence);
+			if (result == null) {
+				result = createArgumentPlaceholder(returnClass);
+				// Binds the result to this argument. It will be used as a place holder to retrieve the argument itself
+				bindPlaceholder(currentInvocationSequence, result, new Argument(rootArgumentId, currentInvocationSequence));
+			}
 		}
-		
-		// Binds the result to this argument. It will be used as a place holder to retrieve the argument itself
-		ArgumentsFactory.bindArgument(result, new Argument(rootArgumentId, currentInvocationSequence));
 		
 		return result;
 	}
