@@ -10,6 +10,7 @@ import java.util.*;
 import org.hamcrest.*;
 
 import ch.lambdaj.function.aggregate.*;
+import ch.lambdaj.function.argument.*;
 import ch.lambdaj.function.compare.*;
 import ch.lambdaj.function.convert.*;
 import ch.lambdaj.proxy.*;
@@ -20,6 +21,10 @@ import ch.lambdaj.proxy.*;
  */
 @SuppressWarnings("unchecked")
 public class Lambda {
+	
+	public static <T> T on(Class<T> clazz) {
+		return ArgumentsFactory.createArgument(clazz);
+	}
 
 	public static final <T> T by(T t) {
 		T result = null;

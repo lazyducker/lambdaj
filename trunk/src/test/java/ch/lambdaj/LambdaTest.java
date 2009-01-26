@@ -5,9 +5,8 @@
 package ch.lambdaj;
 
 import static ch.lambdaj.Lambda.*;
-import static ch.lambdaj.function.argument.ArgumentsFactory.*;
-import static ch.lambdaj.function.matcher.HasNestedPropertyWithValue.*;
 import static ch.lambdaj.function.matcher.HasArgumentWithValue.*;
+import static ch.lambdaj.function.matcher.HasNestedPropertyWithValue.*;
 import static java.util.Arrays.*;
 import static java.util.Collections.*;
 import static org.hamcrest.Matchers.*;
@@ -49,7 +48,7 @@ public class LambdaTest {
 		Person celestino = new Person("Celestino", "Bellone", 29);
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
 
-		Collection<Person> friends29aged = select(meAndMyFriends, where(on(Person.class).getAge(), is(equalTo(29))));
+		Collection<Person> friends29aged = select(meAndMyFriends, having(on(Person.class).getAge(), is(equalTo(29))));
 		assertEquals(2, friends29aged.size());
 		Iterator<Person> friendsIterator = friends29aged.iterator();
 		assertSame(luca, friendsIterator.next());
