@@ -15,7 +15,6 @@ public class ArgumentConverter<F, T> implements Converter<F, T>{
 		this(actualArgument(argument));
 	}
 	
-	@Override
 	public T convert(F from) {
 		return (T)argument.evaluate(from);
 	}

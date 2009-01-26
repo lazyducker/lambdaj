@@ -34,7 +34,7 @@ public class HasArgumentWithValue<T> extends BaseMatcher<T> {
     }
 
     @Factory
-    public static <T> Matcher<T> where(Object argument, Matcher<? extends Object> value) {
+    public static <T> Matcher<T> having(Object argument, Matcher<? extends Object> value) {
     	return new HasArgumentWithValue<T>(actualArgument(argument), value);
     }
 

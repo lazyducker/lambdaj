@@ -14,7 +14,7 @@ public class ArgumentsFactory {
 	
 	private static Integer argumentCounter = 0;
 	
-	public static <T> T on(Class<T> clazz) {
+	public static <T> T createArgument(Class<T> clazz) {
 		Integer rootArgumentId = argumentCounter++;
 		T argument = createArgument(rootArgumentId, clazz, new InvocationSequence(clazz));
 		return argument;
