@@ -15,7 +15,7 @@ public class GroupCondition {
 
 	private String alias;
 
-	private Map<String, String> additionalProperties = new HashMap<String, String>();
+	private Map<String, String> additionalProperties = new TreeMap<String, String>();
 
 	public GroupCondition(String groupBy) {
 		this(groupBy, null);
