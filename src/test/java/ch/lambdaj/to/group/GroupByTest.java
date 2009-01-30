@@ -72,10 +72,11 @@ public class GroupByTest {
 		string = removeString(string, "");
 		
 		System.out.println(string);
-		assertThat(string, containsString("children:[{children:[],countryName:France}],insuredName:Fex France}"));
-		assertThat(string, containsString("children:[],countryName:France"));
-		assertThat(string, containsString("children:[{children:[],countryName:Canada}],insuredName:Fex Canada}"));
-		assertThat(string, containsString("children:[],countryName:Canada"));
+		assertThat(string, containsString("children:[]"));
+		assertThat(string, containsString("countryName:France"));
+		assertThat(string, containsString("insuredName:Fex France"));
+		assertThat(string, containsString("countryName:Canada"));
+		assertThat(string, containsString("insuredName:Fex Canada"));
 	}
 
 	@Test
