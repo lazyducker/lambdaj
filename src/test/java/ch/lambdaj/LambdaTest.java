@@ -118,6 +118,22 @@ public class LambdaTest {
 	}
 
 	@Test
+	public void testCollectAges() {
+		Person me = new Person("Mario", "Fusco", 35);
+		Person luca = new Person("Luca", "Marrocco", 29);
+		Person biagio = new Person("Biagio", "Beatrice", 39);
+		Person celestino = new Person("Celestino", "Bellone", 29);
+		
+		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+		
+		List<Integer> ages = collect(meAndMyFriends, on(Person.class).getAge());
+		assertThat(ages.get(0), is(equalTo(35)));
+		assertThat(ages.get(1), is(equalTo(29)));
+		assertThat(ages.get(2), is(equalTo(39)));
+		assertThat(ages.get(3), is(equalTo(29)));
+	}
+	
+	@Test
 	public void testSelectStringsThatEndsWithD() {
 		List<String> strings = asList("first", "second", "third");
 
