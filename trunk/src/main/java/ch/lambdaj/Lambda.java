@@ -90,7 +90,7 @@ public class Lambda {
 	// /// Collection
 	// ////////////////////////////////////////////////////////////////////////
 
-	public static <T> List<? extends T> collect(Object iterable) {
+	public static <T> List<T> collect(Object iterable) {
 		List<T> collected = new LinkedList<T>();
 		for (Object item : (Iterable<?>) iterable) {
 			if (item instanceof Iterable) collected.addAll((Collection<T>) collect(item));
@@ -98,6 +98,10 @@ public class Lambda {
 				collected.add((T) item);
 		}
 		return collected;
+	}
+	
+	public static <T> List<T> collect(Object iterable, T argument) {
+		return collect(convert(iterable, new ArgumentConverter<Object, Object>(argument)));
 	}
 
 	// ////////////////////////////////////////////////////////////////////////
