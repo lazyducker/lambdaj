@@ -14,6 +14,7 @@ import static org.junit.Assert.*;
 
 import java.util.*;
 
+import org.hamcrest.*;
 import org.junit.*;
 
 import ch.lambdaj.function.convert.*;
@@ -25,11 +26,16 @@ import ch.lambdaj.mock.*;
  */
 public class LambdaTest {
 
+	private Person me = new Person("Mario", "Fusco", 35);
+	private Person luca = new Person("Luca", "Marrocco", 29);
+	private Person biagio = new Person("Biagio", "Beatrice", 39);
+	private Person celestino = new Person("Celestino", "Bellone", 29);
+
 	@Test
 	public void testForEach() {
-		List<Person> family = asList(new Person("Domenico"), new Person("Mario"), new Person("Irma"));
-		forEach(family).setLastName("Fusco");
-		for (Person person : family) assertEquals("Fusco", person.getLastName());
+		List<Person> personInFamily = asList(new Person("Domenico"), new Person("Mario"), new Person("Irma"));
+		forEach(personInFamily).setLastName("Fusco");
+		for (Person person : personInFamily) assertEquals("Fusco", person.getLastName());
 	}
 	
 	@Test
@@ -41,11 +47,15 @@ public class LambdaTest {
 	}
 	
 	@Test
-	public void testWhere() {
-		Person me = new Person("Mario", "Fusco", 35);
-		Person luca = new Person("Luca", "Marrocco", 29);
-		Person biagio = new Person("Biagio", "Beatrice", 39);
-		Person celestino = new Person("Celestino", "Bellone", 29);
+	public void testFilterPersonWith4LettersName() {
+		List<Person> family = asList(new Person("Domenico"), new Person("Mario"), new Person("Irma"));
+		Collection<Person> results = filter(hasNestedProperty("firstName.length", equalTo(4)), family);
+		assertThat(results.size(), is(equalTo(1)));
+		assertThat(results.iterator().next().getFirstName(), is(equalTo("Irma")));
+	}
+	
+	@Test
+	public void testSelectWithHaving() {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
 
 		Collection<Person> friends29aged = select(meAndMyFriends, having(on(Person.class).getAge(), is(equalTo(29))));
@@ -56,11 +66,48 @@ public class LambdaTest {
 	}
 	
 	@Test
+	public void testFilter() {
+		List<Integer> biggerThan3 = filter(greaterThan(3), asList(1, 2, 3, 4, 5));
+		assertEquals(2, biggerThan3.size());
+		assertEquals(4, (int)biggerThan3.get(0));
+		assertEquals(5, (int)biggerThan3.get(1));
+	}
+	
+	@Test
+	public void testFilterOnCustomMatcher() {
+		Matcher<Integer> odd = new TypeSafeMatcher<Integer>() {
+
+			@Override
+			public boolean matchesSafely(Integer item) {
+				return item % 2 == 1;
+			}
+			
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("odd()");
+			}
+		};
+
+		List<Integer> odds = filter(odd, asList(1, 2, 3, 4, 5));
+		assertEquals(3, odds.size());
+		assertEquals(1, (int)odds.get(0));
+		assertEquals(3, (int)odds.get(1));
+		assertEquals(5, (int)odds.get(2));
+	}
+	
+	@Test
+	public void testFilterWithHaving() {
+		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+
+		Collection<Person> oldFriends = filter(having(on(Person.class).getAge(), greaterThan(30)), meAndMyFriends);
+		assertEquals(2, oldFriends.size());
+		Iterator<Person> friendsIterator = oldFriends.iterator();
+		assertSame(me, friendsIterator.next());
+		assertSame(biagio, friendsIterator.next());
+	}
+	
+	@Test
 	public void testSumFrom() {
-		Person me = new Person("Mario", "Fusco", 35);
-		Person luca = new Person("Luca", "Marrocco", 29);
-		Person biagio = new Person("Biagio", "Beatrice", 39);
-		Person celestino = new Person("Celestino", "Bellone", 29);
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
 
 		int totalAge = sumFrom(meAndMyFriends).getAge();
@@ -69,10 +116,6 @@ public class LambdaTest {
 	
 	@Test
 	public void testTypedSum() {
-		Person me = new Person("Mario", "Fusco", 35);
-		Person luca = new Person("Luca", "Marrocco", 29);
-		Person biagio = new Person("Biagio", "Beatrice", 39);
-		Person celestino = new Person("Celestino", "Bellone", 29);
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
 
 		int totalAge = sum(meAndMyFriends, on(Person.class).getAge());
@@ -81,11 +124,6 @@ public class LambdaTest {
 	
 	@Test
 	public void testTypedSum2() {
-		Person me = new Person("Mario", "Fusco", 35);
-		Person luca = new Person("Luca", "Marrocco", 29);
-		Person biagio = new Person("Biagio", "Beatrice", 39);
-		Person celestino = new Person("Celestino", "Bellone", 29);
-		
 		List<Person> myFriends = asList(luca, biagio, celestino);
 		forEach(myFriends).setBestFriend(me);
 
@@ -95,11 +133,6 @@ public class LambdaTest {
 	
 	@Test
 	public void testTypedMixedSums() {
-		Person me = new Person("Mario", "Fusco", 35);
-		Person luca = new Person("Luca", "Marrocco", 29);
-		Person biagio = new Person("Biagio", "Beatrice", 39);
-		Person celestino = new Person("Celestino", "Bellone", 29);
-		
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
 		int onPersonAge = on(Person.class).getAge();
 		
@@ -119,11 +152,6 @@ public class LambdaTest {
 
 	@Test
 	public void testCollectAges() {
-		Person me = new Person("Mario", "Fusco", 35);
-		Person luca = new Person("Luca", "Marrocco", 29);
-		Person biagio = new Person("Biagio", "Beatrice", 39);
-		Person celestino = new Person("Celestino", "Bellone", 29);
-		
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
 		
 		List<Integer> ages = collect(meAndMyFriends, on(Person.class).getAge());
@@ -134,9 +162,17 @@ public class LambdaTest {
 	}
 	
 	@Test
+	public void testInvalidCollect() {
+		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+		try {
+			List<Integer> ages = collect(meAndMyFriends, 29);
+		} catch (Exception e) { return; }
+		fail("collect on non valid argument must fail");
+	}
+	
+	@Test
 	public void testSelectStringsThatEndsWithD() {
 		List<String> strings = asList("first", "second", "third");
-
 		Collection<String> results = select(strings, endsWith("d"));
 
 		assertThat(results.size(), is(equalTo(2)));
