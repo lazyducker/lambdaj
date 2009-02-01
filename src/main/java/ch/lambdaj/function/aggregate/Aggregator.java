@@ -4,9 +4,22 @@
 
 package ch.lambdaj.function.aggregate;
 
+/**
+ * Defines an aggregation operation, i.e. how to aggregate the items of a collection.
+ * @author Mario Fusco
+ */
 public interface Aggregator<T> {
 
+	/**
+	 * Returns the idempotent item for this aggregation operation
+	 */
 	public T emptyItem();
 
+	/**
+	 * Define how this operation aggregates 2 different items
+	 * @param first The first item
+	 * @param second The second item
+	 * @return The aggregation of first and second item
+	 */
 	public T aggregate(T first, T second);
 }

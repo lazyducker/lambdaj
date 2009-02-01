@@ -22,6 +22,11 @@ import ch.lambdaj.proxy.*;
 @SuppressWarnings("unchecked")
 public class Lambda {
 	
+	/**
+	 * Constructs a proxy object that mocks the given Class registering all the subsequent invocations on the object.
+	 * @param clazz The class of the object to be mocked
+	 * @return An object of the given class that register all the invocations made on it
+	 */
 	public static <T> T on(Class<T> clazz) {
 		return ArgumentsFactory.createArgument(clazz);
 	}
@@ -77,11 +82,13 @@ public class Lambda {
 		return ProxyIterator.createProxyIterator(iterable, clazz);
 	}
 
+	@Deprecated
 	public static <T> T[] toArray(Collection<T> c) {
 		if (c == null || c.isEmpty()) return null;
 		return toArray(c, c.iterator().next().getClass());
 	}
 
+	@Deprecated
 	public static <T> T[] toArray(Collection<T> c, Class<?> t) {
 		return c.toArray((T[]) Array.newInstance(t, c == null ? 0 : c.size()));
 	}
@@ -90,16 +97,44 @@ public class Lambda {
 	// /// Collection
 	// ////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Collects the items in the given iterable putting them in a List.
+	 * Actually it treats also Maps as Iterables by collecting their values.
+	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * @param iterable The iterable of which the items should be collected
+	 * @return A List containing all the items collected from the give iterable
+	 * @throws A RuntimeException if the iterable is not an Iterable or a Map
+	 */
 	public static <T> List<? extends T> collect(Object iterable) {
+		if (!(iterable instanceof Iterable) && !(iterable instanceof Map)) 
+			throw new RuntimeException(iterable + " is not an iterable");
 		List<T> collected = new LinkedList<T>();
 		for (Object item : (Iterable<?>) iterable) {
 			if (item instanceof Iterable) collected.addAll((Collection<T>) collect(item));
-			else
-				collected.add((T) item);
+			else if (item instanceof Map) collected.addAll((Collection<T>) collect(((Map<?,?>)item).values()));
+			else collected.add((T) item);
 		}
 		return collected;
 	}
 	
+	/**
+	 * For each item in the given iterable collects the value defined by the given argument and put them in a List.
+	 * For example the following code:
+	 * <p/>
+	 * <code>
+	 * 		List<Person> myFriends = asList(new Person("Biagio", 39), new Person("Luca", 29), new Person("Celestino", 29));
+	 *		List<Integer> ages = collect(meAndMyFriends, on(Person.class).getAge());
+	 * </code>
+	 * <p/>
+	 * extracts the ages of all the Persons in the list and put them in a List of Integer.
+	 * <p/>
+	 * Actually it treats also Maps as Iterables by collecting their values.
+	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * @param iterable The iterable of which the items should be collected
+	 * @param argument An argument defined using the on method 
+	 * @return A List containing all the items collected from the give iterable
+	 * @throws A RuntimeException if the iterable is not an Iterable or a Map
+	 */
 	public static <T> List<T> collect(Object iterable, T argument) {
 		return (List<T>)collect(convert(iterable, new ArgumentConverter<Object, Object>(argument)));
 	}
@@ -109,24 +144,24 @@ public class Lambda {
 	// ////////////////////////////////////////////////////////////////////////
 
 
-	public static <T> Collection<T> filter(Matcher<?> matcher, Iterable<T> iterable) {
+	public static <T> List<T> filter(Matcher<?> matcher, Iterable<T> iterable) {
 		return select(iterable, matcher);
 	}
 
-	public static <T> Collection<T> select(Iterable<T> iterable, Matcher<?> matcher) {
-		Collection<T> collected = new LinkedList<T>();
+	public static <T> List<T> select(Iterable<T> iterable, Matcher<?> matcher) {
+		List<T> collected = new LinkedList<T>();
 		if (iterable == null) return collected;
-		for (T item : iterable)
-			if (matcher.matches(item)) collected.add(item);
+		for (T item : iterable) if (matcher.matches(item)) collected.add(item);
 		return collected;
 	}
 
-	public static <T> Collection<T> to(Iterable<T> iterable, Matcher<?> matcher) {
-		return select(iterable, matcher);
-	}
-
-	public static <T> Collection<T> select(Object iterable, Matcher<?> matcher) {
+	public static <T> List<T> select(Object iterable, Matcher<?> matcher) {
 		return select((Iterable<T>) iterable, matcher);
+	}
+	
+	@Deprecated
+	public static <T> List<T> to(Iterable<T> iterable, Matcher<?> matcher) {
+		return select(iterable, matcher);
 	}
 
 	public static <T> T selectUnique(Object iterable, Matcher<?> matcher) {
@@ -191,6 +226,14 @@ public class Lambda {
 
 	private static final Concat Concat = new Concat();
 
+	/**
+	 * Aggregates the items in the given iterable using the given aggregator function.
+	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * @param iterable The iterable of numbers to be summed
+	 * @param aggregator The function that defines how the objects in this iterable have to be aggregated
+	 * @return The result of the aggregation of all the items in the given iterable
+	 * @throws A RuntimeException if the iterable is not an Iterable
+	 */
 	public static <T> T aggregate(Object iterable, Aggregator<T> aggregator) {
 		T result = aggregator.emptyItem();
 		if (iterable != null) for (T item : (Iterable<T>) iterable)
@@ -199,6 +242,7 @@ public class Lambda {
 	}
 
 	public static <T> T aggregate(Object iterable, Aggregator<T> aggregator, Object argument) {
+		if (!(iterable instanceof Iterable)) throw new RuntimeException(iterable + " is not an iterable");
 		return aggregate(convert(iterable, new ArgumentConverter<Object, Object>(argument)), aggregator);
 	}
 	
@@ -214,10 +258,25 @@ public class Lambda {
 
 	// -- (Sum) ---------------------------------------------------------------
 
+	/**
+	 * Sums the items in the given iterable of Numbers or the iterable itself if it actually is already a single number.
+	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * @param iterable The iterable of numbers to be summed
+	 * @return The sum of all the Number in the given iterable or the iterable itself if it actually is already a single number
+	 * @throws A RuntimeException if the iterable is not an Iterable
+	 */
 	public static Number sum(Object iterable) {
+		if (iterable instanceof Number) return (Number)iterable;
 		return aggregate(iterable, Sum);
 	}
 
+	/**
+	 * Sums the property values of the items in the given iterable defined by the given argument.
+	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * @param iterable The iterable of items containing the property of which the values have to be summed.
+	 * @return The sum of the property values extracted from all the items in the given iterable 
+	 * @throws A RuntimeException if the iterable is not an Iterable
+	 */
 	public static <T> T sum(Object iterable, T argument) {
 		return (T)aggregate(iterable, Sum, argument);
 	}
@@ -236,6 +295,10 @@ public class Lambda {
 		return (T) aggregate((Iterable<T>) iterable, Min);
 	}
 
+	public static <T> T min(Object iterable, T argument) {
+		return (T)aggregate(iterable, Min, argument);
+	}
+	
 	public static <T> T minFrom(Iterable<T> c) {
 		return (T) aggregateFrom(c, Min);
 	}
@@ -250,6 +313,10 @@ public class Lambda {
 		return (T) aggregate((Iterable<T>) iterable, Max);
 	}
 
+	public static <T> T max(Object iterable, T argument) {
+		return (T)aggregate(iterable, Max, argument);
+	}
+	
 	public static <T> T maxFrom(Iterable<T> c) {
 		return (T) aggregateFrom(c, Max);
 	}
@@ -279,7 +346,8 @@ public class Lambda {
 	public static String join(Object iterable) {
 		return join(iterable, ", ");
 	}
-
+	
+	@Deprecated
 	private static void flatten(List collection, Iterable iterable) {
 		for (Object object : iterable) {
 			if (object instanceof Iterable) {
@@ -292,6 +360,7 @@ public class Lambda {
 		}
 	}
 
+	@Deprecated
 	public static List flatten(Iterable iterable) {
 		List collection = new LinkedList();
 		flatten(collection, iterable);
@@ -299,12 +368,7 @@ public class Lambda {
 	}
 
 	public static String join(Object iterable, String separator) {
-		if (iterable instanceof String) return iterable.toString();
-		if (iterable instanceof Long) return iterable.toString();
-		if (iterable instanceof Double) return iterable.toString();
-		if (iterable instanceof Float) return iterable.toString();
-		if (iterable instanceof Integer) return iterable.toString();
-		return (String) aggregate((Iterable<?>) iterable, new Concat(separator));
+		return iterable instanceof Iterable ? (String) aggregate((Iterable<?>) iterable, new Concat(separator)) : (iterable == null ? "" : iterable.toString());
 	}
 
 	// ////////////////////////////////////////////////////////////////////////

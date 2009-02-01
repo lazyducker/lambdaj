@@ -53,6 +53,8 @@ public class ArgumentsFactory {
     }
     
     public static Argument actualArgument(Object placeholder) {
-    	return argumentByPlaceholder.get(placeholder);
+    	Argument actualArgument = argumentByPlaceholder.get(placeholder);
+    	if (actualArgument == null) throw new RuntimeException("Unable to convert the placeholder " + placeholder + " in a valid argument");
+    	return actualArgument;
     }
 }
