@@ -11,10 +11,11 @@ public class ArgumentConverter<F, T> implements Converter<F, T>{
 		this.argument = argument;
 	}
 	
-	public ArgumentConverter(Object argument) {
+	public ArgumentConverter(T argument) {
 		this(actualArgument(argument));
 	}
 	
+	@SuppressWarnings("unchecked")
 	public T convert(F from) {
 		return (T)argument.evaluate(from);
 	}

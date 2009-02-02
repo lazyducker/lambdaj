@@ -4,7 +4,6 @@
 
 package ch.lambdaj;
 
-import java.lang.reflect.*;
 import java.util.*;
 
 import org.hamcrest.*;
@@ -82,17 +81,6 @@ public class Lambda {
 		return ProxyIterator.createProxyIterator(iterable, clazz);
 	}
 
-	@Deprecated
-	public static <T> T[] toArray(Collection<T> c) {
-		if (c == null || c.isEmpty()) return null;
-		return toArray(c, c.iterator().next().getClass());
-	}
-
-	@Deprecated
-	public static <T> T[] toArray(Collection<T> c, Class<?> t) {
-		return c.toArray((T[]) Array.newInstance(t, c == null ? 0 : c.size()));
-	}
-
 	// ////////////////////////////////////////////////////////////////////////
 	// /// Collection
 	// ////////////////////////////////////////////////////////////////////////
@@ -159,11 +147,6 @@ public class Lambda {
 		return select((Iterable<T>) iterable, matcher);
 	}
 	
-	@Deprecated
-	public static <T> List<T> to(Iterable<T> iterable, Matcher<?> matcher) {
-		return select(iterable, matcher);
-	}
-
 	public static <T> T selectUnique(Object iterable, Matcher<?> matcher) {
 		return selectUnique((Iterable<T>) iterable, matcher);
 	}
@@ -347,26 +330,6 @@ public class Lambda {
 		return join(iterable, ", ");
 	}
 	
-	@Deprecated
-	private static void flatten(List collection, Iterable iterable) {
-		for (Object object : iterable) {
-			if (object instanceof Iterable) {
-				flatten(collection, (Iterable) object);
-			} else if (object instanceof Map) {
-				flatten(collection, ((Map) object).values());
-			} else {
-				collection.add(object);
-			}
-		}
-	}
-
-	@Deprecated
-	public static List flatten(Iterable iterable) {
-		List collection = new LinkedList();
-		flatten(collection, iterable);
-		return collection;
-	}
-
 	public static String join(Object iterable, String separator) {
 		return iterable instanceof Iterable ? (String) aggregate((Iterable<?>) iterable, new Concat(separator)) : (iterable == null ? "" : iterable.toString());
 	}
@@ -382,7 +345,11 @@ public class Lambda {
 		return collected;
 	}
 
-	public static <F, T> Collection<T> extract(Object iterable, String propertyName) {
+	public static <F, T> Collection<T> extract(Object iterable, T argument) {
+		return convert(iterable, new ArgumentConverter<F, T>(argument));
+	}
+	
+	public static <F, T> Collection<T> extractProperty(Object iterable, String propertyName) {
 		return convert(iterable, new PropertyExtractor<F, T>(propertyName));
 	}
 	
@@ -393,7 +360,7 @@ public class Lambda {
 		return map;
 	}
 	
-	public static <F, T> Map<T, F> index(Object iterable, String propertyName) {
-		return map(iterable, new PropertyExtractor<F, T>(propertyName));
+	public static <F, T> Map<T, F> index(Object iterable, T argument) {
+		return map(iterable, new ArgumentConverter<F, T>(argument));
 	}
 }
