@@ -28,6 +28,7 @@ public class ProxyAggregator<T, A> extends ProxyIterator<T> {
 		return aggregate(collectValues(method, args), aggregator);
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T, A> T createProxyAggregator(Iterable<T> proxiedCollection, Aggregator<A> aggregator, Class<?> clazz) {
 		return (T)ProxyUtil.createProxy(new ProxyAggregator<T, A>(proxiedCollection, aggregator), clazz);
 	}

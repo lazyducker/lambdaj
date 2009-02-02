@@ -21,6 +21,8 @@ import ch.lambdaj.proxy.*;
 @SuppressWarnings("unchecked")
 public class Lambda {
 	
+	private Lambda() { }
+	
 	/**
 	 * Constructs a proxy object that mocks the given Class registering all the subsequent invocations on the object.
 	 * @param clazz The class of the object to be mocked
@@ -264,12 +266,27 @@ public class Lambda {
 		return (T)aggregate(iterable, Sum, argument);
 	}
 	
-	public static <T> T sumFrom(Iterable<T> c) {
-		return aggregateFrom(c, Sum);
+	/**
+	 * Returns a lambda function defined as:
+	 * <p/>
+	 * 		sumFrom : (+, iterable) => lambda : (convert : object => number) => number
+	 * <p/>
+	 * It is then possibly to curry this function by selecting the convert function that defines of each item must be converted in a number.
+	 * This is done by invoking on that returned object the method that returns the values of the property to be summed as in the following example
+	 * <p/>
+	 * <code>
+	 * 		int totalAge = sumFrom(persons).getAge()
+	 * </code>
+	 * <p/>
+	 * @param iterable The iterable of the objects to containing the property to be summed.
+	 * @return A proxy of the class of the first object in the iterable representing a sum lambda function or null if the iterable is empty
+	 */
+	public static <T> T sumFrom(Iterable<T> iterable) {
+		return aggregateFrom(iterable, Sum);
 	}
 
-	public static <T> T sumFrom(Iterable<T> c, Class<?> t) {
-		return aggregateFrom(c, t, Sum);
+	public static <T> T sumFrom(Iterable<T> iterable, Class<?> t) {
+		return aggregateFrom(iterable, t, Sum);
 	}
 
 	// -- (Min) ---------------------------------------------------------------
@@ -282,12 +299,12 @@ public class Lambda {
 		return (T)aggregate(iterable, Min, argument);
 	}
 	
-	public static <T> T minFrom(Iterable<T> c) {
-		return (T) aggregateFrom(c, Min);
+	public static <T> T minFrom(Iterable<T> iterable) {
+		return (T) aggregateFrom(iterable, Min);
 	}
 
-	public static <T> T minFrom(Iterable<T> c, Class<?> t) {
-		return (T) aggregateFrom(c, t, Min);
+	public static <T> T minFrom(Iterable<T> iterable, Class<?> t) {
+		return (T) aggregateFrom(iterable, t, Min);
 	}
 
 	// -- (Max) ---------------------------------------------------------------
@@ -300,12 +317,12 @@ public class Lambda {
 		return (T)aggregate(iterable, Max, argument);
 	}
 	
-	public static <T> T maxFrom(Iterable<T> c) {
-		return (T) aggregateFrom(c, Max);
+	public static <T> T maxFrom(Iterable<T> iterable) {
+		return (T) aggregateFrom(iterable, Max);
 	}
 
-	public static <T> T maxFrom(Iterable<T> c, Class<?> t) {
-		return (T) aggregateFrom(c, t, Max);
+	public static <T> T maxFrom(Iterable<T> iterable, Class<?> t) {
+		return (T) aggregateFrom(iterable, t, Max);
 	}
 
 	// -- (Concat) ------------------------------------------------------------

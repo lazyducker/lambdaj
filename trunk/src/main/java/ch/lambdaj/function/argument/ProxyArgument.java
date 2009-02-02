@@ -3,6 +3,7 @@ package ch.lambdaj.function.argument;
 import static ch.lambdaj.function.argument.ArgumentsFactory.*;
 
 import java.lang.reflect.*;
+import java.util.concurrent.atomic.*;
 
 import net.sf.cglib.proxy.*;
 
@@ -20,7 +21,7 @@ public class ProxyArgument implements MethodInterceptor {
 		this.rootArgumentId = rootArgumentId;
 		this.proxiedClass = proxiedClass;
 		this.invocationSequence = invocationSequence;
-		synchronized (placeholderCounter) { proxyId = placeholderCounter++; }
+		proxyId = placeholderCounter.addAndGet(1);
 	}
 
 	public Object intercept(Object proxy, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
@@ -61,21 +62,20 @@ public class ProxyArgument implements MethodInterceptor {
 		return proxyId;
 	}
 
-	private static Integer placeholderCounter = Integer.MIN_VALUE;
+	private static AtomicInteger placeholderCounter = new AtomicInteger(Integer.MIN_VALUE);
 	
 	private Object createArgumentPlaceholder(Class<?> clazz) {
-		Integer i = 0;
-		synchronized (placeholderCounter) { i = placeholderCounter++; }
+		Integer i = placeholderCounter.addAndGet(1);
 		
 		if (clazz.isPrimitive()) {
 			if (clazz == Void.TYPE) return null;
 			if (clazz == Integer.TYPE) return i;
 			if (clazz == Character.TYPE) return Character.forDigit(i % Character.MAX_RADIX, Character.MAX_RADIX);
-			if (clazz == Byte.TYPE) return new Byte(i.byteValue());
-			if (clazz == Short.TYPE) return new Short(i.shortValue());
-			if (clazz == Long.TYPE) return new Long(i.longValue());
-			if (clazz == Float.TYPE) return new Float(i.floatValue());
-			if (clazz == Double.TYPE) return new Double(i.doubleValue());
+			if (clazz == Byte.TYPE) return Byte.valueOf(i.byteValue());
+			if (clazz == Short.TYPE) return Short.valueOf(i.shortValue());
+			if (clazz == Long.TYPE) return Long.valueOf(i.longValue());
+			if (clazz == Float.TYPE) return Float.valueOf(i.floatValue());
+			if (clazz == Double.TYPE) return Double.valueOf(i.doubleValue());
 			if (clazz == Boolean.TYPE) return i % 2 == 0 ? Boolean.TRUE : Boolean.FALSE;
 		}
 		
@@ -84,7 +84,8 @@ public class ProxyArgument implements MethodInterceptor {
 
 		try {
 			return clazz.newInstance();
-		} catch (Exception e) {}
-		return null;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 }
