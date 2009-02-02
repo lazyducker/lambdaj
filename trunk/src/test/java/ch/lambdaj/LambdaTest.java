@@ -76,13 +76,10 @@ public class LambdaTest {
 	@Test
 	public void testFilterOnCustomMatcher() {
 		Matcher<Integer> odd = new TypeSafeMatcher<Integer>() {
-
 			@Override
 			public boolean matchesSafely(Integer item) {
 				return item % 2 == 1;
 			}
-			
-			@Override
 			public void describeTo(Description description) {
 				description.appendText("odd()");
 			}
@@ -165,7 +162,7 @@ public class LambdaTest {
 	public void testInvalidCollect() {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
 		try {
-			List<Integer> ages = collect(meAndMyFriends, 29);
+			collect(meAndMyFriends, 29);
 		} catch (Exception e) { return; }
 		fail("collect on non valid argument must fail");
 	}
@@ -261,12 +258,12 @@ public class LambdaTest {
 
 	@Test
 	public void testMinMaxUsingMockedComparable() {
-		Comparable lesser = new Long(1);
-		Comparable greater = new Long(2);
-		List comparables = asList(lesser, greater);
+		Long lesser = new Long(1);
+		Long greater = new Long(2);
+		List<Long> comparables = asList(lesser, greater);
 
-		assertThat((Comparable) min(forEach(comparables)), is(equalTo(lesser)));
-		assertThat((Comparable) max(forEach(comparables)), is(equalTo(greater)));
+		assertThat(min(comparables), is(equalTo(lesser)));
+		assertThat(max(comparables), is(equalTo(greater)));
 	}
 
 	@Test
@@ -304,11 +301,19 @@ public class LambdaTest {
 	@Test
 	public void testExtract() {
 		List<Exposure> exposures = asList(new Exposure("france", "first"), new Exposure("brazil", "second"));
-		Collection<String> countries = extract(exposures, "countryName");
+		Collection<String> countries = extract(exposures, on(Exposure.class).getCountryName());
 		assertThat(countries, hasItem("france"));
 		assertThat(countries, hasItem("brazil"));
 	}
 
+	@Test
+	public void testExtractProperty() {
+		List<Exposure> exposures = asList(new Exposure("france", "first"), new Exposure("brazil", "second"));
+		Collection<String> countries = extractProperty(exposures, "countryName");
+		assertThat(countries, hasItem("france"));
+		assertThat(countries, hasItem("brazil"));
+	}
+	
 	@Test
 	public void testConvert() {
 		List<String> strings = asList("first", "second", "third", "four");
@@ -322,7 +327,7 @@ public class LambdaTest {
 		Exposure frenchExposure = new Exposure("france", "first");
 		Exposure brazilianExposure = new Exposure("brazil", "second");
 		List<Exposure> exposures = asList(frenchExposure, brazilianExposure);
-		Map<String, Exposure> indexed = index(exposures, "countryName");
+		Map<String, Exposure> indexed = index(exposures, on(Exposure.class).getCountryName());
 		assertSame(frenchExposure, indexed.get("france"));
 		assertSame(brazilianExposure, indexed.get("brazil"));
 	}
