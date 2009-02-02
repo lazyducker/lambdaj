@@ -8,7 +8,6 @@ import static ch.lambdaj.Lambda.*;
 import static ch.lambdaj.function.matcher.HasArgumentWithValue.*;
 import static ch.lambdaj.function.matcher.HasNestedPropertyWithValue.*;
 import static java.util.Arrays.*;
-import static java.util.Collections.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
@@ -104,19 +103,40 @@ public class LambdaTest {
 	}
 	
 	@Test
-	public void testSumFrom() {
+	public void testSumMinMaxFrom() {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
 
 		int totalAge = sumFrom(meAndMyFriends).getAge();
 		assertThat(totalAge, is(equalTo(35+29+39+29)));
+		
+		int minAge = minFrom(meAndMyFriends).getAge();
+		assertThat(minAge, is(equalTo(29)));
+
+		int maxAge = maxFrom(meAndMyFriends).getAge();
+		assertThat(maxAge, is(equalTo(39)));
 	}
 	
 	@Test
-	public void testTypedSum() {
+	public void testEmptySumMinMaxFrom() {
+		assertThat(0, is(equalTo(sumFrom(new ArrayList<Person>(), Person.class).getAge())));
+		assertThat(0, is(equalTo(minFrom(new ArrayList<Person>(), Person.class).getAge())));
+		assertThat(0, is(equalTo(maxFrom(new ArrayList<Person>(), Person.class).getAge())));
+	}
+	
+	@Test
+	public void testPlainSumMinMaxFrom() {
+		List<Integer> ints = asList(1, 2, 3, 4, 5);
+		assertThat(15, is(equalTo(sum(ints))));
+		assertThat(1, is(equalTo(min(ints))));
+		assertThat(5, is(equalTo(max(ints))));
+	}
+	
+	@Test
+	public void testTypedSumMinMax() {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
-
-		int totalAge = sum(meAndMyFriends, on(Person.class).getAge());
-		assertThat(totalAge, is(equalTo(35+29+39+29)));
+		assertThat(sum(meAndMyFriends, on(Person.class).getAge()), is(equalTo(35+29+39+29)));
+		assertThat(min(meAndMyFriends, on(Person.class).getAge()), is(equalTo(29)));
+		assertThat(max(meAndMyFriends, on(Person.class).getAge()), is(equalTo(39)));
 	}
 	
 	@Test
@@ -235,6 +255,12 @@ public class LambdaTest {
 	}
 
 	@Test
+	public void testEmptyJoinFrom() {
+		assertEquals("", joinFrom(new ArrayList<Person>(), Person.class).getLastName());
+		assertEquals("", joinFrom(new ArrayList<Person>(), Person.class, " - ").getLastName());
+	}
+	
+	@Test
 	public void testSelectFranceExposures() {
 		Exposure franceExposure = new Exposure("france", "first");
 		Exposure brazilExposure = new Exposure("brazil", "second");
@@ -257,16 +283,6 @@ public class LambdaTest {
 	}
 
 	@Test
-	public void testMinMaxUsingMockedComparable() {
-		Long lesser = new Long(1);
-		Long greater = new Long(2);
-		List<Long> comparables = asList(lesser, greater);
-
-		assertThat(min(comparables), is(equalTo(lesser)));
-		assertThat(max(comparables), is(equalTo(greater)));
-	}
-
-	@Test
 	public void testConcatUsingMockedString() {
 		Text aText = new Text("a text");
 		Text anotherText = new Text("another text");
@@ -279,7 +295,7 @@ public class LambdaTest {
 	public void testJoinStrings() {
 		assertThat(join(forEach(asList("many", "strings"))), is(equalTo("many, strings")));
 		assertThat(join(asList("many", "strings")), is(equalTo("many, strings")));
-		assertThat(join(emptyList()), is(equalTo("")));
+		assertThat(join(new ArrayList<String>()), is(equalTo("")));
 		assertThat(join(null), is(equalTo("")));
 		assertThat(join(""), is(equalTo("")));
 		assertThat(join(1), is(equalTo("1")));

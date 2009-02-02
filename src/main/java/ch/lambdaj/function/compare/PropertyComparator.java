@@ -24,7 +24,7 @@ public class PropertyComparator<T> implements Comparator<T> {
 		Comparable val1 = (Comparable) IntrospectionUtil.getPropertyValue(o1, propertyName);
 		Comparable val2 = (Comparable) IntrospectionUtil.getPropertyValue(o2, propertyName);
 		if (val1 == null && val2 == null) return 0;
-		return val1 != null ? val1.compareTo(val2) : -val2.compareTo(val1);
+		return val1 != null ? val1.compareTo(val2) : -val2.compareTo(null);
 	}
 
 }

@@ -1,6 +1,7 @@
 package ch.lambdaj.function.argument;
 
 import java.util.*;
+import java.util.concurrent.atomic.*;
 
 import ch.lambdaj.proxy.*;
 
@@ -12,12 +13,11 @@ public class ArgumentsFactory {
 	// /// Factory
 	// ////////////////////////////////////////////////////////////////////////
 	
-	private static Integer argumentCounter = 0;
+	private static AtomicInteger argumentCounter = new AtomicInteger();
 	
 	public static <T> T createArgument(Class<T> clazz) {
-		Integer rootArgumentId = argumentCounter++;
-		T argument = createArgument(rootArgumentId, clazz, new InvocationSequence(clazz));
-		return argument;
+		Integer rootArgumentId = argumentCounter.addAndGet(1);
+		return createArgument(rootArgumentId, clazz, new InvocationSequence(clazz));
 	}
 	
 	@SuppressWarnings("unchecked")

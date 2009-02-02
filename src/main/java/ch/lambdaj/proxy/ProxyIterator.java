@@ -4,17 +4,11 @@
 
 package ch.lambdaj.proxy;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.lang.reflect.*;
+import java.util.*;
 
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
-import ch.lambdaj.Lambda;
+import net.sf.cglib.proxy.*;
+import ch.lambdaj.*;
 
 /**
  * @author Mario Fusco
@@ -41,6 +35,7 @@ public class ProxyIterator<T> implements MethodInterceptor, Iterable<T> {
 		return values;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T> T createProxyIterator(Iterable<T> proxiedCollection, Class<?> clazz) {
 		return (T)ProxyUtil.createProxy(new ProxyIterator<T>(proxiedCollection), clazz);
 	}

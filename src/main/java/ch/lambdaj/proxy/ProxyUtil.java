@@ -1,7 +1,7 @@
 package ch.lambdaj.proxy;
 
-import java.lang.reflect.*;
-import java.lang.reflect.Proxy;
+import static java.lang.reflect.Proxy.*;
+import static java.lang.reflect.Modifier.*;
 
 import net.sf.cglib.proxy.*;
 
@@ -9,7 +9,7 @@ public class ProxyUtil {
 	
 	private ProxyUtil() { }
 	
-	public static <T> T createProxy(MethodInterceptor interceptor, Class<?> clazz) {
+	public static <T> T createProxy(MethodInterceptor interceptor, Class<T> clazz) {
 		try {
 			Enhancer e = new Enhancer();
 			if (clazz.isInterface()) {
@@ -33,8 +33,8 @@ public class ProxyUtil {
 		}
 	}
 
-	private static boolean canBeEnhanced(Class<?> clazz) {
-		if (Proxy.isProxyClass(clazz) || Modifier.isFinal(clazz.getModifiers())) return false;
+	private static <T> boolean canBeEnhanced(Class<T> clazz) {
+		if (isProxyClass(clazz) || isFinal(clazz.getModifiers())) return false;
 		try {
 			clazz.getConstructor(null);
 		} catch (Exception e) {
