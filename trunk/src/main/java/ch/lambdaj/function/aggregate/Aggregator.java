@@ -13,7 +13,7 @@ public interface Aggregator<T> {
 	/**
 	 * Returns the idempotent item for this aggregation operation
 	 */
-	public T emptyItem();
+	T emptyItem();
 
 	/**
 	 * Define how this operation aggregates 2 different items
@@ -21,5 +21,5 @@ public interface Aggregator<T> {
 	 * @param second The second item
 	 * @return The aggregation of first and second item
 	 */
-	public T aggregate(T first, T second);
+	T aggregate(T first, T second);
 }

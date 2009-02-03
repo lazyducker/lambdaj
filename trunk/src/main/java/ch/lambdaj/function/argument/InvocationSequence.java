@@ -28,7 +28,7 @@ public class InvocationSequence extends ArrayList<Invocation> {
 	
 	@Override
 	public boolean equals(Object object) {
-		if (object == null || !(object instanceof InvocationSequence)) return false;
+		if (!(object instanceof InvocationSequence)) return false;
 		InvocationSequence othersSequence = (InvocationSequence)object;
 		if (!rootInvokedClass.equals(othersSequence.getRootInvokedClass())) return false;
 		if (size() != othersSequence.size()) return false;

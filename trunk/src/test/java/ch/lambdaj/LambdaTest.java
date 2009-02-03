@@ -65,6 +65,17 @@ public class LambdaTest {
 	}
 	
 	@Test
+	public void testSelectOnBooleanWithHaving() {
+		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+
+		Collection<Person> youngFriends = select(meAndMyFriends, having(on(Person.class).isYoung(), is(true)));
+		assertEquals(2, youngFriends.size());
+		Iterator<Person> friendsIterator = youngFriends.iterator();
+		assertSame(luca, friendsIterator.next());
+		assertSame(celestino, friendsIterator.next());
+	}
+	
+	@Test
 	public void testFilter() {
 		List<Integer> biggerThan3 = filter(greaterThan(3), asList(1, 2, 3, 4, 5));
 		assertEquals(2, biggerThan3.size());
