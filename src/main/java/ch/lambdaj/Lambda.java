@@ -32,7 +32,7 @@ public final class Lambda {
 		return ArgumentsFactory.createArgument(clazz);
 	}
 
-	public static final <T> T by(T t) {
+	public static <T> T by(T t) {
 		T result = null;
 		try {
 			result = (T) t.getClass().newInstance();
