@@ -49,7 +49,7 @@ public class Argument implements Iterable<Invocation> {
 	
 	@Override
 	public boolean equals(Object object) {
-		if (object == null || !(object instanceof Argument)) return false;
+		if (!(object instanceof Argument)) return false;
 		return invocationSequence.equals(((Argument)object).getInvocationSequence());
 	}
 	

@@ -59,7 +59,7 @@ public class Invocation {
 	
 	@Override
 	public boolean equals(Object object) {
-		if (object == null || !(object instanceof Invocation)) return false;
+		if (!(object instanceof Invocation)) return false;
 		Invocation otherInvocation = (Invocation)object;
 		if (!areNullSafeEquals(invokedClass, otherInvocation.getInvokedClass())) return false;
 		if (!areNullSafeEquals(invokedMethod, otherInvocation.getInvokedMethod())) return false;

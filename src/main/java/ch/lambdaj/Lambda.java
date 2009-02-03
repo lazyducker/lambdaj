@@ -19,7 +19,7 @@ import ch.lambdaj.proxy.*;
  * @author Luca Marrocco
  */
 @SuppressWarnings("unchecked")
-public class Lambda {
+public final class Lambda {
 	
 	private Lambda() { }
 	

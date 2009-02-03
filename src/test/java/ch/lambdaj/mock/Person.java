@@ -57,4 +57,8 @@ public class Person {
 	public void setBestFriend(Person bestFriend) {
 		this.bestFriend = bestFriend;
 	}
+	
+	public boolean isYoung() {
+		return age < 30;
+	}
 }
