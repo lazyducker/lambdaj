@@ -65,6 +65,13 @@ public class LambdaTest {
 	}
 	
 	@Test
+	public void testSelectDistinctAge() {
+		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+		Collection<Person> distinctAgePersons = selectDistinct(meAndMyFriends, "age");
+		assertEquals(3, distinctAgePersons.size());
+	}
+	
+	@Test
 	public void testSelectOnBooleanWithHaving() {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
 

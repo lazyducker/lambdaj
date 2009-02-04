@@ -43,15 +43,13 @@ public class GroupItem<T> extends TreeMap<String, Object> implements Iterable<T>
 	public Iterator<T> iterator() {
 		if (isLeaf) return getChildren().iterator();
 		Collection<T> leafs = new LinkedList<T>();
-		for (T item : asGroup().findAll())
-			leafs.add(item);
+		for (T item : asGroup().findAll()) leafs.add(item);
 		return leafs.iterator();
 	}
 
 	void addChild(T child) {
-		if (isLeaf) getChildren().add(child);
-		else
-			throw new IllegalStateException("cannot add a child to a non-leaf group");
+		if (!isLeaf) throw new IllegalStateException("cannot add a child to a non-leaf group");
+		getChildren().add(child);
 	}
 
 	public void setChildren(Group<T> children) {

@@ -2,7 +2,7 @@
 // Copyright (c) 2009 Mario Fusco, Luca Marrocco.
 // Licensed under the Apache License, Version 2.0 (the "License")
 
-package ch.lambdaj.to.group;
+package ch.lambdaj.group;
 
 import static ch.lambdaj.group.Groups.*;
 import static ch.lambdaj.Lambda.*;
