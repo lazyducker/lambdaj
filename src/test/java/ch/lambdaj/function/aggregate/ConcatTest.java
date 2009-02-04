@@ -2,7 +2,7 @@
 // Copyright (c) 2009 Mario Fusco, Luca Marrocco.
 // Licensed under the Apache License, Version 2.0 (the "License")
 
-package ch.lambdaj.to.aggregate;
+package ch.lambdaj.function.aggregate;
 
 import static ch.lambdaj.Assert.*;
 import static org.hamcrest.Matchers.*;

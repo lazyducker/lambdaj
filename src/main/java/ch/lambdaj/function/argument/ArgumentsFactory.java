@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.*;
 
 import ch.lambdaj.proxy.*;
 
-public class ArgumentsFactory {
+public final class ArgumentsFactory {
 
 	private ArgumentsFactory() { }
 	

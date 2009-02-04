@@ -23,10 +23,6 @@ public class Invocation {
 		return invokedMethod;
 	}
 
-	public Object[] getArgs() {
-		return args;
-	}
-	
 	public Object invokeOn(Object object) throws InvocationException {
 		if (!invokedClass.isInstance(object)) throw new InvocationException(invokedClass, object);
 		if (invokedMethod == null) return object;
@@ -63,7 +59,7 @@ public class Invocation {
 		Invocation otherInvocation = (Invocation)object;
 		if (!areNullSafeEquals(invokedClass, otherInvocation.getInvokedClass())) return false;
 		if (!areNullSafeEquals(invokedMethod, otherInvocation.getInvokedMethod())) return false;
-		return Arrays.equals(args, otherInvocation.getArgs());
+		return Arrays.equals(args, otherInvocation.args);
 	}
 	
 	private boolean areNullSafeEquals(Object first, Object second) {
