@@ -9,8 +9,9 @@ import java.util.*;
 /**
  * @author Mario Fusco
  */
-@SuppressWarnings("serial")
 public class GroupConditions extends LinkedList<GroupCondition> {
+
+	private static final long serialVersionUID = 1L;
 
 	public void by(String by) {
 		add(new GroupCondition(by));

@@ -11,8 +11,9 @@ import ch.lambdaj.util.*;
 /**
  * @author Mario Fusco
  */
-@SuppressWarnings("serial")
 public class GroupImpl<T> extends LinkedList<GroupItem<T>> implements Group<T> {
+
+	private static final long serialVersionUID = 1L;
 
 	private Map<String, GroupItem<T>> groupsMap = new HashMap<String, GroupItem<T>>();
 

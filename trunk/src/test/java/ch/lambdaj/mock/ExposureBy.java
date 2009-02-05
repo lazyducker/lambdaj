@@ -13,7 +13,9 @@ import ch.lambdaj.group.*;
 @SuppressWarnings("serial")
 public class ExposureBy extends GroupConditions {
 
-	public static final ExposureBy Exposure = new ExposureBy();
+	public static ExposureBy byExposure() {
+		return new ExposureBy();
+	}
 
 	public ExposureBy insuredName() {
 		by("insuredName");

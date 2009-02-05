@@ -9,7 +9,9 @@ import java.util.*;
 /**
  * @author Mario Fusco
  */
-public class Groups {
+public final class Groups {
+	
+	private Groups() { }
 
 	public static <T> Group<T> group(Iterable<T> iterable, Collection<GroupCondition> conditions) {
 		return group(iterable, conditions.toArray(new GroupCondition[conditions.size()]));
