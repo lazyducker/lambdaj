@@ -32,16 +32,6 @@ public final class Lambda {
 		return ArgumentsFactory.createArgument(clazz);
 	}
 
-	public static <T> T by(T t) {
-		T result = null;
-		try {
-			result = (T) t.getClass().newInstance();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		return result;
-	}
-
 	/**
 	 * Transforms a collection of Ts in a single object having the same methods of a single instance of T.
 	 * That allows to invoke a method on each T in the collection with a single strong typed method call as in the following example:

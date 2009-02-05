@@ -4,9 +4,8 @@
 
 package ch.lambdaj.group;
 
-import static ch.lambdaj.group.Groups.*;
-import static ch.lambdaj.Lambda.*;
 import static ch.lambdaj.Strings.*;
+import static ch.lambdaj.group.Groups.*;
 import static ch.lambdaj.mock.ExposureBy.*;
 import static java.util.Arrays.*;
 import static org.hamcrest.Matchers.*;
@@ -55,7 +54,7 @@ public class GroupByTest {
 
 	@Test
 	public void testGroupByInsuredName() {
-		String string = json(group(exposures, by(Exposure).insuredName()));
+		String string = json(group(exposures, byExposure().insuredName()));
 		string = removeApos(string);
 
 		assertThat(string, containsString("insuredName:Fex France"));
@@ -64,7 +63,7 @@ public class GroupByTest {
 
 	@Test
 	public void testGroupByInsuredNameAndCountryName() {
-		String string = json(group(exposures, by(Exposure).insuredName().countryName()));
+		String string = json(group(exposures, byExposure().insuredName().countryName()));
 
 		string = removeApos(string);
 		string = removeString(string, removeApos(json(FexFrance)));
@@ -81,12 +80,12 @@ public class GroupByTest {
 
 	@Test
 	public void testGroupByInsuredNameAsExposures() {
-		String string = json(group(exposures, by(Exposure).insuredName().asExposures()));
+		String string = json(group(exposures, byExposure().insuredName().asExposures()));
 	}
 
 	@Test
 	public void testGroupByCountryName() {
-		String string = json(group(exposures, by(Exposure).countryName().asInsureds().headCountryIso()));
+		String string = json(group(exposures, byExposure().countryName().asInsureds().headCountryIso()));
 
 		string = removeApos(string);
 		assertThat(string, containsString("insureds:[{"));
@@ -101,18 +100,18 @@ public class GroupByTest {
 
 	@Test
 	public void testGroupByCountryNameAndInsuredName() {
-		String string = json(group(exposures, by(Exposure).countryName().insuredName()));
+		String string = json(group(exposures, byExposure().countryName().insuredName()));
 	}
 
 	@Test
 	public void testGroupByCountryNameAsCountries() {
-		String string = json(group(exposures, by(Exposure).countryName().asCountries()));
+		String string = json(group(exposures, byExposure().countryName().asCountries()));
 		string = removeApos(string);
 	}
 
 	@Test
 	public void testGroupByCountryNameAsExposures() {
-		String string = json(group(exposures, by(Exposure).countryName().asExposures()));
+		String string = json(group(exposures, byExposure().countryName().asExposures()));
 		string = removeApos(string);
 	}
 }

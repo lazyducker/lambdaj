@@ -4,12 +4,15 @@
 
 package ch.lambdaj.group;
 
+import java.io.*;
 import java.util.*;
 
 /**
  * @author Mario Fusco
  */
-public class GroupCondition {
+public class GroupCondition implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String groupBy;
 

@@ -4,7 +4,6 @@
 
 package ch.lambdaj.group;
 
-import static ch.lambdaj.Lambda.*;
 import static ch.lambdaj.group.Groups.*;
 import static ch.lambdaj.mock.ExposureBy.*;
 import static java.util.Arrays.*;
@@ -15,7 +14,6 @@ import java.util.*;
 
 import org.junit.*;
 
-import ch.lambdaj.group.*;
 import ch.lambdaj.mock.*;
 
 /**
@@ -63,7 +61,7 @@ public class GroupsTest {
 
 	@Test
 	public void testByCriteria() {
-		by(Exposure).countryName().insuredName();
+		byExposure().countryName().insuredName();
 	}
 
 	@Test
@@ -113,7 +111,7 @@ public class GroupsTest {
 
 	@Test
 	public void testGroupTypedByCountryAndInsuredName() {
-		Group<Exposure> group = group(exposures, by(Exposure).countryName().insuredName());
+		Group<Exposure> group = group(exposures, byExposure().countryName().insuredName());
 
 		assertThat(group.keySet(), hasItems("France", "Canada"));
 
