@@ -9,23 +9,23 @@ import java.util.*;
 /**
  * @author Mario Fusco
  */
-public class GroupConditions extends LinkedList<GroupCondition> {
+public class GroupConditions extends LinkedList<StringGroupCondition> {
 
 	private static final long serialVersionUID = 1L;
 
 	public void by(String by) {
-		add(new GroupCondition(by));
+		add(new StringGroupCondition(by));
 	}
 
 	public void as(String alias) {
-		getLast().setAlias(alias);
+		getLast().as(alias);
 	}
 
 	public void head(String property) {
-		getLast().addProperty(property);
+		getLast().head(property);
 	}
 
 	public void head(String property, String alias) {
-		getLast().addProperty(property, alias);
+		getLast().head(alias, property);
 	}
 }

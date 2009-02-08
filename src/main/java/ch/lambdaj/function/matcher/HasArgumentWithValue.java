@@ -27,7 +27,7 @@ public class HasArgumentWithValue<T> extends BaseMatcher<T> {
 	
     public void describeTo(Description description) {
         description.appendText("hasArgument(");
-        description.appendValue(argument.toString());
+        description.appendValue(argument.getInkvokedPropertyName());
         description.appendText(", ");
         description.appendDescriptionOf(value);
         description.appendText(")");

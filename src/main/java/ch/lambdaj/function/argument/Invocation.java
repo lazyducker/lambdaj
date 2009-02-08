@@ -3,12 +3,16 @@ package ch.lambdaj.function.argument;
 import java.lang.reflect.*;
 import java.util.*;
 
+import ch.lambdaj.util.*;
+
 public class Invocation {
 
 	private Class<?> invokedClass;
 	private Method invokedMethod;
 	private Object[] args;
 
+	Invocation() { }
+	
 	Invocation(Class<?> invokedClass, Method invokedMethod, Object[] args) {
 		this.invokedClass = invokedClass;
 		this.invokedMethod = invokedMethod;
@@ -21,6 +25,10 @@ public class Invocation {
 
 	public Method getInvokedMethod() {
 		return invokedMethod;
+	}
+	
+	public String getInkvokedPropertyName() {
+		return IntrospectionUtil.getPropertyName(invokedMethod);
 	}
 
 	public Object invokeOn(Object object) throws InvocationException {

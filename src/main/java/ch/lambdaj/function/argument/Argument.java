@@ -20,6 +20,10 @@ public class Argument implements Iterable<Invocation> {
 	public Iterator<Invocation> iterator() {
 		return invocationSequence.iterator();
 	}
+	
+	public String getInkvokedPropertyName() {
+		return invocationSequence.getInkvokedPropertyName();
+	}
 
 	public Object evaluate(Object object) {
 //		if (object instanceof JoinedObject) object = ((JoinedObject)object).getObjectByClass(getRootArgumentClass());

@@ -1,5 +1,7 @@
 package ch.lambdaj.function.argument;
 
+import static ch.lambdaj.Lambda.*;
+
 import java.util.*;
 
 public class InvocationSequence extends ArrayList<Invocation> {
@@ -26,6 +28,10 @@ public class InvocationSequence extends ArrayList<Invocation> {
 		return rootInvokedClass;
 	}
 	
+	public String getInkvokedPropertyName() {
+		return joinFrom(this, Invocation.class, ".").getInkvokedPropertyName();
+	}
+
 	@Override
 	public boolean equals(Object object) {
 		if (!(object instanceof InvocationSequence)) return false;

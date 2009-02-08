@@ -99,6 +99,21 @@ public class GroupByTest {
 	}
 
 	@Test
+	public void testGroupByCountryNameAsCode() {
+		String string = json(group(exposures, byExposure().countryName().asInsureds().headCountryIsoAsCode()));
+		
+		string = removeApos(string);
+		assertThat(string, containsString("insureds:[{"));
+		assertThat(string, allOf(containsString("countryName:France"), containsString("insuredName:Fex France"), containsString("countryFlag:/flags/fr.jpg"), containsString("countryIso:FR")));
+		assertThat(string, allOf(containsString("countryName:Canada"), containsString("insuredName:Fex Canada"), containsString("countryFlag:/flags/fr.jpg"), containsString("countryIso:FR")));
+
+		string = removeString(string, removeApos(json(FexFrance)));
+		string = removeString(string, removeApos(json(FexCanada)));
+		assertThat(string, containsString("code:FR"));
+		assertThat(string, containsString("code:CA"));
+	}
+	
+	@Test
 	public void testGroupByCountryNameAndInsuredName() {
 		String string = json(group(exposures, byExposure().countryName().insuredName()));
 	}
