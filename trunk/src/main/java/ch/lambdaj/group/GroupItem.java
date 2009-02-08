@@ -27,6 +27,7 @@ public class GroupItem<T> extends TreeMap<String, Object> implements Iterable<T>
 		return childrenNodeName;
 	}
 
+	@SuppressWarnings("unchecked")
 	private Collection<T> getChildren() {
 		Collection<T> children = (Collection<T>) get(getChildrenNodeName());
 		if (children == null) {
@@ -36,6 +37,7 @@ public class GroupItem<T> extends TreeMap<String, Object> implements Iterable<T>
 		return children;
 	}
 
+	@SuppressWarnings("unchecked")
 	Group<T> asGroup() {
 		return isLeaf ? null : (Group<T>) get(getChildrenNodeName());
 	}

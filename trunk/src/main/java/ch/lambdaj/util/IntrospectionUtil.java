@@ -4,6 +4,8 @@
 
 package ch.lambdaj.util;
 
+import java.lang.reflect.*;
+
 /**
  * @author Mario Fusco
  */
@@ -11,6 +13,13 @@ public final class IntrospectionUtil {
 
 	private IntrospectionUtil() {}
 
+	public static String getPropertyName(Method invokedMethod) {
+		String methodName = invokedMethod.getName();
+		if (methodName.startsWith("get") || methodName.startsWith("set")) methodName = methodName.substring(3);
+		else if (methodName.startsWith("is")) methodName = methodName.substring(2);
+		return methodName.substring(0, 1).toLowerCase() + methodName.substring(1);
+	}
+	
 	public static Object getPropertyValue(Object bean, String propertyName) {
 		if (bean == null) return null;
 		int dotPos = propertyName.indexOf('.');

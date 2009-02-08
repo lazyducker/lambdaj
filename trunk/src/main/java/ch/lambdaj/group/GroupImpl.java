@@ -6,8 +6,6 @@ package ch.lambdaj.group;
 
 import java.util.*;
 
-import ch.lambdaj.util.*;
-
 /**
  * @author Mario Fusco
  */
@@ -24,29 +22,25 @@ public class GroupImpl<T> extends LinkedList<GroupItem<T>> implements Group<T> {
 	}
 
 	void add(T item) {
-		String key = asStringValue(item, groupCondition.getGroupBy());
-		GroupItem<T> groupItem = findOrCreate(item, key);
+		GroupItem<T> groupItem = findOrCreate(item, groupCondition.getGroupValue(item));
 		groupItem.addChild(item);
-	}
-
-	private String asStringValue(T item, String propertyName) {
-		Object value = IntrospectionUtil.getPropertyValue(item, propertyName);
-		return value == null ? "" : value.toString();
 	}
 
 	private GroupItem<T> findOrCreate(T item, String key) {
 		GroupItem<T> groupItem = groupsMap.get(key);
-		if (groupItem == null) {
-			groupItem = new GroupItem<T>(groupCondition.getAlias());
-			groupItem.setProperty(groupCondition.getGroupBy(), key);
-			for (Map.Entry<String, String> entry : groupCondition.getAdditionalProperties().entrySet())
-				groupItem.setProperty(entry.getValue(), asStringValue(item, entry.getKey()));
-			groupsMap.put(key, groupItem);
-			add(groupItem);
-		}
-		return groupItem;
+		return groupItem != null ? groupItem : create(item, key);
 	}
 
+	private GroupItem<T> create(T item, String key) {
+		GroupItem<T> groupItem = new GroupItem<T>(groupCondition.getAlias());
+		groupItem.setProperty(groupCondition.getGroupName(), key);
+		for (String propertyName : groupCondition.getAdditionalPropertyNames())
+			groupItem.setProperty(propertyName, groupCondition.getAdditionalPropertyValue(propertyName, item));
+		groupsMap.put(key, groupItem);
+		add(groupItem);
+		return groupItem;
+	}
+	
 	public Set<String> keySet() {
 		return groupsMap.keySet();
 	}

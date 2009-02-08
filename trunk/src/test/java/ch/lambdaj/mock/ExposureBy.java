@@ -46,4 +46,9 @@ public class ExposureBy extends GroupConditions {
 		head("countryIso");
 		return this;
 	}
+
+	public ExposureBy headCountryIsoAsCode() {
+		head("countryIso", "code");
+		return this;
+	}
 }

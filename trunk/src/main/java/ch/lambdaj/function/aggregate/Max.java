@@ -10,6 +10,7 @@ package ch.lambdaj.function.aggregate;
  */
 public class Max<T> extends Chooser<T> {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Comparable<T> choose(Comparable<T> first, Comparable<T> second) {
 		if (first == null) return second;
