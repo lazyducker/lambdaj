@@ -15,8 +15,11 @@ public interface Group<T> {
 
 	Group<T> findGroup(String key);
 
-	Iterable<T> find(String key);
+	Collection<T> find(String key);
 
-	Iterable<T> findAll();
+	Collection<T> findAll();
 
+	int getSize();
+	
+	boolean isLeaf();
 }

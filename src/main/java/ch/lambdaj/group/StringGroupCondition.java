@@ -10,8 +10,6 @@ package ch.lambdaj.group;
  */
 public class StringGroupCondition extends AbstractGroupCondition<String> {
 
-	private static final long serialVersionUID = 1L;
-
 	private String groupBy;
 
 	public StringGroupCondition(String groupBy) {

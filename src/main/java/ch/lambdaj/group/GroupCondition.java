@@ -1,9 +1,8 @@
 package ch.lambdaj.group;
 
-import java.io.*;
 import java.util.*;
 
-public interface GroupCondition extends Serializable {
+public interface GroupCondition {
 
 	String getGroupName();
 	String getGroupValue(Object item);

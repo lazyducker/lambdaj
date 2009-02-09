@@ -15,7 +15,7 @@ public class GroupImpl<T> extends LinkedList<GroupItem<T>> implements Group<T> {
 
 	private Map<String, GroupItem<T>> groupsMap = new HashMap<String, GroupItem<T>>();
 
-	private GroupCondition groupCondition;
+	private transient GroupCondition groupCondition;
 
 	public GroupImpl(GroupCondition groupCondition) {
 		this.groupCondition = groupCondition;
@@ -33,9 +33,9 @@ public class GroupImpl<T> extends LinkedList<GroupItem<T>> implements Group<T> {
 
 	private GroupItem<T> create(T item, String key) {
 		GroupItem<T> groupItem = new GroupItem<T>(groupCondition.getAlias());
-		groupItem.setProperty(groupCondition.getGroupName(), key);
+		groupItem.put(groupCondition.getGroupName(), key);
 		for (String propertyName : groupCondition.getAdditionalPropertyNames())
-			groupItem.setProperty(propertyName, groupCondition.getAdditionalPropertyValue(propertyName, item));
+			groupItem.put(propertyName, groupCondition.getAdditionalPropertyValue(propertyName, item));
 		groupsMap.put(key, groupItem);
 		add(groupItem);
 		return groupItem;
@@ -50,16 +50,26 @@ public class GroupImpl<T> extends LinkedList<GroupItem<T>> implements Group<T> {
 		return groupItem == null ? null : groupItem.asGroup();
 	}
 
-	public Iterable<T> find(String key) {
+	public Collection<T> find(String key) {
 		GroupItem<T> groupItem = groupsMap.get(key);
-		return groupItem == null ? new LinkedList<T>() : groupItem;
+		return groupItem == null ? new LinkedList<T>() : groupItem.asCollection();
 	}
 
-	public Iterable<T> findAll() {
+	public Collection<T> findAll() {
 		Collection<T> allItems = new LinkedList<T>();
-		for (GroupItem<T> groupItem : this)
-			for (T item : groupItem)
-				allItems.add(item);
+		for (GroupItem<T> groupItem : this) allItems.addAll(groupItem.asCollection());
 		return allItems;
+	}
+	
+	public int getSize() {
+		return findAll().size();
+	}
+	
+	public boolean isLeaf() {
+		switch (size()) {
+			case 0: return true;
+			case 1: return get(0).isLeaf();
+			default: return false;
+		}
 	}
 }
