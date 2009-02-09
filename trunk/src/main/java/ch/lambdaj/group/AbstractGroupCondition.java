@@ -6,8 +6,6 @@ import java.util.*;
 
 public abstract class AbstractGroupCondition<T> implements GroupCondition {
 
-	private static final long serialVersionUID = 1L;
-
 	protected Map<String, T> additionalProperties = new TreeMap<String, T>();
 	
 	private String alias;

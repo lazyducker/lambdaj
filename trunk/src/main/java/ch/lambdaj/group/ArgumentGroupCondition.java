@@ -5,8 +5,6 @@ import ch.lambdaj.function.argument.*;
 
 public class ArgumentGroupCondition extends AbstractGroupCondition<Argument> {
 	
-	private static final long serialVersionUID = 1L;
-	
 	private Argument groupBy;
 
 	ArgumentGroupCondition(Object argument) {
