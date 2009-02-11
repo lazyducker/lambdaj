@@ -345,18 +345,18 @@ public final class Lambda {
 	// /// Conversion
 	// ////////////////////////////////////////////////////////////////////////
 
-	public static <F, T> Collection<T> convert(Object iterable, Converter<F, T> convertor) {
-		Collection<T> collected = new ArrayList<T>();
+	public static <F, T> List<T> convert(Object iterable, Converter<F, T> convertor) {
+		List<T> collected = new ArrayList<T>();
 		if (iterable != null) for (F item : (Iterable<F>) iterable)
 			collected.add(convertor.convert(item));
 		return collected;
 	}
 
-	public static <F, T> Collection<T> extract(Object iterable, T argument) {
+	public static <F, T> List<T> extract(Object iterable, T argument) {
 		return convert(iterable, new ArgumentConverter<F, T>(argument));
 	}
 	
-	public static <F, T> Collection<T> extractProperty(Object iterable, String propertyName) {
+	public static <F, T> List<T> extractProperty(Object iterable, String propertyName) {
 		return convert(iterable, new PropertyExtractor<F, T>(propertyName));
 	}
 	
