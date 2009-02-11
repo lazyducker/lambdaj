@@ -357,6 +357,25 @@ public class LambdaTest {
 	}
 
 	@Test
+	public void testStringPropertyExtractor() {
+		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+		List<String> agesAsString = convert(meAndMyFriends, new StringPropertyExtractor("age"));
+		for (int i = 0; i < meAndMyFriends.size(); i++)
+			assertEquals(agesAsString.get(i), String.valueOf(meAndMyFriends.get(i).getAge()));
+	}
+	
+	@Test
+	public void testNestedStringPropertyExtractor() {
+		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+		List<String> agesAsString = convert(meAndMyFriends, new StringPropertyExtractor("bestFriend.age"));
+		for (int i = 0; i < meAndMyFriends.size(); i++) {
+			Person bestFriend = meAndMyFriends.get(i).getBestFriend();
+			if (bestFriend == null) assertEquals(agesAsString.get(i), "");
+			else assertEquals(agesAsString.get(i), String.valueOf(bestFriend.getAge()));
+		}
+	}
+	
+	@Test
 	public void testIndex() {
 		Exposure frenchExposure = new Exposure("france", "first");
 		Exposure brazilianExposure = new Exposure("brazil", "second");

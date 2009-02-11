@@ -10,6 +10,6 @@ public class StringPropertyExtractor<T> extends PropertyExtractor<T, String> imp
 	@Override
 	public String convert(T from) {
 		Object converted = super.convert(from); 
-		return converted == null ? null : converted.toString();
+		return converted == null ? "" : converted.toString();
 	}
 }
