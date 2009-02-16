@@ -147,12 +147,9 @@ public final class Lambda {
 		T unique = null;
 		if (iterable == null) return unique;
 		Iterator<T> iterator = iterable.iterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext() && unique == null) {
 			T item = iterator.next();
-			if (matcher.matches(item)) {
-				unique = item;
-				break;
-			}
+			if (matcher.matches(item)) unique = item;
 		}
 		if (unique == null) return null;
 		while (iterator.hasNext()) {
