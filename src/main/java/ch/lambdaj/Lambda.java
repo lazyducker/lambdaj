@@ -144,26 +144,31 @@ public final class Lambda {
 	}
 
 	public static <T> T selectUnique(Iterable<T> iterable, Matcher<?> matcher) {
-		return (T) unique(select(iterable, matcher));
-	}
-
-	public static <T> T unique(Collection<T> collected) {
-		if (collected.isEmpty()) return null;
-		if (collected.size() > 1) throw new RuntimeException("Not unique item. Found: " + collected);
-		return collected.iterator().next();
+		T unique = null;
+		if (iterable == null) return unique;
+		Iterator<T> iterator = iterable.iterator();
+		while (iterator.hasNext()) {
+			T item = iterator.next();
+			if (matcher.matches(item)) {
+				unique = item;
+				break;
+			}
+		}
+		if (unique == null) return null;
+		while (iterator.hasNext()) {
+			if (matcher.matches(iterator.next())) throw new RuntimeException("Not unique item");
+		}
+		return unique;
 	}
 
 	public static <T> T selectFirst(Object iterable, Matcher<?> matcher) {
 		return selectFirst((Iterable<T>) iterable, matcher);
 	}
 
-	public static <T> T first(Collection<T> collected) {
-		if (collected.isEmpty()) return null;
-		return collected.iterator().next();
-	}
-
 	public static <T> T selectFirst(Iterable<T> iterable, Matcher<?> matcher) {
-		return (T) first(select(iterable, matcher));
+		if (iterable == null) return null;
+		for (T item : iterable) if (matcher.matches(item)) return item;
+		return null;
 	}
 
 	public static <T> Collection<T> selectDistinct(Iterable<T> iterable) {
