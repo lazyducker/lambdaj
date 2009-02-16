@@ -66,7 +66,7 @@ public class LambdaTest {
 	
 	@Test
 	public void testSelectDistinctAge() {
-		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+		Object meAndMyFriends = asList(me, luca, biagio, celestino);
 		Collection<Person> distinctAgePersons = selectDistinct(meAndMyFriends, "age");
 		assertEquals(3, distinctAgePersons.size());
 	}
@@ -206,6 +206,32 @@ public class LambdaTest {
 	}
 	
 	@Test
+	public void testSelectUnique() {
+		Object meAndMyFriends = asList(me, luca, biagio, celestino);
+		Person person34Aged = selectUnique(meAndMyFriends, having(on(Person.class).getAge(), equalTo(34)));
+		assertNull(person34Aged);
+		
+		Person person35Aged = selectUnique(meAndMyFriends, having(on(Person.class).getAge(), equalTo(35)));
+		assertSame(me, person35Aged);
+		
+		try {
+			selectUnique(meAndMyFriends, having(on(Person.class).getAge(), equalTo(29)));
+			fail("Should throw a RuntimeException since there are two 29 years old persons");
+		} catch (Exception e) { }
+	}
+
+	@Test
+	public void testSelectFirst() {
+		Object meAndMyFriends = asList(me, luca, biagio, celestino);
+
+		Person person34Aged = selectFirst(meAndMyFriends, having(on(Person.class).getAge(), equalTo(34)));
+		assertNull(person34Aged);
+		
+		Person person29Aged = selectFirst(meAndMyFriends, having(on(Person.class).getAge(), equalTo(29)));
+		assertSame(luca, person29Aged);
+	}
+	
+	@Test
 	public void testSelectStringsThatEndsWithD() {
 		List<String> strings = asList("first", "second", "third");
 		Collection<String> results = select(strings, endsWith("d"));
@@ -215,37 +241,8 @@ public class LambdaTest {
 	}
 
 	@Test
-	public void testSelectUnique() {
-		List<CharSequence> strings = new ArrayList<CharSequence>();
-
-		strings.add("first");
-		strings.add("second");
-		strings.add("third");
-
-		CharSequence result = selectUnique(forEach(strings).subSequence(0, 1), equalTo("t"));
-
-		assertThat(result, is(equalTo((CharSequence) "t")));
-	}
-
-	@Test
-	public void testSelectFirst() {
-		List<CharSequence> strings = new ArrayList<CharSequence>();
-		strings.add("first");
-		strings.add("third");
-
-		CharSequence result = selectFirst(forEach(strings).subSequence(0, 5), equalTo("first"));
-
-		assertThat(result, is(equalTo((CharSequence) "first")));
-	}
-
-	@Test
 	public void testSelectDistinct() {
-		List<String> strings = new ArrayList<String>();
-		strings.add("first");
-		strings.add("second");
-		strings.add("third");
-		strings.add("first");
-		strings.add("second");
+		Object strings = asList("first", "second", "third", "first", "second");
 
 		Collection<String> results = selectDistinct(strings);
 		assertThat(results.size(), is(equalTo(3)));
