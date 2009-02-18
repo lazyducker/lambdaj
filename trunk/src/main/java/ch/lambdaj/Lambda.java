@@ -151,7 +151,6 @@ public final class Lambda {
 			T item = iterator.next();
 			if (matcher.matches(item)) unique = item;
 		}
-		if (unique == null) return null;
 		while (iterator.hasNext()) {
 			if (matcher.matches(iterator.next())) throw new RuntimeException("Not unique item");
 		}
@@ -271,7 +270,7 @@ public final class Lambda {
 	 * </code>
 	 * <p/>
 	 * @param iterable The iterable of the objects to containing the property to be summed.
-	 * @return A proxy of the class of the first object in the iterable representing a sum lambda function or null if the iterable is empty
+	 * @return A proxy of the class of the first object in the iterable representing a sum lambda function or null if the iterable is null or empty
 	 */
 	public static <T> T sumFrom(Iterable<T> iterable) {
 		return aggregateFrom(iterable, Sum);

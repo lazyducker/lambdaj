@@ -32,6 +32,11 @@ public class TypedGroupByTest {
 		assertTrue(keys.contains("35"));
 		assertTrue(keys.contains("39"));
 		
+		assertTrue(group.findAll().contains(me));
+		assertTrue(group.findAll().contains(biagio));
+		assertTrue(group.findAll().contains(luca));
+		assertTrue(group.findAll().contains(celestino));
+		
 		Group<Person> group29aged = group.findGroup("29");
 		assertTrue(group29aged.isLeaf());
 		assertEquals(2, group29aged.getSize());
@@ -67,7 +72,14 @@ public class TypedGroupByTest {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
 		
 		Group<Person> group = group(meAndMyFriends, by(on(Person.class).getAge()).as("persons").head(on(Person.class).getFirstName(), "name"));
-		String json = json(group);
-		System.out.println(json);
+		assertEquals(0, group.getHeads().size());
+		assertEquals("", group.getHeadValue("name"));
+
+		Group<Person> group35aged = group.findGroup("35");
+		assertEquals(2, group35aged.getHeads().size());
+		assertTrue(group35aged.getHeads().contains("age"));
+		assertEquals("35", group35aged.getHeadValue("age"));
+		assertTrue(group35aged.getHeads().contains("name"));
+		assertEquals("Mario", group35aged.getHeadValue("name"));
 	}
 }

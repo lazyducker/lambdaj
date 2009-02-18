@@ -22,4 +22,8 @@ public interface Group<T> {
 	int getSize();
 	
 	boolean isLeaf();
+
+	Set<String> getHeads();
+
+	String getHeadValue(String key);
 }

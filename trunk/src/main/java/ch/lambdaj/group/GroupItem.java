@@ -27,7 +27,7 @@ public class GroupItem<T> extends TreeMap<String, Object> implements Iterable<T>
 	private String getChildrenNodeName() {
 		return childrenNodeName;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	private Collection<T> getChildren() {
 		Collection<T> children = (Collection<T>) get(getChildrenNodeName());
@@ -40,15 +40,11 @@ public class GroupItem<T> extends TreeMap<String, Object> implements Iterable<T>
 
 	@SuppressWarnings("unchecked")
 	Group<T> asGroup() {
-		return leaf ? new LeafGroup<T>((Collection<T>)get(getChildrenNodeName())) : (Group<T>)get(getChildrenNodeName());
+		return leaf ? new LeafGroup<T>(this, getChildrenNodeName()) : (Group<T>)get(getChildrenNodeName());
 	}
 
 	public Iterator<T> iterator() {
 		return asCollection().iterator();
-	}
-	
-	boolean isLeaf() {
-		return leaf;
 	}
 	
 	Collection<T> asCollection() {
