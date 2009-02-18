@@ -5,9 +5,12 @@ import java.util.*;
 public class LeafGroup<T> implements Group<T> {
 
 	private Collection<T> collection;
+	private Map<String, Object> headMap = new TreeMap<String, Object>();
 	
-	LeafGroup(Collection<T> collection) {
-		this.collection = collection;
+	@SuppressWarnings("unchecked")
+	LeafGroup(Map<String, Object> map, String childrenNodeName) {
+		headMap = new TreeMap<String, Object>(map);
+		collection = (Collection<T>)headMap.remove(childrenNodeName);
 	}
 	
 	public Collection<T> find(String key) {
@@ -32,5 +35,14 @@ public class LeafGroup<T> implements Group<T> {
 
 	public Set<String> keySet() {
 		return new HashSet<String>();
+	}
+
+	public String getHeadValue(String key) {
+		Object value = headMap.get(key);
+		return value == null ? "" : value.toString();
+	}
+
+	public Set<String> getHeads() {
+		return headMap.keySet();
 	}
 }

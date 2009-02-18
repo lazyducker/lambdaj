@@ -66,10 +66,15 @@ public class GroupImpl<T> extends LinkedList<GroupItem<T>> implements Group<T> {
 	}
 	
 	public boolean isLeaf() {
-		switch (size()) {
-			case 0: return true;
-			case 1: return get(0).isLeaf();
-			default: return false;
-		}
+		return false;
 	}
+	
+	public Set<String> getHeads() {
+		return new HashSet<String>();
+	}
+
+	public String getHeadValue(String key) {
+		return "";
+	}
+
 }
