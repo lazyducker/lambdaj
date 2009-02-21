@@ -1,0 +1,3113 @@
+<?xml version="1.0"?>
+<!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-03.dtd">
+
+<coverage line-rate="0.9099804305283757" branch-rate="0.7170542635658915" version="1.9" timestamp="1235249624921">
+	<sources>
+		<source>C:/data/development/worksapce/lambdaj/src/main/java</source>
+		<source>--source</source>
+	</sources>
+	<packages>
+		<package name="ch.lambdaj" line-rate="0.9578947368421052" branch-rate="0.7941176470588235" complexity="0.0">
+			<classes>
+				<class name="ch.lambdaj.Lambda" filename="ch/lambdaj/Lambda.java" line-rate="0.9578947368421052" branch-rate="0.7941176470588235" complexity="0.0">
+					<methods>
+						<method name="&lt;clinit&gt;" signature="()V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="282" hits="1" branch="false"/>
+								<line number="284" hits="1" branch="false"/>
+								<line number="286" hits="1" branch="false"/>
+								<line number="288" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="&lt;init&gt;" signature="()V" line-rate="0.0" branch-rate="1.0">
+							<lines>
+								<line number="25" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="aggregate" signature="(Ljava/lang/Object;Lch/lambdaj/function/aggregate/Aggregator;)Ljava/lang/Object;" line-rate="1.0" branch-rate="0.75">
+							<lines>
+								<line number="299" hits="46" branch="false"/>
+								<line number="300" hits="46" branch="true" condition-coverage="75% (3/4)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+										<condition number="1" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="301" hits="85" branch="false"/>
+								<line number="302" hits="46" branch="false"/>
+							</lines>
+						</method>
+						<method name="aggregate" signature="(Ljava/lang/Object;Lch/lambdaj/function/aggregate/Aggregator;Ljava/lang/Object;)Ljava/lang/Object;" line-rate="1.0" branch-rate="0.5">
+							<lines>
+								<line number="316" hits="7" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="317" hits="7" branch="false"/>
+							</lines>
+						</method>
+						<method name="aggregateFrom" signature="(Ljava/lang/Iterable;Lch/lambdaj/function/aggregate/Aggregator;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="333" hits="7" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="334" hits="1" branch="false"/>
+								<line number="335" hits="6" branch="false"/>
+								<line number="336" hits="6" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="337" hits="1" branch="false"/>
+								<line number="338" hits="5" branch="false"/>
+							</lines>
+						</method>
+						<method name="aggregateFrom" signature="(Ljava/lang/Iterable;Ljava/lang/Class;Lch/lambdaj/function/aggregate/Aggregator;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="355" hits="24" branch="false"/>
+							</lines>
+						</method>
+						<method name="collect" signature="(Ljava/lang/Object;)Ljava/util/List;" line-rate="0.875" branch-rate="0.5">
+							<lines>
+								<line number="95" hits="1" branch="true" condition-coverage="25% (1/4)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+										<condition number="1" type="jump" coverage="0%"/>
+									</conditions>
+								</line>
+								<line number="96" hits="0" branch="false"/>
+								<line number="97" hits="1" branch="false"/>
+								<line number="98" hits="1" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="99" hits="4" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="100" hits="4" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="101" hits="4" branch="false"/>
+								<line number="103" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="collect" signature="(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/List;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="125" hits="3" branch="false"/>
+							</lines>
+						</method>
+						<method name="convert" signature="(Ljava/lang/Object;Lch/lambdaj/function/convert/Converter;)Ljava/util/List;" line-rate="1.0" branch-rate="0.75">
+							<lines>
+								<line number="696" hits="15" branch="false"/>
+								<line number="697" hits="15" branch="true" condition-coverage="75% (3/4)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+										<condition number="1" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="698" hits="47" branch="false"/>
+								<line number="699" hits="14" branch="false"/>
+							</lines>
+						</method>
+						<method name="extract" signature="(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/List;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="710" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="extractProperty" signature="(Ljava/lang/Object;Ljava/lang/String;)Ljava/util/List;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="731" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="extractString" signature="(Ljava/lang/Object;)Ljava/util/List;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="720" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="filter" signature="(Lorg/hamcrest/Matcher;Ljava/lang/Iterable;)Ljava/util/List;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="140" hits="4" branch="false"/>
+							</lines>
+						</method>
+						<method name="forEach" signature="(Ljava/lang/Iterable;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="53" hits="9" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="54" hits="1" branch="false"/>
+								<line number="55" hits="8" branch="false"/>
+								<line number="56" hits="8" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="57" hits="1" branch="false"/>
+								<line number="58" hits="7" branch="false"/>
+							</lines>
+						</method>
+						<method name="forEach" signature="(Ljava/lang/Iterable;Ljava/lang/Class;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="79" hits="11" branch="false"/>
+							</lines>
+						</method>
+						<method name="index" signature="(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="756" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="join" signature="(Ljava/lang/Object;)Ljava/lang/String;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="669" hits="13" branch="false"/>
+							</lines>
+						</method>
+						<method name="join" signature="(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="681" hits="19" branch="true" condition-coverage="100% (4/4)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+										<condition number="1" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+							</lines>
+						</method>
+						<method name="joinFrom" signature="(Ljava/lang/Iterable;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="588" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="joinFrom" signature="(Ljava/lang/Iterable;Ljava/lang/Class;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="634" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="joinFrom" signature="(Ljava/lang/Iterable;Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="658" hits="15" branch="false"/>
+							</lines>
+						</method>
+						<method name="joinFrom" signature="(Ljava/lang/Iterable;Ljava/lang/String;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="611" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="map" signature="(Ljava/lang/Object;Lch/lambdaj/function/convert/Converter;)Ljava/util/Map;" line-rate="1.0" branch-rate="0.75">
+							<lines>
+								<line number="742" hits="1" branch="false"/>
+								<line number="743" hits="1" branch="true" condition-coverage="75% (3/4)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+										<condition number="1" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="744" hits="2" branch="false"/>
+								<line number="745" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="max" signature="(Ljava/lang/Object;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="507" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="max" signature="(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="519" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="maxFrom" signature="(Ljava/lang/Iterable;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="542" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="maxFrom" signature="(Ljava/lang/Iterable;Ljava/lang/Class;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="564" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="min" signature="(Ljava/lang/Object;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="437" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="min" signature="(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="449" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="minFrom" signature="(Ljava/lang/Iterable;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="472" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="minFrom" signature="(Ljava/lang/Iterable;Ljava/lang/Class;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="494" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="on" signature="(Ljava/lang/Class;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="33" hits="26" branch="false"/>
+							</lines>
+						</method>
+						<method name="select" signature="(Ljava/lang/Iterable;Lorg/hamcrest/Matcher;)Ljava/util/List;" line-rate="1.0" branch-rate="0.8333333333333334">
+							<lines>
+								<line number="150" hits="9" branch="false"/>
+								<line number="151" hits="9" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="152" hits="9" branch="true" condition-coverage="100% (4/4)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+										<condition number="1" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="153" hits="9" branch="false"/>
+							</lines>
+						</method>
+						<method name="select" signature="(Ljava/lang/Object;Lorg/hamcrest/Matcher;)Ljava/util/List;" line-rate="0.0" branch-rate="1.0">
+							<lines>
+								<line number="164" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="selectDistinct" signature="(Ljava/lang/Iterable;)Ljava/util/Collection;" line-rate="0.0" branch-rate="1.0">
+							<lines>
+								<line number="229" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="selectDistinct" signature="(Ljava/lang/Object;)Ljava/util/Collection;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="239" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="selectDistinct" signature="(Ljava/lang/Object;Ljava/lang/String;)Ljava/util/Collection;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="250" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="selectDistinct" signature="(Ljava/lang/Object;Ljava/util/Comparator;)Ljava/util/Collection;" line-rate="1.0" branch-rate="0.8333333333333334">
+							<lines>
+								<line number="272" hits="4" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="273" hits="4" branch="true" condition-coverage="75% (3/4)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+										<condition number="1" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="274" hits="18" branch="false"/>
+								<line number="275" hits="4" branch="false"/>
+							</lines>
+						</method>
+						<method name="selectDistinctArgument" signature="(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Collection;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="261" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="selectFirst" signature="(Ljava/lang/Iterable;Lorg/hamcrest/Matcher;)Ljava/lang/Object;" line-rate="1.0" branch-rate="0.8333333333333334">
+							<lines>
+								<line number="218" hits="2" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="219" hits="2" branch="true" condition-coverage="100% (4/4)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+										<condition number="1" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="220" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="selectFirst" signature="(Ljava/lang/Object;Lorg/hamcrest/Matcher;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="207" hits="2" branch="false"/>
+							</lines>
+						</method>
+						<method name="selectUnique" signature="(Ljava/lang/Iterable;Lorg/hamcrest/Matcher;)Ljava/lang/Object;" line-rate="1.0" branch-rate="0.9166666666666666">
+							<lines>
+								<line number="187" hits="3" branch="false"/>
+								<line number="188" hits="3" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="189" hits="3" branch="false"/>
+								<line number="190" hits="10" branch="true" condition-coverage="100% (4/4)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+										<condition number="1" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="191" hits="7" branch="false"/>
+								<line number="192" hits="7" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="193" hits="7" branch="false"/>
+								<line number="194" hits="7" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="195" hits="5" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="197" hits="2" branch="false"/>
+							</lines>
+						</method>
+						<method name="selectUnique" signature="(Ljava/lang/Object;Lorg/hamcrest/Matcher;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="175" hits="3" branch="false"/>
+							</lines>
+						</method>
+						<method name="sum" signature="(Ljava/lang/Object;)Ljava/lang/Number;" line-rate="1.0" branch-rate="0.5">
+							<lines>
+								<line number="368" hits="1" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="369" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="sum" signature="(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="381" hits="5" branch="false"/>
+							</lines>
+						</method>
+						<method name="sumFrom" signature="(Ljava/lang/Iterable;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="403" hits="3" branch="false"/>
+							</lines>
+						</method>
+						<method name="sumFrom" signature="(Ljava/lang/Iterable;Ljava/lang/Class;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="424" hits="1" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="25" hits="0" branch="false"/>
+						<line number="33" hits="26" branch="false"/>
+						<line number="53" hits="9" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="54" hits="1" branch="false"/>
+						<line number="55" hits="8" branch="false"/>
+						<line number="56" hits="8" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="57" hits="1" branch="false"/>
+						<line number="58" hits="7" branch="false"/>
+						<line number="79" hits="11" branch="false"/>
+						<line number="95" hits="1" branch="true" condition-coverage="25% (1/4)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+								<condition number="1" type="jump" coverage="0%"/>
+							</conditions>
+						</line>
+						<line number="96" hits="0" branch="false"/>
+						<line number="97" hits="1" branch="false"/>
+						<line number="98" hits="1" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="99" hits="4" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="100" hits="4" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="101" hits="4" branch="false"/>
+						<line number="103" hits="1" branch="false"/>
+						<line number="125" hits="3" branch="false"/>
+						<line number="140" hits="4" branch="false"/>
+						<line number="150" hits="9" branch="false"/>
+						<line number="151" hits="9" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="152" hits="9" branch="true" condition-coverage="100% (4/4)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+								<condition number="1" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="153" hits="9" branch="false"/>
+						<line number="164" hits="0" branch="false"/>
+						<line number="175" hits="3" branch="false"/>
+						<line number="187" hits="3" branch="false"/>
+						<line number="188" hits="3" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="189" hits="3" branch="false"/>
+						<line number="190" hits="10" branch="true" condition-coverage="100% (4/4)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+								<condition number="1" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="191" hits="7" branch="false"/>
+						<line number="192" hits="7" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="193" hits="7" branch="false"/>
+						<line number="194" hits="7" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="195" hits="5" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="197" hits="2" branch="false"/>
+						<line number="207" hits="2" branch="false"/>
+						<line number="218" hits="2" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="219" hits="2" branch="true" condition-coverage="100% (4/4)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+								<condition number="1" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="220" hits="1" branch="false"/>
+						<line number="229" hits="0" branch="false"/>
+						<line number="239" hits="1" branch="false"/>
+						<line number="250" hits="1" branch="false"/>
+						<line number="261" hits="1" branch="false"/>
+						<line number="272" hits="4" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="273" hits="4" branch="true" condition-coverage="75% (3/4)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+								<condition number="1" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="274" hits="18" branch="false"/>
+						<line number="275" hits="4" branch="false"/>
+						<line number="282" hits="1" branch="false"/>
+						<line number="284" hits="1" branch="false"/>
+						<line number="286" hits="1" branch="false"/>
+						<line number="288" hits="1" branch="false"/>
+						<line number="299" hits="46" branch="false"/>
+						<line number="300" hits="46" branch="true" condition-coverage="75% (3/4)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+								<condition number="1" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="301" hits="85" branch="false"/>
+						<line number="302" hits="46" branch="false"/>
+						<line number="316" hits="7" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="317" hits="7" branch="false"/>
+						<line number="333" hits="7" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="334" hits="1" branch="false"/>
+						<line number="335" hits="6" branch="false"/>
+						<line number="336" hits="6" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="337" hits="1" branch="false"/>
+						<line number="338" hits="5" branch="false"/>
+						<line number="355" hits="24" branch="false"/>
+						<line number="368" hits="1" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="369" hits="1" branch="false"/>
+						<line number="381" hits="5" branch="false"/>
+						<line number="403" hits="3" branch="false"/>
+						<line number="424" hits="1" branch="false"/>
+						<line number="437" hits="1" branch="false"/>
+						<line number="449" hits="1" branch="false"/>
+						<line number="472" hits="1" branch="false"/>
+						<line number="494" hits="1" branch="false"/>
+						<line number="507" hits="1" branch="false"/>
+						<line number="519" hits="1" branch="false"/>
+						<line number="542" hits="1" branch="false"/>
+						<line number="564" hits="1" branch="false"/>
+						<line number="588" hits="1" branch="false"/>
+						<line number="611" hits="1" branch="false"/>
+						<line number="634" hits="1" branch="false"/>
+						<line number="658" hits="15" branch="false"/>
+						<line number="669" hits="13" branch="false"/>
+						<line number="681" hits="19" branch="true" condition-coverage="100% (4/4)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+								<condition number="1" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="696" hits="15" branch="false"/>
+						<line number="697" hits="15" branch="true" condition-coverage="75% (3/4)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+								<condition number="1" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="698" hits="47" branch="false"/>
+						<line number="699" hits="14" branch="false"/>
+						<line number="710" hits="1" branch="false"/>
+						<line number="720" hits="1" branch="false"/>
+						<line number="731" hits="1" branch="false"/>
+						<line number="742" hits="1" branch="false"/>
+						<line number="743" hits="1" branch="true" condition-coverage="75% (3/4)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+								<condition number="1" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="744" hits="2" branch="false"/>
+						<line number="745" hits="1" branch="false"/>
+						<line number="756" hits="1" branch="false"/>
+					</lines>
+				</class>
+			</classes>
+		</package>
+		<package name="ch.lambdaj.function.aggregate" line-rate="0.9743589743589743" branch-rate="0.9375" complexity="0.0">
+			<classes>
+				<class name="ch.lambdaj.function.aggregate.Aggregator" filename="ch/lambdaj/function/aggregate/Aggregator.java" line-rate="1.0" branch-rate="1.0" complexity="0.0">
+					<methods>
+					</methods>
+					<lines>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.function.aggregate.Chooser" filename="ch/lambdaj/function/aggregate/Chooser.java" line-rate="1.0" branch-rate="0.75" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="()V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+							</lines>
+						</method>
+						<method name="aggregate" signature="(Ljava/lang/Comparable;Ljava/lang/Comparable;)Ljava/lang/Comparable;" line-rate="1.0" branch-rate="0.75">
+							<lines>
+								<line number="10" hits="26" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="11" hits="20" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="12" hits="20" branch="false"/>
+							</lines>
+						</method>
+						<method name="aggregate" signature="(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+							</lines>
+						</method>
+						<method name="emptyItem" signature="()Ljava/lang/Comparable;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="18" hits="10" branch="false"/>
+							</lines>
+						</method>
+						<method name="emptyItem" signature="()Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="7" hits="54" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="7" hits="54" branch="false"/>
+						<line number="10" hits="26" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="11" hits="20" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="12" hits="20" branch="false"/>
+						<line number="18" hits="10" branch="false"/>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.function.aggregate.Concat" filename="ch/lambdaj/function/aggregate/Concat.java" line-rate="1.0" branch-rate="0.9166666666666666" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="()V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="16" hits="8" branch="false"/>
+								<line number="17" hits="8" branch="false"/>
+							</lines>
+						</method>
+						<method name="&lt;init&gt;" signature="(Ljava/lang/String;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="19" hits="31" branch="false"/>
+								<line number="20" hits="31" branch="false"/>
+								<line number="21" hits="31" branch="false"/>
+							</lines>
+						</method>
+						<method name="aggregate" signature="(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;" line-rate="1.0" branch-rate="0.875">
+							<lines>
+								<line number="24" hits="40" branch="true" condition-coverage="100% (4/4)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+										<condition number="1" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="25" hits="36" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="26" hits="14" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="27" hits="14" branch="false"/>
+							</lines>
+						</method>
+						<method name="empty" signature="(Ljava/lang/Object;)Z" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="31" hits="116" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="32" hits="112" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="33" hits="64" branch="false"/>
+							</lines>
+						</method>
+						<method name="emptyItem" signature="()Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="11" hits="27" branch="false"/>
+							</lines>
+						</method>
+						<method name="emptyItem" signature="()Ljava/lang/String;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="37" hits="27" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="11" hits="27" branch="false"/>
+						<line number="16" hits="8" branch="false"/>
+						<line number="17" hits="8" branch="false"/>
+						<line number="19" hits="31" branch="false"/>
+						<line number="20" hits="31" branch="false"/>
+						<line number="21" hits="31" branch="false"/>
+						<line number="24" hits="40" branch="true" condition-coverage="100% (4/4)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+								<condition number="1" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="25" hits="36" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="26" hits="14" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="27" hits="14" branch="false"/>
+						<line number="31" hits="116" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="32" hits="112" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="33" hits="64" branch="false"/>
+						<line number="37" hits="27" branch="false"/>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.function.aggregate.Max" filename="ch/lambdaj/function/aggregate/Max.java" line-rate="1.0" branch-rate="1.0" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="()V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="11" hits="9" branch="false"/>
+							</lines>
+						</method>
+						<method name="choose" signature="(Ljava/lang/Comparable;Ljava/lang/Comparable;)Ljava/lang/Comparable;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="16" hits="18" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="17" hits="17" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="18" hits="16" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="11" hits="9" branch="false"/>
+						<line number="16" hits="18" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="17" hits="17" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="18" hits="16" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.function.aggregate.Min" filename="ch/lambdaj/function/aggregate/Min.java" line-rate="1.0" branch-rate="1.0" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="()V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="11" hits="9" branch="false"/>
+							</lines>
+						</method>
+						<method name="choose" signature="(Ljava/lang/Comparable;Ljava/lang/Comparable;)Ljava/lang/Comparable;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="16" hits="18" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="17" hits="17" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="18" hits="16" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="11" hits="9" branch="false"/>
+						<line number="16" hits="18" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="17" hits="17" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="18" hits="16" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.function.aggregate.Sum" filename="ch/lambdaj/function/aggregate/Sum.java" line-rate="0.9166666666666666" branch-rate="0.95" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="()V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+							</lines>
+						</method>
+						<method name="aggregate" signature="(Ljava/lang/Number;Ljava/lang/Double;)Ljava/lang/Double;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="37" hits="2" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+							</lines>
+						</method>
+						<method name="aggregate" signature="(Ljava/lang/Number;Ljava/lang/Float;)Ljava/lang/Float;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="33" hits="2" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+							</lines>
+						</method>
+						<method name="aggregate" signature="(Ljava/lang/Number;Ljava/lang/Integer;)Ljava/lang/Integer;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="25" hits="28" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+							</lines>
+						</method>
+						<method name="aggregate" signature="(Ljava/lang/Number;Ljava/lang/Long;)Ljava/lang/Long;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="29" hits="2" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+							</lines>
+						</method>
+						<method name="aggregate" signature="(Ljava/lang/Number;Ljava/lang/Number;)Ljava/lang/Number;" line-rate="0.8333333333333334" branch-rate="0.9166666666666666">
+							<lines>
+								<line number="14" hits="39" branch="true" condition-coverage="100% (4/4)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+										<condition number="1" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="16" hits="34" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="17" hits="6" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="18" hits="4" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="19" hits="2" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="21" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="aggregate" signature="(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+							</lines>
+						</method>
+						<method name="emptyItem" signature="()Ljava/lang/Number;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="41" hits="13" branch="false"/>
+							</lines>
+						</method>
+						<method name="emptyItem" signature="()Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="11" hits="49" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="11" hits="49" branch="false"/>
+						<line number="14" hits="39" branch="true" condition-coverage="100% (4/4)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+								<condition number="1" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="16" hits="34" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="17" hits="6" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="18" hits="4" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="19" hits="2" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="21" hits="0" branch="false"/>
+						<line number="25" hits="28" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="29" hits="2" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="33" hits="2" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="37" hits="2" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="41" hits="13" branch="false"/>
+					</lines>
+				</class>
+			</classes>
+		</package>
+		<package name="ch.lambdaj.function.argument" line-rate="0.8" branch-rate="0.5675675675675675" complexity="0.0">
+			<classes>
+				<class name="ch.lambdaj.function.argument.Argument" filename="ch/lambdaj/function/argument/Argument.java" line-rate="0.4375" branch-rate="0.5" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="(Ljava/lang/Integer;Lch/lambdaj/function/argument/InvocationSequence;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="11" hits="8" branch="false"/>
+								<line number="12" hits="8" branch="false"/>
+								<line number="13" hits="8" branch="false"/>
+								<line number="14" hits="8" branch="false"/>
+							</lines>
+						</method>
+						<method name="equals" signature="(Ljava/lang/Object;)Z" line-rate="0.0" branch-rate="0.0">
+							<lines>
+								<line number="56" hits="0" branch="true" condition-coverage="0% (0/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="0%"/>
+									</conditions>
+								</line>
+								<line number="57" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="evaluate" signature="(Ljava/lang/Object;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="30" hits="95" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="31" hits="94" branch="false"/>
+							</lines>
+						</method>
+						<method name="getInkvokedPropertyName" signature="()Ljava/lang/String;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="25" hits="14" branch="false"/>
+							</lines>
+						</method>
+						<method name="getInvocationSequence" signature="()Lch/lambdaj/function/argument/InvocationSequence;" line-rate="0.0" branch-rate="1.0">
+							<lines>
+								<line number="17" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="getRootArgumentClass" signature="()Ljava/lang/Class;" line-rate="0.0" branch-rate="1.0">
+							<lines>
+								<line number="39" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="getRootArgumentId" signature="()Ljava/lang/Integer;" line-rate="0.0" branch-rate="1.0">
+							<lines>
+								<line number="35" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="getRootReference" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0">
+							<lines>
+								<line number="46" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="hashCode" signature="()I" line-rate="0.0" branch-rate="1.0">
+							<lines>
+								<line number="62" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="iterator" signature="()Ljava/util/Iterator;" line-rate="0.0" branch-rate="1.0">
+							<lines>
+								<line number="21" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="toString" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="1.0">
+							<lines>
+								<line number="51" hits="0" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="11" hits="8" branch="false"/>
+						<line number="12" hits="8" branch="false"/>
+						<line number="13" hits="8" branch="false"/>
+						<line number="14" hits="8" branch="false"/>
+						<line number="17" hits="0" branch="false"/>
+						<line number="21" hits="0" branch="false"/>
+						<line number="25" hits="14" branch="false"/>
+						<line number="30" hits="95" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="31" hits="94" branch="false"/>
+						<line number="35" hits="0" branch="false"/>
+						<line number="39" hits="0" branch="false"/>
+						<line number="46" hits="0" branch="false"/>
+						<line number="51" hits="0" branch="false"/>
+						<line number="56" hits="0" branch="true" condition-coverage="0% (0/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="0%"/>
+							</conditions>
+						</line>
+						<line number="57" hits="0" branch="false"/>
+						<line number="62" hits="0" branch="false"/>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.function.argument.ArgumentsFactory" filename="ch/lambdaj/function/argument/ArgumentsFactory.java" line-rate="0.9523809523809523" branch-rate="1.0" complexity="0.0">
+					<methods>
+						<method name="&lt;clinit&gt;" signature="()V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="16" hits="1" branch="false"/>
+								<line number="38" hits="1" branch="false"/>
+								<line number="49" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="&lt;init&gt;" signature="()V" line-rate="0.0" branch-rate="1.0">
+							<lines>
+								<line number="10" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="actualArgument" signature="(Ljava/lang/Object;)Lch/lambdaj/function/argument/Argument;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="56" hits="28" branch="false"/>
+								<line number="57" hits="28" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="58" hits="27" branch="false"/>
+							</lines>
+						</method>
+						<method name="bindArgument" signature="(Ljava/lang/Object;Lch/lambdaj/function/argument/Argument;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="52" hits="8" branch="false"/>
+								<line number="53" hits="8" branch="false"/>
+							</lines>
+						</method>
+						<method name="bindPlaceholder" signature="(Lch/lambdaj/function/argument/InvocationSequence;Ljava/lang/Object;Lch/lambdaj/function/argument/Argument;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="41" hits="5" branch="false"/>
+								<line number="42" hits="5" branch="false"/>
+								<line number="43" hits="5" branch="false"/>
+							</lines>
+						</method>
+						<method name="createArgument" signature="(Ljava/lang/Class;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="19" hits="26" branch="false"/>
+								<line number="20" hits="26" branch="false"/>
+							</lines>
+						</method>
+						<method name="createArgument" signature="(Ljava/lang/Integer;Ljava/lang/Class;Lch/lambdaj/function/argument/InvocationSequence;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="25" hits="29" branch="false"/>
+								<line number="26" hits="29" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="27" hits="3" branch="false"/>
+								<line number="28" hits="3" branch="false"/>
+								<line number="29" hits="3" branch="false"/>
+								<line number="31" hits="29" branch="false"/>
+							</lines>
+						</method>
+						<method name="getPlaceholder" signature="(Lch/lambdaj/function/argument/InvocationSequence;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="46" hits="26" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="10" hits="0" branch="false"/>
+						<line number="16" hits="1" branch="false"/>
+						<line number="19" hits="26" branch="false"/>
+						<line number="20" hits="26" branch="false"/>
+						<line number="25" hits="29" branch="false"/>
+						<line number="26" hits="29" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="27" hits="3" branch="false"/>
+						<line number="28" hits="3" branch="false"/>
+						<line number="29" hits="3" branch="false"/>
+						<line number="31" hits="29" branch="false"/>
+						<line number="38" hits="1" branch="false"/>
+						<line number="41" hits="5" branch="false"/>
+						<line number="42" hits="5" branch="false"/>
+						<line number="43" hits="5" branch="false"/>
+						<line number="46" hits="26" branch="false"/>
+						<line number="49" hits="1" branch="false"/>
+						<line number="52" hits="8" branch="false"/>
+						<line number="53" hits="8" branch="false"/>
+						<line number="56" hits="28" branch="false"/>
+						<line number="57" hits="28" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="58" hits="27" branch="false"/>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.function.argument.Invocation" filename="ch/lambdaj/function/argument/Invocation.java" line-rate="0.7941176470588235" branch-rate="0.36666666666666664" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="()V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="14" hits="14" branch="false"/>
+							</lines>
+						</method>
+						<method name="&lt;init&gt;" signature="(Ljava/lang/Class;Ljava/lang/reflect/Method;[Ljava/lang/Object;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="16" hits="29" branch="false"/>
+								<line number="17" hits="29" branch="false"/>
+								<line number="18" hits="29" branch="false"/>
+								<line number="19" hits="29" branch="false"/>
+								<line number="20" hits="29" branch="false"/>
+							</lines>
+						</method>
+						<method name="areNullSafeEquals" signature="(Ljava/lang/Object;Ljava/lang/Object;)Z" line-rate="1.0" branch-rate="0.375">
+							<lines>
+								<line number="74" hits="50" branch="true" condition-coverage="25% (1/4)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+										<condition number="1" type="jump" coverage="0%"/>
+									</conditions>
+								</line>
+								<line number="75" hits="50" branch="true" condition-coverage="50% (2/4)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+										<condition number="1" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="76" hits="50" branch="false"/>
+							</lines>
+						</method>
+						<method name="equals" signature="(Ljava/lang/Object;)Z" line-rate="1.0" branch-rate="0.5">
+							<lines>
+								<line number="66" hits="25" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="67" hits="25" branch="false"/>
+								<line number="68" hits="25" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="69" hits="25" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="70" hits="25" branch="false"/>
+							</lines>
+						</method>
+						<method name="getInkvokedPropertyName" signature="()Ljava/lang/String;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="31" hits="15" branch="false"/>
+							</lines>
+						</method>
+						<method name="getInvokedClass" signature="()Ljava/lang/Class;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="23" hits="25" branch="false"/>
+							</lines>
+						</method>
+						<method name="getInvokedMethod" signature="()Ljava/lang/reflect/Method;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="27" hits="25" branch="false"/>
+							</lines>
+						</method>
+						<method name="hashCode" signature="()I" line-rate="1.0" branch-rate="0.5">
+							<lines>
+								<line number="58" hits="40" branch="false"/>
+								<line number="59" hits="40" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="60" hits="40" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="61" hits="40" branch="false"/>
+							</lines>
+						</method>
+						<method name="invokeOn" signature="(Ljava/lang/Object;)Ljava/lang/Object;" line-rate="0.75" branch-rate="0.75">
+							<lines>
+								<line number="35" hits="103" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="36" hits="102" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="37" hits="102" branch="false"/>
+								<line number="39" hits="102" branch="false"/>
+								<line number="40" hits="0" branch="false"/>
+								<line number="41" hits="0" branch="false"/>
+								<line number="42" hits="102" branch="false"/>
+								<line number="43" hits="102" branch="false"/>
+							</lines>
+						</method>
+						<method name="toString" signature="()Ljava/lang/String;" line-rate="0.0" branch-rate="0.0">
+							<lines>
+								<line number="48" hits="0" branch="false"/>
+								<line number="49" hits="0" branch="true" condition-coverage="0% (0/4)">
+									<conditions>
+										<condition number="0" type="jump" coverage="0%"/>
+										<condition number="1" type="jump" coverage="0%"/>
+									</conditions>
+								</line>
+								<line number="50" hits="0" branch="false"/>
+								<line number="51" hits="0" branch="true" condition-coverage="0% (0/4)">
+									<conditions>
+										<condition number="0" type="jump" coverage="0%"/>
+										<condition number="1" type="jump" coverage="0%"/>
+									</conditions>
+								</line>
+								<line number="53" hits="0" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="14" hits="14" branch="false"/>
+						<line number="16" hits="29" branch="false"/>
+						<line number="17" hits="29" branch="false"/>
+						<line number="18" hits="29" branch="false"/>
+						<line number="19" hits="29" branch="false"/>
+						<line number="20" hits="29" branch="false"/>
+						<line number="23" hits="25" branch="false"/>
+						<line number="27" hits="25" branch="false"/>
+						<line number="31" hits="15" branch="false"/>
+						<line number="35" hits="103" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="36" hits="102" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="37" hits="102" branch="false"/>
+						<line number="39" hits="102" branch="false"/>
+						<line number="40" hits="0" branch="false"/>
+						<line number="41" hits="0" branch="false"/>
+						<line number="42" hits="102" branch="false"/>
+						<line number="43" hits="102" branch="false"/>
+						<line number="48" hits="0" branch="false"/>
+						<line number="49" hits="0" branch="true" condition-coverage="0% (0/4)">
+							<conditions>
+								<condition number="0" type="jump" coverage="0%"/>
+								<condition number="1" type="jump" coverage="0%"/>
+							</conditions>
+						</line>
+						<line number="50" hits="0" branch="false"/>
+						<line number="51" hits="0" branch="true" condition-coverage="0% (0/4)">
+							<conditions>
+								<condition number="0" type="jump" coverage="0%"/>
+								<condition number="1" type="jump" coverage="0%"/>
+							</conditions>
+						</line>
+						<line number="53" hits="0" branch="false"/>
+						<line number="58" hits="40" branch="false"/>
+						<line number="59" hits="40" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="60" hits="40" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="61" hits="40" branch="false"/>
+						<line number="66" hits="25" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="67" hits="25" branch="false"/>
+						<line number="68" hits="25" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="69" hits="25" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="70" hits="25" branch="false"/>
+						<line number="74" hits="50" branch="true" condition-coverage="25% (1/4)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+								<condition number="1" type="jump" coverage="0%"/>
+							</conditions>
+						</line>
+						<line number="75" hits="50" branch="true" condition-coverage="50% (2/4)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+								<condition number="1" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="76" hits="50" branch="false"/>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.function.argument.InvocationException" filename="ch/lambdaj/function/argument/InvocationException.java" line-rate="0.5" branch-rate="1.0" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="(Ljava/lang/Class;Ljava/lang/Object;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="10" hits="1" branch="false"/>
+								<line number="11" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="&lt;init&gt;" signature="(Ljava/lang/Throwable;Ljava/lang/reflect/Method;Ljava/lang/Object;)V" line-rate="0.0" branch-rate="1.0">
+							<lines>
+								<line number="14" hits="0" branch="false"/>
+								<line number="15" hits="0" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="10" hits="1" branch="false"/>
+						<line number="11" hits="1" branch="false"/>
+						<line number="14" hits="0" branch="false"/>
+						<line number="15" hits="0" branch="false"/>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.function.argument.InvocationSequence" filename="ch/lambdaj/function/argument/InvocationSequence.java" line-rate="1.0" branch-rate="0.6666666666666666" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="(Lch/lambdaj/function/argument/InvocationSequence;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="18" hits="29" branch="false"/>
+								<line number="19" hits="29" branch="false"/>
+								<line number="20" hits="29" branch="false"/>
+							</lines>
+						</method>
+						<method name="&lt;init&gt;" signature="(Lch/lambdaj/function/argument/InvocationSequence;Lch/lambdaj/function/argument/Invocation;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="23" hits="29" branch="false"/>
+								<line number="24" hits="29" branch="false"/>
+								<line number="25" hits="29" branch="false"/>
+							</lines>
+						</method>
+						<method name="&lt;init&gt;" signature="(Ljava/lang/Class;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="13" hits="55" branch="false"/>
+								<line number="14" hits="55" branch="false"/>
+								<line number="15" hits="55" branch="false"/>
+								<line number="45" hits="55" branch="false"/>
+							</lines>
+						</method>
+						<method name="equals" signature="(Ljava/lang/Object;)Z" line-rate="1.0" branch-rate="0.6">
+							<lines>
+								<line number="37" hits="47" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="38" hits="47" branch="false"/>
+								<line number="39" hits="47" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="40" hits="47" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="41" hits="47" branch="true" condition-coverage="75% (3/4)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+										<condition number="1" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="42" hits="47" branch="false"/>
+							</lines>
+						</method>
+						<method name="getInkvokedPropertyName" signature="()Ljava/lang/String;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="32" hits="14" branch="false"/>
+							</lines>
+						</method>
+						<method name="getRootInvokedClass" signature="()Ljava/lang/Class;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="28" hits="76" branch="false"/>
+							</lines>
+						</method>
+						<method name="hashCode" signature="()I" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="49" hits="66" branch="false"/>
+								<line number="50" hits="66" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="51" hits="66" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="13" hits="55" branch="false"/>
+						<line number="14" hits="55" branch="false"/>
+						<line number="15" hits="55" branch="false"/>
+						<line number="18" hits="29" branch="false"/>
+						<line number="19" hits="29" branch="false"/>
+						<line number="20" hits="29" branch="false"/>
+						<line number="23" hits="29" branch="false"/>
+						<line number="24" hits="29" branch="false"/>
+						<line number="25" hits="29" branch="false"/>
+						<line number="28" hits="76" branch="false"/>
+						<line number="32" hits="14" branch="false"/>
+						<line number="37" hits="47" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="38" hits="47" branch="false"/>
+						<line number="39" hits="47" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="40" hits="47" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="41" hits="47" branch="true" condition-coverage="75% (3/4)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+								<condition number="1" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="42" hits="47" branch="false"/>
+						<line number="45" hits="55" branch="false"/>
+						<line number="49" hits="66" branch="false"/>
+						<line number="50" hits="66" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="51" hits="66" branch="false"/>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.function.argument.ProxyArgument" filename="ch/lambdaj/function/argument/ProxyArgument.java" line-rate="0.7948717948717948" branch-rate="0.7083333333333334" complexity="0.0">
+					<methods>
+						<method name="&lt;clinit&gt;" signature="()V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="65" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="&lt;init&gt;" signature="(Ljava/lang/Integer;Ljava/lang/Class;Lch/lambdaj/function/argument/InvocationSequence;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="20" hits="3" branch="false"/>
+								<line number="21" hits="3" branch="false"/>
+								<line number="22" hits="3" branch="false"/>
+								<line number="23" hits="3" branch="false"/>
+								<line number="24" hits="3" branch="false"/>
+								<line number="25" hits="3" branch="false"/>
+							</lines>
+						</method>
+						<method name="booPlaceholder" signature="(Ljava/lang/Integer;)Ljava/lang/Boolean;" line-rate="1.0" branch-rate="0.5">
+							<lines>
+								<line number="117" hits="2" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+							</lines>
+						</method>
+						<method name="bytPlaceholder" signature="(Ljava/lang/Integer;)Ljava/lang/Byte;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="97" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="chaPlaceholder" signature="(Ljava/lang/Integer;)Ljava/lang/Character;" line-rate="0.0" branch-rate="1.0">
+							<lines>
+								<line number="93" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="createArgumentPlaceholder" signature="(Ljava/lang/Class;)Ljava/lang/Object;" line-rate="0.7142857142857143" branch-rate="0.9">
+							<lines>
+								<line number="68" hits="14" branch="false"/>
+								<line number="69" hits="14" branch="true" condition-coverage="100% (6/6)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+										<condition number="1" type="jump" coverage="100%"/>
+										<condition number="2" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="70" hits="4" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="71" hits="1" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="74" hits="1" branch="false"/>
+								<line number="75" hits="0" branch="false"/>
+								<line number="76" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="createPlaceholder" signature="(Ljava/lang/Integer;Ljava/lang/Class;Lch/lambdaj/function/argument/InvocationSequence;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="56" hits="26" branch="false"/>
+								<line number="57" hits="26" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="58" hits="5" branch="false"/>
+								<line number="60" hits="5" branch="false"/>
+								<line number="62" hits="26" branch="false"/>
+							</lines>
+						</method>
+						<method name="douPlaceholder" signature="(Ljava/lang/Integer;)Ljava/lang/Double;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="113" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="equals" signature="(Ljava/lang/Object;)Z" line-rate="0.0" branch-rate="0.0">
+							<lines>
+								<line number="44" hits="0" branch="true" condition-coverage="0% (0/4)">
+									<conditions>
+										<condition number="0" type="jump" coverage="0%"/>
+										<condition number="1" type="jump" coverage="0%"/>
+									</conditions>
+								</line>
+							</lines>
+						</method>
+						<method name="floPlaceholder" signature="(Ljava/lang/Integer;)Ljava/lang/Float;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="109" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="getPrimitivePlaceHolder" signature="(Ljava/lang/Class;Ljava/lang/Integer;)Ljava/lang/Object;" line-rate="0.3333333333333333" branch-rate="1.0">
+							<lines>
+								<line number="82" hits="10" branch="false"/>
+								<line number="83" hits="0" branch="false"/>
+								<line number="84" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="hashCode" signature="()I" line-rate="0.0" branch-rate="1.0">
+							<lines>
+								<line number="49" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="intPlaceholder" signature="(Ljava/lang/Integer;)Ljava/lang/Integer;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="89" hits="3" branch="false"/>
+							</lines>
+						</method>
+						<method name="intercept" signature="(Ljava/lang/Object;Ljava/lang/reflect/Method;[Ljava/lang/Object;Lnet/sf/cglib/proxy/MethodProxy;)Ljava/lang/Object;" line-rate="1.0" branch-rate="0.8333333333333334">
+							<lines>
+								<line number="28" hits="32" branch="false"/>
+								<line number="29" hits="32" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="30" hits="29" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="33" hits="29" branch="false"/>
+								<line number="34" hits="29" branch="false"/>
+								<line number="37" hits="29" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+							</lines>
+						</method>
+						<method name="lonPlaceholder" signature="(Ljava/lang/Integer;)Ljava/lang/Long;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="105" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="shoPlaceholder" signature="(Ljava/lang/Integer;)Ljava/lang/Short;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="101" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="voiPlaceholder" signature="(Ljava/lang/Integer;)Ljava/lang/Void;" line-rate="0.0" branch-rate="1.0">
+							<lines>
+								<line number="121" hits="0" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="20" hits="3" branch="false"/>
+						<line number="21" hits="3" branch="false"/>
+						<line number="22" hits="3" branch="false"/>
+						<line number="23" hits="3" branch="false"/>
+						<line number="24" hits="3" branch="false"/>
+						<line number="25" hits="3" branch="false"/>
+						<line number="28" hits="32" branch="false"/>
+						<line number="29" hits="32" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="30" hits="29" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="33" hits="29" branch="false"/>
+						<line number="34" hits="29" branch="false"/>
+						<line number="37" hits="29" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="44" hits="0" branch="true" condition-coverage="0% (0/4)">
+							<conditions>
+								<condition number="0" type="jump" coverage="0%"/>
+								<condition number="1" type="jump" coverage="0%"/>
+							</conditions>
+						</line>
+						<line number="49" hits="0" branch="false"/>
+						<line number="56" hits="26" branch="false"/>
+						<line number="57" hits="26" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="58" hits="5" branch="false"/>
+						<line number="60" hits="5" branch="false"/>
+						<line number="62" hits="26" branch="false"/>
+						<line number="65" hits="1" branch="false"/>
+						<line number="68" hits="14" branch="false"/>
+						<line number="69" hits="14" branch="true" condition-coverage="100% (6/6)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+								<condition number="1" type="jump" coverage="100%"/>
+								<condition number="2" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="70" hits="4" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="71" hits="1" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="74" hits="1" branch="false"/>
+						<line number="75" hits="0" branch="false"/>
+						<line number="76" hits="0" branch="false"/>
+						<line number="82" hits="10" branch="false"/>
+						<line number="83" hits="0" branch="false"/>
+						<line number="84" hits="0" branch="false"/>
+						<line number="89" hits="3" branch="false"/>
+						<line number="93" hits="0" branch="false"/>
+						<line number="97" hits="1" branch="false"/>
+						<line number="101" hits="1" branch="false"/>
+						<line number="105" hits="1" branch="false"/>
+						<line number="109" hits="1" branch="false"/>
+						<line number="113" hits="1" branch="false"/>
+						<line number="117" hits="2" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="121" hits="0" branch="false"/>
+					</lines>
+				</class>
+			</classes>
+		</package>
+		<package name="ch.lambdaj.function.compare" line-rate="1.0" branch-rate="0.3333333333333333" complexity="0.0">
+			<classes>
+				<class name="ch.lambdaj.function.compare.ArgumentComparator" filename="ch/lambdaj/function/compare/ArgumentComparator.java" line-rate="1.0" branch-rate="0.3333333333333333" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="(Lch/lambdaj/function/argument/Argument;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="16" hits="1" branch="false"/>
+								<line number="17" hits="1" branch="false"/>
+								<line number="18" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="&lt;init&gt;" signature="(Ljava/lang/Object;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="21" hits="1" branch="false"/>
+								<line number="22" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="compare" signature="(Ljava/lang/Object;Ljava/lang/Object;)I" line-rate="1.0" branch-rate="0.3333333333333333">
+							<lines>
+								<line number="26" hits="4" branch="false"/>
+								<line number="27" hits="4" branch="false"/>
+								<line number="28" hits="4" branch="true" condition-coverage="25% (1/4)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+										<condition number="1" type="jump" coverage="0%"/>
+									</conditions>
+								</line>
+								<line number="29" hits="4" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="16" hits="1" branch="false"/>
+						<line number="17" hits="1" branch="false"/>
+						<line number="18" hits="1" branch="false"/>
+						<line number="21" hits="1" branch="false"/>
+						<line number="22" hits="1" branch="false"/>
+						<line number="26" hits="4" branch="false"/>
+						<line number="27" hits="4" branch="false"/>
+						<line number="28" hits="4" branch="true" condition-coverage="25% (1/4)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+								<condition number="1" type="jump" coverage="0%"/>
+							</conditions>
+						</line>
+						<line number="29" hits="4" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.function.compare.PropertyComparator" filename="ch/lambdaj/function/compare/PropertyComparator.java" line-rate="1.0" branch-rate="0.3333333333333333" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="(Ljava/lang/String;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="18" hits="1" branch="false"/>
+								<line number="19" hits="1" branch="false"/>
+								<line number="20" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="compare" signature="(Ljava/lang/Object;Ljava/lang/Object;)I" line-rate="1.0" branch-rate="0.3333333333333333">
+							<lines>
+								<line number="24" hits="4" branch="false"/>
+								<line number="25" hits="4" branch="false"/>
+								<line number="26" hits="4" branch="true" condition-coverage="25% (1/4)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+										<condition number="1" type="jump" coverage="0%"/>
+									</conditions>
+								</line>
+								<line number="27" hits="4" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="18" hits="1" branch="false"/>
+						<line number="19" hits="1" branch="false"/>
+						<line number="20" hits="1" branch="false"/>
+						<line number="24" hits="4" branch="false"/>
+						<line number="25" hits="4" branch="false"/>
+						<line number="26" hits="4" branch="true" condition-coverage="25% (1/4)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+								<condition number="1" type="jump" coverage="0%"/>
+							</conditions>
+						</line>
+						<line number="27" hits="4" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+					</lines>
+				</class>
+			</classes>
+		</package>
+		<package name="ch.lambdaj.function.convert" line-rate="1.0" branch-rate="0.75" complexity="0.0">
+			<classes>
+				<class name="ch.lambdaj.function.convert.ArgumentConverter" filename="ch/lambdaj/function/convert/ArgumentConverter.java" line-rate="1.0" branch-rate="1.0" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="(Lch/lambdaj/function/argument/Argument;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="14" hits="11" branch="false"/>
+								<line number="15" hits="11" branch="false"/>
+								<line number="16" hits="11" branch="false"/>
+							</lines>
+						</method>
+						<method name="&lt;init&gt;" signature="(Ljava/lang/Object;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="19" hits="12" branch="false"/>
+								<line number="20" hits="11" branch="false"/>
+							</lines>
+						</method>
+						<method name="convert" signature="(Ljava/lang/Object;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="24" hits="33" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="14" hits="11" branch="false"/>
+						<line number="15" hits="11" branch="false"/>
+						<line number="16" hits="11" branch="false"/>
+						<line number="19" hits="12" branch="false"/>
+						<line number="20" hits="11" branch="false"/>
+						<line number="24" hits="33" branch="false"/>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.function.convert.Converter" filename="ch/lambdaj/function/convert/Converter.java" line-rate="1.0" branch-rate="1.0" complexity="0.0">
+					<methods>
+					</methods>
+					<lines>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.function.convert.DefaultStringConverter" filename="ch/lambdaj/function/convert/DefaultStringConverter.java" line-rate="1.0" branch-rate="0.5" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="()V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+							</lines>
+						</method>
+						<method name="convert" signature="(Ljava/lang/Object;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="10" hits="3" branch="false"/>
+							</lines>
+						</method>
+						<method name="convert" signature="(Ljava/lang/Object;)Ljava/lang/String;" line-rate="1.0" branch-rate="0.5">
+							<lines>
+								<line number="13" hits="2" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="10" hits="3" branch="false"/>
+						<line number="13" hits="2" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.function.convert.PropertyExtractor" filename="ch/lambdaj/function/convert/PropertyExtractor.java" line-rate="1.0" branch-rate="1.0" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="(Ljava/lang/String;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="10" hits="4" branch="false"/>
+								<line number="11" hits="4" branch="false"/>
+								<line number="12" hits="4" branch="false"/>
+							</lines>
+						</method>
+						<method name="convert" signature="(Ljava/lang/Object;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="16" hits="14" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="10" hits="4" branch="false"/>
+						<line number="11" hits="4" branch="false"/>
+						<line number="12" hits="4" branch="false"/>
+						<line number="16" hits="14" branch="false"/>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.function.convert.StringConverter" filename="ch/lambdaj/function/convert/StringConverter.java" line-rate="1.0" branch-rate="1.0" complexity="0.0">
+					<methods>
+					</methods>
+					<lines>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.function.convert.StringLengthConverter" filename="ch/lambdaj/function/convert/StringLengthConverter.java" line-rate="1.0" branch-rate="1.0" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="()V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="7" hits="1" branch="false"/>
+								<line number="8" hits="1" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="7" hits="1" branch="false"/>
+						<line number="8" hits="1" branch="false"/>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.function.convert.StringPropertyExtractor" filename="ch/lambdaj/function/convert/StringPropertyExtractor.java" line-rate="1.0" branch-rate="1.0" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="(Ljava/lang/String;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="7" hits="2" branch="false"/>
+								<line number="8" hits="2" branch="false"/>
+							</lines>
+						</method>
+						<method name="convert" signature="(Ljava/lang/Object;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="4" hits="8" branch="false"/>
+							</lines>
+						</method>
+						<method name="convert" signature="(Ljava/lang/Object;)Ljava/lang/String;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="12" hits="8" branch="false"/>
+								<line number="13" hits="8" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="4" hits="8" branch="false"/>
+						<line number="7" hits="2" branch="false"/>
+						<line number="8" hits="2" branch="false"/>
+						<line number="12" hits="8" branch="false"/>
+						<line number="13" hits="8" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+					</lines>
+				</class>
+			</classes>
+		</package>
+		<package name="ch.lambdaj.function.matcher" line-rate="0.9310344827586207" branch-rate="0.5" complexity="0.0">
+			<classes>
+				<class name="ch.lambdaj.function.matcher.HasArgumentWithValue" filename="ch/lambdaj/function/matcher/HasArgumentWithValue.java" line-rate="1.0" branch-rate="0.5" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="(Lch/lambdaj/function/argument/Argument;Lorg/hamcrest/Matcher;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="14" hits="9" branch="false"/>
+								<line number="15" hits="9" branch="false"/>
+								<line number="16" hits="9" branch="false"/>
+								<line number="17" hits="9" branch="false"/>
+							</lines>
+						</method>
+						<method name="describeTo" signature="(Lorg/hamcrest/Description;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="29" hits="1" branch="false"/>
+								<line number="30" hits="1" branch="false"/>
+								<line number="31" hits="1" branch="false"/>
+								<line number="32" hits="1" branch="false"/>
+								<line number="33" hits="1" branch="false"/>
+								<line number="34" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="having" signature="(Ljava/lang/Object;Lorg/hamcrest/Matcher;)Lorg/hamcrest/Matcher;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="38" hits="9" branch="false"/>
+							</lines>
+						</method>
+						<method name="matches" signature="(Ljava/lang/Object;)Z" line-rate="1.0" branch-rate="0.5">
+							<lines>
+								<line number="20" hits="32" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="22" hits="32" branch="false"/>
+								<line number="23" hits="1" branch="false"/>
+								<line number="24" hits="1" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="14" hits="9" branch="false"/>
+						<line number="15" hits="9" branch="false"/>
+						<line number="16" hits="9" branch="false"/>
+						<line number="17" hits="9" branch="false"/>
+						<line number="20" hits="32" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="22" hits="32" branch="false"/>
+						<line number="23" hits="1" branch="false"/>
+						<line number="24" hits="1" branch="false"/>
+						<line number="29" hits="1" branch="false"/>
+						<line number="30" hits="1" branch="false"/>
+						<line number="31" hits="1" branch="false"/>
+						<line number="32" hits="1" branch="false"/>
+						<line number="33" hits="1" branch="false"/>
+						<line number="34" hits="1" branch="false"/>
+						<line number="38" hits="9" branch="false"/>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.function.matcher.HasNestedPropertyWithValue" filename="ch/lambdaj/function/matcher/HasNestedPropertyWithValue.java" line-rate="0.8571428571428571" branch-rate="1.0" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="(Ljava/lang/String;Lorg/hamcrest/Matcher;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="12" hits="3" branch="false"/>
+								<line number="13" hits="3" branch="false"/>
+								<line number="14" hits="3" branch="false"/>
+								<line number="15" hits="3" branch="false"/>
+							</lines>
+						</method>
+						<method name="describeTo" signature="(Lorg/hamcrest/Description;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="26" hits="1" branch="false"/>
+								<line number="27" hits="1" branch="false"/>
+								<line number="28" hits="1" branch="false"/>
+								<line number="29" hits="1" branch="false"/>
+								<line number="30" hits="1" branch="false"/>
+								<line number="31" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="hasNestedProperty" signature="(Ljava/lang/String;Lorg/hamcrest/Matcher;)Lorg/hamcrest/Matcher;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="35" hits="3" branch="false"/>
+							</lines>
+						</method>
+						<method name="matches" signature="(Ljava/lang/Object;)Z" line-rate="0.3333333333333333" branch-rate="1.0">
+							<lines>
+								<line number="19" hits="8" branch="false"/>
+								<line number="20" hits="0" branch="false"/>
+								<line number="21" hits="0" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="12" hits="3" branch="false"/>
+						<line number="13" hits="3" branch="false"/>
+						<line number="14" hits="3" branch="false"/>
+						<line number="15" hits="3" branch="false"/>
+						<line number="19" hits="8" branch="false"/>
+						<line number="20" hits="0" branch="false"/>
+						<line number="21" hits="0" branch="false"/>
+						<line number="26" hits="1" branch="false"/>
+						<line number="27" hits="1" branch="false"/>
+						<line number="28" hits="1" branch="false"/>
+						<line number="29" hits="1" branch="false"/>
+						<line number="30" hits="1" branch="false"/>
+						<line number="31" hits="1" branch="false"/>
+						<line number="35" hits="3" branch="false"/>
+					</lines>
+				</class>
+			</classes>
+		</package>
+		<package name="ch.lambdaj.group" line-rate="0.9512195121951219" branch-rate="0.7647058823529411" complexity="0.0">
+			<classes>
+				<class name="ch.lambdaj.group.AbstractGroupCondition" filename="ch/lambdaj/group/AbstractGroupCondition.java" line-rate="1.0" branch-rate="0.5" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="()V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="7" hits="22" branch="false"/>
+								<line number="9" hits="22" branch="false"/>
+							</lines>
+						</method>
+						<method name="as" signature="(Ljava/lang/String;)Lch/lambdaj/group/GroupCondition;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="18" hits="26" branch="false"/>
+								<line number="19" hits="26" branch="false"/>
+							</lines>
+						</method>
+						<method name="asNotNullString" signature="(Ljava/lang/Object;)Ljava/lang/String;" line-rate="1.0" branch-rate="0.5">
+							<lines>
+								<line number="31" hits="70" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+							</lines>
+						</method>
+						<method name="asStringValue" signature="(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="27" hits="48" branch="false"/>
+							</lines>
+						</method>
+						<method name="getAdditionalPropertyNames" signature="()Ljava/util/Collection;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="23" hits="50" branch="false"/>
+							</lines>
+						</method>
+						<method name="getAlias" signature="()Ljava/lang/String;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="14" hits="50" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="7" hits="22" branch="false"/>
+						<line number="9" hits="22" branch="false"/>
+						<line number="14" hits="50" branch="false"/>
+						<line number="18" hits="26" branch="false"/>
+						<line number="19" hits="26" branch="false"/>
+						<line number="23" hits="50" branch="false"/>
+						<line number="27" hits="48" branch="false"/>
+						<line number="31" hits="70" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.group.ArgumentGroupCondition" filename="ch/lambdaj/group/ArgumentGroupCondition.java" line-rate="0.9230769230769231" branch-rate="1.0" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="(Ljava/lang/Object;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="10" hits="4" branch="false"/>
+								<line number="11" hits="4" branch="false"/>
+								<line number="12" hits="4" branch="false"/>
+							</lines>
+						</method>
+						<method name="as" signature="(Ljava/lang/String;)Lch/lambdaj/group/ArgumentGroupCondition;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="24" hits="3" branch="false"/>
+							</lines>
+						</method>
+						<method name="as" signature="(Ljava/lang/String;)Lch/lambdaj/group/GroupCondition;" line-rate="0.0" branch-rate="1.0">
+							<lines>
+								<line number="6" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="getAdditionalPropertyValue" signature="(Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/String;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="39" hits="6" branch="false"/>
+							</lines>
+						</method>
+						<method name="getGroupName" signature="()Ljava/lang/String;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="15" hits="12" branch="false"/>
+							</lines>
+						</method>
+						<method name="getGroupValue" signature="(Ljava/lang/Object;)Ljava/lang/String;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="19" hits="16" branch="false"/>
+							</lines>
+						</method>
+						<method name="head" signature="(Ljava/lang/Object;)Lch/lambdaj/group/ArgumentGroupCondition;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="28" hits="1" branch="false"/>
+								<line number="29" hits="1" branch="false"/>
+								<line number="30" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="head" signature="(Ljava/lang/Object;Ljava/lang/String;)Lch/lambdaj/group/ArgumentGroupCondition;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="34" hits="1" branch="false"/>
+								<line number="35" hits="1" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="6" hits="0" branch="false"/>
+						<line number="10" hits="4" branch="false"/>
+						<line number="11" hits="4" branch="false"/>
+						<line number="12" hits="4" branch="false"/>
+						<line number="15" hits="12" branch="false"/>
+						<line number="19" hits="16" branch="false"/>
+						<line number="24" hits="3" branch="false"/>
+						<line number="28" hits="1" branch="false"/>
+						<line number="29" hits="1" branch="false"/>
+						<line number="30" hits="1" branch="false"/>
+						<line number="34" hits="1" branch="false"/>
+						<line number="35" hits="1" branch="false"/>
+						<line number="39" hits="6" branch="false"/>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.group.Group" filename="ch/lambdaj/group/Group.java" line-rate="1.0" branch-rate="1.0" complexity="0.0">
+					<methods>
+					</methods>
+					<lines>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.group.GroupCondition" filename="ch/lambdaj/group/GroupCondition.java" line-rate="1.0" branch-rate="1.0" complexity="0.0">
+					<methods>
+					</methods>
+					<lines>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.group.GroupConditions" filename="ch/lambdaj/group/GroupConditions.java" line-rate="1.0" branch-rate="1.0" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="()V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="12" hits="10" branch="false"/>
+							</lines>
+						</method>
+						<method name="as" signature="(Ljava/lang/String;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="21" hits="5" branch="false"/>
+								<line number="22" hits="5" branch="false"/>
+							</lines>
+						</method>
+						<method name="by" signature="(Ljava/lang/String;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="17" hits="14" branch="false"/>
+								<line number="18" hits="14" branch="false"/>
+							</lines>
+						</method>
+						<method name="head" signature="(Ljava/lang/String;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="25" hits="1" branch="false"/>
+								<line number="26" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="head" signature="(Ljava/lang/String;Ljava/lang/String;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="29" hits="1" branch="false"/>
+								<line number="30" hits="1" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="12" hits="10" branch="false"/>
+						<line number="17" hits="14" branch="false"/>
+						<line number="18" hits="14" branch="false"/>
+						<line number="21" hits="5" branch="false"/>
+						<line number="22" hits="5" branch="false"/>
+						<line number="25" hits="1" branch="false"/>
+						<line number="26" hits="1" branch="false"/>
+						<line number="29" hits="1" branch="false"/>
+						<line number="30" hits="1" branch="false"/>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.group.GroupImpl" filename="ch/lambdaj/group/GroupImpl.java" line-rate="1.0" branch-rate="0.8" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="(Lch/lambdaj/group/GroupCondition;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="16" hits="24" branch="false"/>
+								<line number="20" hits="24" branch="false"/>
+								<line number="21" hits="24" branch="false"/>
+								<line number="22" hits="24" branch="false"/>
+							</lines>
+						</method>
+						<method name="add" signature="(Ljava/lang/Object;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="25" hits="60" branch="false"/>
+								<line number="26" hits="60" branch="false"/>
+								<line number="27" hits="60" branch="false"/>
+							</lines>
+						</method>
+						<method name="create" signature="(Ljava/lang/Object;Ljava/lang/String;)Lch/lambdaj/group/GroupItem;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="35" hits="50" branch="false"/>
+								<line number="36" hits="50" branch="false"/>
+								<line number="37" hits="50" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="38" hits="10" branch="false"/>
+								<line number="39" hits="50" branch="false"/>
+								<line number="40" hits="50" branch="false"/>
+								<line number="41" hits="50" branch="false"/>
+							</lines>
+						</method>
+						<method name="find" signature="(Ljava/lang/String;)Ljava/util/Collection;" line-rate="1.0" branch-rate="0.5">
+							<lines>
+								<line number="54" hits="8" branch="false"/>
+								<line number="55" hits="8" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+							</lines>
+						</method>
+						<method name="findAll" signature="()Ljava/util/Collection;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="59" hits="9" branch="false"/>
+								<line number="60" hits="9" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="61" hits="9" branch="false"/>
+							</lines>
+						</method>
+						<method name="findGroup" signature="(Ljava/lang/String;)Lch/lambdaj/group/Group;" line-rate="1.0" branch-rate="0.5">
+							<lines>
+								<line number="49" hits="6" branch="false"/>
+								<line number="50" hits="6" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+							</lines>
+						</method>
+						<method name="findOrCreate" signature="(Ljava/lang/Object;Ljava/lang/String;)Lch/lambdaj/group/GroupItem;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="30" hits="60" branch="false"/>
+								<line number="31" hits="60" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+							</lines>
+						</method>
+						<method name="getHeadValue" signature="(Ljava/lang/String;)Ljava/lang/String;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="77" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="getHeads" signature="()Ljava/util/Set;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="73" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="getSize" signature="()I" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="65" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="isLeaf" signature="()Z" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="69" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="keySet" signature="()Ljava/util/Set;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="45" hits="5" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="16" hits="24" branch="false"/>
+						<line number="20" hits="24" branch="false"/>
+						<line number="21" hits="24" branch="false"/>
+						<line number="22" hits="24" branch="false"/>
+						<line number="25" hits="60" branch="false"/>
+						<line number="26" hits="60" branch="false"/>
+						<line number="27" hits="60" branch="false"/>
+						<line number="30" hits="60" branch="false"/>
+						<line number="31" hits="60" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="35" hits="50" branch="false"/>
+						<line number="36" hits="50" branch="false"/>
+						<line number="37" hits="50" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="38" hits="10" branch="false"/>
+						<line number="39" hits="50" branch="false"/>
+						<line number="40" hits="50" branch="false"/>
+						<line number="41" hits="50" branch="false"/>
+						<line number="45" hits="5" branch="false"/>
+						<line number="49" hits="6" branch="false"/>
+						<line number="50" hits="6" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="54" hits="8" branch="false"/>
+						<line number="55" hits="8" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="59" hits="9" branch="false"/>
+						<line number="60" hits="9" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="61" hits="9" branch="false"/>
+						<line number="65" hits="1" branch="false"/>
+						<line number="69" hits="1" branch="false"/>
+						<line number="73" hits="1" branch="false"/>
+						<line number="77" hits="1" branch="false"/>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.group.GroupItem" filename="ch/lambdaj/group/GroupItem.java" line-rate="0.8333333333333334" branch-rate="0.6666666666666666" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="()V" line-rate="0.0" branch-rate="1.0">
+							<lines>
+								<line number="21" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="&lt;init&gt;" signature="(Ljava/lang/String;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="17" hits="50" branch="false"/>
+								<line number="19" hits="50" branch="false"/>
+								<line number="23" hits="50" branch="false"/>
+								<line number="24" hits="50" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="25" hits="50" branch="false"/>
+							</lines>
+						</method>
+						<method name="addChild" signature="(Ljava/lang/Object;)V" line-rate="1.0" branch-rate="0.5">
+							<lines>
+								<line number="58" hits="60" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="59" hits="60" branch="false"/>
+								<line number="60" hits="60" branch="false"/>
+							</lines>
+						</method>
+						<method name="asCollection" signature="()Ljava/util/Collection;" line-rate="0.25" branch-rate="0.25">
+							<lines>
+								<line number="51" hits="39" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="52" hits="0" branch="false"/>
+								<line number="53" hits="0" branch="true" condition-coverage="0% (0/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="0%"/>
+									</conditions>
+								</line>
+								<line number="54" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="asGroup" signature="()Lch/lambdaj/group/Group;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="43" hits="6" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+							</lines>
+						</method>
+						<method name="getChildren" signature="()Ljava/util/Collection;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="33" hits="99" branch="false"/>
+								<line number="34" hits="99" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="35" hits="50" branch="false"/>
+								<line number="36" hits="50" branch="false"/>
+								<line number="38" hits="99" branch="false"/>
+							</lines>
+						</method>
+						<method name="getChildrenNodeName" signature="()Ljava/lang/String;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="28" hits="163" branch="false"/>
+							</lines>
+						</method>
+						<method name="iterator" signature="()Ljava/util/Iterator;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="47" hits="8" branch="false"/>
+							</lines>
+						</method>
+						<method name="setChildren" signature="(Lch/lambdaj/group/Group;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="63" hits="8" branch="false"/>
+								<line number="64" hits="8" branch="false"/>
+								<line number="65" hits="8" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="17" hits="50" branch="false"/>
+						<line number="19" hits="50" branch="false"/>
+						<line number="21" hits="0" branch="false"/>
+						<line number="23" hits="50" branch="false"/>
+						<line number="24" hits="50" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="25" hits="50" branch="false"/>
+						<line number="28" hits="163" branch="false"/>
+						<line number="33" hits="99" branch="false"/>
+						<line number="34" hits="99" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="35" hits="50" branch="false"/>
+						<line number="36" hits="50" branch="false"/>
+						<line number="38" hits="99" branch="false"/>
+						<line number="43" hits="6" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="47" hits="8" branch="false"/>
+						<line number="51" hits="39" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="52" hits="0" branch="false"/>
+						<line number="53" hits="0" branch="true" condition-coverage="0% (0/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="0%"/>
+							</conditions>
+						</line>
+						<line number="54" hits="0" branch="false"/>
+						<line number="58" hits="60" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="59" hits="60" branch="false"/>
+						<line number="60" hits="60" branch="false"/>
+						<line number="63" hits="8" branch="false"/>
+						<line number="64" hits="8" branch="false"/>
+						<line number="65" hits="8" branch="false"/>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.group.Groups" filename="ch/lambdaj/group/Groups.java" line-rate="0.9333333333333333" branch-rate="1.0" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="()V" line-rate="0.0" branch-rate="1.0">
+							<lines>
+								<line number="14" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="by" signature="(Ljava/lang/Object;)Lch/lambdaj/group/ArgumentGroupCondition;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="17" hits="4" branch="false"/>
+							</lines>
+						</method>
+						<method name="group" signature="(Ljava/lang/Iterable;Ljava/util/Collection;)Lch/lambdaj/group/Group;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="21" hits="9" branch="false"/>
+							</lines>
+						</method>
+						<method name="group" signature="(Ljava/lang/Iterable;[Lch/lambdaj/group/GroupCondition;)Lch/lambdaj/group/Group;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="32" hits="24" branch="false"/>
+								<line number="33" hits="24" branch="false"/>
+								<line number="34" hits="24" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="36" hits="24" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="37" hits="4" branch="false"/>
+								<line number="38" hits="4" branch="false"/>
+								<line number="39" hits="4" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="42" hits="24" branch="false"/>
+							</lines>
+						</method>
+						<method name="group" signature="(Ljava/lang/Iterable;[Ljava/lang/String;)Lch/lambdaj/group/Group;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="25" hits="3" branch="false"/>
+								<line number="26" hits="3" branch="false"/>
+								<line number="27" hits="3" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="28" hits="3" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="14" hits="0" branch="false"/>
+						<line number="17" hits="4" branch="false"/>
+						<line number="21" hits="9" branch="false"/>
+						<line number="25" hits="3" branch="false"/>
+						<line number="26" hits="3" branch="false"/>
+						<line number="27" hits="3" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="28" hits="3" branch="false"/>
+						<line number="32" hits="24" branch="false"/>
+						<line number="33" hits="24" branch="false"/>
+						<line number="34" hits="24" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="36" hits="24" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="37" hits="4" branch="false"/>
+						<line number="38" hits="4" branch="false"/>
+						<line number="39" hits="4" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="42" hits="24" branch="false"/>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.group.LeafGroup" filename="ch/lambdaj/group/LeafGroup.java" line-rate="1.0" branch-rate="0.5" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="(Ljava/util/Map;Ljava/lang/String;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="8" hits="2" branch="false"/>
+								<line number="11" hits="2" branch="false"/>
+								<line number="12" hits="2" branch="false"/>
+								<line number="13" hits="2" branch="false"/>
+								<line number="14" hits="2" branch="false"/>
+							</lines>
+						</method>
+						<method name="find" signature="(Ljava/lang/String;)Ljava/util/Collection;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="17" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="findAll" signature="()Ljava/util/Collection;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="21" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="findGroup" signature="(Ljava/lang/String;)Lch/lambdaj/group/Group;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="25" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="getHeadValue" signature="(Ljava/lang/String;)Ljava/lang/String;" line-rate="1.0" branch-rate="0.5">
+							<lines>
+								<line number="41" hits="2" branch="false"/>
+								<line number="42" hits="2" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+							</lines>
+						</method>
+						<method name="getHeads" signature="()Ljava/util/Set;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="46" hits="3" branch="false"/>
+							</lines>
+						</method>
+						<method name="getSize" signature="()I" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="29" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="isLeaf" signature="()Z" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="33" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="keySet" signature="()Ljava/util/Set;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="37" hits="1" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="8" hits="2" branch="false"/>
+						<line number="11" hits="2" branch="false"/>
+						<line number="12" hits="2" branch="false"/>
+						<line number="13" hits="2" branch="false"/>
+						<line number="14" hits="2" branch="false"/>
+						<line number="17" hits="1" branch="false"/>
+						<line number="21" hits="1" branch="false"/>
+						<line number="25" hits="1" branch="false"/>
+						<line number="29" hits="1" branch="false"/>
+						<line number="33" hits="1" branch="false"/>
+						<line number="37" hits="1" branch="false"/>
+						<line number="41" hits="2" branch="false"/>
+						<line number="42" hits="2" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="46" hits="3" branch="false"/>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.group.StringGroupCondition" filename="ch/lambdaj/group/StringGroupCondition.java" line-rate="1.0" branch-rate="1.0" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="(Ljava/lang/String;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="16" hits="18" branch="false"/>
+								<line number="17" hits="18" branch="false"/>
+							</lines>
+						</method>
+						<method name="&lt;init&gt;" signature="(Ljava/lang/String;Ljava/lang/String;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="19" hits="18" branch="false"/>
+								<line number="20" hits="18" branch="false"/>
+								<line number="21" hits="18" branch="false"/>
+								<line number="22" hits="18" branch="false"/>
+							</lines>
+						</method>
+						<method name="getAdditionalPropertyValue" signature="(Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/String;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="42" hits="4" branch="false"/>
+							</lines>
+						</method>
+						<method name="getGroupName" signature="()Ljava/lang/String;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="25" hits="38" branch="false"/>
+							</lines>
+						</method>
+						<method name="getGroupValue" signature="(Ljava/lang/Object;)Ljava/lang/String;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="29" hits="44" branch="false"/>
+							</lines>
+						</method>
+						<method name="head" signature="(Ljava/lang/String;)Lch/lambdaj/group/StringGroupCondition;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="33" hits="1" branch="false"/>
+							</lines>
+						</method>
+						<method name="head" signature="(Ljava/lang/String;Ljava/lang/String;)Lch/lambdaj/group/StringGroupCondition;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="37" hits="2" branch="false"/>
+								<line number="38" hits="2" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="16" hits="18" branch="false"/>
+						<line number="17" hits="18" branch="false"/>
+						<line number="19" hits="18" branch="false"/>
+						<line number="20" hits="18" branch="false"/>
+						<line number="21" hits="18" branch="false"/>
+						<line number="22" hits="18" branch="false"/>
+						<line number="25" hits="38" branch="false"/>
+						<line number="29" hits="44" branch="false"/>
+						<line number="33" hits="1" branch="false"/>
+						<line number="37" hits="2" branch="false"/>
+						<line number="38" hits="2" branch="false"/>
+						<line number="42" hits="4" branch="false"/>
+					</lines>
+				</class>
+			</classes>
+		</package>
+		<package name="ch.lambdaj.proxy" line-rate="0.9459459459459459" branch-rate="0.8333333333333334" complexity="0.0">
+			<classes>
+				<class name="ch.lambdaj.proxy.ProxyAggregator" filename="ch/lambdaj/proxy/ProxyAggregator.java" line-rate="1.0" branch-rate="1.0" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="(Ljava/lang/Iterable;Lch/lambdaj/function/aggregate/Aggregator;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="22" hits="24" branch="false"/>
+								<line number="23" hits="24" branch="false"/>
+								<line number="24" hits="24" branch="false"/>
+							</lines>
+						</method>
+						<method name="createProxyAggregator" signature="(Ljava/lang/Iterable;Lch/lambdaj/function/aggregate/Aggregator;Ljava/lang/Class;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="33" hits="24" branch="false"/>
+							</lines>
+						</method>
+						<method name="intercept" signature="(Ljava/lang/Object;Ljava/lang/reflect/Method;[Ljava/lang/Object;Lnet/sf/cglib/proxy/MethodProxy;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="28" hits="41" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="22" hits="24" branch="false"/>
+						<line number="23" hits="24" branch="false"/>
+						<line number="24" hits="24" branch="false"/>
+						<line number="28" hits="41" branch="false"/>
+						<line number="33" hits="24" branch="false"/>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.proxy.ProxyIterator" filename="ch/lambdaj/proxy/ProxyIterator.java" line-rate="1.0" branch-rate="1.0" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="(Ljava/lang/Iterable;)V" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="20" hits="35" branch="false"/>
+								<line number="21" hits="35" branch="false"/>
+								<line number="22" hits="35" branch="false"/>
+							</lines>
+						</method>
+						<method name="collectValues" signature="(Ljava/lang/reflect/Method;[Ljava/lang/Object;)Ljava/util/List;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="30" hits="56" branch="false"/>
+								<line number="31" hits="56" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="32" hits="66" branch="false"/>
+								<line number="33" hits="43" branch="false"/>
+								<line number="34" hits="43" branch="false"/>
+								<line number="35" hits="33" branch="false"/>
+							</lines>
+						</method>
+						<method name="createProxyIterator" signature="(Ljava/lang/Iterable;Ljava/lang/Class;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="40" hits="11" branch="false"/>
+							</lines>
+						</method>
+						<method name="intercept" signature="(Ljava/lang/Object;Ljava/lang/reflect/Method;[Ljava/lang/Object;Lnet/sf/cglib/proxy/MethodProxy;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="25" hits="19" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="26" hits="15" branch="false"/>
+							</lines>
+						</method>
+						<method name="iterator" signature="()Ljava/util/Iterator;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="44" hits="4" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="20" hits="35" branch="false"/>
+						<line number="21" hits="35" branch="false"/>
+						<line number="22" hits="35" branch="false"/>
+						<line number="25" hits="19" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="26" hits="15" branch="false"/>
+						<line number="30" hits="56" branch="false"/>
+						<line number="31" hits="56" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="32" hits="66" branch="false"/>
+						<line number="33" hits="43" branch="false"/>
+						<line number="34" hits="43" branch="false"/>
+						<line number="35" hits="33" branch="false"/>
+						<line number="40" hits="11" branch="false"/>
+						<line number="44" hits="4" branch="false"/>
+					</lines>
+				</class>
+				<class name="ch.lambdaj.proxy.ProxyUtil" filename="ch/lambdaj/proxy/ProxyUtil.java" line-rate="0.8947368421052632" branch-rate="0.5" complexity="0.0">
+					<methods>
+						<method name="&lt;init&gt;" signature="()V" line-rate="0.0" branch-rate="1.0">
+							<lines>
+								<line number="7" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="createEnhancer" signature="(Lnet/sf/cglib/proxy/MethodInterceptor;)Lnet/sf/cglib/proxy/Enhancer;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="36" hits="44" branch="false"/>
+								<line number="37" hits="44" branch="false"/>
+								<line number="38" hits="44" branch="false"/>
+							</lines>
+						</method>
+						<method name="createProxy" signature="(Lnet/sf/cglib/proxy/MethodInterceptor;Ljava/lang/Class;)Ljava/lang/Object;" line-rate="0.875" branch-rate="0.5">
+							<lines>
+								<line number="11" hits="38" branch="false"/>
+								<line number="12" hits="38" branch="true" condition-coverage="50% (1/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+									</conditions>
+								</line>
+								<line number="13" hits="0" branch="false"/>
+								<line number="15" hits="38" branch="false"/>
+								<line number="16" hits="38" branch="false"/>
+								<line number="19" hits="38" branch="false"/>
+								<line number="20" hits="6" branch="false"/>
+								<line number="21" hits="6" branch="false"/>
+							</lines>
+						</method>
+						<method name="createProxyForFinalClass" signature="(Lnet/sf/cglib/proxy/MethodInterceptor;Ljava/lang/Class;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="26" hits="6" branch="false"/>
+								<line number="27" hits="6" branch="false"/>
+								<line number="28" hits="6" branch="false"/>
+								<line number="29" hits="6" branch="false"/>
+								<line number="30" hits="6" branch="false"/>
+								<line number="31" hits="6" branch="false"/>
+								<line number="32" hits="6" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="7" hits="0" branch="false"/>
+						<line number="11" hits="38" branch="false"/>
+						<line number="12" hits="38" branch="true" condition-coverage="50% (1/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+							</conditions>
+						</line>
+						<line number="13" hits="0" branch="false"/>
+						<line number="15" hits="38" branch="false"/>
+						<line number="16" hits="38" branch="false"/>
+						<line number="19" hits="38" branch="false"/>
+						<line number="20" hits="6" branch="false"/>
+						<line number="21" hits="6" branch="false"/>
+						<line number="26" hits="6" branch="false"/>
+						<line number="27" hits="6" branch="false"/>
+						<line number="28" hits="6" branch="false"/>
+						<line number="29" hits="6" branch="false"/>
+						<line number="30" hits="6" branch="false"/>
+						<line number="31" hits="6" branch="false"/>
+						<line number="32" hits="6" branch="false"/>
+						<line number="36" hits="44" branch="false"/>
+						<line number="37" hits="44" branch="false"/>
+						<line number="38" hits="44" branch="false"/>
+					</lines>
+				</class>
+			</classes>
+		</package>
+		<package name="ch.lambdaj.util" line-rate="0.7777777777777778" branch-rate="0.5" complexity="3.6">
+			<classes>
+				<class name="ch.lambdaj.util.IntrospectionUtil" filename="ch/lambdaj/util/IntrospectionUtil.java" line-rate="0.7777777777777778" branch-rate="0.5" complexity="3.6">
+					<methods>
+						<method name="&lt;init&gt;" signature="()V" line-rate="0.0" branch-rate="1.0">
+							<lines>
+								<line number="14" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="getBooleanPropertyValue" signature="(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="38" hits="10" branch="false"/>
+								<line number="39" hits="10" branch="false"/>
+								<line number="40" hits="10" branch="false"/>
+							</lines>
+						</method>
+						<method name="getPlainPropertyValue" signature="(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;" line-rate="0.3333333333333333" branch-rate="1.0">
+							<lines>
+								<line number="46" hits="10" branch="false"/>
+								<line number="47" hits="0" branch="false"/>
+								<line number="48" hits="0" branch="false"/>
+							</lines>
+						</method>
+						<method name="getPropertyName" signature="(Ljava/lang/reflect/Method;)Ljava/lang/String;" line-rate="0.75" branch-rate="0.16666666666666666">
+							<lines>
+								<line number="17" hits="15" branch="false"/>
+								<line number="18" hits="15" branch="true" condition-coverage="25% (1/4)">
+									<conditions>
+										<condition number="0" type="jump" coverage="50%"/>
+										<condition number="1" type="jump" coverage="0%"/>
+									</conditions>
+								</line>
+								<line number="19" hits="0" branch="true" condition-coverage="0% (0/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="0%"/>
+									</conditions>
+								</line>
+								<line number="20" hits="15" branch="false"/>
+							</lines>
+						</method>
+						<method name="getPropertyValue" signature="(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+							<lines>
+								<line number="24" hits="102" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="25" hits="97" branch="false"/>
+								<line number="26" hits="97" branch="true" condition-coverage="100% (2/2)">
+									<conditions>
+										<condition number="0" type="jump" coverage="100%"/>
+									</conditions>
+								</line>
+								<line number="28" hits="85" branch="false"/>
+								<line number="30" hits="85" branch="false"/>
+								<line number="31" hits="10" branch="false"/>
+								<line number="32" hits="10" branch="false"/>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="14" hits="0" branch="false"/>
+						<line number="17" hits="15" branch="false"/>
+						<line number="18" hits="15" branch="true" condition-coverage="25% (1/4)">
+							<conditions>
+								<condition number="0" type="jump" coverage="50%"/>
+								<condition number="1" type="jump" coverage="0%"/>
+							</conditions>
+						</line>
+						<line number="19" hits="0" branch="true" condition-coverage="0% (0/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="0%"/>
+							</conditions>
+						</line>
+						<line number="20" hits="15" branch="false"/>
+						<line number="24" hits="102" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="25" hits="97" branch="false"/>
+						<line number="26" hits="97" branch="true" condition-coverage="100% (2/2)">
+							<conditions>
+								<condition number="0" type="jump" coverage="100%"/>
+							</conditions>
+						</line>
+						<line number="28" hits="85" branch="false"/>
+						<line number="30" hits="85" branch="false"/>
+						<line number="31" hits="10" branch="false"/>
+						<line number="32" hits="10" branch="false"/>
+						<line number="38" hits="10" branch="false"/>
+						<line number="39" hits="10" branch="false"/>
+						<line number="40" hits="10" branch="false"/>
+						<line number="46" hits="10" branch="false"/>
+						<line number="47" hits="0" branch="false"/>
+						<line number="48" hits="0" branch="false"/>
+					</lines>
+				</class>
+			</classes>
+		</package>
+	</packages>
+</coverage>
