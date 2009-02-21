@@ -15,6 +15,7 @@ import ch.lambdaj.function.convert.*;
 import ch.lambdaj.proxy.*;
 
 /**
+ * This class consists exclusively of static methods that allow to use all the core features of the lambdaj library.
  * @author Mario Fusco
  * @author Luca Marrocco
  */
@@ -219,22 +220,54 @@ public final class Lambda {
 		return null;
 	}
 
+	/**
+	 * Filters away all the duplicated items in the given iterable.
+	 * @param iterable The iterable of objects to be filtered
+	 * @return A Collection with the same items of the given iterable but containing no duplicate elements
+	 */
 	public static <T> Collection<T> selectDistinct(Iterable<T> iterable) {
 		return selectDistinct(iterable, (Comparator<T>) null);
 	}
 
+	/**
+	 * Filters away all the duplicated items in the given iterable.
+	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * @param iterable The iterable of objects to be filtered
+	 * @return A Collection with the same items of the given iterable but containing no duplicate elements
+	 */
 	public static <T> Collection<T> selectDistinct(Object iterable) {
 		return selectDistinct((Iterable<T>) iterable, (Comparator<T>) null);
 	}
 
-	public static <T> Collection<T> selectDistinct(Iterable<T> iterable, String propertyName) {
-		return selectDistinct(iterable, new PropertyComparator<T>(propertyName));
-	}
-
+	/**
+	 * Selects all the items in the given iterable having a different value in the named property.
+	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * @param iterable The iterable of objects to be filtered
+	 * @param propertyName The name of the item's property on which the item must have no duplicated value
+	 * @return A Collection with the same items of the given iterable but containing no duplicate values on the named property
+	 */
 	public static <T> Collection<T> selectDistinct(Object iterable, String propertyName) {
 		return selectDistinct((Iterable<T>) iterable, new PropertyComparator<T>(propertyName));
 	}
 
+	/**
+	 * Selects all the items in the given iterable having a different value on the given argument defined using the on method.
+	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * @param iterable The iterable of objects to be filtered
+	 * @param argument An argument defined using the on method 
+	 * @return A Collection with the same items of the given iterable but containing no duplicate values on the given argument
+	 */
+	public static <T> Collection<T> selectDistinctArgument(Object iterable, Object argument) {
+		return selectDistinct((Iterable<T>) iterable, new ArgumentComparator<T>(argument));
+	}
+	
+	/**
+	 * Filters away all the duplicated items in the given iterable based on the given comparator.
+	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * @param iterable The iterable of objects to be filtered
+	 * @param comparator The comparator used to decide if 2 items are different or not
+	 * @return A Collection with the same items of the given iterable but containing no duplicate elements
+	 */
 	public static <T> Collection<T> selectDistinct(Object iterable, Comparator<T> comparator) {
 		Set<T> collected = comparator == null ? new HashSet<T>() : new TreeSet<T>(comparator);
 		if (iterable != null) for (T item : (Iterable<T>) iterable)
@@ -292,20 +325,34 @@ public final class Lambda {
 	 * It is then possibly to curry this function by selecting the convert function that defines how each item must be converted in the object to be aggregated.
 	 * This is done by invoking on that returned object the method that returns the values of the property to be aggregated.
 	 * @param iterable The iterable of the objects to containing the property to be aggregated.
+	 * @param aggregator The function that defines how the objects in this iterable have to be aggregated
 	 * @return A proxy of the class of the first object in the iterable representing an aggregation lambda function
 	 * @throws An IllegalArgumentException if the iterable is null or empty
 	 */
-	public static <T, A> T aggregateFrom(Iterable<T> iterable, Aggregator<A> a) {
+	public static <T, A> T aggregateFrom(Iterable<T> iterable, Aggregator<A> aggregator) {
 		if (iterable == null) 
 			throw new IllegalArgumentException("The iterable cannot be null");
 		Iterator<T> iterator = iterable.iterator();
 		if (!iterator.hasNext()) 
 			throw new IllegalArgumentException("aggregateFrom() is unable to introspect on an empty iterator. Use the overloaded method accepting a class instead");
-		return aggregateFrom(iterable, iterator.next().getClass(), a);
+		return aggregateFrom(iterable, iterator.next().getClass(), aggregator);
 	}
 
-	public static <T, A> T aggregateFrom(Iterable<T> i, Class<?> c, Aggregator<A> a) {
-		return (T) ProxyAggregator.createProxyAggregator(i, a, c);
+	/**
+	 * Returns a lambda function defined as:
+	 * <p/>
+	 * 		aggregateFrom : (aggregator, iterable) => lambda : (convert : object => object) => object
+	 * <p/>
+	 * It is then possibly to curry this function by selecting the convert function that defines how each item must be converted in the object to be aggregated.
+	 * This is done by invoking on that returned object the method that returns the values of the property to be aggregated.
+	 * This overloaded version should be always used when it is not insured that the given iterable is null or empty.
+	 * @param iterable The iterable of the objects to containing the property to be aggregated.
+	 * @param clazz The class proxied by the returned object
+	 * @param aggregator The function that defines how the objects in this iterable have to be aggregated
+	 * @return A proxy of the class of the first object in the iterable representing an aggregation lambda function
+	 */
+	public static <T, A> T aggregateFrom(Iterable<T> iterable, Class<?> clazz, Aggregator<A> aggregator) {
+		return (T) ProxyAggregator.createProxyAggregator(iterable, aggregator, clazz);
 	}
 
 	// -- (Sum) ---------------------------------------------------------------
@@ -441,8 +488,8 @@ public final class Lambda {
 	 * @param clazz The class proxied by the returned object
 	 * @return A proxy of the class of the first object in the iterable representing a min lambda function
 	 */
-	public static <T> T minFrom(Iterable<T> iterable, Class<?> t) {
-		return (T) aggregateFrom(iterable, t, Min);
+	public static <T> T minFrom(Iterable<T> iterable, Class<?> clazz) {
+		return (T) aggregateFrom(iterable, clazz, Min);
 	}
 
 	// -- (Max) ---------------------------------------------------------------
@@ -510,8 +557,8 @@ public final class Lambda {
 	 * @param clazz The class proxied by the returned object
 	 * @return A proxy of the class of the first object in the iterable representing a max lambda function
 	 */
-	public static <T> T maxFrom(Iterable<T> iterable, Class<?> t) {
-		return (T) aggregateFrom(iterable, t, Max);
+	public static <T> T maxFrom(Iterable<T> iterable, Class<?> clazz) {
+		return (T) aggregateFrom(iterable, clazz, Max);
 	}
 
 	// -- (Join) --------------------------------------------------------------
@@ -524,18 +571,31 @@ public final class Lambda {
 		return aggregateFrom(c, new Concat(separator));
 	}
 
-	public static <T> T joinFrom(Iterable<T> c, Class<?> t) {
-		return aggregateFrom(c, t, Concat);
+	public static <T> T joinFrom(Iterable<T> c, Class<?> clazz) {
+		return aggregateFrom(c, clazz, Concat);
 	}
 
-	public static <T> T joinFrom(Iterable<T> c, Class<?> t, String separator) {
-		return aggregateFrom(c, t, new Concat(separator));
+	public static <T> T joinFrom(Iterable<T> c, Class<?> clazz, String separator) {
+		return aggregateFrom(c, clazz, new Concat(separator));
 	}
 
+	/**
+	 * Joins all the object in the given iterable by concatenating all their String representation.
+	 * It invokes toString() an all the objects and concatening them using the default separator ", ". 
+	 * @param iterable The iterable containing the objects to be joined
+	 * @return The concatenation of the String representation of all the objects in the given iterable or an empty String if the iterable is null or empty
+	 */
 	public static String join(Object iterable) {
 		return join(iterable, ", ");
 	}
 	
+	/**
+	 * Joins all the object in the given iterable by concatenating all their String representation.
+	 * It invokes toString() an all the objects and concatening them using the given separator. 
+	 * @param iterable The iterable containing the objects to be joined
+	 * @param separator The String used to separe the item's String representation
+	 * @return The concatenation of the String representation of all the objects in the given iterable or an empty String if the iterable is null or empty
+	 */
 	public static String join(Object iterable, String separator) {
 		return iterable instanceof Iterable ? (String) aggregate((Iterable<?>) iterable, new Concat(separator)) : (iterable == null ? "" : iterable.toString());
 	}
@@ -553,6 +613,10 @@ public final class Lambda {
 
 	public static <F, T> List<T> extract(Object iterable, T argument) {
 		return convert(iterable, new ArgumentConverter<F, T>(argument));
+	}
+	
+	public static List<String> extractString(Object iterable) {
+		return convert(iterable, new DefaultStringConverter());
 	}
 	
 	public static <F, T> List<T> extractProperty(Object iterable, String propertyName) {
