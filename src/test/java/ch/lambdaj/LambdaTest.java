@@ -38,6 +38,18 @@ public class LambdaTest {
 	}
 	
 	@Test
+	public void testIllegalForEach() {
+		try {
+			forEach(null);
+			fail("forEach on null should throw an exception");
+		} catch (Exception e) { }
+		try {
+			forEach(new LinkedList<Person>());
+			fail("forEach on empty iterable should throw an exception");
+		} catch (Exception e) { }
+	}
+	
+	@Test
 	public void testSelectPersonWith4LettersName() {
 		List<Person> family = asList(new Person("Domenico"), new Person("Mario"), new Person("Irma"));
 		Collection<Person> results = select(family, hasNestedProperty("firstName.length", equalTo(4)));
@@ -121,6 +133,18 @@ public class LambdaTest {
 	}
 	
 	@Test
+	public void testIllegalSumFrom() {
+		try {
+			sumFrom(null);
+			fail("forEach on null should throw an exception");
+		} catch (Exception e) { }
+		try {
+			sumFrom(new LinkedList<Person>());
+			fail("forEach on empty iterable should throw an exception");
+		} catch (Exception e) { }
+	}
+	
+	@Test
 	public void testSumMinMaxFrom() {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
 
@@ -201,8 +225,12 @@ public class LambdaTest {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
 		try {
 			collect(meAndMyFriends, 29);
-		} catch (Exception e) { return; }
-		fail("collect on non valid argument must fail");
+			fail("collect on non valid argument must fail");
+		} catch (Exception e) { }
+		try {
+			collect(me, on(Person.class).getAge());
+			fail("collect on non iterable object must fail");
+		} catch (Exception e) { }
 	}
 	
 	@Test
