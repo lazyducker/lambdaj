@@ -84,6 +84,13 @@ public class LambdaTest {
 	}
 	
 	@Test
+	public void testSelectDistinctOnAge() {
+		Object meAndMyFriends = asList(me, luca, biagio, celestino);
+		Collection<Person> distinctAgePersons = selectDistinctArgument(meAndMyFriends, on(Person.class).getAge());
+		assertEquals(3, distinctAgePersons.size());
+	}
+	
+	@Test
 	public void testSelectOnBooleanWithHaving() {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
 
@@ -363,6 +370,14 @@ public class LambdaTest {
 		Collection<String> countries = extract(exposures, on(Exposure.class).getCountryName());
 		assertThat(countries, hasItem("france"));
 		assertThat(countries, hasItem("brazil"));
+	}
+
+	@Test
+	public void testExtractString() {
+		List<Exposure> exposures = asList(new Exposure("france", "first"), new Exposure("brazil", "second"));
+		Collection<String> countries = extractString(exposures);
+		assertThat(countries, hasItem("france, first"));
+		assertThat(countries, hasItem("brazil, second"));
 	}
 
 	@Test
