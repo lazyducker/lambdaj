@@ -86,7 +86,7 @@ public final class Lambda {
 	/**
 	 * Collects the items in the given iterable putting them in a List.
 	 * Actually it treats also Maps as Iterables by collecting their values.
-	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of which the items should be collected
 	 * @return A List containing all the items collected from the give iterable
 	 * @throws A IllegalArgumentException if the iterable is not an Iterable or a Map
@@ -115,9 +115,9 @@ public final class Lambda {
 	 * extracts the ages of all the Persons in the list and put them in a List of Integer.
 	 * <p/>
 	 * Actually it treats also Maps as Iterables by collecting their values.
-	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of which the items should be collected
-	 * @param argument An argument defined using the on method 
+	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
 	 * @return A List containing all the items collected from the give iterable
 	 * @throws A RuntimeException if the iterable is not an Iterable or a Map
 	 */
@@ -155,7 +155,7 @@ public final class Lambda {
 
 	/**
 	 * Selects all the objects in the given iterable that match the given hamcrest Matcher
-	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of objects to be filtered
 	 * @param matcher The hamcrest Matcher used to filter the given iterable
 	 * @return A sublist of the given iterable containing all the objects that match the given hamcrest Matcher
@@ -177,7 +177,7 @@ public final class Lambda {
 
 	/**
 	 * Selects the unique object in the given iterable that matches the given hamcrest Matcher
-	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of objects to be filtered
 	 * @param matcher The hamcrest Matcher used to filter the given iterable
 	 * @return The only object in the given iterable that matches the given hamcrest Matcher or null if there is no such object
@@ -209,7 +209,7 @@ public final class Lambda {
 
 	/**
 	 * Selects the first object in the given iterable that matches the given hamcrest Matcher
-	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of objects to be filtered
 	 * @param matcher The hamcrest Matcher used to filter the given iterable
 	 * @return The first object in the given iterable that matches the given hamcrest Matcher or null if there is no such object
@@ -231,7 +231,7 @@ public final class Lambda {
 
 	/**
 	 * Filters away all the duplicated items in the given iterable.
-	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of objects to be filtered
 	 * @return A Collection with the same items of the given iterable but containing no duplicate elements
 	 */
@@ -241,7 +241,7 @@ public final class Lambda {
 
 	/**
 	 * Selects all the items in the given iterable having a different value in the named property.
-	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of objects to be filtered
 	 * @param propertyName The name of the item's property on which the item must have no duplicated value
 	 * @return A Collection with the same items of the given iterable but containing no duplicate values on the named property
@@ -252,9 +252,9 @@ public final class Lambda {
 
 	/**
 	 * Selects all the items in the given iterable having a different value on the given argument defined using the on method.
-	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of objects to be filtered
-	 * @param argument An argument defined using the on method 
+	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
 	 * @return A Collection with the same items of the given iterable but containing no duplicate values on the given argument
 	 */
 	public static <T> Collection<T> selectDistinctArgument(Object iterable, Object argument) {
@@ -263,7 +263,7 @@ public final class Lambda {
 	
 	/**
 	 * Filters away all the duplicated items in the given iterable based on the given comparator.
-	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of objects to be filtered
 	 * @param comparator The comparator used to decide if 2 items are different or not
 	 * @return A Collection with the same items of the given iterable but containing no duplicate elements
@@ -288,8 +288,8 @@ public final class Lambda {
 	private static final Concat Concat = new Concat();
 
 	/**
-	 * Aggregates the items in the given iterable using the given aggregator function.
-	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * Aggregates the items in the given iterable using the given {@link Aggregator}.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of numbers to be summed
 	 * @param aggregator The function that defines how the objects in this iterable have to be aggregated
 	 * @return The result of the aggregation of all the items in the given iterable
@@ -304,11 +304,11 @@ public final class Lambda {
 
 	/**
 	 * For each item in the given iterable collects the value defined by the given argument and 
-	 * then aggregates them iterable using the given aggregator function.
-	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * then aggregates them iterable using the given {@link Aggregator}.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of numbers to be summed
 	 * @param aggregator The function that defines how the objects in this iterable have to be aggregated
-	 * @param argument An argument defined using the on method 
+	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
 	 * @return The result of the aggregation of all the items in the given iterable
 	 * @throws A RuntimeException if the iterable is not an Iterable
 	 */
@@ -359,7 +359,7 @@ public final class Lambda {
 
 	/**
 	 * Sums the items in the given iterable of Numbers or the iterable itself if it actually is already a single number.
-	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of numbers to be summed
 	 * @return The sum of all the Number in the given iterable or the iterable itself if it actually is already a single number
 	 * @throws An IllegalArgumentException if the iterable is not neither an Iterable nor a Number
@@ -371,8 +371,9 @@ public final class Lambda {
 
 	/**
 	 * Sums the property values of the items in the given iterable defined by the given argument.
-	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of items containing the property of which the values have to be summed.
+	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
 	 * @return The sum of the property values extracted from all the items in the given iterable 
 	 * @throws An IllegalArgumentException if the iterable is not an Iterable
 	 */
@@ -389,7 +390,7 @@ public final class Lambda {
 	 * This is done by invoking on that returned object the method that returns the values of the property to be summed as in the following example
 	 * <p/>
 	 * <code>
-	 * 		int totalAge = sumFrom(persons).getAge()
+	 * 		int totalAge = sumFrom(persons).getAge();
 	 * </code>
 	 * <p/>
 	 * The actual class of T is inferred from the class of the first iterable's item, but you can
@@ -411,7 +412,7 @@ public final class Lambda {
 	 * This is done by invoking on that returned object the method that returns the values of the property to be summed as in the following example
 	 * <p/>
 	 * <code>
-	 * 		int totalAge = sumFrom(persons, Person.class).getAge()
+	 * 		int totalAge = sumFrom(persons, Person.class).getAge();
 	 * </code>
 	 * <p/>
 	 * This overloaded version should be always used when it is not insured that the given iterable is null or empty.
@@ -427,7 +428,7 @@ public final class Lambda {
 
 	/**
 	 * Finds the minimum item in the given iterable.
-	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of numbers to be summed
 	 * @return The minimum of all the Object in the given iterable
 	 * @throws An IllegalArgumentException if the iterable is not an Iterable
@@ -438,8 +439,9 @@ public final class Lambda {
 
 	/**
 	 * Finds the minimum item in the given iterable defined by the given argument.
-	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of objects on which the minimum should be found
+	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
 	 * @return The minimum of all the Object in the given iterable
 	 * @throws An IllegalArgumentException if the iterable is not an Iterable
 	 */
@@ -457,7 +459,7 @@ public final class Lambda {
 	 * This is done by invoking on that returned object the method that returns the values of the property to be aggregated.
 	 * <p/>
 	 * <code>
-	 * 		int totalAge = sumFrom(persons).getAge()
+	 * 		int minAge = maxFrom(persons).getAge();
 	 * </code>
 	 * <p/>
 	 * The actual class of T is inferred from the class of the first iterable's item, but you can
@@ -480,7 +482,7 @@ public final class Lambda {
 	 * This is done by invoking on that returned object the method that returns the values of the property to be aggregated.
 	 * <p/>
 	 * <code>
-	 * 		int totalAge = sumFrom(persons).getAge()
+	 * 		int minAge = minFrom(persons).getAge();
 	 * </code>
 	 * <p/>
 	 * This overloaded version should be always used when it is not insured that the given iterable is null or empty.
@@ -496,7 +498,7 @@ public final class Lambda {
 
 	/**
 	 * Finds the maximum item in the given iterable.
-	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of objects on which the maximum should be found
 	 * @return The maximum of all the Object in the given iterable
 	 * @throws An IllegalArgumentException if the iterable is not an Iterable
@@ -507,8 +509,9 @@ public final class Lambda {
 
 	/**
 	 * Finds the maximum item in the given iterable defined by the given argument.
-	 * Note that this method accepts an Object in order to be used in conjunction with the forEach one.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of objects on which the maximum should be found
+	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
 	 * @return The maximum of all the Object in the given iterable
 	 * @throws An IllegalArgumentException if the iterable is not an Iterable
 	 */
@@ -526,7 +529,7 @@ public final class Lambda {
 	 * This is done by invoking on that returned object the method that returns the values of the property to be aggregated.
 	 * <p/>
 	 * <code>
-	 * 		int totalAge = sumFrom(persons).getAge()
+	 * 		int maxAge = maxFrom(persons).getAge();
 	 * </code>
 	 * <p/>
 	 * The actual class of T is inferred from the class of the first iterable's item, but you can
@@ -549,7 +552,7 @@ public final class Lambda {
 	 * This is done by invoking on that returned object the method that returns the values of the property to be aggregated.
 	 * <p/>
 	 * <code>
-	 * 		int totalAge = sumFrom(persons).getAge()
+	 * 		int maxAge = maxFrom(persons).getAge();
 	 * </code>
 	 * <p/>
 	 * This overloaded version should be always used when it is not insured that the given iterable is null or empty.
@@ -563,25 +566,102 @@ public final class Lambda {
 
 	// -- (Join) --------------------------------------------------------------
 
-	public static <T> T joinFrom(Iterable<T> c) {
-		return aggregateFrom(c, Concat);
+	/**
+	 * Returns a lambda function defined as:
+	 * <p/>
+	 * 		joinFrom : (concat, iterable) => lambda : (convert : object => object) => string
+	 * <p/>
+	 * It is then possibly to curry this function by selecting the convert function that defines of each item must be converted in a String.
+	 * This is done by invoking on that returned object the method that returns the values of the property to be summed as in the following example
+	 * <p/>
+	 * <code>
+	 * 		String names = joinFrom(persons).getFirstName();
+	 * </code>
+	 * <p/>
+	 * The actual class of T is inferred from the class of the first iterable's item, but you can
+	 * specify a particular class by using the overloaded method.
+	 * @param iterable The iterable of the objects to containing the property to be joined.
+	 * @return A proxy of the class of the first object in the iterable representing a join lambda function
+	 * @throws An IllegalArgumentException if the iterable is null or empty
+	 */
+	public static <T> T joinFrom(Iterable<T> iterable) {
+		return aggregateFrom(iterable, Concat);
 	}
 
-	public static <T> T joinFrom(Iterable<T> c, String separator) {
-		return aggregateFrom(c, new Concat(separator));
+	/**
+	 * Returns a lambda function defined as:
+	 * <p/>
+	 * 		joinFrom : (concat, iterable) => lambda : (convert : object => object) => string
+	 * <p/>
+	 * It is then possibly to curry this function by selecting the convert function that defines of each item must be converted in a String.
+	 * This is done by invoking on that returned object the method that returns the values of the property to be summed as in the following example
+	 * <p/>
+	 * <code>
+	 * 		String names = joinFrom(persons, " - ").getFirstName();
+	 * </code>
+	 * <p/>
+	 * The actual class of T is inferred from the class of the first iterable's item, but you can
+	 * specify a particular class by using the overloaded method.
+	 * @param iterable The iterable of the objects to containing the property to be joined.
+	 * @param separator The String used to separe the Strings produced by this lambda function
+	 * @return A proxy of the class of the first object in the iterable representing a join lambda function
+	 * @throws An IllegalArgumentException if the iterable is null or empty
+	 */
+	public static <T> T joinFrom(Iterable<T> iterable, String separator) {
+		return aggregateFrom(iterable, new Concat(separator));
 	}
 
-	public static <T> T joinFrom(Iterable<T> c, Class<?> clazz) {
-		return aggregateFrom(c, clazz, Concat);
+	/**
+	 * Returns a lambda function defined as:
+	 * <p/>
+	 * 		joinFrom : (concat, iterable) => lambda : (convert : object => object) => string
+	 * <p/>
+	 * It is then possibly to curry this function by selecting the convert function that defines of each item must be converted in a String.
+	 * This is done by invoking on that returned object the method that returns the values of the property to be summed as in the following example
+	 * <p/>
+	 * <code>
+	 * 		String names = joinFrom(persons, Person.class).getFirstName();
+	 * </code>
+	 * <p/>
+	 * The actual class of T is inferred from the class of the first iterable's item, but you can
+	 * specify a particular class by using the overloaded method.
+	 * This overloaded version should be always used when it is not insured that the given iterable is null or empty.
+	 * @param iterable The iterable of the objects to containing the property to be joined.
+	 * @param clazz The class proxied by the returned object
+	 * @return A proxy of the class of the first object in the iterable representing a join lambda function
+	 */
+	public static <T> T joinFrom(Iterable<T> iterable, Class<?> clazz) {
+		return aggregateFrom(iterable, clazz, Concat);
 	}
 
-	public static <T> T joinFrom(Iterable<T> c, Class<?> clazz, String separator) {
-		return aggregateFrom(c, clazz, new Concat(separator));
+	/**
+	 * Returns a lambda function defined as:
+	 * <p/>
+	 * 		joinFrom : (concat, iterable) => lambda : (convert : object => object) => string
+	 * <p/>
+	 * It is then possibly to curry this function by selecting the convert function that defines of each item must be converted in a String.
+	 * This is done by invoking on that returned object the method that returns the values of the property to be summed as in the following example
+	 * <p/>
+	 * <code>
+	 * 		String names = joinFrom(persons, Person.class, " - ").getFirstName();
+	 * </code>
+	 * <p/>
+	 * The actual class of T is inferred from the class of the first iterable's item, but you can
+	 * specify a particular class by using the overloaded method.
+	 * This overloaded version should be always used when it is not insured that the given iterable is null or empty.
+	 * @param iterable The iterable of the objects to containing the property to be joined.
+	 * @param clazz The class proxied by the returned object
+	 * @param separator The String used to separe the Strings produced by this lambda function
+	 * @return A proxy of the class of the first object in the iterable representing a join lambda function
+	 */
+	public static <T> T joinFrom(Iterable<T> iterable, Class<?> clazz, String separator) {
+		return aggregateFrom(iterable, clazz, new Concat(separator));
 	}
 
 	/**
 	 * Joins all the object in the given iterable by concatenating all their String representation.
 	 * It invokes toString() an all the objects and concatening them using the default separator ", ". 
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable containing the objects to be joined
 	 * @return The concatenation of the String representation of all the objects in the given iterable or an empty String if the iterable is null or empty
 	 */
@@ -592,6 +672,7 @@ public final class Lambda {
 	/**
 	 * Joins all the object in the given iterable by concatenating all their String representation.
 	 * It invokes toString() an all the objects and concatening them using the given separator. 
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable containing the objects to be joined
 	 * @param separator The String used to separe the item's String representation
 	 * @return The concatenation of the String representation of all the objects in the given iterable or an empty String if the iterable is null or empty
@@ -604,32 +685,73 @@ public final class Lambda {
 	// /// Conversion
 	// ////////////////////////////////////////////////////////////////////////
 
-	public static <F, T> List<T> convert(Object iterable, Converter<F, T> convertor) {
+	/**
+	 * Converts all the object in the iterable using the given {@link Converter}.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
+	 * @param iterable The iterable containing the objects to be converted
+	 * @param converter The converter that specifies how each object in the iterable must be converted
+	 * @return A list containing all the objects in the given iterable converted using the given {@link Converter}
+	 */
+	public static <F, T> List<T> convert(Object iterable, Converter<F, T> converter) {
 		List<T> collected = new ArrayList<T>();
 		if (iterable != null) for (F item : (Iterable<F>) iterable)
-			collected.add(convertor.convert(item));
+			collected.add(converter.convert(item));
 		return collected;
 	}
 
+	/**
+	 * Converts all the object in the iterable extracting the property defined by the given argument.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
+	 * @param iterable The iterable containing the objects to be converted
+	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
+	 * @return A list containing the argument's value extracted from the object in the given iterable
+	 */
 	public static <F, T> List<T> extract(Object iterable, T argument) {
 		return convert(iterable, new ArgumentConverter<F, T>(argument));
 	}
 	
+	/**
+	 * Converts all the object in the iterable in its String representation.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
+	 * @param iterable The iterable containing the objects to be converted in strings
+	 * @return A list containing the String representation of the objects in the given iterable
+	 */
 	public static List<String> extractString(Object iterable) {
 		return convert(iterable, new DefaultStringConverter());
 	}
 	
+	/**
+	 * Converts all the object in the iterable extracting the named property.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
+	 * @param iterable The iterable containing the objects to be converted
+	 * @param propertyName The name of the item's property on which the item must have no duplicated value
+	 * @return A list containing the property's value extracted from the object in the given iterable
+	 */
 	public static <F, T> List<T> extractProperty(Object iterable, String propertyName) {
 		return convert(iterable, new PropertyExtractor<F, T>(propertyName));
 	}
 	
-	public static <F, T> Map<T, F> map(Object iterable, Converter<F, T> convertor) {
+	/**
+	 * Maps the objects in the given iterable on the value extracted using the given {@link Converter}.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
+	 * @param iterable The iterable containing the objects to be mapped
+	 * @param converter The converter that specifies the key on which each object should be mapped
+	 * @return A map having as keys the argument value extracted from the objects in the given iterable and as values the corresponding objects
+	 */
+	public static <F, T> Map<T, F> map(Object iterable, Converter<F, T> converter) {
 		Map<T, F> map = new HashMap<T, F>();
 		if (iterable != null) for (F item : (Iterable<F>) iterable)
-			map.put(convertor.convert(item), item);
+			map.put(converter.convert(item), item);
 		return map;
 	}
 	
+	/**
+	 * Indexes the objects in the given iterable on the value of their argument.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
+	 * @param iterable The iterable containing the objects to be indexed
+	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
+	 * @return A map having as keys the argument value extracted from the objects in the given iterable and as values the corresponding objects
+	 */
 	public static <F, T> Map<T, F> index(Object iterable, T argument) {
 		return map(iterable, new ArgumentConverter<F, T>(argument));
 	}
