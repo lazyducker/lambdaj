@@ -82,4 +82,21 @@ public class TypedGroupByTest {
 		assertTrue(group35aged.getHeads().contains("name"));
 		assertEquals("Mario", group35aged.getHeadValue("name"));
 	}
+	
+	@Test
+	public void testGroupByAgeAndName() {
+		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+		
+		Group<Person> group = group(meAndMyFriends, by(on(Person.class).getAge()), by(on(Person.class).getFirstName()));
+
+		Group<Person> group29aged = group.findGroup("29");
+		assertFalse(group29aged.isLeaf());
+		
+		Collection<Person> persons29Aged = group29aged.findAll();
+		assertTrue(persons29Aged.contains(luca));
+		assertTrue(persons29Aged.contains(celestino));
+		
+		Group<Person> groupLuca = group29aged.findGroup("Luca");
+		assertTrue(groupLuca.findAll().contains(luca));
+	}
 }
