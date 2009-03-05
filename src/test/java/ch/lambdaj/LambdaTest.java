@@ -94,11 +94,17 @@ public class LambdaTest {
 	public void testSelectOnBooleanWithHaving() {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
 
-		Collection<Person> youngFriends = select(meAndMyFriends, having(on(Person.class).isYoung(), is(true)));
+		Collection<Person> youngFriends = select(meAndMyFriends, having(on(Person.class).isYoungerThan(30)));
 		assertEquals(2, youngFriends.size());
 		Iterator<Person> friendsIterator = youngFriends.iterator();
 		assertSame(luca, friendsIterator.next());
 		assertSame(celestino, friendsIterator.next());
+
+		Collection<Person> youngestFriends = select(meAndMyFriends, having(on(Person.class).isYoungerThan(25)));
+		assertTrue(youngestFriends.isEmpty());
+
+		Collection<Person> notSoYoungFriends = select(meAndMyFriends, having(on(Person.class).isYoungerThan(40)));
+		assertEquals(4, notSoYoungFriends.size());
 	}
 	
 	@Test

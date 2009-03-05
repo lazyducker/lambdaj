@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>exm</groupId>
     <artifactId>lambdaj</artifactId>
-    <version>1.3</version>
+    <version>1.3.1</version>
     <name>lambdaj</name>
     <scm>
         <connection>scm:svn:http://lambdaj.googlecode.com/svn/trunk</connection>
