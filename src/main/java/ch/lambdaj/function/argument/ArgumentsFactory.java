@@ -1,7 +1,5 @@
 package ch.lambdaj.function.argument;
 
-import static ch.lambdaj.function.argument.ArgumentsFactory.*;
-
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.concurrent.atomic.*;
