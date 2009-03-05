@@ -58,7 +58,7 @@ public class Person {
 		this.bestFriend = bestFriend;
 	}
 	
-	public boolean isYoung() {
-		return age < 30;
+	public boolean isYoungerThan(int maxAge) {
+		return age < maxAge;
 	}
 }

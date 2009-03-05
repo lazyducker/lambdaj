@@ -1,6 +1,6 @@
 package ch.lambdaj.function.argument;
 
-import static ch.lambdaj.function.argument.ProxyArgument.*;
+import static ch.lambdaj.function.argument.ArgumentsFactory.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
@@ -8,7 +8,7 @@ import java.util.*;
 
 import org.junit.*;
 
-public class ProxyArgumentTest {
+public class ArgumentsFactoryTest {
 
 	@Test
 	public void testGroupByInsuredName() {

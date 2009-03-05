@@ -1,6 +1,7 @@
 package ch.lambdaj.function.matcher;
 
 import static ch.lambdaj.function.argument.ArgumentsFactory.*;
+import static org.hamcrest.core.Is.*;
 
 import org.hamcrest.*;
 
@@ -33,6 +34,11 @@ public class HasArgumentWithValue<T> extends BaseMatcher<T> {
         description.appendText(")");
     }
 
+    @Factory
+    public static <T> Matcher<T> having(Object argument) {
+    	return having(argument, is(true));
+    }
+    
     @Factory
     public static <T> Matcher<T> having(Object argument, Matcher<? extends Object> value) {
     	return new HasArgumentWithValue<T>(actualArgument(argument), value);
