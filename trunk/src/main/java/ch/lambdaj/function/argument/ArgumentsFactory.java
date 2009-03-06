@@ -22,7 +22,7 @@ public final class ArgumentsFactory {
 		return (T)createArgument(rootArgumentId, clazz, new InvocationSequence(clazz));
 	}
 	
-	private static Map<InvocationSequence, Object> placeholderByInvocation = new HashMap<InvocationSequence, Object>();
+	private static Map<InvocationSequence, Object> placeholderByInvocation = new WeakHashMap<InvocationSequence, Object>();
     
 	static Object createArgument(Integer rootArgumentId, Class<?> clazz, InvocationSequence invocationSequence) {
 		Object placeholder = placeholderByInvocation.get(invocationSequence);
@@ -49,7 +49,7 @@ public final class ArgumentsFactory {
 	// /// Arguments
 	// ////////////////////////////////////////////////////////////////////////
 	
-	private static Map<Object, Argument> argumentsByPlaceholder = new HashMap<Object, Argument>();
+	private static Map<Object, Argument> argumentsByPlaceholder = new WeakHashMap<Object, Argument>();
 	
     private static void bindArgument(Object placeholder, Argument argument) {
     	if (isLimitedValues(placeholder)) limitedValuesArguments.get().setArgument(placeholder, argument);
