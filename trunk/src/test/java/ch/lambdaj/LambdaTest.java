@@ -18,6 +18,7 @@ import org.junit.*;
 
 import ch.lambdaj.function.convert.*;
 import ch.lambdaj.mock.*;
+import ch.lambdaj.mock.Person.*;
 
 /**
  * @author Mario Fusco
@@ -91,6 +92,14 @@ public class LambdaTest {
 	}
 	
 	@Test
+	public void testArgumentIdentity() {
+		assertTrue(on(Person.class).getAge() == on(Person.class).getAge());
+		assertTrue(on(Person.class).isYoungerThan(30) == on(Person.class).isYoungerThan(30));
+		assertFalse(on(Person.class).isYoungerThan(25) == on(Person.class).isYoungerThan(30));
+		assertTrue(on(Person.class).getGender() == on(Person.class).getGender());
+	}
+	
+	@Test
 	public void testSelectOnBooleanWithHaving() {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
 
@@ -115,6 +124,14 @@ public class LambdaTest {
 		assertEquals(2, youngFriends.size());
 		assertSame(luca, youngFriends.get(0));
 		assertSame(celestino, youngFriends.get(1));
+	}
+	
+	@Test
+	public void testSelectOnEnumMustFailWithHaving() {
+		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+		
+		List<Person> maleFriends = select(meAndMyFriends, having(on(Person.class).getGender(), equalTo(Gender.MALE)));
+		assertEquals(4, maleFriends.size());
 	}
 	
 	@Test

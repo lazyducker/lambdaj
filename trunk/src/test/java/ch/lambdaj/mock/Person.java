@@ -5,6 +5,10 @@ import java.util.*;
 
 public class Person {
 	
+	public enum Gender {
+		MALE, FEMALE;
+	}
+	
 	private String firstName;
 	private String lastName;
 	private int age;
@@ -31,6 +35,10 @@ public class Person {
 	public Person(String firstName, String lastName, int age) { 
 		this(firstName, lastName);
 		setAge(age);
+	}
+	
+	public Gender getGender() {
+		return Gender.MALE;
 	}
 	
 	public String getFirstName() {
