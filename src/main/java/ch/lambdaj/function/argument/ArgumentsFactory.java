@@ -33,7 +33,7 @@ public final class ArgumentsFactory {
 	    	placeholderByInvocation.put(invocationSequence, placeholder);
 		}
 		
-		if (isNewPlaceholder || isBoolean(placeholder))
+		if (isNewPlaceholder || isLimitedValues(placeholder))
 			bindArgument(placeholder, new Argument(rootArgumentId, invocationSequence));
 		
 		return placeholder;
@@ -52,47 +52,64 @@ public final class ArgumentsFactory {
 	private static Map<Object, Argument> argumentsByPlaceholder = new HashMap<Object, Argument>();
 	
     private static void bindArgument(Object placeholder, Argument argument) {
-    	if (isBoolean(placeholder))	booleanArguments.get().setArgument(placeholder, argument);
+    	if (isLimitedValues(placeholder)) limitedValuesArguments.get().setArgument(placeholder, argument);
     	else argumentsByPlaceholder.put(placeholder, argument);
     }
     
     public static Argument actualArgument(Object placeholder) {
-    	Argument actualArgument = isBoolean(placeholder) ? booleanArguments.get().getArgument(placeholder) : argumentsByPlaceholder.get(placeholder);
+    	Argument actualArgument = isLimitedValues(placeholder) ? limitedValuesArguments.get().getArgument(placeholder) : argumentsByPlaceholder.get(placeholder);
     	if (actualArgument == null) throw new RuntimeException("Unable to convert the placeholder " + placeholder + " in a valid argument");
     	return actualArgument;
     }
     
-	private static ThreadLocal<BooleanArgumentHolder> booleanArguments = new ThreadLocal<BooleanArgumentHolder>() {
-        protected BooleanArgumentHolder initialValue() {
-            return new BooleanArgumentHolder();
+	private static ThreadLocal<LimitedValuesArgumentHolder> limitedValuesArguments = new ThreadLocal<LimitedValuesArgumentHolder>() {
+        protected LimitedValuesArgumentHolder initialValue() {
+            return new LimitedValuesArgumentHolder();
         }
     };
     
-    private static boolean isBoolean(Object placeholder) {
-    	return placeholder != null && (placeholder instanceof Boolean || placeholder.getClass() == Boolean.TYPE);
+    private static boolean isLimitedValues(Object placeholder) {
+    	return placeholder != null && isLimitedValues(placeholder.getClass());
     }
     
-    private static final class BooleanArgumentHolder {
+    private static boolean isLimitedValues(Class<?> clazz) {
+    	return clazz.isEnum() || Boolean.class.isAssignableFrom(clazz) || clazz == Boolean.TYPE;
+    }
+    
+    private static final class LimitedValuesArgumentHolder {
     	
-    	private boolean placeholder = true;
-    	
-    	private Argument[] arguments = new Argument[2];
+    	private boolean booleanPlaceholder = true;
+    	private Argument[] booleanArguments = new Argument[2];
 
+    	private int enumPlaceholder = 0;
+    	private Map<Object, Argument> enumArguments = new HashMap<Object, Argument>();
+    	
     	private int booleanToInt(Object placeholder) {
         	return ((Boolean)placeholder).booleanValue() ? 1 : 0;
         }
     	
     	public void setArgument(Object placeholder, Argument argument) {
-    		arguments[booleanToInt(placeholder)] = argument;
+    		if (placeholder.getClass().isEnum()) enumArguments.put(placeholder, argument);
+    		else booleanArguments[booleanToInt(placeholder)] = argument;
     	}
 
     	public Argument getArgument(Object placeholder) {
-    		return arguments[booleanToInt(placeholder)];
+    		return placeholder.getClass().isEnum() ? enumArguments.get(placeholder) : booleanArguments[booleanToInt(placeholder)];
     	}
     	
-    	public boolean getNextPlaceholder() {
-    		placeholder = !placeholder;
-    		return placeholder;
+    	@SuppressWarnings("unchecked")
+    	public Object getNextPlaceholder(Class<?> clazz) {
+    		return clazz.isEnum() ? getNextEnumPlaceholder((Class<? extends Enum>)clazz) : getNextBooleanPlaceholder(); 
+    	}
+    	
+    	private boolean getNextBooleanPlaceholder() {
+    		booleanPlaceholder = !booleanPlaceholder;
+    		return booleanPlaceholder;
+    	}
+    	
+    	private <E extends Enum<E>> Enum<E> getNextEnumPlaceholder(Class<E> clazz) {
+    		List<E> enums = new ArrayList<E>(EnumSet.allOf(clazz));
+    		return enums.get(enumPlaceholder++ % enums.size());
     	}
     }
     
@@ -107,8 +124,8 @@ public final class ArgumentsFactory {
     }
     
     public static Object createArgumentPlaceholder(Class<?> clazz) {
-    	if (Boolean.class.isAssignableFrom(clazz) || clazz == Boolean.TYPE) 
-    		return booleanArguments.get().getNextPlaceholder();
+    	if (isLimitedValues(clazz)) 
+    		return limitedValuesArguments.get().getNextPlaceholder(clazz);
 	
     	Integer placeholderId = placeholderCounter.addAndGet(1);
 		if (clazz.isPrimitive() || Number.class.isAssignableFrom(clazz)) 
@@ -116,12 +133,11 @@ public final class ArgumentsFactory {
 		
 		if (clazz == String.class) return String.valueOf(placeholderId);
 		if (Date.class.isAssignableFrom(clazz)) return new Date(placeholderId);
-		if (clazz.isArray()) return new Object[0];
 
 		try {
 			return clazz.newInstance();
 		} catch (Exception e) {
-			return null;
+			throw new RuntimeException("It is not possible to create a placeholder for class: " + clazz.getName());
 		}
 	}
 	
