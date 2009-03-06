@@ -2,6 +2,7 @@ package ch.lambdaj.function.argument;
 
 import static ch.lambdaj.function.argument.ArgumentsFactory.*;
 
+import java.lang.ref.*;
 import java.lang.reflect.*;
 
 import net.sf.cglib.proxy.*;
@@ -12,14 +13,14 @@ public class ProxyArgument implements MethodInterceptor {
 	
 	private Class<?> proxiedClass;
 	
-	private InvocationSequence invocationSequence;
+	private WeakReference<InvocationSequence> invocationSequence;
 	
 	private int proxyId;
 	
 	ProxyArgument(Integer rootArgumentId, Class<?> proxiedClass, InvocationSequence invocationSequence) {
 		this.rootArgumentId = rootArgumentId;
 		this.proxiedClass = proxiedClass;
-		this.invocationSequence = invocationSequence;
+		this.invocationSequence = new WeakReference<InvocationSequence>(invocationSequence);
 		proxyId = getNextPlaceholderId();
 	}
 
@@ -29,7 +30,7 @@ public class ProxyArgument implements MethodInterceptor {
 		if (methodName.equals("equals")) return invocationSequence.equals(args[0]);
 		
 		// Add this invocation to the current invocation sequence
-		InvocationSequence currentInvocationSequence = new InvocationSequence(invocationSequence, new Invocation(proxiedClass, method, args));
+		InvocationSequence currentInvocationSequence = new InvocationSequence(invocationSequence.get(), new Invocation(proxiedClass, method, args));
 		Class<?> returnClass = method.getReturnType();
 		
 		// Creates a new proxy propagating the invocation sequence

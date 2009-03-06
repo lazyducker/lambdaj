@@ -1,5 +1,6 @@
 package ch.lambdaj.function.argument;
 
+import java.lang.ref.*;
 import java.lang.reflect.*;
 import java.util.*;
 
@@ -9,14 +10,25 @@ public class Invocation {
 
 	private Class<?> invokedClass;
 	private Method invokedMethod;
-	private Object[] args;
+	private List<WeakReference<Object>> weakArgs;
 
 	Invocation() { }
 	
 	Invocation(Class<?> invokedClass, Method invokedMethod, Object[] args) {
 		this.invokedClass = invokedClass;
 		this.invokedMethod = invokedMethod;
-		this.args = args;
+		if (args != null && args.length > 0) {
+			weakArgs = new ArrayList<WeakReference<Object>>();
+			for (Object arg : args) weakArgs.add(new WeakReference<Object>(arg));
+		}
+	}
+	
+	private Object[] getConcreteArgs() {
+		if (weakArgs == null) return null;
+		Object[] args = new Object[weakArgs.size()];
+		int i = 0;
+		for (WeakReference<Object> weakArg : weakArgs) args[i++] = weakArg.get();
+		return args;
 	}
 
 	public Class<?> getInvokedClass() {
@@ -36,7 +48,7 @@ public class Invocation {
 		if (invokedMethod == null) return object;
 		Object result = null;
 		try {
-			result = invokedMethod.invoke(object, args);
+			result = invokedMethod.invoke(object, getConcreteArgs());
 		} catch (Exception e) {
 			throw new InvocationException(e, invokedMethod, object);
 		}
@@ -46,7 +58,8 @@ public class Invocation {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(invokedMethod.toString());
-		if (args != null && args.length > 0) {
+		Object[] args = getConcreteArgs();
+		if (args != null) {
 			sb.append("with args ");
 			for (int i = 0; i < args.length; i++) sb.append(i == 0 ? "" : ", ").append(args[i]);
 		}
@@ -57,7 +70,7 @@ public class Invocation {
 	public int hashCode() {
 		int hashCode = 13 * invokedClass.hashCode();
 		if (invokedMethod != null) hashCode += 17 * invokedMethod.hashCode();
-		if (args != null) hashCode += 19 + args.length;
+		if (weakArgs != null) hashCode += 19 + weakArgs.size();
 		return hashCode;
 	}
 	
@@ -67,7 +80,7 @@ public class Invocation {
 		Invocation otherInvocation = (Invocation)object;
 		if (!areNullSafeEquals(invokedClass, otherInvocation.getInvokedClass())) return false;
 		if (!areNullSafeEquals(invokedMethod, otherInvocation.getInvokedMethod())) return false;
-		return Arrays.equals(args, otherInvocation.args);
+		return Arrays.equals(getConcreteArgs(), otherInvocation.getConcreteArgs());
 	}
 	
 	private boolean areNullSafeEquals(Object first, Object second) {
