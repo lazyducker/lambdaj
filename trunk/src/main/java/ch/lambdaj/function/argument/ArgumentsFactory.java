@@ -14,7 +14,7 @@ public final class ArgumentsFactory {
 	// /// Factory
 	// ////////////////////////////////////////////////////////////////////////
 	
-	private static AtomicInteger argumentCounter = new AtomicInteger();
+	private static AtomicInteger argumentCounter = new AtomicInteger(Integer.MIN_VALUE);
 	
 	@SuppressWarnings("unchecked")
 	public static <T> T createArgument(Class<T> clazz) {
@@ -26,13 +26,16 @@ public final class ArgumentsFactory {
     
 	static Object createArgument(Integer rootArgumentId, Class<?> clazz, InvocationSequence invocationSequence) {
 		Object placeholder = placeholderByInvocation.get(invocationSequence);
+		boolean isNewPlaceholder = placeholder == null;
 		
-		if (placeholder == null) {
+		if (isNewPlaceholder) {
 			placeholder = createPlaceholder(rootArgumentId, clazz, invocationSequence);
 	    	placeholderByInvocation.put(invocationSequence, placeholder);
 		}
 		
-    	bindArgument(placeholder, new Argument(rootArgumentId, invocationSequence));
+		if (isNewPlaceholder || isBoolean(placeholder))
+			bindArgument(placeholder, new Argument(rootArgumentId, invocationSequence));
+		
 		return placeholder;
 	}
 	
@@ -46,20 +49,51 @@ public final class ArgumentsFactory {
 	// /// Arguments
 	// ////////////////////////////////////////////////////////////////////////
 	
-	private static ThreadLocal<Map<Object, Argument>> argumentsStore = new ThreadLocal<Map<Object, Argument>>() {
-        protected Map<Object, Argument> initialValue() {
-            return new HashMap<Object, Argument>();
-        }
-    };
-    
+	private static Map<Object, Argument> argumentsByPlaceholder = new HashMap<Object, Argument>();
+	
     private static void bindArgument(Object placeholder, Argument argument) {
-    	argumentsStore.get().put(placeholder, argument);
+    	if (isBoolean(placeholder))	booleanArguments.get().setArgument(placeholder, argument);
+    	else argumentsByPlaceholder.put(placeholder, argument);
     }
     
     public static Argument actualArgument(Object placeholder) {
-    	Argument actualArgument = argumentsStore.get().get(placeholder);
+    	Argument actualArgument = isBoolean(placeholder) ? booleanArguments.get().getArgument(placeholder) : argumentsByPlaceholder.get(placeholder);
     	if (actualArgument == null) throw new RuntimeException("Unable to convert the placeholder " + placeholder + " in a valid argument");
     	return actualArgument;
+    }
+    
+	private static ThreadLocal<BooleanArgumentHolder> booleanArguments = new ThreadLocal<BooleanArgumentHolder>() {
+        protected BooleanArgumentHolder initialValue() {
+            return new BooleanArgumentHolder();
+        }
+    };
+    
+    private static boolean isBoolean(Object placeholder) {
+    	return placeholder != null && (placeholder instanceof Boolean || placeholder.getClass() == Boolean.TYPE);
+    }
+    
+    private static final class BooleanArgumentHolder {
+    	
+    	private boolean placeholder = true;
+    	
+    	private Argument[] arguments = new Argument[2];
+
+    	private int booleanToInt(Object placeholder) {
+        	return ((Boolean)placeholder).booleanValue() ? 1 : 0;
+        }
+    	
+    	public void setArgument(Object placeholder, Argument argument) {
+    		arguments[booleanToInt(placeholder)] = argument;
+    	}
+
+    	public Argument getArgument(Object placeholder) {
+    		return arguments[booleanToInt(placeholder)];
+    	}
+    	
+    	public boolean getNextPlaceholder() {
+    		placeholder = !placeholder;
+    		return placeholder;
+    	}
     }
     
 	// ////////////////////////////////////////////////////////////////////////
@@ -73,9 +107,15 @@ public final class ArgumentsFactory {
     }
     
     public static Object createArgumentPlaceholder(Class<?> clazz) {
-		Integer i = placeholderCounter.addAndGet(1);
-		if (clazz.isPrimitive() || Number.class.isAssignableFrom(clazz) || Boolean.class.isAssignableFrom(clazz)) return getPrimitivePlaceHolder(clazz, i);
-		if (clazz == String.class) return String.valueOf(i);
+    	if (Boolean.class.isAssignableFrom(clazz) || clazz == Boolean.TYPE) 
+    		return booleanArguments.get().getNextPlaceholder();
+	
+    	Integer placeholderId = placeholderCounter.addAndGet(1);
+		if (clazz.isPrimitive() || Number.class.isAssignableFrom(clazz)) 
+			return getPrimitivePlaceHolder(clazz, placeholderId);
+		
+		if (clazz == String.class) return String.valueOf(placeholderId);
+		if (Date.class.isAssignableFrom(clazz)) return new Date(placeholderId);
 		if (clazz.isArray()) return new Object[0];
 
 		try {
@@ -85,9 +125,9 @@ public final class ArgumentsFactory {
 		}
 	}
 	
-    private static Object getPrimitivePlaceHolder(Class<?> clazz, Integer i) {
+    private static Object getPrimitivePlaceHolder(Class<?> clazz, Integer placeholderId) {
 		try {
-			return ArgumentsFactory.class.getMethod(clazz.getSimpleName().substring(0, 3).toLowerCase() + "Placeholder", Integer.class).invoke(null, i);
+			return ArgumentsFactory.class.getMethod(clazz.getSimpleName().substring(0, 3).toLowerCase() + "Placeholder", Integer.class).invoke(null, placeholderId);
 		} catch (Exception e) {
 			throw new RuntimeException("Unable to create placeholder", e);
 		}
@@ -119,10 +159,6 @@ public final class ArgumentsFactory {
 	
 	public static Double douPlaceholder(Integer i) {
 		return Double.valueOf(i.doubleValue());
-	}
-
-	public static Boolean booPlaceholder(Integer i) {
-		return i % 2 == 0 ? Boolean.TRUE : Boolean.FALSE;
 	}
 
 	public static Void voiPlaceholder(Integer i) {
