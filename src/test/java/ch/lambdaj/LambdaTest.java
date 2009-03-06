@@ -94,17 +94,27 @@ public class LambdaTest {
 	public void testSelectOnBooleanWithHaving() {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
 
-		Collection<Person> youngFriends = select(meAndMyFriends, having(on(Person.class).isYoungerThan(30)));
+		List<Person> youngFriends = select(meAndMyFriends, having(on(Person.class).isYoungerThan(30)));
 		assertEquals(2, youngFriends.size());
-		Iterator<Person> friendsIterator = youngFriends.iterator();
-		assertSame(luca, friendsIterator.next());
-		assertSame(celestino, friendsIterator.next());
+		assertSame(luca, youngFriends.get(0));
+		assertSame(celestino, youngFriends.get(1));
 
-		Collection<Person> youngestFriends = select(meAndMyFriends, having(on(Person.class).isYoungerThan(25)));
+		List<Person> youngestFriends = select(meAndMyFriends, having(on(Person.class).isYoungerThan(25)));
 		assertTrue(youngestFriends.isEmpty());
 
-		Collection<Person> notSoYoungFriends = select(meAndMyFriends, having(on(Person.class).isYoungerThan(40)));
+		List<Person> notSoYoungFriends = select(meAndMyFriends, having(on(Person.class).isYoungerThan(40)));
 		assertEquals(4, notSoYoungFriends.size());
+	}
+	
+	@Test
+	public void testSelectOnDateWithHaving() {
+		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+
+		List<Person> youngFriends = select(meAndMyFriends, having(on(Person.class).getBirthDate(), greaterThan(new GregorianCalendar(1975, 0, 1).getTime())));
+		
+		assertEquals(2, youngFriends.size());
+		assertSame(luca, youngFriends.get(0));
+		assertSame(celestino, youngFriends.get(1));
 	}
 	
 	@Test

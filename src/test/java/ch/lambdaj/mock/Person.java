@@ -1,11 +1,14 @@
 package ch.lambdaj.mock;
 
+import java.util.*;
+
 
 public class Person {
 	
 	private String firstName;
 	private String lastName;
 	private int age;
+	private Date birthDate;
 	
 	private Person bestFriend;
 	
@@ -22,12 +25,12 @@ public class Person {
 	
 	public Person(String firstName, int age) { 
 		this(firstName);
-		this.age = age;
+		setAge(age);
 	}
 	
 	public Person(String firstName, String lastName, int age) { 
 		this(firstName, lastName);
-		this.age = age;
+		setAge(age);
 	}
 	
 	public String getFirstName() {
@@ -49,6 +52,11 @@ public class Person {
 	}
 	public void setAge(int age) {
 		this.age = age;
+		birthDate = new GregorianCalendar(2009 - age, 0, 1).getTime();
+	}
+	
+	public Date getBirthDate() {
+		return birthDate;
 	}
 
 	public Person getBestFriend() {
