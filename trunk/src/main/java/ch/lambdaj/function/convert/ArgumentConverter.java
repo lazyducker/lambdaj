@@ -7,6 +7,9 @@ package ch.lambdaj.function.convert;
 import static ch.lambdaj.function.argument.ArgumentsFactory.*;
 import ch.lambdaj.function.argument.*;
 
+/**
+ * @author Mario Fusco
+ */
 public class ArgumentConverter<F, T> implements Converter<F, T>{
 
 	private Argument argument;

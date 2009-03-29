@@ -12,21 +12,39 @@ import ch.lambdaj.function.argument.*;
 public class ArgumentComparator<T> implements Comparator<T> {
 
 	private Argument argument;
-	
-	public ArgumentComparator(Argument argument) {
-		this.argument = argument;
-	}
+	private Comparator<? extends Object> comparator;
 	
 	public ArgumentComparator(Object argument) {
 		this(actualArgument(argument));
 	}
 
+	public ArgumentComparator(Argument argument) {
+		this(argument, null);
+	}
+	
+	public ArgumentComparator(Object argument, Comparator<? extends Object> comparator) {
+		this(actualArgument(argument), comparator);
+	}
+	
+	public ArgumentComparator(Argument argument, Comparator<? extends Object> comparator) {
+		this.argument = argument;
+		this.comparator = comparator != null ? comparator : DEFAULT_ARGUMENT_COMPARATOR;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public int compare(T o1, T o2) {
-		Comparable val1 = (Comparable)argument.evaluate(o1);
-		Comparable val2 = (Comparable)argument.evaluate(o2);
+		Object val1 = argument.evaluate(o1);
+		Object val2 = argument.evaluate(o2);
 		if (val1 == null && val2 == null) return 0;
-		return val1 != null ? val1.compareTo(val2) : -val2.compareTo(null);
+		return ((Comparator<Object>)comparator).compare(val1, val2);
 	}
+	
+	private static final Comparator<? extends Object> DEFAULT_ARGUMENT_COMPARATOR = new DefaultArgumentComparator();
 
+	private static class DefaultArgumentComparator implements Comparator<Object> {
+		@SuppressWarnings("unchecked")
+		public int compare(Object val1, Object val2) {
+			return val1 != null ? ((Comparable)val1).compareTo(val2) : -((Comparable)val2).compareTo(null);
+		}
+	}
 }

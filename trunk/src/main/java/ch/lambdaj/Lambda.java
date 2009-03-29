@@ -17,7 +17,6 @@ import ch.lambdaj.proxy.*;
 /**
  * This class consists exclusively of static methods that allow to use all the core features of the lambdaj library.
  * @author Mario Fusco
- * @author Luca Marrocco
  */
 @SuppressWarnings("unchecked")
 public final class Lambda {
@@ -126,9 +125,38 @@ public final class Lambda {
 	}
 
 	// ////////////////////////////////////////////////////////////////////////
-	// /// Selection
+	// /// Sort
 	// ////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Sorts all the items in the given iterable on the respective values of the given argument.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
+	 * @param iterable The iterable of objects to be sorted
+	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
+	 * @return A List with the same items of the given iterable sorted on the respective value of the given argument
+	 */
+	public static <T> List<T> sort(Object iterable, Object argument) {
+		return sort(iterable, argument, null);
+	}
+	
+	/**
+	 * Sorts all the items in the given iterable on the respective values of the given argument comparing them with the given comparator.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
+	 * @param iterable The iterable of objects to be sorted
+	 * @param argument An argument defined using the {@link Lambda#on(Class)} method
+	 * @param comparator The comparator to determine the order of the list. A null value indicates that the elements' natural ordering should be used
+	 * @return A List with the same items of the given iterable sorted on the respective value of the given argument
+	 */
+	public static <T, A> List<T> sort(Object iterable, A argument, Comparator<A> comparator) {
+		List<T> sorted = new LinkedList<T>();
+		for (T item : (Iterable<T>)iterable) sorted.add(item);
+		Collections.sort(sorted, new ArgumentComparator(argument, comparator));
+		return sorted;
+	}
+	
+	// ////////////////////////////////////////////////////////////////////////
+	// /// Selection
+	// ////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Filters all the objects in the given iterable that match the given hamcrest Matcher
