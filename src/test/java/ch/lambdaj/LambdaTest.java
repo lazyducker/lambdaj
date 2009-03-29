@@ -67,6 +67,30 @@ public class LambdaTest {
 	}
 	
 	@Test
+	public void testSortOnAge() {
+		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+		
+		List<Person> sorted = sort(meAndMyFriends, on(Person.class).getAge());
+		assertSame(luca, sorted.get(0));
+		assertSame(celestino, sorted.get(1));
+		assertSame(me, sorted.get(2));
+		assertSame(biagio, sorted.get(3));
+	}
+	
+	@Test
+	public void testSortOnNameLenght() {
+		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+
+		List<Person> sorted = sort(meAndMyFriends, on(Person.class).getFirstName(), new Comparator<String>() {
+			public int compare(String s1, String s2) { return s1.length() - s2.length(); }
+		});
+		assertSame(luca, sorted.get(0));
+		assertSame(me, sorted.get(1));
+		assertSame(biagio, sorted.get(2));
+		assertSame(celestino, sorted.get(3));
+	}
+	
+	@Test
 	public void testSelectWithHaving() {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
 
