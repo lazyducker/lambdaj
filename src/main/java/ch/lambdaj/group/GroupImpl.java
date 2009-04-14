@@ -4,6 +4,8 @@
 
 package ch.lambdaj.group;
 
+import static ch.lambdaj.Lambda.*;
+
 import java.util.*;
 
 /**
@@ -16,6 +18,8 @@ public class GroupImpl<T> extends LinkedList<GroupItem<T>> implements Group<T> {
 	private Map<String, GroupItem<T>> groupsMap = new HashMap<String, GroupItem<T>>();
 
 	private transient GroupCondition groupCondition;
+
+	protected GroupImpl() { }
 
 	public GroupImpl(GroupCondition groupCondition) {
 		this.groupCondition = groupCondition;
@@ -50,14 +54,27 @@ public class GroupImpl<T> extends LinkedList<GroupItem<T>> implements Group<T> {
 		return groupItem == null ? null : groupItem.asGroup();
 	}
 
-	public Collection<T> find(String key) {
+	public Group<T> findGroup(Object key) {
+		return findGroup(key.toString());
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Group<T>> subgroups() {
+		return (List<Group<T>>)collect(forEach(this).asGroup());
+	}
+	
+	public List<T> find(String key) {
 		GroupItem<T> groupItem = groupsMap.get(key);
-		return groupItem == null ? new LinkedList<T>() : groupItem.asCollection();
+		return groupItem == null ? new LinkedList<T>() : groupItem.asList();
 	}
 
-	public Collection<T> findAll() {
-		Collection<T> allItems = new LinkedList<T>();
-		for (GroupItem<T> groupItem : this) allItems.addAll(groupItem.asCollection());
+	public List<T> find(Object key) {
+		return find(key.toString());
+	}
+	
+	public List<T> findAll() {
+		List<T> allItems = new LinkedList<T>();
+		for (GroupItem<T> groupItem : this) allItems.addAll(groupItem.asList());
 		return allItems;
 	}
 	
@@ -76,5 +93,4 @@ public class GroupImpl<T> extends LinkedList<GroupItem<T>> implements Group<T> {
 	public String getHeadValue(String key) {
 		return "";
 	}
-
 }
