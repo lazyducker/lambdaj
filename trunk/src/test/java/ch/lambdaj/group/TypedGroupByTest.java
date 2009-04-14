@@ -26,6 +26,7 @@ public class TypedGroupByTest {
 		Group<Person> group = group(meAndMyFriends, by(on(Person.class).getAge()));
 		assertFalse(group.isLeaf());
 		assertEquals(4, group.getSize());
+		assertEquals(3, group.subgroups().size());
 		
 		Set<String> keys = group.keySet();
 		assertTrue(keys.contains("29"));
@@ -37,14 +38,15 @@ public class TypedGroupByTest {
 		assertTrue(group.findAll().contains(luca));
 		assertTrue(group.findAll().contains(celestino));
 		
-		Group<Person> group29aged = group.findGroup("29");
+		Group<Person> group29aged = group.findGroup(29);
 		assertTrue(group29aged.isLeaf());
 		assertEquals(2, group29aged.getSize());
 		assertEquals(0, group29aged.keySet().size());
-		assertSame(group29aged, group29aged.findGroup(""));
+		assertSame(group29aged, group29aged.findGroup(null));
+		assertEquals(0, group29aged.subgroups().size());
 		
 		Collection<Person> persons29Aged = group29aged.findAll();
-		assertSame(persons29Aged, group29aged.find(""));
+		assertSame(persons29Aged, group29aged.find(null));
 		assertTrue(persons29Aged.contains(luca));
 		assertTrue(persons29Aged.contains(celestino));
 	}
@@ -89,7 +91,7 @@ public class TypedGroupByTest {
 		
 		Group<Person> group = group(meAndMyFriends, by(on(Person.class).getAge()), by(on(Person.class).getFirstName()));
 
-		Group<Person> group29aged = group.findGroup("29");
+		Group<Person> group29aged = group.findGroup(29);
 		assertFalse(group29aged.isLeaf());
 		
 		Collection<Person> persons29Aged = group29aged.findAll();

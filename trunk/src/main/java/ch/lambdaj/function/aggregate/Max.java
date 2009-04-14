@@ -6,15 +6,12 @@ package ch.lambdaj.function.aggregate;
 
 /**
  * @author Mario Fusco
- * @author Luca Marrocco
  */
-public class Max<T> extends Chooser<T> {
+public class Max<T> extends Chooser<Comparable<T>> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Comparable<T> choose(Comparable<T> first, Comparable<T> second) {
-		if (first == null) return second;
-		if (second == null) return first;
+	protected Comparable<T> choose(Comparable<T> first, Comparable<T> second) {
 		return first.compareTo((T) second) > 0 ? first : second;
 	}
 }

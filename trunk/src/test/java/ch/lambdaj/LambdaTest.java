@@ -78,6 +78,17 @@ public class LambdaTest {
 	}
 	
 	@Test
+	public void testFindOldest() {
+		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+		
+		Person oldest = selectMax(meAndMyFriends, on(Person.class).getAge());
+		assertSame(biagio, oldest);
+
+		Person alphabeticalFirst = selectMin(meAndMyFriends, on(Person.class).getFirstName());
+		assertSame(biagio, alphabeticalFirst);
+	}
+	
+	@Test
 	public void testSortOnNameLenght() {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
 

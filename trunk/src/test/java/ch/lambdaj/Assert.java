@@ -11,6 +11,7 @@ import org.hamcrest.*;
 import ch.lambdaj.function.aggregate.*;
 
 /** @author Luca Marrocco */
+@SuppressWarnings("unchecked")
 public class Assert {
 	public static final <T extends Number> void assertThatSum(Number op1, T op2, Matcher<T> matcher) {
 		Sum summer = new Sum();
@@ -20,13 +21,13 @@ public class Assert {
 
 	public static final <T extends Comparable> void assertThatMin(T op1, T op2, Matcher<T> matcher) {
 		Min<T> minFinder = new Min<T>();
-		T result = (T) minFinder.choose(op1, op2);
+		T result = (T) minFinder.aggregate(op1, op2);
 		assertThat(result, matcher);
 	}
 
 	public static final <T extends Comparable> void assertThatMax(T op1, T op2, Matcher<T> matcher) {
 		Max<T> maxFinder = new Max<T>();
-		T result = (T) maxFinder.choose(op1, op2);
+		T result = (T) maxFinder.aggregate(op1, op2);
 		assertThat(result, matcher);
 	}
 

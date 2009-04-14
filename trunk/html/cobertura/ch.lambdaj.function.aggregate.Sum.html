@@ -37,18 +37,18 @@
   <td class="src"><pre class="src">&nbsp;<span class="comment"> * @author Luca Marrocco</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;10</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;<span class="comment"> */</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;11</td>  <td class="nbHitsCovered">&nbsp;49</td>  <td class="src"><pre class="src">&nbsp;<span class="keyword">public</span> <span class="keyword">class</span> Sum <span class="keyword">implements</span> Aggregator&lt;Number&gt; {</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;11</td>  <td class="nbHitsCovered">&nbsp;91</td>  <td class="src"><pre class="src">&nbsp;<span class="keyword">public</span> <span class="keyword">class</span> Sum <span class="keyword">implements</span> Aggregator&lt;Number&gt; {</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;12</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        </pre></td></tr>
 <tr>  <td class="numLine">&nbsp;13</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> Number aggregate(Number first, Number second) {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;14</td>  <td class="nbHitsCovered"><a title="Line 14: Conditional coverage 100% (4/4) [each condition: 100%, 100%].">&nbsp;39</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 14: Conditional coverage 100% (4/4) [each condition: 100%, 100%].">                <span class="keyword">if</span> (second == <span class="keyword">null</span>) <span class="keyword">return</span> first == <span class="keyword">null</span> ? 0.0 : first;</a></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;14</td>  <td class="nbHitsCovered"><a title="Line 14: Conditional coverage 100% (4/4) [each condition: 100%, 100%].">&nbsp;79</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 14: Conditional coverage 100% (4/4) [each condition: 100%, 100%].">                <span class="keyword">if</span> (second == <span class="keyword">null</span>) <span class="keyword">return</span> first == <span class="keyword">null</span> ? 0.0 : first;</a></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;15</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;16</td>  <td class="nbHitsCovered"><a title="Line 16: Conditional coverage 100% (2/2).">&nbsp;34</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 16: Conditional coverage 100% (2/2).">                <span class="keyword">if</span> (second <span class="keyword">instanceof</span> Integer) <span class="keyword">return</span> aggregate(first, (Integer)second);</a></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;17</td>  <td class="nbHitsCovered"><a title="Line 17: Conditional coverage 100% (2/2).">&nbsp;6</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 17: Conditional coverage 100% (2/2).">                <span class="keyword">if</span> (second <span class="keyword">instanceof</span> Long) <span class="keyword">return</span> aggregate(first, (Long)second);</a></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;18</td>  <td class="nbHitsCovered"><a title="Line 18: Conditional coverage 100% (2/2).">&nbsp;4</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 18: Conditional coverage 100% (2/2).">                <span class="keyword">if</span> (second <span class="keyword">instanceof</span> Float) <span class="keyword">return</span> aggregate(first, (Float)second);</a></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;19</td>  <td class="nbHitsUncovered"><a title="Line 19: Conditional coverage 50% (1/2).">&nbsp;2</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 19: Conditional coverage 50% (1/2).">                <span class="keyword">if</span> (second <span class="keyword">instanceof</span> Double) <span class="keyword">return</span> aggregate(first, (Double)second);</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;16</td>  <td class="nbHitsCovered"><a title="Line 16: Conditional coverage 100% (2/2).">&nbsp;74</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 16: Conditional coverage 100% (2/2).">                <span class="keyword">if</span> (second <span class="keyword">instanceof</span> Integer) <span class="keyword">return</span> aggregate(first, (Integer)second);</a></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;17</td>  <td class="nbHitsCovered"><a title="Line 17: Conditional coverage 100% (2/2).">&nbsp;46</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 17: Conditional coverage 100% (2/2).">                <span class="keyword">if</span> (second <span class="keyword">instanceof</span> Long) <span class="keyword">return</span> aggregate(first, (Long)second);</a></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;18</td>  <td class="nbHitsCovered"><a title="Line 18: Conditional coverage 100% (2/2).">&nbsp;44</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 18: Conditional coverage 100% (2/2).">                <span class="keyword">if</span> (second <span class="keyword">instanceof</span> Float) <span class="keyword">return</span> aggregate(first, (Float)second);</a></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;19</td>  <td class="nbHitsUncovered"><a title="Line 19: Conditional coverage 50% (1/2).">&nbsp;42</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 19: Conditional coverage 50% (1/2).">                <span class="keyword">if</span> (second <span class="keyword">instanceof</span> Double) <span class="keyword">return</span> aggregate(first, (Double)second);</a></span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;20</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;21</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"unable to aggregate "</span> + first + <span class="string">" and "</span> + second);</span></pre></td></tr>
@@ -79,20 +79,20 @@
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;36</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">private</span> Double aggregate(Number first, Double second) {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;37</td>  <td class="nbHitsCovered"><a title="Line 37: Conditional coverage 100% (2/2).">&nbsp;2</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 37: Conditional coverage 100% (2/2).">                <span class="keyword">return</span> (first == <span class="keyword">null</span> ? emptyItem().doubleValue() : first.doubleValue()) + second.doubleValue();</a></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;37</td>  <td class="nbHitsCovered"><a title="Line 37: Conditional coverage 100% (2/2).">&nbsp;42</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 37: Conditional coverage 100% (2/2).">                <span class="keyword">return</span> (first == <span class="keyword">null</span> ? emptyItem().doubleValue() : first.doubleValue()) + second.doubleValue();</a></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;38</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;39</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;40</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> Number emptyItem() {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;41</td>  <td class="nbHitsCovered">&nbsp;13</td>  <td class="src"><pre class="src">&nbsp;                <span class="keyword">return</span> 0.0;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;41</td>  <td class="nbHitsCovered">&nbsp;15</td>  <td class="src"><pre class="src">&nbsp;                <span class="keyword">return</span> 0.0;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;42</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;43</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;}</pre></td></tr>
 </table>
 
-<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> 1.9 on 29/03/09 13.41.</div>
+<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> 1.9 on 14/04/09 22.55.</div>
 </body>
 </html>

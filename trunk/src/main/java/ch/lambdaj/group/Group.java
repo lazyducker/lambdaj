@@ -23,18 +23,38 @@ public interface Group<T> {
 	 * @return the subgroup with the given key or null if such a group doesn't exist
 	 */
 	Group<T> findGroup(String key);
+	
+	/**
+	 * Returns the subgroup indexed with the given key
+	 * @param key The key that identifies the searched subgroup
+	 * @return the subgroup with the given key or null if such a group doesn't exist
+	 */
+	Group<T> findGroup(Object key);
+	
+	/**
+	 * Returns all the subgroups of this group or an empty one if this group is a leaf 
+	 * @return the list of all the subgroups of this group
+	 */
+	List<Group<T>> subgroups();
 
 	/**
 	 * Returns all the items in the subgroup indexed with the given key
 	 * @param key The key that identifies the searched subgroup
-	 * @return all the object in the subgroup with the given key or an empty Collection if such group doesn't exist or is empty
+	 * @return all the object in the subgroup with the given key or an empty List if such group doesn't exist or is empty
 	 */
-	Collection<T> find(String key);
+	List<T> find(String key);
+	
+	/**
+	 * Returns all the items in the subgroup indexed with the given key
+	 * @param key The key that identifies the searched subgroup
+	 * @return all the object in the subgroup with the given key or an empty List if such group doesn't exist or is empty
+	 */
+	List<T> find(Object key);
 
 	/**
 	 * Returns all the items in this group
 	 */
-	Collection<T> findAll();
+	List<T> findAll();
 
 	/**
 	 * Returns how many items are present in this group.

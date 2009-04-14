@@ -4,17 +4,17 @@
 
 package ch.lambdaj.function.aggregate;
 
-public abstract class Chooser<T> implements Aggregator<Comparable<T>> {
+public abstract class Chooser<T> implements Aggregator<T> {
 
-	public Comparable<T> aggregate(Comparable<T> first, Comparable<T> second) {
+	public T aggregate(T first, T second) {
 		if (first == null) return second;
 		if (second == null) return first;
 		return choose(first, second);
 	}
 
-	public abstract Comparable<T> choose(Comparable<T> first, Comparable<T> second);
+	protected abstract T choose(T first, T second);
 
-	public Comparable<T> emptyItem() {
+	public T emptyItem() {
 		return null;
 	}
 }

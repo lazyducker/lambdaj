@@ -4,29 +4,42 @@ import java.util.*;
 
 public class LeafGroup<T> implements Group<T> {
 
-	private Collection<T> collection;
+	private List<T> list;
 	private Map<String, Object> headMap = new TreeMap<String, Object>();
 	
 	@SuppressWarnings("unchecked")
 	LeafGroup(Map<String, Object> map, String childrenNodeName) {
 		headMap = new TreeMap<String, Object>(map);
-		collection = (Collection<T>)headMap.remove(childrenNodeName);
+		list = (List<T>)headMap.remove(childrenNodeName);
 	}
 	
-	public Collection<T> find(String key) {
-		return collection;
+	public List<T> find(String key) {
+		return list;
 	}
 
-	public Collection<T> findAll() {
-		return collection;
+	public List<T> find(Object key) {
+		return find(key.toString());
+	}
+	
+	public List<T> findAll() {
+		return list;
 	}
 
 	public Group<T> findGroup(String key) {
 		return this;
 	}
+	
+	public Group<T> findGroup(Object key) {
+		return findGroup(key.toString());
+	}
+	
+	@Override
+	public List<Group<T>> subgroups() {
+		return new ArrayList<Group<T>>();
+	}
 
 	public int getSize() {
-		return collection.size();
+		return list.size();
 	}
 
 	public boolean isLeaf() {

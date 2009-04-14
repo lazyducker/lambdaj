@@ -303,6 +303,28 @@ public final class Lambda {
 		return collected;
 	}
 
+	/**
+	 * Selects the item in the given iterable having the lowest value on the given argument defined using the on method.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
+	 * @param iterable The iterable of objects to be filtered
+	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
+	 * @return The item in the given iterable with the minimum value on the given argument
+	 */
+	public static <T> T selectMin(Object iterable, Object argument) {
+		return (T)aggregate(iterable, new MinOnArgument<T>(argument));
+	}
+	
+	/**
+	 * Selects the item in the given iterable having the highest value on the given argument defined using the on method.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
+	 * @param iterable The iterable of objects to be filtered
+	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
+	 * @return The item in the given iterable with the maximum value on the given argument
+	 */
+	public static <T> T selectMax(Object iterable, Object argument) {
+		return (T)aggregate(iterable, new MaxOnArgument<T>(argument));
+	}
+	
 	// ////////////////////////////////////////////////////////////////////////
 	// /// Aggregation
 	// ////////////////////////////////////////////////////////////////////////
