@@ -33,7 +33,6 @@ public class LeafGroup<T> implements Group<T> {
 		return findGroup(key.toString());
 	}
 	
-	@Override
 	public List<Group<T>> subgroups() {
 		return new ArrayList<Group<T>>();
 	}
