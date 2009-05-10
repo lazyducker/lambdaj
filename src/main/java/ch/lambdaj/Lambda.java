@@ -93,7 +93,7 @@ public final class Lambda {
 	public static <T> List<? extends T> collect(Object iterable) {
 		if (!(iterable instanceof Iterable) && !(iterable instanceof Map)) 
 			throw new IllegalArgumentException(iterable + " is not an iterable");
-		List<T> collected = new LinkedList<T>();
+		List<T> collected = new ArrayList<T>();
 		for (Object item : (Iterable<?>) iterable) {
 			if (item instanceof Iterable) collected.addAll((Collection<T>) collect(item));
 			else if (item instanceof Map) collected.addAll((Collection<T>) collect(((Map<?,?>)item).values()));
@@ -148,7 +148,7 @@ public final class Lambda {
 	 * @return A List with the same items of the given iterable sorted on the respective value of the given argument
 	 */
 	public static <T, A> List<T> sort(Object iterable, A argument, Comparator<A> comparator) {
-		List<T> sorted = new LinkedList<T>();
+		List<T> sorted = new ArrayList<T>();
 		for (T item : (Iterable<T>)iterable) sorted.add(item);
 		Collections.sort(sorted, new ArgumentComparator(argument, comparator));
 		return sorted;
@@ -175,7 +175,7 @@ public final class Lambda {
 	 * @return A sublist of the given iterable containing all the objects that match the given hamcrest Matcher
 	 */
 	public static <T> List<T> select(Iterable<T> iterable, Matcher<?> matcher) {
-		List<T> collected = new LinkedList<T>();
+		List<T> collected = new ArrayList<T>();
 		if (iterable == null) return collected;
 		for (T item : iterable) if (matcher.matches(item)) collected.add(item);
 		return collected;
@@ -330,6 +330,16 @@ public final class Lambda {
 	// ////////////////////////////////////////////////////////////////////////
 
 	private static final Sum Sum = new Sum();
+	private static final SumInteger SumInteger = new SumInteger();
+	private static final SumLong SumLong = new SumLong();
+	private static final SumDouble SumDouble = new SumDouble();
+	
+	private static Aggregator<? extends Number> getSumAggregator(Object object) {
+		if (object instanceof Integer) return SumInteger;
+		if (object instanceof Double) return SumDouble;
+		if (object instanceof Long) return SumLong;
+		return Sum;
+	}
 
 	private static final Min Min = new Min();
 
@@ -416,7 +426,9 @@ public final class Lambda {
 	 */
 	public static Number sum(Object iterable) {
 		if (iterable instanceof Number) return (Number)iterable;
-		return aggregate(iterable, Sum);
+		if (!(iterable instanceof Iterable)) return 0.0;
+		Iterator iterator = ((Iterable)iterable).iterator();
+		return iterator.hasNext() ? aggregate(iterable, getSumAggregator(iterator.next())) : 0.0;
 	}
 
 	/**
@@ -428,7 +440,7 @@ public final class Lambda {
 	 * @throws An IllegalArgumentException if the iterable is not an Iterable
 	 */
 	public static <T> T sum(Object iterable, T argument) {
-		return (T)aggregate(iterable, Sum, argument);
+		return (T)aggregate(iterable, getSumAggregator(argument), argument);
 	}
 	
 	/**

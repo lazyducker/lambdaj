@@ -20,8 +20,8 @@ public class ConcatTest {
 
 	@Test
 	public void testConcatStringAndNumber() {
-		assertThatConcat("a", 1, is(equalTo("a, 1")));
-		assertThatConcat(1, "a", is(equalTo("1, a")));
+		assertThatConcat("a", "1", is(equalTo("a, 1")));
+		assertThatConcat("1", "a", is(equalTo("1, a")));
 	}
 
 	@Test

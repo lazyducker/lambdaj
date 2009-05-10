@@ -113,6 +113,18 @@ public class LambdaTest {
 	}
 	
 	@Test
+	public void testSelectWithHavingInOr() {
+		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+
+		Collection<Person> friends29aged = select(meAndMyFriends, having(on(Person.class).getAge(), is(equalTo(29))).or(having(on(Person.class).getAge(), is(equalTo(35)))));
+		assertEquals(3, friends29aged.size());
+		Iterator<Person> friendsIterator = friends29aged.iterator();
+		assertSame(me, friendsIterator.next());
+		assertSame(luca, friendsIterator.next());
+		assertSame(celestino, friendsIterator.next());
+	}
+	
+	@Test
 	public void testSelectDistinctAge() {
 		Object meAndMyFriends = asList(me, luca, biagio, celestino);
 		Collection<Person> distinctAgePersons = selectDistinct(meAndMyFriends, "age");
@@ -387,17 +399,6 @@ public class LambdaTest {
 
 		assertThat(result.size(), is(equalTo(1)));
 		assertThat(result, hasItem(franceExposure));
-	}
-
-	@Test
-	public void testConcatFromConcreteClass() {
-		List<Text> strings = new ArrayList<Text>();
-		strings.add(new Text("first"));
-		strings.add(new Text("second"));
-		strings.add(new Text("third"));
-
-		String result = join(forEach(strings).subString(1, 3));
-		assertThat(result, is(equalTo("ir, ec, hi")));
 	}
 
 	@Test

@@ -7,7 +7,7 @@ import org.hamcrest.*;
 
 import ch.lambdaj.function.argument.*;
 
-public class HasArgumentWithValue<T> extends BaseMatcher<T> {
+public class HasArgumentWithValue<T> extends LambdaJMatcher<T> {
 	
     private final Argument argument;
     private final Matcher<? extends Object> value;
@@ -35,13 +35,22 @@ public class HasArgumentWithValue<T> extends BaseMatcher<T> {
     }
 
     @Factory
-    public static <T> Matcher<T> having(Object argument) {
-    	return having(argument, is(true));
+    public static <T> HasArgumentWithValue<T> having(Object argument) {
+    	return having(argument, booleanMatcher);
     }
     
     @Factory
-    public static <T> Matcher<T> having(Object argument, Matcher<? extends Object> value) {
+    public static <T> HasArgumentWithValue<T> having(Object argument, Matcher<? extends Object> value) {
     	return new HasArgumentWithValue<T>(actualArgument(argument), value);
     }
 
+    private static BooleanMatcher booleanMatcher = new BooleanMatcher();
+    private static class BooleanMatcher extends BaseMatcher<Boolean> {
+		@Override
+		public boolean matches(Object item) {
+			return ((Boolean)item).booleanValue();
+		}
+		@Override
+		public void describeTo(Description description) { }
+    }
 }
