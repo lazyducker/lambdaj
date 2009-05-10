@@ -10,6 +10,7 @@ public class Invocation {
 
 	private Class<?> invokedClass;
 	private Method invokedMethod;
+	private String inkvokedPropertyName;
 	private List<WeakReference<Object>> weakArgs;
 
 	Invocation() { }
@@ -40,11 +41,11 @@ public class Invocation {
 	}
 	
 	public String getInkvokedPropertyName() {
-		return IntrospectionUtil.getPropertyName(invokedMethod);
+		if (inkvokedPropertyName == null) inkvokedPropertyName = IntrospectionUtil.getPropertyName(invokedMethod);
+		return inkvokedPropertyName;
 	}
 
 	public Object invokeOn(Object object) throws InvocationException {
-		if (!invokedClass.isInstance(object)) throw new InvocationException(invokedClass, object);
 		if (invokedMethod == null) return object;
 		Object result = null;
 		try {

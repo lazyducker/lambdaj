@@ -73,7 +73,7 @@ public final class ArgumentsFactory {
     }
     
     private static boolean isLimitedValues(Class<?> clazz) {
-    	return clazz.isEnum() || Boolean.class.isAssignableFrom(clazz) || clazz == Boolean.TYPE;
+    	return clazz == Boolean.TYPE || clazz == Boolean.class || clazz.isEnum();
     }
     
     private static final class LimitedValuesArgumentHolder {

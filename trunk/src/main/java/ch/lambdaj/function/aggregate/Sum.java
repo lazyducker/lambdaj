@@ -6,7 +6,6 @@ package ch.lambdaj.function.aggregate;
 
 /**
  * @author Mario Fusco
- * @author Luca Marrocco
  */
 public class Sum implements Aggregator<Number> {
 	

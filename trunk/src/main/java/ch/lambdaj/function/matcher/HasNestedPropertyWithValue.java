@@ -4,7 +4,7 @@ import static ch.lambdaj.util.IntrospectionUtil.*;
 
 import org.hamcrest.*;
 
-public class HasNestedPropertyWithValue<T> extends BaseMatcher<T> {
+public class HasNestedPropertyWithValue<T> extends LambdaJMatcher<T> {
 
     private final String propertyName;
     private final Matcher<? extends Object> value;

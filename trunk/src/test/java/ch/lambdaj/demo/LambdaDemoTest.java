@@ -1,11 +1,11 @@
 package ch.lambdaj.demo;
 
 import static ch.lambdaj.Lambda.*;
-import static ch.lambdaj.group.Groups.*;
+import static ch.lambdaj.demo.Util.*;
 import static ch.lambdaj.function.matcher.HasArgumentWithValue.*;
+import static ch.lambdaj.group.Groups.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
-import static ch.lambdaj.demo.Util.*;
 
 import java.util.*;
 import java.util.Map.*;
@@ -25,9 +25,9 @@ public class LambdaDemoTest {
 		for (Car car : db.getCars()) 
 			sb.append(car.getBrand()).append(", ");
 		String brandsIterative = sb.toString().substring(0, sb.length()-2);
-		
+
 		String brands = joinFrom(db.getCars()).getBrand();
-		
+
 		assertEquals(brandsIterative, brands);
 	}
 	
@@ -37,9 +37,9 @@ public class LambdaDemoTest {
 		for (Sale sale : db.getSales()) {
 			if (sale.getCar().getBrand().equals("Ferrari")) salesIterative.add(sale);
 		}
-		
+
 		List<Sale> sales = select(db.getSales(), having(on(Sale.class).getCar().getBrand(), equalTo("Ferrari")));
-		
+
 		assertTrue(listsAreEqual(sales, salesIterative));
 	}
 	
@@ -53,7 +53,7 @@ public class LambdaDemoTest {
 		for (Sale sale : db.getSales()) {
 			if (sale.getBuyer().equals(youngest)) salesIterative.add(sale);
 		}
-		
+
 		List<Sale> sales = select(db.getSales(), having(on(Sale.class).getBuyer(), equalTo(selectMin(db.getPersons(), on(Person.class).getAge()))));
 		
 		assertTrue(listsAreEqual(sales, salesIterative));
@@ -66,7 +66,7 @@ public class LambdaDemoTest {
 			double cost = sale.getCost();
 			if (cost > maxCost) maxCost = cost;
 		}
-		
+
 		double max = max(db.getSales(), on(Sale.class).getCost());
 		assertEquals(max, maxCost, .001);
 
@@ -81,12 +81,11 @@ public class LambdaDemoTest {
 			if (sale.getBuyer().isMale() && sale.getSeller().isMale())
 				sumIterative += sale.getCost();
 		}
-		
-		
-		double sum = sum(select(db.getSales(), allOf(having(on(Sale.class).getBuyer().isMale()), having(on(Sale.class).getSeller().isMale()))), on(Sale.class).getCost());
+
+		double sum = sum(select(db.getSales(), having(on(Sale.class).getBuyer().isMale()).and(having(on(Sale.class).getSeller().isMale()))), on(Sale.class).getCost());
 		assertEquals(sum, sumIterative, .001);
 
-		double sumFrom = sumFrom(select(db.getSales(), allOf(having(on(Sale.class).getBuyer().isMale()), having(on(Sale.class).getSeller().isMale())))).getCost();
+		double sumFrom = sumFrom(select(db.getSales(), having(on(Sale.class).getBuyer().isMale()).and(having(on(Sale.class).getSeller().isMale())))).getCost();
 		assertEquals(sumFrom, sumIterative, .001);
 	}
 
@@ -99,7 +98,7 @@ public class LambdaDemoTest {
 				if (buyerAge < ageIterative) ageIterative = buyerAge;
 			}
 		}
-		
+
 		int age = min(forEach(select(db.getSales(), having(on(Sale.class).getCost(), greaterThan(50000.00)))).getBuyer(), on(Person.class).getAge());
 
 		assertEquals(age, ageIterative);
@@ -113,7 +112,7 @@ public class LambdaDemoTest {
 				return Double.valueOf(s1.getCost()).compareTo(s2.getCost());
 			}
 		});
-		
+
 		List<Sale> sortedSales = sort(db.getSales(), on(Sale.class).getCost());
 
 		assertTrue(listsAreEqual(sortedSales, sortedSalesIterative));
@@ -123,7 +122,7 @@ public class LambdaDemoTest {
 	public void testExtractCarsOriginalCost() {
 		List<Double> costsIterative = new ArrayList<Double>();
 		for (Car car : db.getCars()) costsIterative.add(car.getOriginalValue());
-		
+
 		List<Double> costs = extract(db.getCars(), on(Car.class).getOriginalValue());
 
 		assertTrue(listsAreEqual(costs, costsIterative));
@@ -133,9 +132,9 @@ public class LambdaDemoTest {
 	public void testIndexCarsByBrand() {
 		Map<String, Car> carsByBrandIterative = new HashMap<String, Car>();
 		for (Car car : db.getCars()) carsByBrandIterative.put(car.getBrand(), car);
-		
+
 		Map<String, Car> carsByBrand = index(db.getCars(), on(Car.class).getBrand());
-		
+
 		assertEquals(carsByBrand.get("Ferrari"), carsByBrandIterative.get("Ferrari"));
 	}	
 	
@@ -168,7 +167,7 @@ public class LambdaDemoTest {
 	}
 	
 	@Test
-	public void testGroup() {
+	public void testFindMostBoughtCar() {
 		Map<Car, Integer> carsBought = new LinkedHashMap<Car, Integer>();
 		for (Sale sale : db.getSales()) {
 			Car car = sale.getCar();

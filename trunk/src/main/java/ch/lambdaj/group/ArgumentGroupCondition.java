@@ -6,13 +6,15 @@ import ch.lambdaj.function.argument.*;
 public class ArgumentGroupCondition extends AbstractGroupCondition<Argument> {
 	
 	private Argument groupBy;
+	private String groupName;
 
 	ArgumentGroupCondition(Object argument) {
 		groupBy = actualArgument(argument);
+		groupName = groupBy.getInkvokedPropertyName();
 	}
 	
 	public String getGroupName() {
-		return groupBy.getInkvokedPropertyName();
+		return groupName;
 	}
 
 	public String getGroupValue(Object item) {
