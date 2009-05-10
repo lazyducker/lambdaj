@@ -1,7 +1,6 @@
 package ch.lambdaj.function.matcher;
 
 import static ch.lambdaj.function.argument.ArgumentsFactory.*;
-import static org.hamcrest.core.Is.*;
 
 import org.hamcrest.*;
 
@@ -46,11 +45,9 @@ public class HasArgumentWithValue<T> extends LambdaJMatcher<T> {
 
     private static BooleanMatcher booleanMatcher = new BooleanMatcher();
     private static class BooleanMatcher extends BaseMatcher<Boolean> {
-		@Override
 		public boolean matches(Object item) {
 			return ((Boolean)item).booleanValue();
 		}
-		@Override
 		public void describeTo(Description description) { }
     }
 }
