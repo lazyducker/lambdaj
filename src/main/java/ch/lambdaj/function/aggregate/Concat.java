@@ -7,7 +7,7 @@ package ch.lambdaj.function.aggregate;
 /**
  * @author Mario Fusco
  */
-public class Concat implements Aggregator<String> {
+public class Concat implements Aggregator<Object> {
 
 	private String separator;
 
@@ -19,19 +19,17 @@ public class Concat implements Aggregator<String> {
 		this.separator = separator;
 	}
 
-	public String aggregate(String first, String second) {
-		boolean isFirstEmpty = empty(first);
-		boolean isSecondEmpty = empty(second);
-		
-		if (isFirstEmpty && isSecondEmpty) return "";
-		if (isFirstEmpty) return second;
-		if (isSecondEmpty) return first;
-		
-		return new StringBuilder().append(first).append(separator).append(second).toString();
+	public Object aggregate(Object first, Object second) {
+		if (empty(first) && empty(second)) return emptyItem();
+		if (empty(first)) return second;
+		if (empty(second)) return first;
+		return new StringBuilder().append(first.toString()).append(separator).append(second.toString()).toString();
 	}
 
-	private boolean empty(String string) {
-		return string == null || string.trim().equals("");
+	private boolean empty(Object object) {
+		if (object == null) return true;
+		if (object.toString().trim().equals("")) return true;
+		return false;
 	}
 
 	public String emptyItem() {
