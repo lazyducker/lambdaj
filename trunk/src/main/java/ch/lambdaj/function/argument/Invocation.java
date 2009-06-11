@@ -6,7 +6,7 @@ import java.util.*;
 
 import ch.lambdaj.util.*;
 
-public class Invocation {
+class Invocation {
 
 	private Class<?> invokedClass;
 	private Method invokedMethod;
@@ -32,20 +32,24 @@ public class Invocation {
 		return args;
 	}
 
-	public Class<?> getInvokedClass() {
+	Class<?> getInvokedClass() {
 		return invokedClass;
 	}
 
-	public Method getInvokedMethod() {
+	Method getInvokedMethod() {
 		return invokedMethod;
 	}
 	
-	public String getInkvokedPropertyName() {
+	Class<?> getReturnType() {
+		return invokedMethod.getReturnType();
+	}
+	
+	String getInkvokedPropertyName() {
 		if (inkvokedPropertyName == null) inkvokedPropertyName = IntrospectionUtil.getPropertyName(invokedMethod);
 		return inkvokedPropertyName;
 	}
 
-	public Object invokeOn(Object object) throws InvocationException {
+	Object invokeOn(Object object) throws InvocationException {
 		if (invokedMethod == null) return object;
 		Object result = null;
 		try {

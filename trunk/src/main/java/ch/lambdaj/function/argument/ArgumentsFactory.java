@@ -14,34 +14,31 @@ public final class ArgumentsFactory {
 	// /// Factory
 	// ////////////////////////////////////////////////////////////////////////
 	
-	private static AtomicInteger argumentCounter = new AtomicInteger(Integer.MIN_VALUE);
-	
 	@SuppressWarnings("unchecked")
 	public static <T> T createArgument(Class<T> clazz) {
-		Integer rootArgumentId = argumentCounter.addAndGet(1);
-		return (T)createArgument(rootArgumentId, clazz, new InvocationSequence(clazz));
+		return (T)createArgument(clazz, new InvocationSequence(clazz));
 	}
 	
 	private static Map<InvocationSequence, Object> placeholderByInvocation = new WeakHashMap<InvocationSequence, Object>();
     
-	static Object createArgument(Integer rootArgumentId, Class<?> clazz, InvocationSequence invocationSequence) {
+	static Object createArgument(Class<?> clazz, InvocationSequence invocationSequence) {
 		Object placeholder = placeholderByInvocation.get(invocationSequence);
 		boolean isNewPlaceholder = placeholder == null;
 		
 		if (isNewPlaceholder) {
-			placeholder = createPlaceholder(rootArgumentId, clazz, invocationSequence);
+			placeholder = createPlaceholder(clazz, invocationSequence);
 	    	placeholderByInvocation.put(invocationSequence, placeholder);
 		}
 		
 		if (isNewPlaceholder || isLimitedValues(placeholder))
-			bindArgument(placeholder, new Argument(rootArgumentId, invocationSequence));
+			bindArgument(placeholder, new Argument(invocationSequence));
 		
 		return placeholder;
 	}
 	
-	private static Object createPlaceholder(Integer rootArgumentId, Class<?> clazz, InvocationSequence invocationSequence) {
+	private static Object createPlaceholder(Class<?> clazz, InvocationSequence invocationSequence) {
 		return !Modifier.isFinal(clazz.getModifiers()) ? 
-				ProxyUtil.createProxy(new ProxyArgument(rootArgumentId, clazz, invocationSequence), clazz) : 
+				ProxyUtil.createProxy(new ProxyArgument(clazz, invocationSequence), clazz) : 
 				createArgumentPlaceholder(clazz);
 	}
 
@@ -57,6 +54,7 @@ public final class ArgumentsFactory {
     }
     
     public static Argument actualArgument(Object placeholder) {
+    	if (placeholder instanceof Argument) return (Argument)placeholder;
     	Argument actualArgument = isLimitedValues(placeholder) ? limitedValuesArguments.get().getArgument(placeholder) : argumentsByPlaceholder.get(placeholder);
     	if (actualArgument == null) throw new RuntimeException("Unable to convert the placeholder " + placeholder + " in a valid argument");
     	return actualArgument;
