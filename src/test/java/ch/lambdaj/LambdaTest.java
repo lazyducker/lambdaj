@@ -16,6 +16,7 @@ import java.util.*;
 import org.hamcrest.*;
 import org.junit.*;
 
+import ch.lambdaj.function.argument.*;
 import ch.lambdaj.function.convert.*;
 import ch.lambdaj.mock.*;
 import ch.lambdaj.mock.Person.*;
@@ -31,6 +32,19 @@ public class LambdaTest {
 	private Person biagio = new Person("Biagio", "Beatrice", 39);
 	private Person celestino = new Person("Celestino", "Bellone", 29);
 
+	@Test
+	public void testArgument() {
+		Argument bestFriendArgument = argument(on(Person.class).getBestFriend());
+		assertEquals("bestFriend", bestFriendArgument.getInkvokedPropertyName());
+		assertEquals(Person.class, bestFriendArgument.getRootArgumentClass());
+		assertEquals(Person.class, bestFriendArgument.getReturnType());
+		
+		Argument bestFriendAgeArgument = argument(on(Person.class).getBestFriend().getAge());
+		assertEquals("bestFriend.age", bestFriendAgeArgument.getInkvokedPropertyName());
+		assertEquals(Person.class, bestFriendAgeArgument.getRootArgumentClass());
+		assertEquals(Integer.TYPE, bestFriendAgeArgument.getReturnType());
+	}
+	
 	@Test
 	public void testForEach() {
 		List<Person> personInFamily = asList(new Person("Domenico"), new Person("Mario"), new Person("Irma"));
@@ -71,6 +85,17 @@ public class LambdaTest {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
 		
 		List<Person> sorted = sort(meAndMyFriends, on(Person.class).getAge());
+		assertSame(luca, sorted.get(0));
+		assertSame(celestino, sorted.get(1));
+		assertSame(me, sorted.get(2));
+		assertSame(biagio, sorted.get(3));
+	}
+	
+	@Test
+	public void testSortOnAgeArgument() {
+		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+		
+		List<Person> sorted = sort(meAndMyFriends, argument(on(Person.class).getAge()));
 		assertSame(luca, sorted.get(0));
 		assertSame(celestino, sorted.get(1));
 		assertSame(me, sorted.get(2));
@@ -465,6 +490,7 @@ public class LambdaTest {
 		for (int length : lengths) assertEquals(strings.get(i++).length(), length);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testStringPropertyExtractor() {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
@@ -473,6 +499,7 @@ public class LambdaTest {
 			assertEquals(agesAsString.get(i), String.valueOf(meAndMyFriends.get(i).getAge()));
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testNestedStringPropertyExtractor() {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);

@@ -1,51 +1,49 @@
 package ch.lambdaj.function.argument;
 
-import java.util.*;
-
-public class Argument implements Iterable<Invocation> {
+/**
+ * An Argument represents a statically defined sequence of method invocations on a given Class.
+ * @author Mario Fusco
+ */
+public class Argument {
 
 	private InvocationSequence invocationSequence;
 	
-	private Integer rootArgumentId;
-	
-	Argument(Integer rootArgumentId, InvocationSequence invocationSequence) {
-		this.rootArgumentId = rootArgumentId;
+	Argument(InvocationSequence invocationSequence) {
 		this.invocationSequence = invocationSequence;
 	}
 	
-	public InvocationSequence getInvocationSequence() {
-		return invocationSequence;
-	}
-
-	public Iterator<Invocation> iterator() {
-		return invocationSequence.iterator();
-	}
-	
+	/**
+	 * The JavaBean compatible names of the properties defined by the invocations sequence of this Argument.
+	 * For example on an Argument defined as <code>on(Person.class).getBestFriend().isMale()</code> it returns "bestFriend.male"
+	 */
 	public String getInkvokedPropertyName() {
 		return invocationSequence.getInkvokedPropertyName();
 	}
 
+	/**
+	 * Evaluates this Argument on the given object
+	 * @param object The Object on which this Argument should be evaluated. It must be compatible with the Argument's root class.
+	 * @return The value of this Argument for the given Object
+	 */
 	public Object evaluate(Object object) {
-//		if (object instanceof JoinedObject) object = ((JoinedObject)object).getObjectByClass(getRootArgumentClass());
 		for (Invocation invocation : invocationSequence) object = invocation.invokeOn(object);
 		return object;
 	}
 	
-	public Integer getRootArgumentId() {
-		return rootArgumentId;
-	}
-
+	/**
+	 * Returns the root class from which the sequence of method invocation defined by this argument starts
+	 */
 	public Class<?> getRootArgumentClass() {
 		return invocationSequence.getRootInvokedClass();
 	}
 	
 	/**
-	 * @return A unique String representation of the root object of this argument
+	 * Returns the type returned by the last method of the invocations sequence represented by this Argument.
 	 */
-	public String getRootReference() {
-		return getRootArgumentClass().getSimpleName().toLowerCase() + "_" + getRootArgumentId();
+	public Class<?> getReturnType() {
+		return invocationSequence.getReturnType();
 	}
-
+	
 	@Override
 	public String toString() {
 		return invocationSequence.toString();
@@ -54,7 +52,7 @@ public class Argument implements Iterable<Invocation> {
 	@Override
 	public boolean equals(Object object) {
 		if (!(object instanceof Argument)) return false;
-		return invocationSequence.equals(((Argument)object).getInvocationSequence());
+		return invocationSequence.equals(((Argument)object).invocationSequence);
 	}
 	
 	@Override

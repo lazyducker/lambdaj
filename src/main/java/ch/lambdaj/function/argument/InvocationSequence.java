@@ -2,7 +2,7 @@ package ch.lambdaj.function.argument;
 
 import java.util.*;
 
-public class InvocationSequence extends ArrayList<Invocation> {
+class InvocationSequence extends ArrayList<Invocation> {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -25,12 +25,16 @@ public class InvocationSequence extends ArrayList<Invocation> {
 		inkvokedPropertyName = sequence.getInkvokedPropertyName() + (sequence.isEmpty() ? "" : ".") + invocation.getInkvokedPropertyName();
 	}
 	
-	public Class<?> getRootInvokedClass() {
+	Class<?> getRootInvokedClass() {
 		return rootInvokedClass;
 	}
 	
-	public String getInkvokedPropertyName() {
+	String getInkvokedPropertyName() {
 		return inkvokedPropertyName;
+	}
+	
+	Class<?> getReturnType() {
+		return get(size()-1).getReturnType();
 	}
 	
 	@Override

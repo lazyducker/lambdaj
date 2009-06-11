@@ -31,6 +31,14 @@ public final class Lambda {
 	public static <T> T on(Class<T> clazz) {
 		return ArgumentsFactory.createArgument(clazz);
 	}
+	
+	/**
+	 * Returns the actual argument of the methods invocation sequence defined through the {@link Lambda#on(Class)} method.
+	 * @param argumentPlaceholder The placeholder for this argument created using the {@link Lambda#on(Class)} method
+	 */
+	public static Argument argument(Object argumentPlaceholder) {
+		return ArgumentsFactory.actualArgument(argumentPlaceholder);
+	}
 
 	/**
 	 * Transforms a collection of Ts in a single object having the same methods of a single instance of T.

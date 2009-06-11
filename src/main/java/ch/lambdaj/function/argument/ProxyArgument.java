@@ -9,16 +9,13 @@ import net.sf.cglib.proxy.*;
 
 public class ProxyArgument implements MethodInterceptor {
 	
-	private Integer rootArgumentId;
-	
 	private Class<?> proxiedClass;
 	
 	private WeakReference<InvocationSequence> invocationSequence;
 	
 	private int proxyId;
 	
-	ProxyArgument(Integer rootArgumentId, Class<?> proxiedClass, InvocationSequence invocationSequence) {
-		this.rootArgumentId = rootArgumentId;
+	ProxyArgument(Class<?> proxiedClass, InvocationSequence invocationSequence) {
 		this.proxiedClass = proxiedClass;
 		this.invocationSequence = new WeakReference<InvocationSequence>(invocationSequence);
 		proxyId = getNextPlaceholderId();
@@ -34,7 +31,7 @@ public class ProxyArgument implements MethodInterceptor {
 		Class<?> returnClass = method.getReturnType();
 		
 		// Creates a new proxy propagating the invocation sequence
-		return createArgument(rootArgumentId, returnClass, currentInvocationSequence);
+		return createArgument(returnClass, currentInvocationSequence);
 	}
 	
 	@Override
