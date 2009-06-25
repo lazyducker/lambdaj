@@ -14,24 +14,24 @@ public final class ArgumentsFactory {
 	// /// Factory
 	// ////////////////////////////////////////////////////////////////////////
 	
-	@SuppressWarnings("unchecked")
 	public static <T> T createArgument(Class<T> clazz) {
-		return (T)createArgument(clazz, new InvocationSequence(clazz));
+		return createArgument(clazz, new InvocationSequence(clazz));
 	}
 	
 	private static Map<InvocationSequence, Object> placeholderByInvocation = new WeakHashMap<InvocationSequence, Object>();
     
-	static Object createArgument(Class<?> clazz, InvocationSequence invocationSequence) {
-		Object placeholder = placeholderByInvocation.get(invocationSequence);
+	@SuppressWarnings("unchecked")
+	static <T> T createArgument(Class<T> clazz, InvocationSequence invocationSequence) {
+		T placeholder = (T)placeholderByInvocation.get(invocationSequence);
 		boolean isNewPlaceholder = placeholder == null;
 		
 		if (isNewPlaceholder) {
-			placeholder = createPlaceholder(clazz, invocationSequence);
+			placeholder = (T)createPlaceholder(clazz, invocationSequence);
 	    	placeholderByInvocation.put(invocationSequence, placeholder);
 		}
 		
 		if (isNewPlaceholder || isLimitedValues(placeholder))
-			bindArgument(placeholder, new Argument(invocationSequence));
+			bindArgument(placeholder, new Argument<T>(invocationSequence));
 		
 		return placeholder;
 	}
@@ -46,16 +46,17 @@ public final class ArgumentsFactory {
 	// /// Arguments
 	// ////////////////////////////////////////////////////////////////////////
 	
-	private static Map<Object, Argument> argumentsByPlaceholder = new WeakHashMap<Object, Argument>();
+	private static Map<Object, Argument<?>> argumentsByPlaceholder = new WeakHashMap<Object, Argument<?>>();
 	
-    private static void bindArgument(Object placeholder, Argument argument) {
+    private static <T> void bindArgument(T placeholder, Argument<T> argument) {
     	if (isLimitedValues(placeholder)) limitedValuesArguments.get().setArgument(placeholder, argument);
     	else argumentsByPlaceholder.put(placeholder, argument);
     }
     
-    public static Argument actualArgument(Object placeholder) {
-    	if (placeholder instanceof Argument) return (Argument)placeholder;
-    	Argument actualArgument = isLimitedValues(placeholder) ? limitedValuesArguments.get().getArgument(placeholder) : argumentsByPlaceholder.get(placeholder);
+	@SuppressWarnings("unchecked")
+    public static <T> Argument<T> actualArgument(T placeholder) {
+    	if (placeholder instanceof Argument) return (Argument<T>)placeholder;
+    	Argument<T> actualArgument = (Argument<T>)(isLimitedValues(placeholder) ? limitedValuesArguments.get().getArgument(placeholder) : argumentsByPlaceholder.get(placeholder));
     	if (actualArgument == null) throw new RuntimeException("Unable to convert the placeholder " + placeholder + " in a valid argument");
     	return actualArgument;
     }
@@ -77,21 +78,21 @@ public final class ArgumentsFactory {
     private static final class LimitedValuesArgumentHolder {
     	
     	private boolean booleanPlaceholder = true;
-    	private Argument[] booleanArguments = new Argument[2];
+    	private Argument<?>[] booleanArguments = new Argument[2];
 
     	private int enumPlaceholder = 0;
-    	private Map<Object, Argument> enumArguments = new HashMap<Object, Argument>();
+    	private Map<Object, Argument<?>> enumArguments = new HashMap<Object, Argument<?>>();
     	
     	private int booleanToInt(Object placeholder) {
         	return ((Boolean)placeholder).booleanValue() ? 1 : 0;
         }
     	
-    	public void setArgument(Object placeholder, Argument argument) {
+    	public void setArgument(Object placeholder, Argument<?> argument) {
     		if (placeholder.getClass().isEnum()) enumArguments.put(placeholder, argument);
     		else booleanArguments[booleanToInt(placeholder)] = argument;
     	}
 
-    	public Argument getArgument(Object placeholder) {
+    	public Argument<?> getArgument(Object placeholder) {
     		return placeholder.getClass().isEnum() ? enumArguments.get(placeholder) : booleanArguments[booleanToInt(placeholder)];
     	}
     	

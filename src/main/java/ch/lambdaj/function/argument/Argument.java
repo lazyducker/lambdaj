@@ -1,10 +1,11 @@
 package ch.lambdaj.function.argument;
 
+
 /**
  * An Argument represents a statically defined sequence of method invocations on a given Class.
  * @author Mario Fusco
  */
-public class Argument {
+public class Argument<T> {
 
 	private InvocationSequence invocationSequence;
 	
@@ -25,9 +26,10 @@ public class Argument {
 	 * @param object The Object on which this Argument should be evaluated. It must be compatible with the Argument's root class.
 	 * @return The value of this Argument for the given Object
 	 */
-	public Object evaluate(Object object) {
+	@SuppressWarnings("unchecked")
+	public T evaluate(Object object) {
 		for (Invocation invocation : invocationSequence) object = invocation.invokeOn(object);
-		return object;
+		return (T)object;
 	}
 	
 	/**
@@ -40,8 +42,9 @@ public class Argument {
 	/**
 	 * Returns the type returned by the last method of the invocations sequence represented by this Argument.
 	 */
-	public Class<?> getReturnType() {
-		return invocationSequence.getReturnType();
+	@SuppressWarnings("unchecked")
+	public Class<T> getReturnType() {
+		return (Class<T>)invocationSequence.getReturnType();
 	}
 	
 	@Override
@@ -52,7 +55,7 @@ public class Argument {
 	@Override
 	public boolean equals(Object object) {
 		if (!(object instanceof Argument)) return false;
-		return invocationSequence.equals(((Argument)object).invocationSequence);
+		return invocationSequence.equals(((Argument<?>)object).invocationSequence);
 	}
 	
 	@Override

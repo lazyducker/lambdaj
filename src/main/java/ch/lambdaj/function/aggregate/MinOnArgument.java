@@ -1,15 +1,15 @@
 package ch.lambdaj.function.aggregate;
 
 
-public class MinOnArgument<T> extends ChooserOnArgument<T> {
+public class MinOnArgument<T, A> extends ChooserOnArgument<T, A> {
 
-	public MinOnArgument(Object argument) {
+	public MinOnArgument(A argument) {
 		super(argument);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected T chooseOnArgument(T first, Object firstArgument, T second, Object secondArgument) {
+	protected T chooseOnArgument(T first, A firstArgument, T second, A secondArgument) {
 		return ((Comparable)firstArgument).compareTo(secondArgument) < 0 ? first : second;
 	}
 }

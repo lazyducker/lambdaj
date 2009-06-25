@@ -12,9 +12,9 @@ import ch.lambdaj.function.argument.*;
  */
 public class ArgumentConverter<F, T> implements Converter<F, T>{
 
-	private Argument argument;
+	private Argument<T> argument;
 	
-	public ArgumentConverter(Argument argument) {
+	public ArgumentConverter(Argument<T> argument) {
 		this.argument = argument;
 	}
 	
@@ -22,7 +22,6 @@ public class ArgumentConverter<F, T> implements Converter<F, T>{
 		this(actualArgument(argument));
 	}
 	
-	@SuppressWarnings("unchecked")
 	public T convert(F from) {
 		return (T)argument.evaluate(from);
 	}

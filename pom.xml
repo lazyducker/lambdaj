@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>exm</groupId>
     <artifactId>lambdaj</artifactId>
-    <version>1.9</version>
+    <version>1.9.1</version>
     <name>lambdaj</name>
     <scm>
         <connection>scm:svn:http://lambdaj.googlecode.com/svn/trunk</connection>
@@ -39,7 +39,7 @@
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
-            <version>2.1_3</version>
+            <version>2.2</version>
         </dependency>
         <dependency>
             <groupId>net.sf.json-lib</groupId>

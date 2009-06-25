@@ -3,9 +3,9 @@ package ch.lambdaj.group;
 import static ch.lambdaj.function.argument.ArgumentsFactory.*;
 import ch.lambdaj.function.argument.*;
 
-public class ArgumentGroupCondition extends AbstractGroupCondition<Argument> {
+public class ArgumentGroupCondition extends AbstractGroupCondition<Argument<?>> {
 	
-	private Argument groupBy;
+	private Argument<?> groupBy;
 	private String groupName;
 
 	ArgumentGroupCondition(Object argument) {
@@ -27,7 +27,7 @@ public class ArgumentGroupCondition extends AbstractGroupCondition<Argument> {
 	}
 
 	public ArgumentGroupCondition head(Object argument) {
-		Argument actualArgument = actualArgument(argument);
+		Argument<?> actualArgument = actualArgument(argument);
 		additionalProperties.put(actualArgument.getInkvokedPropertyName(), actualArgument);
 		return this;
 	}
