@@ -6,12 +6,12 @@ import org.hamcrest.*;
 
 import ch.lambdaj.function.argument.*;
 
-public class HasArgumentWithValue<T> extends LambdaJMatcher<T> {
+public class HasArgumentWithValue<T, A> extends LambdaJMatcher<T> {
 	
-    private final Argument<T> argument;
+    private final Argument<A> argument;
     private final Matcher<? extends Object> value;
 
-    public HasArgumentWithValue(Argument<T> argument, Matcher<? extends Object> value) {
+    public HasArgumentWithValue(Argument<A> argument, Matcher<? extends Object> value) {
         this.argument = argument;
         this.value = value;
     }
@@ -34,13 +34,13 @@ public class HasArgumentWithValue<T> extends LambdaJMatcher<T> {
     }
 
     @Factory
-    public static HasArgumentWithValue<Boolean> having(Boolean argument) {
+    public static <T> HasArgumentWithValue<T, Boolean> having(Boolean argument) {
     	return having(argument, booleanMatcher);
     }
     
     @Factory
-    public static <T> HasArgumentWithValue<T> having(T argument, Matcher<? extends Object> value) {
-    	return new HasArgumentWithValue<T>(actualArgument(argument), value);
+    public static <T, A> HasArgumentWithValue<T, A> having(A argument, Matcher<? extends Object> value) {
+    	return new HasArgumentWithValue<T, A>(actualArgument(argument), value);
     }
 
     private static BooleanMatcher booleanMatcher = new BooleanMatcher();
