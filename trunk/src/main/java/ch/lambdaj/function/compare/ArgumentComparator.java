@@ -9,24 +9,24 @@ import ch.lambdaj.function.argument.*;
 /**
  * @author Mario Fusco
  */
-public class ArgumentComparator<T> implements Comparator<T> {
+public class ArgumentComparator<T, A> implements Comparator<T> {
 
-	private Argument argument;
+	private Argument<A> argument;
 	private Comparator<? extends Object> comparator;
 	
-	public ArgumentComparator(Object argument) {
+	public ArgumentComparator(A argument) {
 		this(actualArgument(argument));
 	}
 
-	public ArgumentComparator(Argument argument) {
+	public ArgumentComparator(Argument<A> argument) {
 		this(argument, null);
 	}
 	
-	public ArgumentComparator(Object argument, Comparator<? extends Object> comparator) {
+	public ArgumentComparator(A argument, Comparator<? extends Object> comparator) {
 		this(actualArgument(argument), comparator);
 	}
 	
-	public ArgumentComparator(Argument argument, Comparator<? extends Object> comparator) {
+	public ArgumentComparator(Argument<A> argument, Comparator<? extends Object> comparator) {
 		this.argument = argument;
 		this.comparator = comparator != null ? comparator : DEFAULT_ARGUMENT_COMPARATOR;
 	}

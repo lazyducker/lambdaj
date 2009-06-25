@@ -8,10 +8,10 @@ import ch.lambdaj.function.argument.*;
 
 public class HasArgumentWithValue<T> extends LambdaJMatcher<T> {
 	
-    private final Argument argument;
+    private final Argument<T> argument;
     private final Matcher<? extends Object> value;
 
-    public HasArgumentWithValue(Argument argument, Matcher<? extends Object> value) {
+    public HasArgumentWithValue(Argument<T> argument, Matcher<? extends Object> value) {
         this.argument = argument;
         this.value = value;
     }
@@ -34,12 +34,12 @@ public class HasArgumentWithValue<T> extends LambdaJMatcher<T> {
     }
 
     @Factory
-    public static <T> HasArgumentWithValue<T> having(Object argument) {
+    public static HasArgumentWithValue<Boolean> having(Boolean argument) {
     	return having(argument, booleanMatcher);
     }
     
     @Factory
-    public static <T> HasArgumentWithValue<T> having(Object argument, Matcher<? extends Object> value) {
+    public static <T> HasArgumentWithValue<T> having(T argument, Matcher<? extends Object> value) {
     	return new HasArgumentWithValue<T>(actualArgument(argument), value);
     }
 

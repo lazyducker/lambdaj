@@ -14,7 +14,6 @@ import org.junit.*;
 
 import ch.lambdaj.group.*;
 
-@SuppressWarnings("unchecked")
 public class LambdaDemoTest {
 
 	private Db db = Db.getInstance();

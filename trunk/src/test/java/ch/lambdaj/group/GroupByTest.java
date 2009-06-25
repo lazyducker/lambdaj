@@ -13,7 +13,6 @@ import static org.junit.Assert.*;
 
 import java.util.*;
 
-import org.jmock.*;
 import org.junit.*;
 
 import ch.lambdaj.mock.*;
@@ -23,7 +22,6 @@ import ch.lambdaj.mock.*;
  * @author Luca Marrocco
  */
 public class GroupByTest {
-	private Mockery context = new Mockery();
 
 	@Before
 	public void setUp() {

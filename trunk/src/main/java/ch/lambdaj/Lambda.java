@@ -36,7 +36,7 @@ public final class Lambda {
 	 * Returns the actual argument of the methods invocation sequence defined through the {@link Lambda#on(Class)} method.
 	 * @param argumentPlaceholder The placeholder for this argument created using the {@link Lambda#on(Class)} method
 	 */
-	public static Argument argument(Object argumentPlaceholder) {
+	public static <T> Argument<T> argument(T argumentPlaceholder) {
 		return ArgumentsFactory.actualArgument(argumentPlaceholder);
 	}
 
@@ -129,7 +129,7 @@ public final class Lambda {
 	 * @throws A RuntimeException if the iterable is not an Iterable or a Map
 	 */
 	public static <T> List<T> collect(Object iterable, T argument) {
-		return (List<T>)collect(convert(iterable, new ArgumentConverter<Object, Object>(argument)));
+		return (List<T>)collect(convert(iterable, new ArgumentConverter<Object, T>(argument)));
 	}
 
 	// ////////////////////////////////////////////////////////////////////////
@@ -158,7 +158,7 @@ public final class Lambda {
 	public static <T, A> List<T> sort(Object iterable, A argument, Comparator<A> comparator) {
 		List<T> sorted = new ArrayList<T>();
 		for (T item : (Iterable<T>)iterable) sorted.add(item);
-		Collections.sort(sorted, new ArgumentComparator(argument, comparator));
+		Collections.sort(sorted, new ArgumentComparator<T, A>(argument, comparator));
 		return sorted;
 	}
 	
@@ -293,8 +293,8 @@ public final class Lambda {
 	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
 	 * @return A Collection with the same items of the given iterable but containing no duplicate values on the given argument
 	 */
-	public static <T> Collection<T> selectDistinctArgument(Object iterable, Object argument) {
-		return selectDistinct((Iterable<T>) iterable, new ArgumentComparator<T>(argument));
+	public static <T, A> Collection<T> selectDistinctArgument(Object iterable, A argument) {
+		return selectDistinct((Iterable<T>) iterable, new ArgumentComparator<T, A>(argument));
 	}
 	
 	/**
@@ -318,8 +318,8 @@ public final class Lambda {
 	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
 	 * @return The item in the given iterable with the minimum value on the given argument
 	 */
-	public static <T> T selectMin(Object iterable, Object argument) {
-		return (T)aggregate(iterable, new MinOnArgument<T>(argument));
+	public static <T, A> T selectMin(Object iterable, A argument) {
+		return (T)aggregate(iterable, new MinOnArgument<T, A>(argument));
 	}
 	
 	/**
@@ -329,8 +329,8 @@ public final class Lambda {
 	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
 	 * @return The item in the given iterable with the maximum value on the given argument
 	 */
-	public static <T> T selectMax(Object iterable, Object argument) {
-		return (T)aggregate(iterable, new MaxOnArgument<T>(argument));
+	public static <T, A> T selectMax(Object iterable, A argument) {
+		return (T)aggregate(iterable, new MaxOnArgument<T, A>(argument));
 	}
 	
 	// ////////////////////////////////////////////////////////////////////////
@@ -380,9 +380,9 @@ public final class Lambda {
 	 * @return The result of the aggregation of all the items in the given iterable
 	 * @throws A RuntimeException if the iterable is not an Iterable
 	 */
-	public static <T> T aggregate(Object iterable, Aggregator<T> aggregator, Object argument) {
+	public static <T, A> T aggregate(Object iterable, Aggregator<T> aggregator, A argument) {
 		if (!(iterable instanceof Iterable)) throw new RuntimeException(iterable + " is not an iterable");
-		return aggregate(convert(iterable, new ArgumentConverter<Object, Object>(argument)), aggregator);
+		return aggregate(convert(iterable, new ArgumentConverter<T, A>(argument)), aggregator);
 	}
 	
 	/**
@@ -420,7 +420,7 @@ public final class Lambda {
 	 * @return A proxy of the class of the first object in the iterable representing an aggregation lambda function
 	 */
 	public static <T, A> T aggregateFrom(Iterable<T> iterable, Class<?> clazz, Aggregator<A> aggregator) {
-		return (T) ProxyAggregator.createProxyAggregator(iterable, aggregator, clazz);
+		return ProxyAggregator.createProxyAggregator(iterable, aggregator, clazz);
 	}
 
 	// -- (Sum) ---------------------------------------------------------------
@@ -435,7 +435,7 @@ public final class Lambda {
 	public static Number sum(Object iterable) {
 		if (iterable instanceof Number) return (Number)iterable;
 		if (!(iterable instanceof Iterable)) return 0.0;
-		Iterator iterator = ((Iterable)iterable).iterator();
+		Iterator<?> iterator = ((Iterable<?>)iterable).iterator();
 		return iterator.hasNext() ? aggregate(iterable, getSumAggregator(iterator.next())) : 0.0;
 	}
 

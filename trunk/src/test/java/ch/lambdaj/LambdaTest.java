@@ -34,12 +34,12 @@ public class LambdaTest {
 
 	@Test
 	public void testArgument() {
-		Argument bestFriendArgument = argument(on(Person.class).getBestFriend());
+		Argument<Person> bestFriendArgument = argument(on(Person.class).getBestFriend());
 		assertEquals("bestFriend", bestFriendArgument.getInkvokedPropertyName());
 		assertEquals(Person.class, bestFriendArgument.getRootArgumentClass());
 		assertEquals(Person.class, bestFriendArgument.getReturnType());
 		
-		Argument bestFriendAgeArgument = argument(on(Person.class).getBestFriend().getAge());
+		Argument<Integer> bestFriendAgeArgument = argument(on(Person.class).getBestFriend().getAge());
 		assertEquals("bestFriend.age", bestFriendAgeArgument.getInkvokedPropertyName());
 		assertEquals(Person.class, bestFriendAgeArgument.getRootArgumentClass());
 		assertEquals(Integer.TYPE, bestFriendAgeArgument.getReturnType());
