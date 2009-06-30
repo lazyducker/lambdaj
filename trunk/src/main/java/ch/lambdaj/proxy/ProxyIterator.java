@@ -4,16 +4,15 @@
 
 package ch.lambdaj.proxy;
 
+import static ch.lambdaj.proxy.ProxyUtil.*;
+
 import java.lang.reflect.*;
 import java.util.*;
-
-import net.sf.cglib.proxy.*;
-import ch.lambdaj.*;
 
 /**
  * @author Mario Fusco
  */
-public class ProxyIterator<T> implements MethodInterceptor, Iterable<T> {
+public class ProxyIterator<T> extends InvocationInterceptor implements Iterable<T> {
 
 	private Iterable<T> proxiedCollection;
 
@@ -21,9 +20,14 @@ public class ProxyIterator<T> implements MethodInterceptor, Iterable<T> {
 		this.proxiedCollection = proxiedCollection;
 	}
 
-	public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+	public Object invoke(Object obj, Method method, Object[] args) throws Throwable {
 		if (method.getName().equals("iterator")) return iterator();
-		return Lambda.forEach(collectValues(method, args), method.getReturnType());
+		List<Object> collectedValues = collectValues(method, args);
+//		try {
+			return createProxyIterator(collectedValues, method.getReturnType());
+//		} catch (UnproxableClassException uce) {
+//			return createProxyForFinalClass(new ProxyIterator<Object>(collectedValues), method.getReturnType());
+//		}
 	}
 
 	protected List<Object> collectValues(Method method, Object[] args) throws Throwable {
@@ -37,7 +41,7 @@ public class ProxyIterator<T> implements MethodInterceptor, Iterable<T> {
 
 	@SuppressWarnings("unchecked")
 	public static <T> T createProxyIterator(Iterable<T> proxiedCollection, Class<?> clazz) {
-		return (T)ProxyUtil.createProxy(new ProxyIterator<T>(proxiedCollection), clazz);
+		return (T)createProxy(new ProxyIterator<T>(proxiedCollection), clazz);
 	}
 
 	public Iterator<T> iterator() {

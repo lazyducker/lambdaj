@@ -5,9 +5,9 @@ import static ch.lambdaj.function.argument.ArgumentsFactory.*;
 import java.lang.ref.*;
 import java.lang.reflect.*;
 
-import net.sf.cglib.proxy.*;
+import ch.lambdaj.proxy.*;
 
-public class ProxyArgument implements MethodInterceptor {
+public class ProxyArgument extends InvocationInterceptor {
 	
 	private Class<?> proxiedClass;
 	
@@ -21,7 +21,7 @@ public class ProxyArgument implements MethodInterceptor {
 		proxyId = getNextPlaceholderId();
 	}
 
-	public Object intercept(Object proxy, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
+	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 		String methodName = method.getName(); 
 		if (methodName.equals("hashCode")) return invocationSequence.hashCode();
 		if (methodName.equals("equals")) return invocationSequence.equals(args[0]);
