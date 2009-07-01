@@ -10,7 +10,7 @@ import net.sf.cglib.proxy.*;
  */
 public abstract class InvocationInterceptor implements MethodInterceptor, InvocationHandler {
 
-	public Object intercept(Object proxy, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
+	public final Object intercept(Object proxy, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
 		return invoke(proxy, method, args);
 	}
 

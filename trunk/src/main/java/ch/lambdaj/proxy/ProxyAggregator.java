@@ -4,11 +4,10 @@
 
 package ch.lambdaj.proxy;
 
-import static ch.lambdaj.Lambda.aggregate;
+import static ch.lambdaj.Lambda.*;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 
-import net.sf.cglib.proxy.MethodProxy;
 import ch.lambdaj.function.aggregate.*;
 
 /**
@@ -24,7 +23,7 @@ public class ProxyAggregator<T, A> extends ProxyIterator<T> {
 	}
 
 	@Override
-	public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+	public Object invoke(Object obj, Method method, Object[] args) throws Throwable {
 		return aggregate(collectValues(method, args), aggregator);
 	}
 

@@ -23,11 +23,7 @@ public class ProxyIterator<T> extends InvocationInterceptor implements Iterable<
 	public Object invoke(Object obj, Method method, Object[] args) throws Throwable {
 		if (method.getName().equals("iterator")) return iterator();
 		List<Object> collectedValues = collectValues(method, args);
-//		try {
-			return createProxyIterator(collectedValues, method.getReturnType());
-//		} catch (UnproxableClassException uce) {
-//			return createProxyForFinalClass(new ProxyIterator<Object>(collectedValues), method.getReturnType());
-//		}
+		return createProxyIterator(collectedValues, method.getReturnType());
 	}
 
 	protected List<Object> collectValues(Method method, Object[] args) throws Throwable {

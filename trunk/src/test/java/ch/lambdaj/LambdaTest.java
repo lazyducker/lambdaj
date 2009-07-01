@@ -53,15 +53,22 @@ public class LambdaTest {
 		for (Person person : personInFamily) assertEquals("Fusco", person.getLastName());
 	}
 	
-	public static final class FinalPerson extends Person { 
-		public FinalPerson() { }
-		public FinalPerson(String firstName) { 
+	public static class NoEmptyConstructorPerson extends Person { 
+		public NoEmptyConstructorPerson(String firstName) { 
 			super(firstName);
 		}
 	}
 	
-	public static class NoEmptyConstructorPerson extends Person { 
-		public NoEmptyConstructorPerson(String firstName) { 
+	@Test
+	public void testForEachWithNoEmptyConstructor() {
+		List<? extends Person> personInFamily = asList(new NoEmptyConstructorPerson("Domenico"), new NoEmptyConstructorPerson("Mario"), new NoEmptyConstructorPerson("Irma"));
+		forEach(personInFamily).setLastName("Fusco");
+		for (Person person : personInFamily) assertEquals("Fusco", person.getLastName());
+	}
+	
+	public static final class FinalPerson extends Person { 
+		public FinalPerson() { }
+		public FinalPerson(String firstName) { 
 			super(firstName);
 		}
 	}
@@ -78,23 +85,15 @@ public class LambdaTest {
 			fail("forEach on empty iterable should throw an exception");
 		} catch (IllegalArgumentException e) { }
 
-//		try {
-//			forEach(asList(new FinalPerson("Domenico"), new FinalPerson("Mario"), new FinalPerson("Irma")));
-//			fail("forEach on empty iterable should throw an exception");
-//		} catch (UnproxableClassException e) {
-//			assertTrue(e.getMessage().contains("Unable to proxy the final class"));
-//		}
-//
-//		try {
-//			forEach(asList(new NoEmptyConstructorPerson("Domenico"), new NoEmptyConstructorPerson("Mario"), new NoEmptyConstructorPerson("Irma")));
-//			fail("forEach on empty iterable should throw an exception");
-//		} catch (UnproxableClassException e) { 
-//			assertTrue(e.getMessage().contains("Unable to proxy the class without empty constructor"));
-//		}
-//
-//		forEach(new LinkedList<Person>(), Person.class);
-//		forEach(asList(new FinalPerson("Domenico"), new FinalPerson("Mario"), new FinalPerson("Irma")), Person.class);
-//		forEach(asList(new NoEmptyConstructorPerson("Domenico"), new NoEmptyConstructorPerson("Mario"), new NoEmptyConstructorPerson("Irma")), Person.class);
+		try {
+			forEach(asList(new FinalPerson("Domenico"), new FinalPerson("Mario"), new FinalPerson("Irma")));
+			fail("forEach on empty iterable should throw an exception");
+		} catch (UnproxableClassException e) {
+			assertTrue(e.getMessage().contains("Unable to proxy the final class"));
+		}
+
+		forEach(new LinkedList<Person>(), Person.class);
+		forEach(asList(new FinalPerson("Domenico"), new FinalPerson("Mario"), new FinalPerson("Irma")), Person.class);
 	}
 	
 	@Test
