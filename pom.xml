@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>exm</groupId>
     <artifactId>lambdaj</artifactId>
-    <version>1.9.2</version>
+    <version>1.10</version>
     <name>lambdaj</name>
     <scm>
         <connection>scm:svn:http://lambdaj.googlecode.com/svn/trunk</connection>
@@ -20,17 +20,16 @@
          </snapshotRepository>
     </distributionManagement>
     <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jmock</groupId>
-            <artifactId>jmock</artifactId>
-            <version>2.4.0</version>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+    		<groupId>org.hamcrest</groupId>
+    		<artifactId>hamcrest-all</artifactId>
+    		<version>1.1</version>
+    	</dependency>
+    	<dependency>
+    		<groupId>org.objenesis</groupId>
+    		<artifactId>objenesis</artifactId>
+    		<version>1.0</version>
+	    </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
@@ -40,6 +39,18 @@
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
             <version>2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jmock</groupId>
+            <artifactId>jmock</artifactId>
+            <version>2.4.0</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>net.sf.json-lib</groupId>

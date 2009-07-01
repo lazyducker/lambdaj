@@ -5,7 +5,7 @@ import java.text.*;
 /**
  * @author Luca Marrocco
  */
-public class Money extends Measure {
+public final class Money extends Measure {
 
 	private DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 
