@@ -1,3 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.2.2" timestamp="2009-06-11T18:50:35.593">
+<pmd version="4.2.2" timestamp="2009-07-01T21:57:31.296">
+<file name="C:\data\development\worksapce\lambdaj\src\main\java\ch\lambdaj\proxy\InvocationInterceptor.java">
+<violation beginline="4" endline="4" begincolumn="8" endcolumn="42" rule="DuplicateImports" ruleset="Import Statement Rules" package="ch.lambdaj.proxy" externalInfoUrl="http://pmd.sourceforge.net/rules/imports.html#DuplicateImports" priority="4">
+Avoid duplicate imports such as 'java.lang.reflect.InvocationHandler'
+</violation>
+</file>
 </pmd>
