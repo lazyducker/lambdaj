@@ -11,6 +11,7 @@ import static java.util.Arrays.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
+import java.lang.reflect.*;
 import java.util.*;
 
 import org.hamcrest.*;
@@ -19,7 +20,7 @@ import org.junit.*;
 import ch.lambdaj.function.argument.*;
 import ch.lambdaj.function.convert.*;
 import ch.lambdaj.mock.*;
-import ch.lambdaj.mock.Person.*;
+import ch.lambdaj.mock.IPerson.*;
 import ch.lambdaj.proxy.*;
 
 /**
@@ -51,6 +52,39 @@ public class LambdaTest {
 		List<Person> personInFamily = asList(new Person("Domenico"), new Person("Mario"), new Person("Irma"));
 		forEach(personInFamily).setLastName("Fusco");
 		for (Person person : personInFamily) assertEquals("Fusco", person.getLastName());
+	}
+	
+	@Test
+	public void testForEachForProxy() {
+		IPerson dad = (IPerson)Proxy.newProxyInstance(Person.class.getClassLoader(), new Class<?>[]{ IPerson.class }, new PersonProxy("Domenico"));
+		IPerson me = (IPerson)Proxy.newProxyInstance(Person.class.getClassLoader(), new Class<?>[]{ IPerson.class }, new PersonProxy("Mario"));
+		IPerson sister = (IPerson)Proxy.newProxyInstance(Person.class.getClassLoader(), new Class<?>[]{ IPerson.class }, new PersonProxy("Irma"));
+
+		List<IPerson> personInFamily = asList(dad, me, sister);
+		forEach(personInFamily).setLastName("Fusco");
+		for (IPerson person : personInFamily) assertEquals("Di Fusco", person.getLastName());
+	}
+	
+	private static final class PersonProxy implements InvocationHandler {
+		
+		private IPerson person;
+		
+		private PersonProxy(String firstName) {
+			this(new Person(firstName));
+		}
+		
+		private PersonProxy(IPerson person) {
+			this.person = person;
+		}
+		
+		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+			if (method.getName().equals("setLastName")) {
+				String lastName = (String)args[0];
+				person.setLastName("Di " + lastName);
+				return null;
+			}
+			return method.invoke(person, args);
+		}
 	}
 	
 	public static class NoEmptyConstructorPerson extends Person { 
