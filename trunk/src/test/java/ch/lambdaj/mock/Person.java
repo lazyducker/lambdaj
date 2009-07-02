@@ -3,11 +3,7 @@ package ch.lambdaj.mock;
 import java.util.*;
 
 
-public class Person {
-	
-	public enum Gender {
-		MALE, FEMALE;
-	}
+public class Person implements IPerson {
 	
 	private String firstName;
 	private String lastName;

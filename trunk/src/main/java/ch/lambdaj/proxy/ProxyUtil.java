@@ -1,6 +1,8 @@
 package ch.lambdaj.proxy;
 
-import net.sf.cglib.proxy.*;
+import java.lang.reflect.*;
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.MethodInterceptor;
 
 /**
  * @author Mario Fusco
@@ -15,12 +17,12 @@ public final class ProxyUtil {
 		if (clazz.isPrimitive()) return null;
 		if (clazz == String.class) clazz = (Class<T>)CharSequence.class;
 			
-		if (clazz.isInterface()) 
-			return (T)java.lang.reflect.Proxy.newProxyInstance(clazz.getClassLoader(), new Class[] { clazz, Iterable.class }, interceptor);
+		if (clazz.isInterface()) return (T)createNativeJavaProxy(clazz.getClassLoader(), interceptor, clazz);
 		
 		try {
 			return (T)createEnhancer(interceptor, clazz, new Class[] { Iterable.class }).create();
 		} catch (IllegalArgumentException iae) {
+			if (Proxy.isProxyClass(clazz)) return (T)createNativeJavaProxy(clazz.getClassLoader(), interceptor, clazz.getInterfaces());
 			if (ClassImposterizer.INSTANCE.canImposterise(clazz)) return ClassImposterizer.INSTANCE.imposterise(interceptor, clazz, Iterable.class);
 			throw new UnproxableClassException(clazz, iae);
 		}
@@ -32,5 +34,12 @@ public final class ProxyUtil {
 		enhancer.setSuperclass(clazz);
 		enhancer.setInterfaces(interfaces);
 		return enhancer;
+	}
+	
+	private static Object createNativeJavaProxy(ClassLoader classLoader, InvocationHandler interceptor, Class<?> ... interfaces) {
+		Class<?>[] proxyInterfaces = new Class[interfaces.length + 1];
+		proxyInterfaces[0] = Iterable.class;
+		System.arraycopy(interfaces, 0, proxyInterfaces, 1, interfaces.length);
+		return Proxy.newProxyInstance(classLoader, proxyInterfaces, interceptor);
 	}
 }
