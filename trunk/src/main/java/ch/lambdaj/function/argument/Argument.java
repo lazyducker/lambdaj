@@ -54,7 +54,7 @@ public class Argument<T> {
 	
 	@Override
 	public boolean equals(Object object) {
-		if (!(object instanceof Argument)) return false;
+		if (!(object instanceof Argument<?>)) return false;
 		return invocationSequence.equals(((Argument<?>)object).invocationSequence);
 	}
 	
