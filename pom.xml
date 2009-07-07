@@ -3,18 +3,18 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.googlecode.lambdaj</groupId>
     <artifactId>lambdaj</artifactId>
-    <version>1.15-SNAPSHOT</version>
+    <version>1.14-r1</version>
     <name>lambdaj</name>
     <scm>
-        <connection>scm:svn:http://lambdaj.googlecode.com/svn/trunk</connection>
-        <developerConnection>scm:svn:https://lambdaj.googlecode.com/svn/trunk</developerConnection>
+        <connection>scm:svn:http://lambdaj.googlecode.com/svn/tags/lambdaj-1.14-r1</connection>
+        <developerConnection>scm:svn:https://lambdaj.googlecode.com/svn/tags/lambdaj-1.14-r1</developerConnection>
     </scm>
     <distributionManagement>
         <repository>
             <id>googlecode.lambdaj</id>
             <uniqueVersion>false</uniqueVersion>
             <name>Internal Release Repository</name>
-            <url>svn:https://lambdaj.googlecode.com/svn/maven</url>
+            <url>scm:svn:https://lambdaj.googlecode.com/svn/maven</url>
         </repository>
     </distributionManagement>
     <dependencies>
