@@ -3,18 +3,18 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.googlecode.lambdaj</groupId>
     <artifactId>lambdaj</artifactId>
-    <version>1.14-r3-SNAPSHOT</version>
+    <version>1.14-r3</version>
     <name>lambdaj</name>
     <scm>
-        <connection>scm:svn:http://lambdaj.googlecode.com/svn/trunk</connection>
-        <developerConnection>scm:svn:https://lambdaj.googlecode.com/svn/trunk</developerConnection>
+        <connection>scm:svn:http://lambdaj.googlecode.com/svn/tags/lambdaj-1.14-r3</connection>
+        <developerConnection>scm:svn:https://lambdaj.googlecode.com/svn/tags/lambdaj-1.14-r3</developerConnection>
     </scm>
     <distributionManagement>
         <repository>
             <id>googlecode.lambdaj</id>
             <uniqueVersion>false</uniqueVersion>
             <name>Internal Release Repository</name>
-            <url>scm:svn:https://lambdaj.googlecode.com/svn/maven</url>
+            <url>dav:https://lambdaj.googlecode.com/svn/maven</url>
         </repository>
     </distributionManagement>
     <dependencies>
@@ -92,13 +92,6 @@
                 </executions>
             </plugin-->
         </plugins>
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-webdav-jackrabbit</artifactId>
-                <version>1.0-beta-4</version>
-            </extension>
-        </extensions>
     </build>
     <reporting>
         <plugins>
