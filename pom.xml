@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.googlecode.lambdaj</groupId>
     <artifactId>lambdaj</artifactId>
-    <version>1.12</version>
+    <version>1.13-SNAPSHOT</version>
     <name>lambdaj</name>
     <scm>
-        <connection>scm:svn:http://lambdaj.googlecode.com/svn/tags/lambdaj-1.12</connection>
-        <developerConnection>scm:svn:https://lambdaj.googlecode.com/svn/tags/lambdaj-1.12</developerConnection>
+        <connection>scm:svn:http://lambdaj.googlecode.com/svn/trunk</connection>
+        <developerConnection>scm:svn:https://lambdaj.googlecode.com/svn/trunk</developerConnection>
     </scm>
     <distributionManagement>
         <repository>
