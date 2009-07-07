@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>exm</groupId>
+    <groupId>com.googlecode.lambdaj</groupId>
     <artifactId>lambdaj</artifactId>
-    <version>1.10</version>
+    <version>1.11</version>
     <name>lambdaj</name>
     <scm>
-        <connection>scm:svn:http://lambdaj.googlecode.com/svn/trunk</connection>
-        <developerConnection>scm:svn:http://lambdaj.googlecode.com/svn/trunk</developerConnection>
+        <connection>scm:svn:http://lambdaj.googlecode.com/svn/tags/lambdaj-1.11</connection>
+        <developerConnection>scm:svn:https://lambdaj.googlecode.com/svn/tags/lambdaj-1.11</developerConnection>
     </scm>
     <distributionManagement>
         <repository>
-            <id>releases</id>
-            <url>http://nebbiolo:8081/nexus/content/repositories/exm/</url>
+            <id>googlecode.lambdaj</id>
+            <uniqueVersion>false</uniqueVersion>
+            <name>Internal Release Repository</name>
+            <url>https://lambdaj.googlecode.com/svn/maven</url>
         </repository>
-         <snapshotRepository>
-           <id>snapshots</id>
-           <url>http://nebbiolo:8081/nexus/content/repositories/exm-snapshots/</url>
-         </snapshotRepository>
     </distributionManagement>
     <dependencies>
-		<dependency>
-    		<groupId>org.hamcrest</groupId>
-    		<artifactId>hamcrest-all</artifactId>
-    		<version>1.1</version>
-    	</dependency>
-    	<dependency>
-    		<groupId>org.objenesis</groupId>
-    		<artifactId>objenesis</artifactId>
-    		<version>1.0</version>
-	    </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.objenesis</groupId>
+            <artifactId>objenesis</artifactId>
+            <version>1.0</version>
+        </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
@@ -70,16 +68,29 @@
                     <target>1.5</target>
                 </configuration>
             </plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.2-beta-3</version>
-        		<configuration>
-          			<descriptorRefs>
-            			<descriptorRef>jar-with-dependencies</descriptorRef>
-          			</descriptorRefs>
-        		</configuration>
-			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2-beta-3</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
+            <!--plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin-->
         </plugins>
         <!--
         <extensions>
@@ -119,6 +130,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.0-beta-9</version>
+                <configuration>
+                    <remoteTagging>true</remoteTagging>
+                    <preparationGoals>clean install</preparationGoals>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <tagBase>https://lambdaj.googlecode.com/svn/tags</tagBase>
+                </configuration>
             </plugin>
         </plugins>
     </reporting>
