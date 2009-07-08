@@ -3,19 +3,19 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.googlecode.lambdaj</groupId>
     <artifactId>lambdaj</artifactId>
-    <version>1.14-r10-SNAPSHOT</version>
+    <version>1.14-r10</version>
     <name>lambdaj</name>
     <packaging>jar</packaging>
     <scm>
-        <connection>scm:svn:http://lambdaj.googlecode.com/svn/trunk</connection>
-        <developerConnection>scm:svn:https://lambdaj.googlecode.com/svn/trunk</developerConnection>
+        <connection>scm:svn:http://lambdaj.googlecode.com/svn/tags/lambdaj-1.14-r10</connection>
+        <developerConnection>scm:svn:https://lambdaj.googlecode.com/svn/tags/lambdaj-1.14-r10</developerConnection>
     </scm>
     <distributionManagement>
         <repository>
             <id>googlecode.lambdaj</id>
             <!--<uniqueVersion>false</uniqueVersion>-->
             <name>Internal Release Repository</name>
-            <url>svn:https://lambdaj.googlecode.com/svn/repo/releases/</url>
+            <url>dav:https://lambdaj.googlecode.com/svn/repo/releases/</url>
         </repository>
     </distributionManagement>
     <dependencies>
@@ -60,13 +60,13 @@
         </dependency>
     </dependencies>
     <build>
-        <extensions>
+        <!--extensions>
             <extension>
                 <groupId>org.jvnet.wagon-svn</groupId>
                 <artifactId>wagon-svn</artifactId>
                 <version>1.9</version>
             </extension>
-        </extensions>
+        </extensions-->
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
