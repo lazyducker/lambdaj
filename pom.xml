@@ -3,12 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.googlecode.lambdaj</groupId>
     <artifactId>lambdaj</artifactId>
-    <version>1.15</version>
+    <version>1.16-SNAPSHOT</version>
     <name>lambdaj</name>
     <packaging>jar</packaging>
     <scm>
-        <connection>scm:svn:http://lambdaj.googlecode.com/svn/tags/lambdaj-1.15</connection>
-        <developerConnection>scm:svn:https://lambdaj.googlecode.com/svn/tags/lambdaj-1.15</developerConnection>
+        <connection>scm:svn:http://lambdaj.googlecode.com/svn/trunk</connection>
+        <developerConnection>scm:svn:https://lambdaj.googlecode.com/svn/trunk</developerConnection>
     </scm>
     <distributionManagement>
         <repository>
