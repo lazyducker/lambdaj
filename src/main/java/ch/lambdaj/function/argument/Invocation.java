@@ -50,7 +50,7 @@ class Invocation {
 	}
 
 	Object invokeOn(Object object) throws InvocationException {
-		if (invokedMethod == null) return object;
+		if (object == null || invokedMethod == null) return object;
 		Object result = null;
 		try {
 			result = invokedMethod.invoke(object, getConcreteArgs());
