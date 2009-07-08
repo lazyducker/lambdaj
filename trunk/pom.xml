@@ -15,7 +15,7 @@
             <id>googlecode.lambdaj</id>
             <!--<uniqueVersion>false</uniqueVersion>-->
             <name>Internal Release Repository</name>
-            <url>dav:https://lambdaj.googlecode.com/svn/repo/releases</url>
+            <url>https://lambdaj.googlecode.com/svn/repo/releases</url>
         </repository>
     </distributionManagement>
     <dependencies>
