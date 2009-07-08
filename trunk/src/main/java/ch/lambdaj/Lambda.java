@@ -4,12 +4,16 @@
 
 package ch.lambdaj;
 
+import static ch.lambdaj.function.argument.ArgumentsFactory.*;
+import static ch.lambdaj.function.closure.ClosuresFactory.*;
+
 import java.util.*;
 
 import org.hamcrest.*;
 
 import ch.lambdaj.function.aggregate.*;
 import ch.lambdaj.function.argument.*;
+import ch.lambdaj.function.closure.*;
 import ch.lambdaj.function.compare.*;
 import ch.lambdaj.function.convert.*;
 import ch.lambdaj.proxy.*;
@@ -23,13 +27,25 @@ public final class Lambda {
 	
 	private Lambda() { }
 	
+	public static <T> T of(T closed) {
+		return of(closed, (Class<T>)closed.getClass());
+	}
+	
+	public static <T> T of(T closed, Class<T> closedClass) {
+		return bindClosure(closed, closedClass);
+	}
+	
+	public static Closure closure() {
+		return createClosure();
+	}
+	
 	/**
 	 * Constructs a proxy object that mocks the given Class registering all the subsequent invocations on the object.
 	 * @param clazz The class of the object to be mocked
 	 * @return An object of the given class that register all the invocations made on it
 	 */
 	public static <T> T on(Class<T> clazz) {
-		return ArgumentsFactory.createArgument(clazz);
+		return createArgument(clazz);
 	}
 	
 	/**
@@ -37,7 +53,7 @@ public final class Lambda {
 	 * @param argumentPlaceholder The placeholder for this argument created using the {@link Lambda#on(Class)} method
 	 */
 	public static <T> Argument<T> argument(T argumentPlaceholder) {
-		return ArgumentsFactory.actualArgument(argumentPlaceholder);
+		return actualArgument(argumentPlaceholder);
 	}
 
 	/**
