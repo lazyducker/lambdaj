@@ -14,7 +14,6 @@ public class ProxyClosure extends InvocationInterceptor {
 		this.closure = closure;
 	}
 
-	@Override
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 		closure.registerInvocation(method, args);
 		return createProxyClosure(closure, method.getReturnType());
