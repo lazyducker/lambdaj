@@ -27,7 +27,7 @@ public class Closure {
 		}
 	}
 	
-	public Object one(Object... params) {
+	public Object apply(Object... params) {
 		List<Object[]> boundParams = bindParams(params);
 		Object result = closed;
 		
@@ -44,13 +44,13 @@ public class Closure {
 		return result;
 	}
 
-	public List<Object> all(Object... params) {
+	public List<Object> each(Object... params) {
 		List<Object> results = new ArrayList<Object>();
-		for (Object param : params) results.add(one(param));
+		for (Object param : params) results.add(apply(param));
 		return results;
 	}
 	
-	public List<Object> all(Iterable<?>... params) {
+	public List<Object> each(Iterable<?>... params) {
 		List<Object> results = new ArrayList<Object>();
 		
 		int length = params.length;
@@ -68,7 +68,7 @@ public class Closure {
 				paramSet[i] = iterators[i].next();
 			}
 			if (finished) break;
-			results.add(one(paramSet));
+			results.add(apply(paramSet));
 		}
 		
 		return results;
