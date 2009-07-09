@@ -15,12 +15,12 @@ public class ClosureTest {
 	@Test
 	public void testOnList() {
 		Closure println = closure(); { of(System.out).println((String)null); } 
-		println.all(asList("mickey mouse", "donald duck", "uncle scrooge"));
+		println.each(asList("mickey mouse", "donald duck", "uncle scrooge"));
 	}
 
 	@Test
 	public void testOnArray() {
 		Closure println = closure(); { of(System.out).println((String)null); } 
-		println.all("mickey mouse", "donald duck", "uncle scrooge");
+		println.each("mickey mouse", "donald duck", "uncle scrooge");
 	}
 }
