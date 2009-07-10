@@ -288,7 +288,7 @@ public final class Lambda {
 	 * @return A Collection with the same items of the given iterable but containing no duplicate elements
 	 */
 	public static <T> Collection<T> selectDistinct(Object iterable) {
-		return selectDistinct((Iterable<T>) iterable, (Comparator<T>) null);
+		return selectDistinct(iterable, (Comparator<T>) null);
 	}
 
 	/**
@@ -299,7 +299,7 @@ public final class Lambda {
 	 * @return A Collection with the same items of the given iterable but containing no duplicate values on the named property
 	 */
 	public static <T> Collection<T> selectDistinct(Object iterable, String propertyName) {
-		return selectDistinct((Iterable<T>) iterable, new PropertyComparator<T>(propertyName));
+		return selectDistinct(iterable, new PropertyComparator<T>(propertyName));
 	}
 
 	/**
@@ -310,7 +310,7 @@ public final class Lambda {
 	 * @return A Collection with the same items of the given iterable but containing no duplicate values on the given argument
 	 */
 	public static <T, A> Collection<T> selectDistinctArgument(Object iterable, A argument) {
-		return selectDistinct((Iterable<T>) iterable, new ArgumentComparator<T, A>(argument));
+		return selectDistinct(iterable, new ArgumentComparator<T, A>(argument));
 	}
 	
 	/**
@@ -335,7 +335,7 @@ public final class Lambda {
 	 * @return The item in the given iterable with the minimum value on the given argument
 	 */
 	public static <T, A> T selectMin(Object iterable, A argument) {
-		return (T)aggregate(iterable, new MinOnArgument<T, A>(argument));
+		return aggregate(iterable, new MinOnArgument<T, A>(argument));
 	}
 	
 	/**
@@ -346,7 +346,7 @@ public final class Lambda {
 	 * @return The item in the given iterable with the maximum value on the given argument
 	 */
 	public static <T, A> T selectMax(Object iterable, A argument) {
-		return (T)aggregate(iterable, new MaxOnArgument<T, A>(argument));
+		return aggregate(iterable, new MaxOnArgument<T, A>(argument));
 	}
 	
 	// ////////////////////////////////////////////////////////////////////////
@@ -764,7 +764,7 @@ public final class Lambda {
 	 * @return The concatenation of the String representation of all the objects in the given iterable or an empty String if the iterable is null or empty
 	 */
 	public static String join(Object iterable, String separator) {
-		return iterable instanceof Iterable ? (String) aggregate((Iterable<?>) iterable, new Concat(separator)) : (iterable == null ? "" : iterable.toString());
+		return iterable instanceof Iterable ? (String) aggregate(iterable, new Concat(separator)) : (iterable == null ? "" : iterable.toString());
 	}
 
 	// ////////////////////////////////////////////////////////////////////////
