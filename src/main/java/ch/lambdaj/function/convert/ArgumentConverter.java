@@ -23,7 +23,7 @@ public class ArgumentConverter<F, T> implements Converter<F, T>{
 	}
 	
 	public T convert(F from) {
-		return (T)argument.evaluate(from);
+		return argument.evaluate(from);
 	}
 
 }
