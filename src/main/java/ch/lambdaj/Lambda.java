@@ -78,7 +78,7 @@ public final class Lambda {
 		Iterator<? extends T> iterator = iterable.iterator();
 		if (!iterator.hasNext()) 
 			throw new IllegalArgumentException("forEach() is unable to introspect on an empty iterator. Use the overloaded method accepting a class instead");
-		return forEach(iterable, iterator.next().getClass());
+		return forEach(iterable, (Class<T>)iterator.next().getClass());
 	}
 
 	/**
@@ -98,7 +98,7 @@ public final class Lambda {
 	 * @return An object that proxies all the item in the iterable. If the given iterable is null or empty it returns
 	 * an instance of T that actually proxies an empty Iterable of Ts
 	 */
-	public static <T> T forEach(Iterable<? extends T> iterable, Class<?> clazz) {
+	public static <T> T forEach(Iterable<? extends T> iterable, Class<T> clazz) {
 		return ProxyIterator.createProxyIterator(iterable, clazz);
 	}
 
