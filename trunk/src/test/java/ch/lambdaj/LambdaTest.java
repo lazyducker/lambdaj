@@ -55,6 +55,15 @@ public class LambdaTest {
 	}
 	
 	@Test
+	public void testFailingForEach() {
+		List<Person> personInFamily = asList(new Person("Domenico"), new Person("Mario"), new Person("Irma"));
+		try {
+			forEach(personInFamily).setFailingLastName("Fusco");
+			fail("Invocation on wrong method must fail");
+		} catch (Exception ie) { }
+	}
+	
+	@Test
 	public void testForEachForProxy() {
 		IPerson dad = (IPerson)Proxy.newProxyInstance(Person.class.getClassLoader(), new Class<?>[]{ IPerson.class }, new PersonProxy("Domenico"));
 		IPerson me = (IPerson)Proxy.newProxyInstance(Person.class.getClassLoader(), new Class<?>[]{ IPerson.class }, new PersonProxy("Mario"));
@@ -251,6 +260,13 @@ public class LambdaTest {
 
 		List<Person> notSoYoungFriends = select(meAndMyFriends, having(on(Person.class).isYoungerThan(40)));
 		assertEquals(4, notSoYoungFriends.size());
+	}
+	
+	@Test
+	public void testSelectOnFailingMethod() {
+		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+		List<Person> youngFriends = select(meAndMyFriends, having(on(Person.class).isFailingYoungerThan(30)));
+		assertEquals(0, youngFriends.size());
 	}
 	
 	@Test
