@@ -8,9 +8,9 @@ import ch.lambdaj.proxy.*;
 
 public class ProxyClosure extends InvocationInterceptor {
 
-	private Closure closure;
+	private AbstractClosure closure;
 	
-	protected ProxyClosure(Closure closure) {
+	protected ProxyClosure(AbstractClosure closure) {
 		this.closure = closure;
 	}
 

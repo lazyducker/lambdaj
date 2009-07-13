@@ -39,6 +39,18 @@ public final class Lambda {
 		return createClosure();
 	}
 	
+	public static <A> Closure1<A> closure(Class<A> type1) {
+		return createClosure(type1);
+	}
+	
+	public static <A, B> Closure2<A, B> closure(Class<A> type1, Class<B> type2) {
+		return createClosure(type1, type2);
+	}
+	
+	public static <A, B, C> Closure3<A, B, C> closure(Class<A> type1, Class<B> type2, Class<C> type3) {
+		return createClosure(type1, type2, type3);
+	}
+	
 	/**
 	 * Constructs a proxy object that mocks the given Class registering all the subsequent invocations on the object.
 	 * @param clazz The class of the object to be mocked

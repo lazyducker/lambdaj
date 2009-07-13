@@ -51,6 +51,10 @@ public class Person implements IPerson {
 		this.lastName = lastName;
 	}
 
+	public void setFailingLastName(String lastName) {
+		throw new UnsupportedOperationException();
+	}
+	
 	public int getAge() {
 		return age;
 	}
@@ -72,5 +76,9 @@ public class Person implements IPerson {
 	
 	public boolean isYoungerThan(int maxAge) {
 		return age < maxAge;
+	}
+	
+	public boolean isFailingYoungerThan(int maxAge) {
+		throw new UnsupportedOperationException();
 	}
 }

@@ -12,8 +12,12 @@ public final class ProxyUtil {
 	
 	private ProxyUtil() { }
 	
-	@SuppressWarnings("unchecked")
 	public static <T> T createProxy(InvocationInterceptor interceptor, Class<T> clazz) {
+		return createProxy(interceptor, clazz, false);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T> T createProxy(InvocationInterceptor interceptor, Class<T> clazz, boolean failSafe) {
 		if (clazz.isPrimitive()) return null;
 		if (clazz == String.class) clazz = (Class<T>)CharSequence.class;
 			
@@ -24,6 +28,7 @@ public final class ProxyUtil {
 		} catch (IllegalArgumentException iae) {
 			if (Proxy.isProxyClass(clazz)) return (T)createNativeJavaProxy(clazz.getClassLoader(), interceptor, clazz.getInterfaces());
 			if (ClassImposterizer.INSTANCE.canImposterise(clazz)) return ClassImposterizer.INSTANCE.imposterise(interceptor, clazz, Iterable.class);
+			if (failSafe) return null;
 			throw new UnproxableClassException(clazz, iae);
 		}
 	}

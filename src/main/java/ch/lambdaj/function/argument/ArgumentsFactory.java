@@ -175,8 +175,4 @@ public final class ArgumentsFactory {
 	public static Double douPlaceholder(Integer i) {
 		return Double.valueOf(i.doubleValue());
 	}
-
-	public static Void voiPlaceholder(Integer i) {
-		return null;
-	}
 }
