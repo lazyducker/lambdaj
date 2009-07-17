@@ -10,6 +10,9 @@ abstract class AbstractClosure {
 	private List<Method> methodList = new ArrayList<Method>();
 	private List<Object[]> argsList = new ArrayList<Object[]>();
 	
+	private Object[] curriedParams;
+	private boolean[] curriedParamsFlags;
+
 	private int unboundParamsCount = 0;
 	
 	AbstractClosure() { }
@@ -81,23 +84,63 @@ abstract class AbstractClosure {
 	
 	private List<Object[]> bindParams(Object... params) {
 		if (params == null || params.length == 0) {
-			if (unboundParamsCount == 0) return null;
-			throw new WrongClosureInvocationException("Closure invoked without params instead of the expected " + unboundParamsCount);
+			if (unboundParamsCount != 0) 
+				throw new WrongClosureInvocationException("Closure invoked without params instead of the expected " + unboundParamsCount);
+			if (curriedParams == null) return null;
 		}
 		if (unboundParamsCount != params.length)
 			throw new WrongClosureInvocationException("Closure invoked with " + params.length + " params instead of the expected " + unboundParamsCount);
 		
-		int paramCounter = 0;
+		int paramCounter = 0; 
+		int curriedParamCounter = 0;
 		List<Object[]> boundParams = new ArrayList<Object[]>();
 		for (Object[] args : argsList) {
 			if (args == null) boundParams.add(null);
 			else {
 				Object[] objs = new Object[args.length];
-				for (int i = 0; i < args.length; i++) objs[i] = args[i] != null ? args[i] : params[paramCounter++]; 
+				for (int i = 0; i < args.length; i++) {
+					if (args[i] != null) objs[i] = args[i];
+					else if (curriedParams != null && curriedParamsFlags[curriedParamCounter]) objs[i] = curriedParams[curriedParamCounter++];
+					else {
+						objs[i] = params[paramCounter++];
+						curriedParamCounter++;
+					}
+				} 
 				boundParams.add(objs);
 			}
 		}
 		return boundParams;
+	}
+	
+	protected <T extends AbstractClosure> T curry(T curriedClosure, Object curried, int position) {
+		curriedClosure.closed = closed;
+		curriedClosure.methodList = methodList;
+		curriedClosure.argsList = argsList;
+		curriedClosure.curriedParams = curriedParams;
+		curriedClosure.curriedParamsFlags = curriedParamsFlags;
+		curriedClosure.unboundParamsCount = unboundParamsCount;
+
+		curriedClosure.curryParam(curried, position);
+		return curriedClosure;
+	}
+	
+	private void curryParam(Object curried, int position) {
+		if (curriedParams == null) {
+			curriedParams = new Object[unboundParamsCount];
+			curriedParamsFlags = new boolean[unboundParamsCount];
+		}
+		
+		for (int i = 0; i < curriedParams.length; i++) {
+			if (curriedParamsFlags[i]) continue;
+			if (--position == 0) {
+				curriedParams[i] = curried;
+				curriedParamsFlags[i] = true;
+				unboundParamsCount--;
+				return;
+			}
+		}
+		
+		throw new IllegalArgumentException("Trying to curry this closure on an already bound or unexisting paramater");
 	}
 	
 	private boolean isBoundParam(Object param) {

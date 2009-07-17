@@ -11,4 +11,12 @@ public class Closure2<A, B> extends AbstractClosure {
 	public List<Object> each(Iterable<? extends A> params1, Iterable<? extends B> params2) {
 		return closeAll(params1, params2);
 	}
+
+	public Closure1<B> curry1(A curry) {
+		return curry(new Closure1<B>(), curry, 1);
+	}
+	
+	public Closure1<A> curry2(B curry) {
+		return curry(new Closure1<A>(), curry, 2);
+	}
 }

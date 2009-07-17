@@ -15,4 +15,8 @@ public class Closure extends AbstractClosure {
 	public List<Object> each(Iterable<?>... params) {
 		return closeAll(params);
 	}
+
+	public Closure curry(Object curry, int position) {
+		return curry(new Closure(), curry, position);
+	}
 }

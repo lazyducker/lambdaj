@@ -72,38 +72,59 @@ public class ClosureTest {
 		assertEquals("firstsecondthird", sb.toString());
 	}
 	
-	public Integer addOnInteger(Integer val1, Integer val2) {
+	public Integer add(Integer val1, Integer val2) {
 		return val1 + val2;
 	}
 
 	@Test
 	public void testAddOnInteger() {
 		Closure2<Integer, Integer> adder = closure(Integer.class, Integer.class); { 
-			of(this).addOnInteger((Integer)null, (Integer)null); 
+			of(this).add((Integer)null, (Integer)null); 
 		} 
 		int sum = (Integer)adder.apply(2, 3);
 		assertEquals(2 + 3, sum);
 	}
 
-	public int addOnInt(int val1, int val2, int val3) {
-		return val1 + val2 + val3;
+	public int nonCommutativeDoOnInt(int val1, int val2, int val3) {
+		return (val1 - val2) * val3;
 	}
 
 	@Test
-	public void testAdd3OnInt() {
+	public void testDo3OnInt() {
 		Closure3<Integer, Integer, Integer> adder = closure(Integer.class, Integer.class, Integer.class); { 
-			of(this).addOnInt(0, 0, 0); 
+			of(this).nonCommutativeDoOnInt(0, 0, 0); 
 		} 
-		int sum = (Integer)adder.apply(2, 3, 4);
-		assertEquals(2 + 3 + 4, sum);
+		int result = (Integer)adder.apply(5, 2, 4);
+		assertEquals((5 - 2) * 4, result);
 	}
 
 	@Test
-	public void testAdd2OnInt() {
+	public void testDo2OnInt() {
 		Closure2<Integer, Integer> adder = closure(Integer.class, Integer.class); { 
-			of(this).addOnInt(0, 0, 4); 
+			of(this).nonCommutativeDoOnInt(0, 2, 0); 
 		} 
-		int sum = (Integer)adder.apply(2, 3);
-		assertEquals(2 + 3 + 4, sum);
+		int result = (Integer)adder.apply(5, 4);
+		assertEquals((5 - 2) * 4, result);
+	}
+
+	@Test
+	public void testCurry() {
+		Closure3<Integer, Integer, Integer> closure3 = closure(Integer.class, Integer.class, Integer.class); { 
+			of(this).nonCommutativeDoOnInt(0, 0, 0); 
+		} 
+		int result = (Integer)closure3.apply(5, 2, 4);
+		assertEquals((5 - 2) * 4, result);
+		
+		Closure2<Integer, Integer> closure2 = closure3.curry2(2);
+		result = (Integer)closure2.apply(7, 3);
+		assertEquals((7 - 2) * 3, result);
+		
+		Closure1<Integer> closure1 = closure2.curry2(5);
+		result = (Integer)closure1.apply(4);
+		assertEquals((4 - 2) * 5, result);
+		
+		Closure0 closure0 = closure1.curry(9);
+		result = (Integer)closure0.apply();
+		assertEquals((9 - 2) * 5, result);
 	}
 }
