@@ -6,6 +6,7 @@ package ch.lambdaj;
 
 import static ch.lambdaj.function.argument.ArgumentsFactory.*;
 import static ch.lambdaj.function.closure.ClosuresFactory.*;
+import static ch.lambdaj.function.matcher.HasArgumentWithValue.*;
 
 import java.util.*;
 
@@ -16,6 +17,7 @@ import ch.lambdaj.function.argument.*;
 import ch.lambdaj.function.closure.*;
 import ch.lambdaj.function.compare.*;
 import ch.lambdaj.function.convert.*;
+import ch.lambdaj.function.matcher.*;
 import ch.lambdaj.proxy.*;
 
 /**
@@ -26,30 +28,6 @@ import ch.lambdaj.proxy.*;
 public final class Lambda {
 	
 	private Lambda() { }
-	
-	public static <T> T of(T closed) {
-		return of(closed, (Class<T>)closed.getClass());
-	}
-	
-	public static <T> T of(T closed, Class<T> closedClass) {
-		return bindClosure(closed, closedClass);
-	}
-	
-	public static Closure closure() {
-		return createClosure();
-	}
-	
-	public static <A> Closure1<A> closure(Class<A> type1) {
-		return createClosure(type1);
-	}
-	
-	public static <A, B> Closure2<A, B> closure(Class<A> type1, Class<B> type2) {
-		return createClosure(type1, type2);
-	}
-	
-	public static <A, B, C> Closure3<A, B, C> closure(Class<A> type1, Class<B> type2, Class<C> type3) {
-		return createClosure(type1, type2, type3);
-	}
 	
 	/**
 	 * Constructs a proxy object that mocks the given Class registering all the subsequent invocations on the object.
@@ -852,5 +830,45 @@ public final class Lambda {
 	 */
 	public static <F, T> Map<T, F> index(Object iterable, T argument) {
 		return map(iterable, new ArgumentConverter<F, T>(argument));
+	}
+	
+	// ////////////////////////////////////////////////////////////////////////
+	// /// Matcher
+	// ////////////////////////////////////////////////////////////////////////
+	
+	public static <T> HasArgumentWithValue<T, Boolean> having(Boolean argument) {
+    	return havingValue(argument);
+    }
+    
+    public static <T, A> HasArgumentWithValue<T, A> having(A argument, Matcher<? extends Object> value) {
+    	return havingValue(argument, value);
+    }
+
+	// ////////////////////////////////////////////////////////////////////////
+	// /// Closure
+	// ////////////////////////////////////////////////////////////////////////
+	
+	public static <T> T of(T closed) {
+		return of(closed, (Class<T>)closed.getClass());
+	}
+	
+	public static <T> T of(T closed, Class<T> closedClass) {
+		return bindClosure(closed, closedClass);
+	}
+	
+	public static Closure closure() {
+		return createClosure();
+	}
+	
+	public static <A> Closure1<A> closure(Class<A> type1) {
+		return createClosure(type1);
+	}
+	
+	public static <A, B> Closure2<A, B> closure(Class<A> type1, Class<B> type2) {
+		return createClosure(type1, type2);
+	}
+	
+	public static <A, B, C> Closure3<A, B, C> closure(Class<A> type1, Class<B> type2, Class<C> type3) {
+		return createClosure(type1, type2, type3);
 	}
 }

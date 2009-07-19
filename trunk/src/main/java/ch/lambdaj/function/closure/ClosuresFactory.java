@@ -2,7 +2,9 @@ package ch.lambdaj.function.closure;
 
 import ch.lambdaj.proxy.*;
 
-
+/**
+ * @author Mario Fusco
+ */
 public final class ClosuresFactory {
 	
 	private ClosuresFactory() { }
