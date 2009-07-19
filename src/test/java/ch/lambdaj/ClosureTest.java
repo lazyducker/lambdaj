@@ -5,6 +5,7 @@ import static java.util.Arrays.*;
 import static org.junit.Assert.*;
 
 import java.io.*;
+import java.util.*;
 
 import org.junit.*;
 
@@ -15,6 +16,18 @@ import ch.lambdaj.function.closure.*;
  */
 public class ClosureTest {
 	
+	public Integer add(Integer val1, Integer val2) {
+		return val1 + val2;
+	}
+
+	public int nonCommutativeDoOnInt(int val1, int val2, int val3) {
+		return (val1 - val2) * val3;
+	}
+	
+	public static interface NonCommutativeDoer {
+		int nonCommutativeDoOnInt(int val1, int val2, int val3);
+	}
+
 	@Test
 	public void testSystemOut() {
 		Closure1<String> println = closure(String.class); { of(System.out).println((String)null); } 
@@ -72,10 +85,6 @@ public class ClosureTest {
 		assertEquals("firstsecondthird", sb.toString());
 	}
 	
-	public Integer add(Integer val1, Integer val2) {
-		return val1 + val2;
-	}
-
 	@Test
 	public void testAddOnInteger() {
 		Closure2<Integer, Integer> adder = closure(Integer.class, Integer.class); { 
@@ -83,10 +92,6 @@ public class ClosureTest {
 		} 
 		int sum = (Integer)adder.apply(2, 3);
 		assertEquals(2 + 3, sum);
-	}
-
-	public int nonCommutativeDoOnInt(int val1, int val2, int val3) {
-		return (val1 - val2) * val3;
 	}
 
 	@Test
@@ -126,5 +131,37 @@ public class ClosureTest {
 		Closure0 closure0 = closure1.curry(9);
 		result = (Integer)closure0.apply();
 		assertEquals((9 - 2) * 5, result);
+	}
+	
+	@Test
+	public void testWrongCurry() {
+		Closure closure = closure(); { of(this).nonCommutativeDoOnInt(0, 0, 0); } 
+		try {
+			closure.curry(3, 4);
+			fail("Curry on wrong argument position must fail");
+		} catch (IllegalArgumentException iae) { }
+	}
+
+	@Test
+	public void testAs() {
+		Closure3<Integer, Integer, Integer> closure3 = closure(Integer.class, Integer.class, Integer.class); { 
+			of(this).nonCommutativeDoOnInt(0, 0, 0); 
+		}
+		NonCommutativeDoer doer = closure3.as(NonCommutativeDoer.class);
+		int result = doer.nonCommutativeDoOnInt(5, 2, 4);
+		assertEquals((5 - 2) * 4, result);
+	}
+
+	@Test
+	public void testWrongAs() {
+		Closure closure = closure(); { of(this).nonCommutativeDoOnInt(0, 0, 0); } 
+		try {
+			closure.as(String.class);
+			fail("Closure cast on concrete class must fail");
+		} catch (IllegalArgumentException iae) { }
+		try {
+			closure.as(Iterator.class);
+			fail("Closure cast on interface having more than one method  must fail");
+		} catch (IllegalArgumentException iae) { }
 	}
 }

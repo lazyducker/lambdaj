@@ -1,6 +1,5 @@
 package ch.lambdaj.function.matcher;
 
-import static ch.lambdaj.function.matcher.HasArgumentWithValue.*;
 import static ch.lambdaj.Lambda.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;

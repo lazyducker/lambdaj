@@ -3,6 +3,9 @@ package ch.lambdaj.function.closure;
 import java.lang.reflect.*;
 import java.util.*;
 
+/**
+ * @author Mario Fusco
+ */
 abstract class AbstractClosure {
 
 	private Object closed;
@@ -147,5 +150,20 @@ abstract class AbstractClosure {
 		if (param == null) return false;
 		if (param instanceof Number && ((Number)param).intValue() == 0) return false;
 		return param != Boolean.FALSE;	
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T> T as(Class<T> asInterface) {
+		if (!asInterface.isInterface()) throw new IllegalArgumentException("Cannot cast a closure to the concrete class " + asInterface.getName());
+		Method[] methods = asInterface.getMethods();
+		if (methods.length != 1) throw new IllegalArgumentException("Cannot cast a closure to an interface with more than one method");
+		
+		return (T)Proxy.newProxyInstance(asInterface.getClassLoader(), new Class<?>[] { asInterface }, 
+			new InvocationHandler() { 
+				public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+					return closeOne(args);
+				}
+			}
+		);
 	}
 }

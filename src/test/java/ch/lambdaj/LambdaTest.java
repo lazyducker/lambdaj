@@ -5,7 +5,6 @@
 package ch.lambdaj;
 
 import static ch.lambdaj.Lambda.*;
-import static ch.lambdaj.function.matcher.HasArgumentWithValue.*;
 import static ch.lambdaj.function.matcher.HasNestedPropertyWithValue.*;
 import static java.util.Arrays.*;
 import static org.hamcrest.Matchers.*;

@@ -2,7 +2,6 @@ package ch.lambdaj.demo;
 
 import static ch.lambdaj.Lambda.*;
 import static ch.lambdaj.demo.Util.*;
-import static ch.lambdaj.function.matcher.HasArgumentWithValue.*;
 import static ch.lambdaj.group.Groups.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;

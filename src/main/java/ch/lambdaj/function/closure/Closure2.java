@@ -2,6 +2,9 @@ package ch.lambdaj.function.closure;
 
 import java.util.*;
 
+/**
+ * @author Mario Fusco
+ */
 public class Closure2<A, B> extends AbstractClosure {
 
 	public Object apply(A param1, B param2) {

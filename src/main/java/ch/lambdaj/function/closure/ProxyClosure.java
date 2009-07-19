@@ -6,7 +6,10 @@ import java.lang.reflect.*;
 
 import ch.lambdaj.proxy.*;
 
-public class ProxyClosure extends InvocationInterceptor {
+/**
+ * @author Mario Fusco
+ */
+class ProxyClosure extends InvocationInterceptor {
 
 	private AbstractClosure closure;
 	
