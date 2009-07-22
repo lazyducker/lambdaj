@@ -1,6 +1,7 @@
 package ch.lambdaj.function.closure;
 
-import ch.lambdaj.proxy.*;
+import static ch.lambdaj.function.argument.ArgumentsFactory.*;
+import static ch.lambdaj.proxy.ProxyUtil.*;
 
 /**
  * @author Mario Fusco
@@ -18,7 +19,7 @@ public final class ClosuresFactory {
 	}
 	
 	static <T> T createProxyClosure(AbstractClosure closure, Class<T> closedClass) {
-		return ProxyUtil.createProxy(new ProxyClosure(closure), closedClass, true);
+		return createProxy(new ProxyClosure(closure), closedClass, true);
 	}
 	
 	public static Closure createClosure() {
@@ -43,5 +44,9 @@ public final class ClosuresFactory {
 		Closure3<A, B, C> closure = new Closure3<A, B, C>();
 		closures.set(closure);
 		return closure;
+	}
+
+	public static <T> T createClosureArgPlaceholder(Class<T> clazz) {
+		return isProxable(clazz) ? createVoidProxy(clazz) : createFinalArgumentPlaceholder(clazz);
 	}
 }

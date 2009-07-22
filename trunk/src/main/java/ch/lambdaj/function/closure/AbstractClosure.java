@@ -26,16 +26,17 @@ abstract class AbstractClosure {
 	
 	void registerInvocation(Method method, Object[] args) {
 		methodList.add(method);
-		if (args == null || args.length == 0) argsList.add(null);
-		else {
-			for (int i = 0; i < args.length; i++) {
-				if (!isBoundParam(args[i])) {
-					args[i] = null;
-					unboundParamsCount++;
-				}
-			}
-			argsList.add(args);
+		if (args == null || args.length == 0) {
+			argsList.add(null);
+			return;
 		}
+		for (int i = 0; i < args.length; i++) {
+			if (!isBoundParam(args[i])) {
+				args[i] = null;
+				unboundParamsCount++;
+			}
+		}
+		argsList.add(args);
 	}
 	
 	protected Object closeOne(Object... params) {
