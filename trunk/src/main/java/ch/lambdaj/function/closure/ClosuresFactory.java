@@ -19,7 +19,7 @@ public final class ClosuresFactory {
 	}
 	
 	static <T> T createProxyClosure(AbstractClosure closure, Class<T> closedClass) {
-		return createProxy(new ProxyClosure(closure), closedClass, true);
+		return createIterableProxy(new ProxyClosure(closure), closedClass, true);
 	}
 	
 	public static Closure createClosure() {
@@ -48,5 +48,10 @@ public final class ClosuresFactory {
 
 	public static <T> T createClosureArgPlaceholder(Class<T> clazz) {
 		return isProxable(clazz) ? createVoidProxy(clazz) : createFinalArgumentPlaceholder(clazz);
+	}
+	
+	public static boolean isClosureArgPlaceholder(Object object) {
+		if (object == null) return false;
+		return isVoidProxy(object) || object.equals(createFinalArgumentPlaceholder(object.getClass()));
 	}
 }

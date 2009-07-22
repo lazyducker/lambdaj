@@ -34,11 +34,11 @@ public final class ProxyUtil {
     // /// Iterable Proxy
     // ////////////////////////////////////////////////////////////////////////
     
-	public static <T> T createProxy(InvocationInterceptor interceptor, Class<T> clazz) {
-		return createProxy(interceptor, clazz, false);
+	public static <T> T createIterableProxy(InvocationInterceptor interceptor, Class<T> clazz) {
+		return createIterableProxy(interceptor, clazz, false);
 	}
 	
-	public static <T> T createProxy(InvocationInterceptor interceptor, Class<T> clazz, boolean failSafe) {
+	public static <T> T createIterableProxy(InvocationInterceptor interceptor, Class<T> clazz, boolean failSafe) {
 		if (clazz.isPrimitive()) return null;
 		if (clazz == String.class) clazz = (Class<T>)CharSequence.class;
 		return createProxyImplementingInterface(interceptor, clazz, failSafe, Iterable.class);
@@ -49,12 +49,12 @@ public final class ProxyUtil {
     // ////////////////////////////////////////////////////////////////////////
     
 	private static <T> T createProxyImplementingInterface(InvocationInterceptor interceptor, Class<T> clazz, boolean failSafe, Class<?> implementedInterface) {
-		if (clazz.isInterface()) return (T)createNativeJavaProxy(clazz.getClassLoader(), interceptor, Iterable.class, clazz);
+		if (clazz.isInterface()) return (T)createNativeJavaProxy(clazz.getClassLoader(), interceptor, implementedInterface, clazz);
 
 		try {
 			return (T)createEnhancer(interceptor, clazz, new Class[] { implementedInterface }).create();
 		} catch (IllegalArgumentException iae) {
-			if (Proxy.isProxyClass(clazz)) return (T)createNativeJavaProxy(clazz.getClassLoader(), interceptor, Iterable.class, clazz.getInterfaces());
+			if (Proxy.isProxyClass(clazz)) return (T)createNativeJavaProxy(clazz.getClassLoader(), interceptor, concatClasses(implementedInterface, clazz.getInterfaces()));
 			if (isProxable(clazz)) return ClassImposterizer.INSTANCE.imposterise(interceptor, clazz, implementedInterface);
 			if (failSafe) return null;
 			throw new UnproxableClassException(clazz, iae);
@@ -69,10 +69,14 @@ public final class ProxyUtil {
 		return enhancer;
 	}
 	
-	private static Object createNativeJavaProxy(ClassLoader classLoader, InvocationHandler interceptor, Class<?> implementedInterface, Class<?> ... interfaces) {
-		Class<?>[] proxyInterfaces = new Class[interfaces.length + 1];
-		proxyInterfaces[0] = implementedInterface;
-		System.arraycopy(interfaces, 0, proxyInterfaces, 1, interfaces.length);
-		return Proxy.newProxyInstance(classLoader, proxyInterfaces, interceptor);
+	private static Object createNativeJavaProxy(ClassLoader classLoader, InvocationHandler interceptor, Class<?> ... interfaces) {
+		return Proxy.newProxyInstance(classLoader, interfaces, interceptor);
+	}
+	
+	private static Class<?>[] concatClasses(Class<?> first, Class<?> ... interfaces) {
+		Class<?>[] concatClasses = new Class[interfaces.length + 1];
+		concatClasses[0] = first;
+		System.arraycopy(interfaces, 0, concatClasses, 1, interfaces.length);
+		return concatClasses;
 	}
 }

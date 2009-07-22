@@ -1,5 +1,7 @@
 package ch.lambdaj.function.closure;
 
+import static ch.lambdaj.function.closure.ClosuresFactory.*;
+
 import java.lang.reflect.*;
 import java.util.*;
 
@@ -26,16 +28,7 @@ abstract class AbstractClosure {
 	
 	void registerInvocation(Method method, Object[] args) {
 		methodList.add(method);
-		if (args == null || args.length == 0) {
-			argsList.add(null);
-			return;
-		}
-		for (int i = 0; i < args.length; i++) {
-			if (!isBoundParam(args[i])) {
-				args[i] = null;
-				unboundParamsCount++;
-			}
-		}
+		if (args != null) for (Object arg : args) if (isClosureArgPlaceholder(arg)) unboundParamsCount++;
 		argsList.add(args);
 	}
 	
@@ -103,7 +96,7 @@ abstract class AbstractClosure {
 			else {
 				Object[] objs = new Object[args.length];
 				for (int i = 0; i < args.length; i++) {
-					if (args[i] != null) objs[i] = args[i];
+					if (!isClosureArgPlaceholder(args[i])) objs[i] = args[i];
 					else if (curriedParams != null && curriedParamsFlags[curriedParamCounter]) objs[i] = curriedParams[curriedParamCounter++];
 					else {
 						objs[i] = params[paramCounter++];
@@ -145,12 +138,6 @@ abstract class AbstractClosure {
 		}
 		
 		throw new IllegalArgumentException("Trying to curry this closure on an already bound or unexisting paramater");
-	}
-	
-	private boolean isBoundParam(Object param) {
-		if (param == null) return false;
-		if (param instanceof Number && ((Number)param).intValue() == 0) return false;
-		return param != Boolean.FALSE;	
 	}
 	
 	@SuppressWarnings("unchecked")
