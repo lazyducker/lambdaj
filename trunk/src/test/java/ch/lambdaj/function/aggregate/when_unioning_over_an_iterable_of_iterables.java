@@ -1,21 +1,12 @@
 package ch.lambdaj.function.aggregate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
-import javax.swing.event.ListSelectionEvent;
+import java.util.*;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import ch.lambdaj.function.aggregate.Aggregator;
-import ch.lambdaj.function.argument.ArgumentsFactory;
-import ch.lambdaj.function.convert.Converter;
-import ch.lambdaj.proxy.nodefconstructor.ElementId;
-import ch.lambdaj.proxy.nodefconstructor.RelationMetricResult;
-
+import ch.lambdaj.function.convert.*;
 import static ch.lambdaj.Lambda.*;
+import static ch.lambdaj.relational.Relational.*;
+
+import org.junit.*;
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 import static org.junit.matchers.JUnitMatchers.*;
@@ -59,7 +50,7 @@ public class when_unioning_over_an_iterable_of_iterables {
                     }
                 });
 
-        collected = unionFrom(collectedUnitArrays);
+        collected = union(collectedUnitArrays);
     }
 
     @Test public void should_union_all_iterables_into_one_iterable() {
