@@ -116,6 +116,13 @@ public final class ArgumentsFactory {
 	// /// Placeholders
 	// ////////////////////////////////////////////////////////////////////////
 	
+    @SuppressWarnings("unchecked")
+    public static <T> T createFinalArgumentPlaceholder(Class<T> clazz) {
+    	if (clazz == Boolean.TYPE || clazz == Boolean.class) return (T)Boolean.FALSE; 
+    	if (clazz.isEnum()) return (T)EnumSet.allOf((Class<? extends Enum>)clazz).iterator().next();
+    	return (T)createArgumentPlaceholder(clazz, Integer.MIN_VALUE);
+	}
+    
     private static AtomicInteger placeholderCounter = new AtomicInteger(Integer.MIN_VALUE);
     
     static int getNextPlaceholderId() {
@@ -123,10 +130,10 @@ public final class ArgumentsFactory {
     }
     
     public static Object createArgumentPlaceholder(Class<?> clazz) {
-    	if (isLimitedValues(clazz)) 
-    		return limitedValuesArguments.get().getNextPlaceholder(clazz);
+    	return isLimitedValues(clazz) ? limitedValuesArguments.get().getNextPlaceholder(clazz) : createArgumentPlaceholder(clazz, placeholderCounter.addAndGet(1));
+	}
 	
-    	Integer placeholderId = placeholderCounter.addAndGet(1);
+    private static Object createArgumentPlaceholder(Class<?> clazz, Integer placeholderId) {
 		if (clazz.isPrimitive() || Number.class.isAssignableFrom(clazz)) 
 			return getPrimitivePlaceHolder(clazz, placeholderId);
 		
@@ -139,8 +146,8 @@ public final class ArgumentsFactory {
 		} catch (Exception e) {
 			throw new RuntimeException("It is not possible to create a placeholder for class: " + clazz.getName());
 		}
-	}
-	
+    }
+    
     private static Object getPrimitivePlaceHolder(Class<?> clazz, Integer placeholderId) {
 		try {
 			return ArgumentsFactory.class.getMethod(clazz.getSimpleName().substring(0, 3).toLowerCase() + "Placeholder", Integer.class).invoke(null, placeholderId);
