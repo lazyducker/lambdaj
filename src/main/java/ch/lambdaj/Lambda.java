@@ -856,6 +856,10 @@ public final class Lambda {
 		return bindClosure(closed, closedClass);
 	}
 	
+	public static <T> T arg(Class<T> clazz) {
+		return createClosureArgPlaceholder(clazz);
+	}
+	
 	public static Closure closure() {
 		return createClosure();
 	}

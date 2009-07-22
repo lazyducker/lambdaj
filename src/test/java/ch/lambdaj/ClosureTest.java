@@ -10,6 +10,7 @@ import java.util.*;
 import org.junit.*;
 
 import ch.lambdaj.function.closure.*;
+import ch.lambdaj.mock.*;
 
 /**
  * @author Mario Fusco
@@ -30,14 +31,14 @@ public class ClosureTest {
 
 	@Test
 	public void testSystemOut() {
-		Closure1<String> println = closure(String.class); { of(System.out).println((String)null); } 
+		Closure1<String> println = closure(String.class); { of(System.out).println(arg(String.class)); } 
 		println.each("mickey mouse", "donald duck", "uncle scrooge");
 	}
 	
 	@Test
 	public void testOnList() {
 		StringWriter sw = new StringWriter();
-		Closure writer = closure(); { of(sw).write((String)null); } 
+		Closure writer = closure(); { of(sw).write(arg(String.class)); } 
 		writer.each(asList("first", "second", "third"));
 		assertEquals("firstsecondthird", sw.toString());
 	}
@@ -45,7 +46,7 @@ public class ClosureTest {
 	@Test
 	public void testOnArray() {
 		StringWriter sw = new StringWriter();
-		Closure writer = closure(); { of(sw).append((String)null); } 
+		Closure writer = closure(); { of(sw).append(arg(String.class)); } 
 		writer.each("first", "second", "third");
 		assertEquals("firstsecondthird", sw.toString());
 		
@@ -66,7 +67,7 @@ public class ClosureTest {
 	@Test
 	public void testTypedOnList() {
 		StringWriter sw = new StringWriter();
-		Closure1<String> writer = closure(String.class); { of(sw).append((String)null); } 
+		Closure1<String> writer = closure(String.class); { of(sw).append(arg(String.class)); } 
 		writer.each(asList("first", "second", "third"));
 		assertEquals("firstsecondthird", sw.toString());
 		writer.apply("forth");
@@ -78,7 +79,7 @@ public class ClosureTest {
 		StringBuilder sb = new StringBuilder();
 		Closure1<String> appender = closure(String.class); { 
 			try {
-				of(sb, Appendable.class).append((String)null);
+				of(sb, Appendable.class).append(arg(String.class));
 			} catch (IOException e) { } 
 		} 
 		appender.each("first", "second", "third");
@@ -88,7 +89,7 @@ public class ClosureTest {
 	@Test
 	public void testAddOnInteger() {
 		Closure2<Integer, Integer> adder = closure(Integer.class, Integer.class); { 
-			of(this).add((Integer)null, (Integer)null); 
+			of(this).add(arg(Integer.class), arg(Integer.class)); 
 		} 
 		int sum = (Integer)adder.apply(2, 3);
 		assertEquals(2 + 3, sum);
@@ -97,7 +98,7 @@ public class ClosureTest {
 	@Test
 	public void testDo3OnInt() {
 		Closure3<Integer, Integer, Integer> adder = closure(Integer.class, Integer.class, Integer.class); { 
-			of(this).nonCommutativeDoOnInt(0, 0, 0); 
+			of(this).nonCommutativeDoOnInt(arg(Integer.class), arg(Integer.class), arg(Integer.class)); 
 		} 
 		int result = (Integer)adder.apply(5, 2, 4);
 		assertEquals((5 - 2) * 4, result);
@@ -106,7 +107,7 @@ public class ClosureTest {
 	@Test
 	public void testDo2OnInt() {
 		Closure2<Integer, Integer> adder = closure(Integer.class, Integer.class); { 
-			of(this).nonCommutativeDoOnInt(0, 2, 0); 
+			of(this).nonCommutativeDoOnInt(arg(Integer.class), 2, arg(Integer.class)); 
 		} 
 		int result = (Integer)adder.apply(5, 4);
 		assertEquals((5 - 2) * 4, result);
@@ -115,7 +116,7 @@ public class ClosureTest {
 	@Test
 	public void testCurry() {
 		Closure3<Integer, Integer, Integer> closure3 = closure(Integer.class, Integer.class, Integer.class); { 
-			of(this).nonCommutativeDoOnInt(0, 0, 0); 
+			of(this).nonCommutativeDoOnInt(arg(Integer.class), arg(Integer.class), arg(Integer.class)); 
 		} 
 		int result = (Integer)closure3.apply(5, 2, 4);
 		assertEquals((5 - 2) * 4, result);
@@ -135,7 +136,7 @@ public class ClosureTest {
 	
 	@Test
 	public void testWrongCurry() {
-		Closure closure = closure(); { of(this).nonCommutativeDoOnInt(0, 0, 0); } 
+		Closure closure = closure(); { of(this).nonCommutativeDoOnInt(arg(Integer.class), arg(Integer.class), arg(Integer.class)); } 
 		try {
 			closure.curry(3, 4);
 			fail("Curry on wrong argument position must fail");
@@ -145,7 +146,7 @@ public class ClosureTest {
 	@Test
 	public void testAs() {
 		Closure3<Integer, Integer, Integer> closure3 = closure(Integer.class, Integer.class, Integer.class); { 
-			of(this).nonCommutativeDoOnInt(0, 0, 0); 
+			of(this).nonCommutativeDoOnInt(arg(Integer.class), arg(Integer.class), arg(Integer.class)); 
 		}
 		NonCommutativeDoer doer = closure3.as(NonCommutativeDoer.class);
 		int result = doer.nonCommutativeDoOnInt(5, 2, 4);
@@ -154,7 +155,7 @@ public class ClosureTest {
 
 	@Test
 	public void testWrongAs() {
-		Closure closure = closure(); { of(this).nonCommutativeDoOnInt(0, 0, 0); } 
+		Closure closure = closure(); { of(this).nonCommutativeDoOnInt(arg(Integer.class), arg(Integer.class), arg(Integer.class)); } 
 		try {
 			closure.as(String.class);
 			fail("Closure cast on concrete class must fail");
@@ -163,5 +164,23 @@ public class ClosureTest {
 			closure.as(Iterator.class);
 			fail("Closure cast on interface having more than one method  must fail");
 		} catch (IllegalArgumentException iae) { }
+	}
+
+	@Test
+	public void testClosureOnNonFinalArgument() {
+		Person me = new Person("Mario", "Fusco");
+		Closure2<Person, Integer> ageSetter = closure(Person.class, Integer.class); { 
+			of(this).setAgeOnPerson(arg(Person.class), arg(Integer.class)); 
+		}
+		ageSetter.apply(me, 35);
+		assertEquals(35, me.getAge());
+		
+		Closure1<Integer> ageSetterOnMyself = ageSetter.curry1(me);
+		ageSetterOnMyself.apply(36);
+		assertEquals(36, me.getAge());
+	}
+	
+	public void setAgeOnPerson(Person person, int age) {
+		person.setAge(age);
 	}
 }

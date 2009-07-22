@@ -37,7 +37,7 @@ public class ProxyIterator<T> extends InvocationInterceptor implements Iterable<
 
 	@SuppressWarnings("unchecked")
 	public static <T> T createProxyIterator(Iterable<T> proxiedCollection, Class<?> clazz) {
-		return (T)createProxy(new ProxyIterator<T>(proxiedCollection), clazz);
+		return (T)createIterableProxy(new ProxyIterator<T>(proxiedCollection), clazz);
 	}
 
 	public Iterator<T> iterator() {

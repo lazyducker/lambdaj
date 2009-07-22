@@ -38,7 +38,7 @@ public final class ArgumentsFactory {
 	
 	private static Object createPlaceholder(Class<?> clazz, InvocationSequence invocationSequence) {
 		return !Modifier.isFinal(clazz.getModifiers()) ? 
-				ProxyUtil.createProxy(new ProxyArgument(clazz, invocationSequence), clazz) : 
+				ProxyUtil.createIterableProxy(new ProxyArgument(clazz, invocationSequence), clazz) : 
 				createArgumentPlaceholder(clazz);
 	}
 
@@ -120,7 +120,7 @@ public final class ArgumentsFactory {
     public static <T> T createFinalArgumentPlaceholder(Class<T> clazz) {
     	if (clazz == Boolean.TYPE || clazz == Boolean.class) return (T)Boolean.FALSE; 
     	if (clazz.isEnum()) return (T)EnumSet.allOf((Class<? extends Enum>)clazz).iterator().next();
-    	return (T)createArgumentPlaceholder(clazz, Integer.MIN_VALUE);
+    	return (T)createArgumentPlaceholder(clazz, Integer.MIN_VALUE+1);
 	}
     
     private static AtomicInteger placeholderCounter = new AtomicInteger(Integer.MIN_VALUE);
@@ -139,7 +139,7 @@ public final class ArgumentsFactory {
 		
 		if (clazz == String.class) return String.valueOf(placeholderId);
 		if (Date.class.isAssignableFrom(clazz)) return new Date(placeholderId);
-        if (clazz.isArray()) return Array.newInstance(clazz.getComponentType(), 1);
+		if (clazz.isArray()) return Array.newInstance(clazz.getComponentType(), 1);
 
 		try {
 			return clazz.newInstance();
