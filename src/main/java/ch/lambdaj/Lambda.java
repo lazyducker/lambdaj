@@ -64,13 +64,13 @@ public final class Lambda {
 	 * @throws An IllegalArgumentException if the iterable is null or empty
 	 */
 	public static <T> T forEach(final Iterable<? extends T> iterable) {
-		if (iterable == null) {
-            throw new IllegalArgumentException("The iterable cannot be null");
-        }
+		if (iterable == null) 
+                    throw new IllegalArgumentException("The iterable cannot be null");
+		
 		Iterator<? extends T> iterator = iterable.iterator();
-		if (!iterator.hasNext()) {
-            throw new IllegalArgumentException("forEach() is unable to introspect on an empty iterator. Use the overloaded method accepting a class instead");
-        }
+		if (!iterator.hasNext())
+                    throw new IllegalArgumentException("forEach() is unable to introspect on an empty iterator. Use the overloaded method accepting a class instead");
+
 		return forEach(iterable, (Class<T>)iterator.next().getClass());
 	}
 
@@ -173,8 +173,8 @@ public final class Lambda {
 	public static <T, A> List<T> sort(final Object iterable, final A argument, final Comparator<A> comparator) {
 		List<T> sorted = new ArrayList<T>();
 		for (T item : (Iterable<T>)iterable) {
-            sorted.add(item);
-        }
+                    sorted.add(item);
+                }
 		Collections.sort(sorted, new ArgumentComparator<T, A>(argument, comparator));
 		return sorted;
 	}
@@ -201,14 +201,13 @@ public final class Lambda {
 	 */
 	public static <T> List<T> select(final Iterable<T> iterable, final Matcher<?> matcher) {
 		List<T> collected = new ArrayList<T>();
-		if (iterable == null) {
-            return collected;
-        }
+		if (iterable == null)
+                    return collected;
+
 		for (T item : iterable) {
-            if (matcher.matches(item)) {
-                collected.add(item);
-            }
-        }
+                    if (matcher.matches(item))
+                        collected.add(item);
+		}
 		return collected;
 	}
 
@@ -243,21 +242,19 @@ public final class Lambda {
 	 * @throws A Runtime Exception if there is more than one object that matches the given hamcrest Matcher
 	 */
 	public static <T> T selectUnique(final Iterable<T> iterable, final Matcher<?> matcher) {
-		T unique = null;
-		if (iterable == null) {
-            return unique;
-        }
+	        T unique = null;
+		if (iterable == null)
+                        return unique;
+        
 		Iterator<T> iterator = iterable.iterator();
 		while (iterator.hasNext() && unique == null) {
 			T item = iterator.next();
-			if (matcher.matches(item)) {
-                unique = item;
-            }
+			if (matcher.matches(item)) 
+                            unique = item;
 		}
 		while (iterator.hasNext()) {
-			if (matcher.matches(iterator.next())) {
-                throw new RuntimeException("Not unique item");
-            }
+			if (matcher.matches(iterator.next()))
+			    throw new RuntimeException("Not unique item");
 		}
 		return unique;
 	}
@@ -280,14 +277,14 @@ public final class Lambda {
 	 * @return The first object in the given iterable that matches the given hamcrest Matcher or null if there is no such object
 	 */
 	public static <T> T selectFirst(final Iterable<T> iterable, final Matcher<?> matcher) {
-		if (iterable == null) {
-            return null;
-        }
+		if (iterable == null)
+                    return null;
+		
 		for (T item : iterable) {
-            if (matcher.matches(item)) {
-                return item;
-            }
-        }
+                    if (matcher.matches(item)) {
+                        return item;
+                    }
+                }
 		return null;
 	}
 
@@ -342,10 +339,10 @@ public final class Lambda {
 	public static <T> Collection<T> selectDistinct(final Object iterable, final Comparator<T> comparator) {
 		Set<T> collected = comparator == null ? new HashSet<T>() : new TreeSet<T>(comparator);
 		if (iterable != null) {
-            for (T item : (Iterable<T>) iterable) {
-                collected.add(item);
-            }
-        }
+                    for (T item : (Iterable<T>) iterable) {
+                        collected.add(item);
+                    }
+                }
 		return collected;
 	}
 
@@ -410,10 +407,10 @@ public final class Lambda {
 	public static <T> T aggregate(final Object iterable, final Aggregator<T> aggregator) {
 		T result = aggregator.emptyItem();
 		if (iterable != null) {
-            for (T item : (Iterable<T>) iterable) {
-                result = aggregator.aggregate(result, item);
-            }
-        }
+                    for (T item : (Iterable<T>) iterable) {
+                        result = aggregator.aggregate(result, item);
+                    }
+                }
 		return result;
 	}
 
@@ -428,9 +425,9 @@ public final class Lambda {
 	 * @throws A RuntimeException if the iterable is not an Iterable
 	 */
 	public static <T, A> T aggregate(final Object iterable, final Aggregator<T> aggregator, final A argument) {
-		if (!(iterable instanceof Iterable)) {
-            throw new RuntimeException(iterable + " is not an iterable");
-        }
+		if (!(iterable instanceof Iterable)) 
+                    throw new RuntimeException(iterable + " is not an iterable");
+		
 		return aggregate(convert(iterable, new ArgumentConverter<T, A>(argument)), aggregator);
 	}
 
@@ -447,13 +444,13 @@ public final class Lambda {
 	 * @throws An IllegalArgumentException if the iterable is null or empty
 	 */
 	public static <T, A> T aggregateFrom(final Iterable<T> iterable, final Aggregator<A> aggregator) {
-		if (iterable == null) {
-            throw new IllegalArgumentException("The iterable cannot be null");
-        }
+		if (iterable == null) 
+                    throw new IllegalArgumentException("The iterable cannot be null");
+
 		Iterator<T> iterator = iterable.iterator();
-		if (!iterator.hasNext()) {
-            throw new IllegalArgumentException("aggregateFrom() is unable to introspect on an empty iterator. Use the overloaded method accepting a class instead");
-        }
+		if (!iterator.hasNext())
+		    throw new IllegalArgumentException("aggregateFrom() is unable to introspect on an empty iterator. Use the overloaded method accepting a class instead");
+        
 		return aggregateFrom(iterable, iterator.next().getClass(), aggregator);
 	}
 
@@ -474,26 +471,6 @@ public final class Lambda {
 		return ProxyAggregator.createProxyAggregator(iterable, aggregator, clazz);
 	}
 
-	// -- (Union) ---------------------------------------------------------------
-	/**
-	 * Unions two iterables together
-	 * @param first The first iterable to be unioned
-	 * @param second The second iterable to be unioned
-	 * @return an iterable with all elements of first followed by all elements of second
-	 */
-	public static <T> Iterable<T> unionFrom(final Iterable<T> first, final Iterable<T> second) {
-	    return aggregate(Arrays.asList(first, second), new Union<T>());
-	}
-
-	/**
-	 * Unions an iterable of iterables together in the order of appearance
-	 * @param iterables The list of iterables
-	 * @return an iterable with all elements of the given list of iterables
-	 */
-	public static <T> Iterable<T> unionFrom(final Iterable<? extends Iterable<T>> iterables) {
-            return aggregate(iterables, new Union<T>());
-        }
-
 	// -- (Sum) ---------------------------------------------------------------
 
 	/**
@@ -504,12 +481,12 @@ public final class Lambda {
 	 * @throws An IllegalArgumentException if the iterable is not neither an Iterable nor a Number
 	 */
 	public static Number sum(final Object iterable) {
-		if (iterable instanceof Number) {
-            return (Number)iterable;
-        }
-		if (!(iterable instanceof Iterable)) {
-            return 0.0;
-        }
+		if (iterable instanceof Number) 
+                    return (Number)iterable;
+
+		if (!(iterable instanceof Iterable))
+                    return 0.0;
+        
 		Iterator<?> iterator = ((Iterable<?>)iterable).iterator();
 		return iterator.hasNext() ? aggregate(iterable, getSumAggregator(iterator.next())) : 0.0;
 	}
@@ -840,10 +817,10 @@ public final class Lambda {
 	public static <F, T> List<T> convert(final Object iterable, final Converter<F, T> converter) {
 		List<T> collected = new ArrayList<T>();
 		if (iterable != null) {
-            for (F item : (Iterable<F>) iterable) {
-                collected.add(converter.convert(item));
-            }
-        }
+                    for (F item : (Iterable<F>) iterable) {
+                        collected.add(converter.convert(item));
+                    }
+                }
 		return collected;
 	}
 
@@ -889,10 +866,10 @@ public final class Lambda {
 	public static <F, T> Map<T, F> map(final Object iterable, final Converter<F, T> converter) {
 		Map<T, F> map = new HashMap<T, F>();
 		if (iterable != null) {
-            for (F item : (Iterable<F>) iterable) {
-                map.put(converter.convert(item), item);
-            }
-        }
+                    for (F item : (Iterable<F>) iterable) {
+                        map.put(converter.convert(item), item);
+                    }
+                }
 		return map;
 	}
 
@@ -912,12 +889,12 @@ public final class Lambda {
 	// ////////////////////////////////////////////////////////////////////////
 
 	public static <T> HasArgumentWithValue<T, Boolean> having(final Boolean argument) {
-    	return havingValue(argument);
-    }
-
-    public static <T, A> HasArgumentWithValue<T, A> having(final A argument, final Matcher<? extends Object> value) {
-    	return havingValue(argument, value);
-    }
+        	return havingValue(argument);
+        }
+    
+        public static <T, A> HasArgumentWithValue<T, A> having(final A argument, final Matcher<? extends Object> value) {
+        	return havingValue(argument, value);
+        }
 
 	// ////////////////////////////////////////////////////////////////////////
 	// /// Closure

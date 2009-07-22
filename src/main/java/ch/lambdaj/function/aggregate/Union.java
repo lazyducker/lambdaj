@@ -1,18 +1,14 @@
 package ch.lambdaj.function.aggregate;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Union<T> implements Aggregator<Iterable<T>> {
     public Iterable<T> aggregate(final Iterable<T> first, final Iterable<T> second) {
         List<T> result = new ArrayList<T>();
-        for(T item : first) {
+        for(T item : first)
             result.add(item);
-        }
-        for(T item : second) {
+        for(T item : second)
             result.add(item);
-        }
         return result;
     }
 
