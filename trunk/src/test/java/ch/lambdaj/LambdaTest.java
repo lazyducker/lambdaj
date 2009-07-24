@@ -28,10 +28,10 @@ import ch.lambdaj.proxy.*;
  */
 public class LambdaTest {
 
-	private Person me = new Person("Mario", "Fusco", 35);
-	private Person luca = new Person("Luca", "Marrocco", 29);
-	private Person biagio = new Person("Biagio", "Beatrice", 39);
-	private Person celestino = new Person("Celestino", "Bellone", 29);
+	private final Person me = new Person("Mario", "Fusco", 35);
+	private final Person luca = new Person("Luca", "Marrocco", 29);
+	private final Person biagio = new Person("Biagio", "Beatrice", 39);
+	private final Person celestino = new Person("Celestino", "Bellone", 29);
 
 	@Test
 	public void testArgument() {
@@ -75,7 +75,7 @@ public class LambdaTest {
 	
 	private static final class PersonProxy implements InvocationHandler {
 		
-		private IPerson person;
+		private final IPerson person;
 		
 		private PersonProxy(String firstName) {
 			this(new Person(firstName));

@@ -15,7 +15,7 @@ public class GroupImpl<T> extends LinkedList<GroupItem<T>> implements Group<T> {
 
 	private static final long serialVersionUID = 1L;
 
-	private Map<String, GroupItem<T>> groupsMap = new HashMap<String, GroupItem<T>>();
+	private final Map<String, GroupItem<T>> groupsMap = new HashMap<String, GroupItem<T>>();
 
 	private transient GroupCondition groupCondition;
 
@@ -25,7 +25,7 @@ public class GroupImpl<T> extends LinkedList<GroupItem<T>> implements Group<T> {
 		this.groupCondition = groupCondition;
 	}
 
-	void add(T item) {
+	void addItem(T item) {
 		GroupItem<T> groupItem = findOrCreate(item, groupCondition.getGroupValue(item));
 		groupItem.addChild(item);
 	}

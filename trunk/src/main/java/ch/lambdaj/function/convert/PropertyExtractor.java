@@ -5,7 +5,7 @@ import ch.lambdaj.util.IntrospectionUtil;
 
 public class PropertyExtractor<F, T> implements Converter<F, T> {
 
-	private String propertyName;
+	private final String propertyName;
 	
 	public PropertyExtractor(String propertyName) {
 		this.propertyName = propertyName; 

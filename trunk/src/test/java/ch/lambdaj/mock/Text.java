@@ -27,7 +27,7 @@ public class Text {
 
 	@Override
 	public boolean equals(Object obj) {
-		return obj instanceof Text ? string.equals(((Text) obj).string) : false;
+		return obj instanceof Text && string.equals(((Text) obj).string);
 	}
 
 	@Override

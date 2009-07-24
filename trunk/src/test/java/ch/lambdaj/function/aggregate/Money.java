@@ -7,17 +7,17 @@ import java.text.*;
  */
 public final class Money extends Measure {
 
-	private DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+	private final DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 
-	public static final Money money(double value) {
+	public static Money money(double value) {
 		return new Money(value);
 	}
 
-	public static final Money money(String money) throws NumberFormatException {
+	public static Money money(String money) throws NumberFormatException {
 		return new Money(money);
 	}
 
-	public static final Money money(String currency, double value) {
+	public static Money money(String currency, double value) {
 		return new Money(currency, value);
 	}
 

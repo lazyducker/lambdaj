@@ -5,7 +5,7 @@ package ch.lambdaj.proxy.nodefconstructor;
 public class RelationMetricResult {
     private final ElementId from;
     private final ElementId to;
-    private double metric;
+    private final double metric;
     
     //protected RelationMetricResult() {}
 

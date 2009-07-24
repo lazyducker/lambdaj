@@ -6,7 +6,7 @@ class InvocationSequence extends ArrayList<Invocation> {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Class<?> rootInvokedClass;
+	private final Class<?> rootInvokedClass;
 	
 	private String inkvokedPropertyName = "";
 	
@@ -47,7 +47,7 @@ class InvocationSequence extends ArrayList<Invocation> {
 		return true;
 	}
 	
-	int[] primes = new int[] { 13, 17, 19, 23, 29, 31, 37 };
+	final int[] primes = new int[] { 13, 17, 19, 23, 29, 31, 37 };
 	
 	@Override
 	public int hashCode() {

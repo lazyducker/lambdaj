@@ -11,8 +11,8 @@ import ch.lambdaj.function.argument.*;
  */
 public class ArgumentComparator<T, A> implements Comparator<T> {
 
-	private Argument<A> argument;
-	private Comparator<? extends Object> comparator;
+	private final Argument<A> argument;
+	private final Comparator<?> comparator;
 	
 	public ArgumentComparator(A argument) {
 		this(actualArgument(argument));
@@ -22,11 +22,11 @@ public class ArgumentComparator<T, A> implements Comparator<T> {
 		this(argument, null);
 	}
 	
-	public ArgumentComparator(A argument, Comparator<? extends Object> comparator) {
+	public ArgumentComparator(A argument, Comparator<?> comparator) {
 		this(actualArgument(argument), comparator);
 	}
 	
-	public ArgumentComparator(Argument<A> argument, Comparator<? extends Object> comparator) {
+	public ArgumentComparator(Argument<A> argument, Comparator<?> comparator) {
 		this.argument = argument;
 		this.comparator = comparator != null ? comparator : DEFAULT_ARGUMENT_COMPARATOR;
 	}
@@ -39,7 +39,7 @@ public class ArgumentComparator<T, A> implements Comparator<T> {
 		return ((Comparator<Object>)comparator).compare(val1, val2);
 	}
 	
-	private static final Comparator<? extends Object> DEFAULT_ARGUMENT_COMPARATOR = new DefaultArgumentComparator();
+	private static final Comparator<?> DEFAULT_ARGUMENT_COMPARATOR = new DefaultArgumentComparator();
 
 	private static class DefaultArgumentComparator implements Comparator<Object> {
 		@SuppressWarnings("unchecked")

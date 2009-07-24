@@ -4,7 +4,7 @@ import org.hamcrest.*;
 
 public class AndMatcher<T> extends LambdaJMatcher<T> {
 	
-	private Matcher<T>[] matchers;
+	private final Matcher<T>[] matchers;
 
 	public AndMatcher(Matcher<T>... matchers) {
 		this.matchers = matchers;

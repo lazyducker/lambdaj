@@ -9,7 +9,7 @@ package ch.lambdaj.function.aggregate;
  */
 public class Concat implements Aggregator<Object> {
 
-	private String separator;
+	private final String separator;
 
 	public Concat() {
 		this(", ");
@@ -28,8 +28,7 @@ public class Concat implements Aggregator<Object> {
 
 	private boolean empty(Object object) {
 		if (object == null) return true;
-		if (object.toString().trim().equals("")) return true;
-		return false;
+		return object.toString().trim().equals("");
 	}
 
 	public String emptyItem() {

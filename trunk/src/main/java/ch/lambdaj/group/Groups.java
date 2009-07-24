@@ -31,7 +31,7 @@ public final class Groups {
 	public static <T> Group<T> group(Iterable<T> iterable, GroupCondition... conditions) {
 		GroupCondition condition = conditions[0];
 		GroupImpl<T> group = new GroupImpl<T>(condition);
-		for (T item : iterable)	group.add(item);
+		for (T item : iterable)	group.addItem(item);
 
 		if (conditions.length > 1) {
 			GroupCondition[] newConditions = new GroupCondition[conditions.length - 1];

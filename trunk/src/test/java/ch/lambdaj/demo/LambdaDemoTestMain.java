@@ -19,7 +19,7 @@ public class LambdaDemoTestMain {
 	private static long[][] iterative;
 	private static long[][] lambdaj;
 
-	private static Db db = Db.getInstance();
+	private static final Db db = Db.getInstance();
 
 	public static void main(String[] args) {
 		int repetitions = REPETITIONS;

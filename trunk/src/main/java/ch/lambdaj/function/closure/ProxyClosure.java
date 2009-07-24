@@ -13,7 +13,7 @@ class ProxyClosure extends InvocationInterceptor {
 
 	private boolean registered = false;
 	
-	private AbstractClosure closure;
+	private final AbstractClosure closure;
 	
 	protected ProxyClosure(AbstractClosure closure) {
 		this.closure = closure;

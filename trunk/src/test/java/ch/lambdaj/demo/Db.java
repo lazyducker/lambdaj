@@ -4,9 +4,9 @@ import java.util.*;
 
 public class Db {
 
-	public List<Person> persons = new ArrayList<Person>();
-	public List<Car> cars = new ArrayList<Car>();
-	public List<Sale> sales = new ArrayList<Sale>();
+	public final List<Person> persons = new ArrayList<Person>();
+	public final List<Car> cars = new ArrayList<Car>();
+	public final List<Sale> sales = new ArrayList<Sale>();
 	
 	private static final Db DB_INSTANCE = new Db();
 	

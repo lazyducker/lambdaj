@@ -10,7 +10,7 @@ package ch.lambdaj.group;
  */
 public class StringGroupCondition extends AbstractGroupCondition<String> {
 
-	private String groupBy;
+	private final String groupBy;
 
 	public StringGroupCondition(String groupBy) {
 		this(groupBy, null);
