@@ -18,7 +18,7 @@ public final class ArgumentsFactory {
 		return createArgument(clazz, new InvocationSequence(clazz));
 	}
 	
-	private static Map<InvocationSequence, Object> placeholderByInvocation = new WeakHashMap<InvocationSequence, Object>();
+	private static final Map<InvocationSequence, Object> placeholderByInvocation = new WeakHashMap<InvocationSequence, Object>();
     
 	@SuppressWarnings("unchecked")
 	static <T> T createArgument(Class<T> clazz, InvocationSequence invocationSequence) {
@@ -46,7 +46,7 @@ public final class ArgumentsFactory {
 	// /// Arguments
 	// ////////////////////////////////////////////////////////////////////////
 	
-	private static Map<Object, Argument<?>> argumentsByPlaceholder = new WeakHashMap<Object, Argument<?>>();
+	private static final Map<Object, Argument<?>> argumentsByPlaceholder = new WeakHashMap<Object, Argument<?>>();
 	
     private static <T> void bindArgument(T placeholder, Argument<T> argument) {
     	if (isLimitedValues(placeholder)) limitedValuesArguments.get().setArgument(placeholder, argument);
@@ -61,7 +61,7 @@ public final class ArgumentsFactory {
     	return actualArgument;
     }
     
-	private static ThreadLocal<LimitedValuesArgumentHolder> limitedValuesArguments = new ThreadLocal<LimitedValuesArgumentHolder>() {
+	private static final ThreadLocal<LimitedValuesArgumentHolder> limitedValuesArguments = new ThreadLocal<LimitedValuesArgumentHolder>() {
         protected LimitedValuesArgumentHolder initialValue() {
             return new LimitedValuesArgumentHolder();
         }
@@ -78,10 +78,10 @@ public final class ArgumentsFactory {
     private static final class LimitedValuesArgumentHolder {
     	
     	private boolean booleanPlaceholder = true;
-    	private Argument<?>[] booleanArguments = new Argument[2];
+    	private final Argument<?>[] booleanArguments = new Argument[2];
 
     	private int enumPlaceholder = 0;
-    	private Map<Object, Argument<?>> enumArguments = new HashMap<Object, Argument<?>>();
+    	private final Map<Object, Argument<?>> enumArguments = new HashMap<Object, Argument<?>>();
     	
     	private int booleanToInt(Object placeholder) {
         	return ((Boolean)placeholder).booleanValue() ? 1 : 0;
@@ -123,7 +123,7 @@ public final class ArgumentsFactory {
     	return (T)createArgumentPlaceholder(clazz, Integer.MIN_VALUE+1);
 	}
     
-    private static AtomicInteger placeholderCounter = new AtomicInteger(Integer.MIN_VALUE);
+    private static final AtomicInteger placeholderCounter = new AtomicInteger(Integer.MIN_VALUE);
     
     static int getNextPlaceholderId() {
     	return placeholderCounter.addAndGet(1);

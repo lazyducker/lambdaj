@@ -5,7 +5,7 @@ import ch.lambdaj.function.argument.*;
 
 public abstract class ChooserOnArgument<T, A> extends Chooser<T> {
 
-	private Argument<A> argument;
+	private final Argument<A> argument;
 	
 	public ChooserOnArgument(A argument) {
 		this.argument = actualArgument(argument);

@@ -4,7 +4,7 @@ import java.util.*;
 
 public class LeafGroup<T> implements Group<T> {
 
-	private List<T> list;
+	private final List<T> list;
 	private Map<String, Object> headMap = new TreeMap<String, Object>();
 	
 	@SuppressWarnings("unchecked")

@@ -4,7 +4,7 @@ import java.util.*;
 
 public interface IPerson {
 	public enum Gender {
-		MALE, FEMALE;
+		MALE, FEMALE
 	}
 	
 	Gender getGender();

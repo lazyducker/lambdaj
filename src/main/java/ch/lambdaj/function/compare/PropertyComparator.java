@@ -13,7 +13,7 @@ import ch.lambdaj.util.IntrospectionUtil;
  */
 public class PropertyComparator<T> implements Comparator<T> {
 
-	private String propertyName;
+	private final String propertyName;
 
 	public PropertyComparator(String propertyName) {
 		this.propertyName = propertyName;

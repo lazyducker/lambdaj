@@ -10,7 +10,7 @@ public final class ClosuresFactory {
 	
 	private ClosuresFactory() { }
 
-	private static ThreadLocal<AbstractClosure> closures = new ThreadLocal<AbstractClosure>();
+	private static final ThreadLocal<AbstractClosure> closures = new ThreadLocal<AbstractClosure>();
 	
 	public static <T> T bindClosure(T closed, Class<T> closedClass) {
 		AbstractClosure closure = closures.get();

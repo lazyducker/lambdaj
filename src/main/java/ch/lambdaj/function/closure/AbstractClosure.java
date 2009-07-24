@@ -24,8 +24,6 @@ abstract class AbstractClosure {
 
 	private int unboundParamsCount = 0;
 	
-	AbstractClosure() { }
-
 	void setClosed(Object closed) {
 		this.closed = closed;
 	}

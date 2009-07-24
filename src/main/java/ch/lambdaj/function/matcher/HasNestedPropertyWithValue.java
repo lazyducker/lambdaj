@@ -7,9 +7,9 @@ import org.hamcrest.*;
 public class HasNestedPropertyWithValue<T> extends LambdaJMatcher<T> {
 
     private final String propertyName;
-    private final Matcher<? extends Object> value;
+    private final Matcher<?> value;
 
-    public HasNestedPropertyWithValue(String propertyName, Matcher<? extends Object> value) {
+    public HasNestedPropertyWithValue(String propertyName, Matcher<?> value) {
         this.propertyName = propertyName;
         this.value = value;
     }
@@ -31,7 +31,7 @@ public class HasNestedPropertyWithValue<T> extends LambdaJMatcher<T> {
     }
 
     @Factory
-    public static <T> Matcher<T> hasNestedProperty(String propertyName, Matcher<? extends Object> value) {
+    public static <T> Matcher<T> hasNestedProperty(String propertyName, Matcher<?> value) {
         return new HasNestedPropertyWithValue<T>(propertyName, value);
     }
 }

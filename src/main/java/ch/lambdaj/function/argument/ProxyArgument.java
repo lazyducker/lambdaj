@@ -9,11 +9,11 @@ import ch.lambdaj.proxy.*;
 
 public class ProxyArgument extends InvocationInterceptor {
 	
-	private Class<?> proxiedClass;
+	private final Class<?> proxiedClass;
 	
-	private WeakReference<InvocationSequence> invocationSequence;
+	private final WeakReference<InvocationSequence> invocationSequence;
 	
-	private int proxyId;
+	private final int proxyId;
 	
 	ProxyArgument(Class<?> proxiedClass, InvocationSequence invocationSequence) {
 		this.proxiedClass = proxiedClass;
@@ -36,7 +36,7 @@ public class ProxyArgument extends InvocationInterceptor {
 	
 	@Override
 	public boolean equals(Object other) {
-		return other instanceof ProxyArgument ? proxyId == ((ProxyArgument)other).proxyId : false;
+		return other instanceof ProxyArgument && proxyId == ((ProxyArgument)other).proxyId;
 	}
 	
 	@Override

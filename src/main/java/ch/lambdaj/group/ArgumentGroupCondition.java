@@ -5,8 +5,8 @@ import ch.lambdaj.function.argument.*;
 
 public class ArgumentGroupCondition extends AbstractGroupCondition<Argument<?>> {
 	
-	private Argument<?> groupBy;
-	private String groupName;
+	private final Argument<?> groupBy;
+	private final String groupName;
 
 	ArgumentGroupCondition(Object argument) {
 		groupBy = actualArgument(argument);

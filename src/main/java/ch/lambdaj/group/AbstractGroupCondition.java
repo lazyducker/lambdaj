@@ -6,7 +6,7 @@ import java.util.*;
 
 public abstract class AbstractGroupCondition<T> implements GroupCondition {
 
-	protected Map<String, T> additionalProperties = new TreeMap<String, T>();
+	protected final Map<String, T> additionalProperties = new TreeMap<String, T>();
 	
 	private String alias;
 

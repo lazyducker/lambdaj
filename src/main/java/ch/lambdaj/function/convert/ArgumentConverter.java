@@ -12,7 +12,7 @@ import ch.lambdaj.function.argument.*;
  */
 public class ArgumentConverter<F, T> implements Converter<F, T>{
 
-	private Argument<T> argument;
+	private final Argument<T> argument;
 	
 	public ArgumentConverter(Argument<T> argument) {
 		this.argument = argument;

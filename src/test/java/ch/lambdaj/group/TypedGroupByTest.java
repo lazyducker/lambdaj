@@ -14,10 +14,10 @@ import static org.junit.Assert.*;
 
 public class TypedGroupByTest {
 
-	private Person me = new Person("Mario", "Fusco", 35);
-	private Person luca = new Person("Luca", "Marrocco", 29);
-	private Person biagio = new Person("Biagio", "Beatrice", 39);
-	private Person celestino = new Person("Celestino", "Bellone", 29);
+	private final Person me = new Person("Mario", "Fusco", 35);
+	private final Person luca = new Person("Luca", "Marrocco", 29);
+	private final Person biagio = new Person("Biagio", "Beatrice", 39);
+	private final Person celestino = new Person("Celestino", "Bellone", 29);
 
 	@Test
 	public void testGroupByAge() {

@@ -60,7 +60,7 @@ public final class Lambda {
 	 * @param <T> The type of the items in the iterable
 	 * @param iterable The iterable to be transformed
 	 * @return An object that proxies all the item in the iterable or null if the iterable is null or empty
-	 * @throws An IllegalArgumentException if the iterable is null or empty
+	 * @throws IllegalArgumentException if the iterable is null or empty
 	 */
 	public static <T> T forEach(Iterable<? extends T> iterable) {
 		if (iterable == null) 
@@ -102,7 +102,7 @@ public final class Lambda {
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of which the items should be collected
 	 * @return A List containing all the items collected from the give iterable
-	 * @throws A IllegalArgumentException if the iterable is not an Iterable or a Map
+	 * @throws IllegalArgumentException if the iterable is not an Iterable or a Map
 	 */
 	public static <T> List<? extends T> collect(Object iterable) {
 		if (!(iterable instanceof Iterable) && !(iterable instanceof Map)) 
@@ -132,7 +132,7 @@ public final class Lambda {
 	 * @param iterable The iterable of which the items should be collected
 	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
 	 * @return A List containing all the items collected from the give iterable
-	 * @throws A RuntimeException if the iterable is not an Iterable or a Map
+	 * @throws RuntimeException if the iterable is not an Iterable or a Map
 	 */
 	public static <T> List<T> collect(Object iterable, T argument) {
 		return (List<T>)collect(convert(iterable, new ArgumentConverter<Object, T>(argument)));
@@ -211,7 +211,7 @@ public final class Lambda {
 	 * @param iterable The iterable of objects to be filtered
 	 * @param matcher The hamcrest Matcher used to filter the given iterable
 	 * @return The only object in the given iterable that matches the given hamcrest Matcher or null if there is no such object
-	 * @throws A Runtime Exception if there is more than one object that matches the given hamcrest Matcher
+	 * @throws Runtime Exception if there is more than one object that matches the given hamcrest Matcher
 	 */
 	public static <T> T selectUnique(Object iterable, Matcher<?> matcher) {
 		return selectUnique((Iterable<T>) iterable, matcher);
@@ -223,7 +223,7 @@ public final class Lambda {
 	 * @param iterable The iterable of objects to be filtered
 	 * @param matcher The hamcrest Matcher used to filter the given iterable
 	 * @return The only object in the given iterable that matches the given hamcrest Matcher or null if there is no such object
-	 * @throws A Runtime Exception if there is more than one object that matches the given hamcrest Matcher
+	 * @throws Runtime Exception if there is more than one object that matches the given hamcrest Matcher
 	 */
 	public static <T> T selectUnique(Iterable<T> iterable, Matcher<?> matcher) {
 		T unique = null;
@@ -367,7 +367,7 @@ public final class Lambda {
 	 * @param iterable The iterable of numbers to be summed
 	 * @param aggregator The function that defines how the objects in this iterable have to be aggregated
 	 * @return The result of the aggregation of all the items in the given iterable
-	 * @throws A RuntimeException if the iterable is not an Iterable
+	 * @throws RuntimeException if the iterable is not an Iterable
 	 */
 	public static <T> T aggregate(Object iterable, Aggregator<T> aggregator) {
 		T result = aggregator.emptyItem();
@@ -401,7 +401,7 @@ public final class Lambda {
 	 * @param iterable The iterable of the objects to containing the property to be aggregated.
 	 * @param aggregator The function that defines how the objects in this iterable have to be aggregated
 	 * @return A proxy of the class of the first object in the iterable representing an aggregation lambda function
-	 * @throws An IllegalArgumentException if the iterable is null or empty
+	 * @throws IllegalArgumentException if the iterable is null or empty
 	 */
 	public static <T, A> T aggregateFrom(Iterable<T> iterable, Aggregator<A> aggregator) {
 		if (iterable == null) 
@@ -436,7 +436,7 @@ public final class Lambda {
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of numbers to be summed
 	 * @return The sum of all the Number in the given iterable or the iterable itself if it actually is already a single number
-	 * @throws An IllegalArgumentException if the iterable is not neither an Iterable nor a Number
+	 * @throws IllegalArgumentException if the iterable is not neither an Iterable nor a Number
 	 */
 	public static Number sum(Object iterable) {
 		if (iterable instanceof Number) return (Number)iterable;
@@ -451,7 +451,7 @@ public final class Lambda {
 	 * @param iterable The iterable of items containing the property of which the values have to be summed.
 	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
 	 * @return The sum of the property values extracted from all the items in the given iterable 
-	 * @throws An IllegalArgumentException if the iterable is not an Iterable
+	 * @throws IllegalArgumentException if the iterable is not an Iterable
 	 */
 	public static <T> T sum(Object iterable, T argument) {
 		return (T)aggregate(iterable, getSumAggregator(argument), argument);
@@ -473,7 +473,7 @@ public final class Lambda {
 	 * specify a particular class by using the overloaded method.
 	 * @param iterable The iterable of the objects to containing the property to be summed.
 	 * @return A proxy of the class of the first object in the iterable representing a sum lambda function
-	 * @throws An IllegalArgumentException if the iterable is null or empty
+	 * @throws IllegalArgumentException if the iterable is null or empty
 	 */
 	public static <T> T sumFrom(Iterable<T> iterable) {
 		return aggregateFrom(iterable, Sum);
@@ -507,7 +507,7 @@ public final class Lambda {
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of numbers to be summed
 	 * @return The minimum of all the Object in the given iterable
-	 * @throws An IllegalArgumentException if the iterable is not an Iterable
+	 * @throws IllegalArgumentException if the iterable is not an Iterable
 	 */
 	public static <T> T min(Object iterable) {
 		return (T) aggregate((Iterable<T>) iterable, Min);
@@ -519,7 +519,7 @@ public final class Lambda {
 	 * @param iterable The iterable of objects on which the minimum should be found
 	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
 	 * @return The minimum of all the Object in the given iterable
-	 * @throws An IllegalArgumentException if the iterable is not an Iterable
+	 * @throws IllegalArgumentException if the iterable is not an Iterable
 	 */
 	public static <T> T min(Object iterable, T argument) {
 		return (T)aggregate(iterable, Min, argument);
@@ -542,7 +542,7 @@ public final class Lambda {
 	 * specify a particular class by using the overloaded method.
 	 * @param iterable The iterable of objects on which the minimum should be found
 	 * @return A proxy of the class of the first object in the iterable representing a min lambda function
-	 * @throws An IllegalArgumentException if the iterable is null or empty
+	 * @throws IllegalArgumentException if the iterable is null or empty
 	 */
 	public static <T> T minFrom(Iterable<T> iterable) {
 		return (T) aggregateFrom(iterable, Min);
@@ -577,7 +577,7 @@ public final class Lambda {
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of objects on which the maximum should be found
 	 * @return The maximum of all the Object in the given iterable
-	 * @throws An IllegalArgumentException if the iterable is not an Iterable
+	 * @throws IllegalArgumentException if the iterable is not an Iterable
 	 */
 	public static <T> T max(Object iterable) {
 		return (T) aggregate((Iterable<T>) iterable, Max);
@@ -589,7 +589,7 @@ public final class Lambda {
 	 * @param iterable The iterable of objects on which the maximum should be found
 	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
 	 * @return The maximum of all the Object in the given iterable
-	 * @throws An IllegalArgumentException if the iterable is not an Iterable
+	 * @throws IllegalArgumentException if the iterable is not an Iterable
 	 */
 	public static <T> T max(Object iterable, T argument) {
 		return (T)aggregate(iterable, Max, argument);
@@ -612,7 +612,7 @@ public final class Lambda {
 	 * specify a particular class by using the overloaded method.
 	 * @param iterable The iterable of objects on which the maximum should be found
 	 * @return A proxy of the class of the first object in the iterable representing a max lambda function
-	 * @throws An IllegalArgumentException if the iterable is null or empty
+	 * @throws IllegalArgumentException if the iterable is null or empty
 	 */
 	public static <T> T maxFrom(Iterable<T> iterable) {
 		return (T) aggregateFrom(iterable, Max);
@@ -658,7 +658,7 @@ public final class Lambda {
 	 * specify a particular class by using the overloaded method.
 	 * @param iterable The iterable of the objects to containing the property to be joined.
 	 * @return A proxy of the class of the first object in the iterable representing a join lambda function
-	 * @throws An IllegalArgumentException if the iterable is null or empty
+	 * @throws IllegalArgumentException if the iterable is null or empty
 	 */
 	public static <T> T joinFrom(Iterable<T> iterable) {
 		return aggregateFrom(iterable, Concat);
@@ -681,7 +681,7 @@ public final class Lambda {
 	 * @param iterable The iterable of the objects to containing the property to be joined.
 	 * @param separator The String used to separe the Strings produced by this lambda function
 	 * @return A proxy of the class of the first object in the iterable representing a join lambda function
-	 * @throws An IllegalArgumentException if the iterable is null or empty
+	 * @throws IllegalArgumentException if the iterable is null or empty
 	 */
 	public static <T> T joinFrom(Iterable<T> iterable, String separator) {
 		return aggregateFrom(iterable, new Concat(separator));
@@ -840,7 +840,7 @@ public final class Lambda {
     	return havingValue(argument);
     }
     
-    public static <T, A> HasArgumentWithValue<T, A> having(A argument, Matcher<? extends Object> value) {
+    public static <T, A> HasArgumentWithValue<T, A> having(A argument, Matcher<?> value) {
     	return havingValue(argument, value);
     }
 

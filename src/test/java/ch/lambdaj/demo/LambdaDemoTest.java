@@ -15,7 +15,7 @@ import ch.lambdaj.group.*;
 
 public class LambdaDemoTest {
 
-	private Db db = Db.getInstance();
+	private final Db db = Db.getInstance();
 	
 	@Test
 	public void testPrintAllBrands() {

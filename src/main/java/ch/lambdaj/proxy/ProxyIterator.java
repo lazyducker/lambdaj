@@ -14,7 +14,7 @@ import java.util.*;
  */
 public class ProxyIterator<T> extends InvocationInterceptor implements Iterable<T> {
 
-	private Iterable<T> proxiedCollection;
+	private final Iterable<T> proxiedCollection;
 
 	protected ProxyIterator(Iterable<T> proxiedCollection) {
 		this.proxiedCollection = proxiedCollection;

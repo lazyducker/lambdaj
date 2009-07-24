@@ -59,7 +59,7 @@ public class ClassImposterizer  {
     
     private ClassImposterizer() {}
     
-    private ObjenesisStd objenesis = new ObjenesisStd();
+    private final ObjenesisStd objenesis = new ObjenesisStd();
     
     private static final NamingPolicy DEFAULT_POLICY = new DefaultNamingPolicy() {
         @Override

@@ -7,7 +7,7 @@ package ch.lambdaj.function.argument;
  */
 public class Argument<T> {
 
-	private InvocationSequence invocationSequence;
+	private final InvocationSequence invocationSequence;
 	
 	Argument(InvocationSequence invocationSequence) {
 		this.invocationSequence = invocationSequence;

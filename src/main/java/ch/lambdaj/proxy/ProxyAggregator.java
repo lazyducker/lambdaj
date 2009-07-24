@@ -15,7 +15,7 @@ import ch.lambdaj.function.aggregate.*;
  */
 public class ProxyAggregator<T, A> extends ProxyIterator<T> {
 
-	private Aggregator<A> aggregator;
+	private final Aggregator<A> aggregator;
 
 	protected ProxyAggregator(Iterable<T> proxiedCollection, Aggregator<A> aggregator) {
 		super(proxiedCollection);
