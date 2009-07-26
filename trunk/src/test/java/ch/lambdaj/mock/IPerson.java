@@ -20,8 +20,8 @@ public interface IPerson {
 	
 	Date getBirthDate();
 
-	Person getBestFriend();
-	void setBestFriend(Person bestFriend);
+	IPerson getBestFriend();
+	void setBestFriend(IPerson bestFriend);
 	
 	boolean isYoungerThan(int maxAge);
 }

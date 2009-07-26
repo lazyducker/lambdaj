@@ -835,43 +835,93 @@ public final class Lambda {
 	// ////////////////////////////////////////////////////////////////////////
 	// /// Matcher
 	// ////////////////////////////////////////////////////////////////////////
-	
+
+    /**
+     * Creates an hamcrest matcher that is evalued to true accordingly to the value of the passed argument
+     * @param argument The boolean argument defined using the {@link Lambda#on(Class)} method that has to be matched
+     * @return The hamcrest matcher that is evalued to true accordingly to the value of the passed argument
+     */
 	public static <T> HasArgumentWithValue<T, Boolean> having(Boolean argument) {
     	return havingValue(argument);
     }
     
-    public static <T, A> HasArgumentWithValue<T, A> having(A argument, Matcher<?> value) {
-    	return havingValue(argument, value);
+    /**
+     * Creates an hamcrest matcher that is evalued to true if the value of the given argument satisfies
+     * the condition defined by the passed matcher.
+     * @param argument The argument defined using the {@link Lambda#on(Class)} method that has to be matched
+     * @param matcher The matcher against which the value of the given argument has to be compared
+     * @return The hamcrest matcher that is evalued to true if the value of the passed argument matches the given matcher
+     */
+    public static <T, A> HasArgumentWithValue<T, A> having(A argument, Matcher<?> matcher) {
+    	return havingValue(argument, matcher);
     }
 
 	// ////////////////////////////////////////////////////////////////////////
 	// /// Closure
 	// ////////////////////////////////////////////////////////////////////////
 	
+    /**
+     * Binds an object to the active closure that is the last one created in the current thread.
+     * @param closed The object that has to be bind to the active closure
+     * @return A proxy of the same class of the passed object used to register all the invocation on the closed object
+     */
 	public static <T> T of(T closed) {
 		return of(closed, (Class<T>)closed.getClass());
 	}
 	
+    /**
+     * Binds an object to the active closure that is the last one created in the current thread.
+     * @param closed The object that has to be bind to the active closure
+     * @param closedClass The actual class of the proxied object
+     * @return An instance of the closedClass that is actually a proxy used to register all the invocation on the closed object
+     */
 	public static <T> T of(T closed, Class<T> closedClass) {
 		return bindClosure(closed, closedClass);
 	}
 	
+    /**
+     * Defines a free argument of the given Class for the currently active closure
+     * @param clazz The Class of the new argument
+     * @return A placeholder that represent a free closure argument of the given Class
+     */
 	public static <T> T arg(Class<T> clazz) {
 		return createClosureArgPlaceholder(clazz);
 	}
 	
+    /**
+     * Creates a generic (not typed) closure and binds it to the current thread
+     * @return The newly created closure
+     */
 	public static Closure closure() {
 		return createClosure();
 	}
 	
+    /**
+     * Creates a closure with a single free paramater and binds it to the current thread
+     * @param type1 The type of the free parameter of the newly created closure
+     * @return The newly created closure
+     */
 	public static <A> Closure1<A> closure(Class<A> type1) {
 		return createClosure(type1);
 	}
 	
+    /**
+     * Creates a closure with two free paramaters and binds it to the current thread
+     * @param type1 The type of the first free parameter of the newly created closure
+     * @param type2 The type of the second free parameter of the newly created closure
+     * @return The newly created closure
+     */
 	public static <A, B> Closure2<A, B> closure(Class<A> type1, Class<B> type2) {
 		return createClosure(type1, type2);
 	}
 	
+    /**
+     * Creates a closure with three free paramaters and binds it to the current thread
+     * @param type1 The type of the first free parameter of the newly created closure
+     * @param type2 The type of the second free parameter of the newly created closure
+     * @param type3 The type of the third free parameter of the newly created closure
+     * @return The newly created closure
+     */
 	public static <A, B, C> Closure3<A, B, C> closure(Class<A> type1, Class<B> type2, Class<C> type3) {
 		return createClosure(type1, type2, type3);
 	}
