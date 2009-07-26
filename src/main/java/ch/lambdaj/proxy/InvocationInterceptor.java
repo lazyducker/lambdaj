@@ -10,7 +10,7 @@ import net.sf.cglib.proxy.*;
  */
 public abstract class InvocationInterceptor implements MethodInterceptor, InvocationHandler {
 
-	public static interface VoidInterceptor { }
+	public interface VoidInterceptor { }
 	
 	public static final InvocationInterceptor VOID = new InvocationInterceptor() {
 		public Object invoke(Object arg0, Method arg1, Object[] arg2) throws Throwable {

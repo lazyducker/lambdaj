@@ -1,6 +1,11 @@
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Licensed under the Apache License, Version 2.0 (the "License")
+
 package ch.lambdaj.function.closure;
 
 /**
+ * This Exception is thrown when a closure gets invoked with a wrong number or type of parameters
  * @author Mario Fusco
  */
 public class WrongClosureInvocationException extends RuntimeException {

@@ -3,6 +3,7 @@ package ch.lambdaj;
 import static ch.lambdaj.Lambda.*;
 import static java.util.Arrays.*;
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.*;
 import java.util.*;
@@ -39,6 +40,7 @@ public class ClosureTest {
 	public void testOnList() {
 		StringWriter sw = new StringWriter();
 		Closure writer = closure(); { of(sw).write(arg(String.class)); } 
+        assertEquals(1, writer.getFreeParamsNumber());
 		writer.each(asList("first", "second", "third"));
 		assertEquals("firstsecondthird", sw.toString());
 	}
@@ -119,18 +121,22 @@ public class ClosureTest {
 			of(this).nonCommutativeDoOnInt(arg(Integer.class), arg(Integer.class), arg(Integer.class)); 
 		} 
 		int result = (Integer)closure3.apply(5, 2, 4);
+        assertEquals(3, closure3.getFreeParamsNumber());
 		assertEquals((5 - 2) * 4, result);
 		
 		Closure2<Integer, Integer> closure2 = closure3.curry2(2);
 		result = (Integer)closure2.apply(7, 3);
+        assertEquals(2, closure2.getFreeParamsNumber());
 		assertEquals((7 - 2) * 3, result);
 		
 		Closure1<Integer> closure1 = closure2.curry2(5);
 		result = (Integer)closure1.apply(4);
+        assertEquals(1, closure1.getFreeParamsNumber());
 		assertEquals((4 - 2) * 5, result);
 		
 		Closure0 closure0 = closure1.curry(9);
 		result = (Integer)closure0.apply();
+        assertEquals(0, closure0.getFreeParamsNumber());
 		assertEquals((9 - 2) * 5, result);
 	}
 	

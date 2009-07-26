@@ -1,3 +1,7 @@
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Licensed under the Apache License, Version 2.0 (the "License")
+
 package ch.lambdaj.function.matcher;
 
 import static ch.lambdaj.function.argument.ArgumentsFactory.*;
@@ -33,14 +37,26 @@ public class HasArgumentWithValue<T, A> extends LambdaJMatcher<T> {
         description.appendText(")");
     }
 
+    /**
+     * Creates an hamcrest matcher that is evalued to true accordingly to the value of the passed argument
+     * @param argument The boolean argument defined using the {@link ch.lambdaj.Lambda#on(Class)} method that has to be matched
+     * @return The hamcrest matcher that is evalued to true accordingly to the value of the passed argument
+     */
     @Factory
-    public static <T> HasArgumentWithValue<T, Boolean> havingValue(Boolean argument) {
+     public static <T> HasArgumentWithValue<T, Boolean> havingValue(Boolean argument) {
     	return havingValue(argument, booleanMatcher);
     }
     
+    /**
+     * Creates an hamcrest matcher that is evalued to true if the value of the given argument satisfies
+     * the condition defined by the passed matcher.
+     * @param argument The argument defined using the {@link ch.lambdaj.Lambda#on(Class)} method that has to be matched
+     * @param matcher The matcher against which the value of the given argument has to be compared
+     * @return The hamcrest matcher that is evalued to true if the value of the passed argument matches the given matcher
+     */
     @Factory
-    public static <T, A> HasArgumentWithValue<T, A> havingValue(A argument, Matcher<?> value) {
-    	return new HasArgumentWithValue<T, A>(actualArgument(argument), value);
+    public static <T, A> HasArgumentWithValue<T, A> havingValue(A argument, Matcher<?> matcher) {
+    	return new HasArgumentWithValue<T, A>(actualArgument(argument), matcher);
     }
 
     private static final BooleanMatcher booleanMatcher = new BooleanMatcher();

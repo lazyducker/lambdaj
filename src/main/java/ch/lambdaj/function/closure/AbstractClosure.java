@@ -10,6 +10,7 @@ import java.lang.reflect.*;
 import java.util.*;
 
 /**
+ * The abstract class extended by all the lambdaj closures
  * @author Mario Fusco
  */
 abstract class AbstractClosure {
@@ -22,19 +23,55 @@ abstract class AbstractClosure {
 	private Object[] curriedParams;
 	private boolean[] curriedParamsFlags;
 
-	private int unboundParamsCount = 0;
-	
-	void setClosed(Object closed) {
+    private int freeParamsNumber = 0;
+
+    /**
+     * Returns the number of free parameters in this closure
+     * @return The number of free parameters in this closure
+     */
+    public int getFreeParamsNumber() {
+        return freeParamsNumber;
+    }
+
+    /**
+     * Dynamically casts this closure to a one-method interface in order to invoke its method in a strongly typed way
+     * @param asInterface The interface to which this closure should be casted
+     * @return A proxy that implements the requested interface and wraps this closure
+     * @throws IllegalArgumentException if the given Class is not actually an interface or if it has more than one method
+     */
+	@SuppressWarnings("unchecked")
+	public <T> T as(Class<T> asInterface) throws IllegalArgumentException {
+		if (!asInterface.isInterface()) throw new IllegalArgumentException("Cannot cast a closure to the concrete class " + asInterface.getName());
+		Method[] methods = asInterface.getMethods();
+		if (methods.length != 1) throw new IllegalArgumentException("Cannot cast a closure to an interface with more than one method");
+
+		return (T)Proxy.newProxyInstance(asInterface.getClassLoader(), new Class<?>[] { asInterface },
+			new InvocationHandler() {
+				public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+					return closeOne(args);
+				}
+			}
+		);
+	}
+
+    void setClosed(Object closed) {
 		this.closed = closed;
 	}
 	
 	void registerInvocation(Method method, Object[] args) {
 		methodList.add(method);
-		if (args != null) for (Object arg : args) if (isClosureArgPlaceholder(arg)) unboundParamsCount++;
+		if (args != null) for (Object arg : args) if (isClosureArgPlaceholder(arg)) freeParamsNumber++;
 		argsList.add(args);
 	}
 	
-	protected Object closeOne(Object... params) {
+    /**
+     * Invokes this closure once by applying the given set of parameters to it.
+     * @param params The set of parameter used to invoke this closure once
+     * @return The result of the closure invocation
+     * @throws WrongClosureInvocationException if the number of the passed parameters doesn't correspond to one
+     * with which this closure has been defined
+     */
+	protected Object closeOne(Object... params) throws WrongClosureInvocationException {
 		List<Object[]> boundParams = bindParams(params);
 		Object result = closed;
 		
@@ -51,13 +88,28 @@ abstract class AbstractClosure {
 		return result;
 	}
 
-	protected List<Object> closeAll(Object... params) {
+    /**
+     * Invokes this closure once for each passed parameter.
+     * It is then assumed that this closure has been defined with exactly one free paramater
+     * @param params The set of parameter used to invoke this closure once for each parameter
+     * @return A list of Object containing the results of each closure invocation
+     * @throws WrongClosureInvocationException if this closure hasn't been defined with exactly one free parameter
+     */
+	protected List<Object> closeAll(Object... params) throws WrongClosureInvocationException {
 		List<Object> results = new ArrayList<Object>();
 		for (Object param : params) results.add(closeOne(param));
 		return results;
 	}
 	
-	protected List<Object> closeAll(Iterable<?>... params) {
+    /**
+     * Invokes this closure once for each passed set of parameters.
+     * Each iterable is used as a different set of parameters with which this closure is invoked
+     * @param params The parameters used to invoke this closure once for each set of parameters
+     * @return A list of Object containing the results of each closure invocation
+     * @throws WrongClosureInvocationException if the number of the passed parameters doesn't correspond to one
+     * with which this closure has been defined
+     */
+	protected List<Object> closeAll(Iterable<?>... params) throws WrongClosureInvocationException {
 		List<Object> results = new ArrayList<Object>();
 		
 		int length = params.length;
@@ -81,14 +133,14 @@ abstract class AbstractClosure {
 		return results;
 	}
 	
-	private List<Object[]> bindParams(Object... params) {
+	private List<Object[]> bindParams(Object... params) throws WrongClosureInvocationException {
 		if (params == null || params.length == 0) {
-			if (unboundParamsCount != 0) 
-				throw new WrongClosureInvocationException("Closure invoked without params instead of the expected " + unboundParamsCount);
+			if (freeParamsNumber != 0)
+				throw new WrongClosureInvocationException("Closure invoked without params instead of the expected " + freeParamsNumber);
 			if (curriedParams == null) return null;
 		}
-		if (unboundParamsCount != params.length)
-			throw new WrongClosureInvocationException("Closure invoked with " + params.length + " params instead of the expected " + unboundParamsCount);
+		if (freeParamsNumber != params.length)
+			throw new WrongClosureInvocationException("Closure invoked with " + params.length + " params instead of the expected " + freeParamsNumber);
 		
 		int paramCounter = 0; 
 		int curriedParamCounter = 0;
@@ -111,22 +163,30 @@ abstract class AbstractClosure {
 		return boundParams;
 	}
 	
-	protected <T extends AbstractClosure> T curry(T curriedClosure, Object curried, int position) {
+    /**
+     * Curry this closure by fixing one of its free parameter to a given value.
+     * @param curriedClosure The closure resulting from this curry operation
+     * @param curried The value to which the free parameter should be curry
+     * @param position The 1-based position of the parameter to which apply the curry operation
+     * @return A Closure having a free parameter less than this one since one of them has been fixed to the given value
+     * @throws IllegalArgumentException if this closure doesn't have a free parameter in the specified position
+     */
+	protected <T extends AbstractClosure> T curry(T curriedClosure, Object curried, int position) throws IllegalArgumentException {
 		curriedClosure.closed = closed;
 		curriedClosure.methodList = methodList;
 		curriedClosure.argsList = argsList;
 		curriedClosure.curriedParams = curriedParams;
 		curriedClosure.curriedParamsFlags = curriedParamsFlags;
-		curriedClosure.unboundParamsCount = unboundParamsCount;
+		curriedClosure.freeParamsNumber = freeParamsNumber;
 
 		curriedClosure.curryParam(curried, position);
 		return curriedClosure;
 	}
 	
-	private void curryParam(Object curried, int position) {
+	private void curryParam(Object curried, int position) throws IllegalArgumentException {
 		if (curriedParams == null) {
-			curriedParams = new Object[unboundParamsCount];
-			curriedParamsFlags = new boolean[unboundParamsCount];
+			curriedParams = new Object[freeParamsNumber];
+			curriedParamsFlags = new boolean[freeParamsNumber];
 		}
 		
 		for (int i = 0; i < curriedParams.length; i++) {
@@ -134,26 +194,11 @@ abstract class AbstractClosure {
 			if (--position == 0) {
 				curriedParams[i] = curried;
 				curriedParamsFlags[i] = true;
-				unboundParamsCount--;
+				freeParamsNumber--;
 				return;
 			}
 		}
 		
 		throw new IllegalArgumentException("Trying to curry this closure on an already bound or unexisting paramater");
-	}
-	
-	@SuppressWarnings("unchecked")
-	public <T> T as(Class<T> asInterface) {
-		if (!asInterface.isInterface()) throw new IllegalArgumentException("Cannot cast a closure to the concrete class " + asInterface.getName());
-		Method[] methods = asInterface.getMethods();
-		if (methods.length != 1) throw new IllegalArgumentException("Cannot cast a closure to an interface with more than one method");
-		
-		return (T)Proxy.newProxyInstance(asInterface.getClassLoader(), new Class<?>[] { asInterface }, 
-			new InvocationHandler() { 
-				public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-					return closeOne(args);
-				}
-			}
-		);
 	}
 }
