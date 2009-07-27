@@ -10,7 +10,7 @@ public class Person implements IPerson {
 	private int age;
 	private Date birthDate;
 	
-	private Person bestFriend;
+	private IPerson bestFriend;
 	
 	public Person() { }
 
@@ -68,9 +68,9 @@ public class Person implements IPerson {
 	}
 
 	public Person getBestFriend() {
-		return bestFriend;
+		return (Person)bestFriend;
 	}
-	public void setBestFriend(Person bestFriend) {
+	public void setBestFriend(IPerson bestFriend) {
 		this.bestFriend = bestFriend;
 	}
 	
