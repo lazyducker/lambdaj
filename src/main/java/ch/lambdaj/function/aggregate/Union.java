@@ -2,7 +2,7 @@ package ch.lambdaj.function.aggregate;
 
 import java.util.*;
 
-public class Union<T> implements Aggregator<Iterable<T>> {
+public class Union<T> extends PairAggregator<Iterable<T>> {
     public Iterable<T> aggregate(final Iterable<T> first, final Iterable<T> second) {
         List<T> result = new ArrayList<T>();
         for(T item : first)

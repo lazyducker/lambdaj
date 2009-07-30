@@ -1,6 +1,6 @@
 package ch.lambdaj.function.aggregate;
 
-public class SumLong implements Aggregator<Long> {
+public class SumLong extends PairAggregator<Long> {
 
 	public Long aggregate(Long first, Long second) {
 		return first + second;

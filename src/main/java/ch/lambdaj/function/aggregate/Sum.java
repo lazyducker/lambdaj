@@ -7,7 +7,7 @@ package ch.lambdaj.function.aggregate;
 /**
  * @author Mario Fusco
  */
-public class Sum implements Aggregator<Number> {
+public class Sum extends PairAggregator<Number> {
 	
 	public Number aggregate(Number first, Number second) {
 		if (second == null) return first == null ? 0.0 : first;

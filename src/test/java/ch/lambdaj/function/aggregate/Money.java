@@ -73,7 +73,7 @@ public final class Money extends Measure {
 		return money(unit, value);
 	}
 	
-	public static final class MoneyAggregator implements Aggregator<Money> {
+	public static final class MoneyAggregator extends PairAggregator<Money> {
 		public Money aggregate(Money money1, Money money2) {
 			return money1.sum(money2);
 		}
