@@ -16,10 +16,17 @@ public interface Aggregator<T> {
 	T emptyItem();
 
 	/**
-	 * Define how this operation aggregates 2 different items
-	 * @param first The first item
-	 * @param second The second item
-	 * @return The aggregation of first and second item
+	 * Defines how this operation aggregates 2 different objects
+	 * @param first The first object to be aggregated
+	 * @param second The second object to be aggregated
+	 * @return The aggregation of first and second objects
 	 */
 	T aggregate(T first, T second);
+
+    /**
+     * Defines how this operation aggregates a list of objects
+     * @param iterable The objects to be aggregated
+     * @return The aggregation of the objects
+     */
+    T aggregate(Iterable<? extends T> iterable);
 }

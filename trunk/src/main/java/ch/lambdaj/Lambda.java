@@ -370,10 +370,7 @@ public final class Lambda {
 	 * @throws RuntimeException if the iterable is not an Iterable
 	 */
 	public static <T> T aggregate(Object iterable, Aggregator<T> aggregator) {
-		T result = aggregator.emptyItem();
-		if (iterable != null) for (T item : (Iterable<T>) iterable)
-			result = aggregator.aggregate(result, item);
-		return result;
+		return aggregator.aggregate((Iterable<T>)iterable);
 	}
 
 	/**
@@ -919,7 +916,7 @@ public final class Lambda {
      * Creates a closure with three free paramaters and binds it to the current thread
      * @param type1 The type of the first free parameter of the newly created closure
      * @param type2 The type of the second free parameter of the newly created closure
-     * @param type3 The type of the third free parameter of the newly created closure
+     * @param type3  The type of the third free parameter of the newly created closure
      * @return The newly created closure
      */
 	public static <A, B, C> Closure3<A, B, C> closure(Class<A> type1, Class<B> type2, Class<C> type3) {

@@ -1,6 +1,6 @@
 package ch.lambdaj.function.aggregate;
 
-public class SumDouble implements Aggregator<Double> {
+public class SumDouble extends PairAggregator<Double> {
 
 	public Double aggregate(Double first, Double second) {
 		return first + second;
