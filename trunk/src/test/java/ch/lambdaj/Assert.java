@@ -10,6 +10,8 @@ import org.hamcrest.*;
 
 import ch.lambdaj.function.aggregate.*;
 
+import static java.util.Arrays.asList;
+
 /** @author Luca Marrocco */
 @SuppressWarnings("unchecked")
 public class Assert {
@@ -33,7 +35,7 @@ public class Assert {
 
 	public static final void assertThatConcat(String op1, String op2, Matcher<String> matcher) {
 		Concat concatenator = new Concat();
-		String result = (String) concatenator.aggregate(op1, op2);
+        String result = (String) concatenator.aggregate(asList(op1, op2));
 		assertThat(result, matcher);
 	}
 }
