@@ -30,19 +30,6 @@ public class Concat implements Aggregator<Object> {
 	}
 
     /**
-     * Aggregates two object by concatenating their String representation separating them with the choosen separator
-     * @param first The first object of which the String representation should be concatenated
-     * @param second The second object of which the String representation should be concatenated
-     * @return A String resulting of the objects Stringification separated by the given argument
-     */
-	public Object aggregate(Object first, Object second) {
-		if (empty(first) && empty(second)) return emptyItem();
-		if (empty(first)) return second;
-		if (empty(second)) return first;
-		return new StringBuilder().append(first.toString()).append(separator).append(second.toString()).toString();
-	}
-
-    /**
      * Aggregates two object by concatenating their String representation separating them with the choosen separator.
      * It has been implemented a custom implementation for this method instead of using the one provided
      * by the PairAggregator for performance reason, in order to levarege the StringBuilder features.
@@ -50,33 +37,24 @@ public class Concat implements Aggregator<Object> {
      * @return A String resulting of the objects Stringification separated by the given argument
      */
     public Object aggregate(Iterable<?> iterable) {
-        if (iterable == null) return emptyItem();
+        if (iterable == null) return "";
         StringBuilder sb = new StringBuilder();
         Iterator<?> iterator = iterable.iterator();
         while (iterator.hasNext()) {
             Object item = iterator.next();
-            if (!empty(item)) {
-                sb.append(item.toString());
+            if (item == null) continue;
+            String itemAsString = item.toString();
+            if (!itemAsString.trim().equals("")) {
+                sb.append(itemAsString);
                 break;
             }
         }
         while (iterator.hasNext()) {
             Object item = iterator.next();
-            if (!empty(item)) sb.append(separator).append(item.toString());
+            if (item == null) continue;
+            String itemAsString = item.toString();
+            if (!itemAsString.trim().equals("")) sb.append(separator).append(itemAsString);
         }
         return sb.toString();
     }
-
-	private boolean empty(Object object) {
-		if (object == null) return true;
-		return object.toString().trim().equals("");
-	}
-
-    /**
-     * Returns an empty String that is the idempotent item for this aggregation operation
-     * @return An empty String
-     */
-	public String emptyItem() {
-		return "";
-	}
 }

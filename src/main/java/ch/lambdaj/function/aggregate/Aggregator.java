@@ -10,19 +10,6 @@ package ch.lambdaj.function.aggregate;
  */
 public interface Aggregator<T> {
 
-	/**
-	 * Returns the idempotent item for this aggregation operation
-	 */
-	T emptyItem();
-
-	/**
-	 * Defines how this operation aggregates 2 different objects
-	 * @param first The first object to be aggregated
-	 * @param second The second object to be aggregated
-	 * @return The aggregation of first and second objects
-	 */
-	T aggregate(T first, T second);
-
     /**
      * Defines how this operation aggregates a list of objects
      * @param iterable The objects to be aggregated
