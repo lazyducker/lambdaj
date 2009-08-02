@@ -11,6 +11,7 @@ import java.lang.reflect.*;
 import ch.lambdaj.function.aggregate.*;
 
 /**
+ * Proxies a list of objects in order to seamlessly aggregate their value by exposing the API of a single object.
  * @author Mario Fusco
  */
 public class ProxyAggregator<T, A> extends ProxyIterator<T> {

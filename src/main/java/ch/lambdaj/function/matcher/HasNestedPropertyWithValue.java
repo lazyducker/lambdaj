@@ -1,9 +1,17 @@
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Licensed under the Apache License, Version 2.0 (the "License")
+
 package ch.lambdaj.function.matcher;
 
 import static ch.lambdaj.util.IntrospectionUtil.*;
 
 import org.hamcrest.*;
 
+/**
+ * A matcher that returns true if the value af the named property matches the given matcher.
+ * @author Mario Fusco
+ */
 public class HasNestedPropertyWithValue<T> extends LambdaJMatcher<T> {
 
     private final String propertyName;

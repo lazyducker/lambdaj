@@ -5,10 +5,17 @@
 package ch.lambdaj.function.aggregate;
 
 /**
+ * A chooser of the minimum value between two comparable
  * @author Mario Fusco
  */
 public class Min<T> extends Chooser<Comparable<T>> {
 
+    /**
+     * Chooses the minimum value between two Comparable
+     * @param first The first item between which find the minimum
+     * @param second The second item between which find the minimum
+     * @return The smallest between the two items
+     */
 	@SuppressWarnings("unchecked")
 	@Override
 	protected Comparable<T> choose(Comparable<T> first, Comparable<T> second) {

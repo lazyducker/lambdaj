@@ -1,3 +1,11 @@
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Licensed under the Apache License, Version 2.0 (the "License")
+
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Licensed under the Apache License, Version 2.0 (the "License")
+
 package ch.lambdaj.function.compare;
 
 import static ch.lambdaj.function.argument.ArgumentsFactory.*;
@@ -7,6 +15,7 @@ import java.util.*;
 import ch.lambdaj.function.argument.*;
 
 /**
+ * Compares two objects by comparing the values returned by an Argument call on them.
  * @author Mario Fusco
  */
 public class ArgumentComparator<T, A> implements Comparator<T> {

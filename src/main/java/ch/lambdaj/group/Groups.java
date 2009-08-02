@@ -7,13 +7,14 @@ package ch.lambdaj.group;
 import java.util.*;
 
 /**
+ * This class consists exclusively of static methods that allow to use the lambdaj grouping feature.
  * @author Mario Fusco
  */
 public final class Groups {
 	
 	private Groups() { }
 	
-	public static ArgumentGroupCondition by(Object argument) {
+	public static <T> ArgumentGroupCondition<T> by(T argument) {
 		return new ArgumentGroupCondition(argument);
 	}
 

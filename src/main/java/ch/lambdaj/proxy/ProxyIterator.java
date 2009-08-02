@@ -10,6 +10,7 @@ import java.lang.reflect.*;
 import java.util.*;
 
 /**
+ * Proxies a list of objects in order to seamlessly iterate on them by exposing the API of a single object.
  * @author Mario Fusco
  */
 public class ProxyIterator<T> extends InvocationInterceptor implements Iterable<T> {

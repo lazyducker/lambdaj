@@ -5,10 +5,17 @@
 package ch.lambdaj.function.aggregate;
 
 /**
+ * A chooser of the maximum value between two comparable
  * @author Mario Fusco
  */
 public class Max<T> extends Chooser<Comparable<T>> {
 
+    /**
+     * Chooses the maximum value between two Comparable
+     * @param first The first item between which find the maximum
+     * @param second The second item between which find the maximum
+     * @return The biggest between the two items
+     */
 	@SuppressWarnings("unchecked")
 	@Override
 	protected Comparable<T> choose(Comparable<T> first, Comparable<T> second) {

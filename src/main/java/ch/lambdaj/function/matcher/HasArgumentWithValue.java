@@ -10,6 +10,10 @@ import org.hamcrest.*;
 
 import ch.lambdaj.function.argument.*;
 
+/**
+ * A matcher that returns true if the value resulting from the evaluation af the given argument matches the given matcher.
+ * @author Mario Fusco
+ */
 public class HasArgumentWithValue<T, A> extends LambdaJMatcher<T> {
 	
     private final Argument<A> argument;
@@ -62,7 +66,7 @@ public class HasArgumentWithValue<T, A> extends LambdaJMatcher<T> {
     private static final BooleanMatcher booleanMatcher = new BooleanMatcher();
     private static class BooleanMatcher extends BaseMatcher<Boolean> {
 		public boolean matches(Object item) {
-			return ((Boolean)item).booleanValue();
+			return (Boolean)item;
 		}
 		public void describeTo(Description description) { }
     }

@@ -1,3 +1,7 @@
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Licensed under the Apache License, Version 2.0 (the "License")
+
 package ch.lambdaj.proxy;
 
 import java.lang.reflect.*;
@@ -6,6 +10,7 @@ import java.lang.reflect.InvocationHandler;
 import net.sf.cglib.proxy.*;
 
 /**
+ * An intercptor that seamlessly manages invocations on both a native Java proxy and a cglib one.
  * @author Mario Fusco
  */
 public abstract class InvocationInterceptor implements MethodInterceptor, InvocationHandler {

@@ -26,7 +26,7 @@ public class GroupImpl<T> extends LinkedList<GroupItem<T>> implements Group<T> {
 	}
 
 	void addItem(T item) {
-		GroupItem<T> groupItem = findOrCreate(item, groupCondition.getGroupValue(item));
+		GroupItem<T> groupItem = findOrCreate(item, groupCondition.getGroupValueAsString(item));
 		groupItem.addChild(item);
 	}
 
@@ -36,13 +36,10 @@ public class GroupImpl<T> extends LinkedList<GroupItem<T>> implements Group<T> {
 	}
 
 	private GroupItem<T> create(T item, String key) {
-		GroupItem<T> groupItem = new GroupItem<T>(groupCondition.getAlias());
-		groupItem.put(groupCondition.getGroupName(), key);
-		for (String propertyName : groupCondition.getAdditionalPropertyNames())
-			groupItem.put(propertyName, groupCondition.getAdditionalPropertyValue(propertyName, item));
-		groupsMap.put(key, groupItem);
-		add(groupItem);
-		return groupItem;
+        GroupItem<T> groupItem = groupCondition.create(item, key);
+        groupsMap.put(key, groupItem);
+        add(groupItem);
+        return groupItem;
 	}
 	
 	public Set<String> keySet() {

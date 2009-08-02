@@ -71,7 +71,7 @@ abstract class AbstractClosure {
      * @throws WrongClosureInvocationException if the number of the passed parameters doesn't correspond to one
      * with which this closure has been defined
      */
-	protected Object closeOne(Object... params) throws WrongClosureInvocationException {
+	Object closeOne(Object... params) throws WrongClosureInvocationException {
 		List<Object[]> boundParams = bindParams(params);
 		Object result = closed;
 		
@@ -95,7 +95,7 @@ abstract class AbstractClosure {
      * @return A list of Object containing the results of each closure invocation
      * @throws WrongClosureInvocationException if this closure hasn't been defined with exactly one free parameter
      */
-	protected List<Object> closeAll(Object... params) throws WrongClosureInvocationException {
+	List<Object> closeAll(Object... params) throws WrongClosureInvocationException {
 		List<Object> results = new ArrayList<Object>();
 		for (Object param : params) results.add(closeOne(param));
 		return results;
@@ -109,7 +109,7 @@ abstract class AbstractClosure {
      * @throws WrongClosureInvocationException if the number of the passed parameters doesn't correspond to one
      * with which this closure has been defined
      */
-	protected List<Object> closeAll(Iterable<?>... params) throws WrongClosureInvocationException {
+	List<Object> closeAll(Iterable<?>... params) throws WrongClosureInvocationException {
 		List<Object> results = new ArrayList<Object>();
 		
 		int length = params.length;
@@ -171,7 +171,7 @@ abstract class AbstractClosure {
      * @return A Closure having a free parameter less than this one since one of them has been fixed to the given value
      * @throws IllegalArgumentException if this closure doesn't have a free parameter in the specified position
      */
-	protected <T extends AbstractClosure> T curry(T curriedClosure, Object curried, int position) throws IllegalArgumentException {
+	<T extends AbstractClosure> T curry(T curriedClosure, Object curried, int position) throws IllegalArgumentException {
 		curriedClosure.closed = closed;
 		curriedClosure.methodList = methodList;
 		curriedClosure.argsList = argsList;

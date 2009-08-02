@@ -1,3 +1,7 @@
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Licensed under the Apache License, Version 2.0 (the "License")
+
 package ch.lambdaj.function.argument;
 
 import java.lang.ref.*;
@@ -6,6 +10,10 @@ import java.util.*;
 
 import ch.lambdaj.util.*;
 
+/**
+ * Registers a method invocation
+ * @author Mario Fusco
+ */
 class Invocation {
 
 	private Class<?> invokedClass;
@@ -51,7 +59,7 @@ class Invocation {
 
 	Object invokeOn(Object object) throws InvocationException {
 		if (object == null || invokedMethod == null) return object;
-		Object result = null;
+		Object result;
 		try {
 			result = invokedMethod.invoke(object, getConcreteArgs());
 		} catch (Exception e) {
@@ -83,14 +91,12 @@ class Invocation {
 	public boolean equals(Object object) {
 		if (!(object instanceof Invocation)) return false;
 		Invocation otherInvocation = (Invocation)object;
-		if (!areNullSafeEquals(invokedClass, otherInvocation.getInvokedClass())) return false;
-		if (!areNullSafeEquals(invokedMethod, otherInvocation.getInvokedMethod())) return false;
-		return Arrays.equals(getConcreteArgs(), otherInvocation.getConcreteArgs());
+        return areNullSafeEquals(invokedClass, otherInvocation.getInvokedClass()) &&
+               areNullSafeEquals(invokedMethod, otherInvocation.getInvokedMethod()) &&
+               Arrays.equals(getConcreteArgs(), otherInvocation.getConcreteArgs());
 	}
 	
 	private boolean areNullSafeEquals(Object first, Object second) {
-		if (first == null && second == null) return true;
-		if (first == null || second == null) return false;
-		return first.equals(second);
+		return (first == null && second == null) || (first != null && second != null && first.equals(second));
 	}
 }
