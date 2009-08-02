@@ -1,3 +1,7 @@
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Licensed under the Apache License, Version 2.0 (the "License")
+
 package ch.lambdaj.function.argument;
 
 import java.lang.reflect.*;
@@ -6,6 +10,10 @@ import java.util.concurrent.atomic.*;
 
 import ch.lambdaj.proxy.*;
 
+/**
+ * An utility class of static factory methods that creates arguments and binds them with their placeholders
+ * @author Mario Fusco
+ */
 public final class ArgumentsFactory {
 
 	private ArgumentsFactory() { }
@@ -14,6 +22,11 @@ public final class ArgumentsFactory {
 	// /// Factory
 	// ////////////////////////////////////////////////////////////////////////
 	
+    /**
+     * Constructs a proxy object that mocks the given Class registering all the subsequent invocations on the object.
+     * @param clazz The class of the object to be mocked
+     * @return An object of the given class that register all the invocations made on it
+     */
 	public static <T> T createArgument(Class<T> clazz) {
 		return createArgument(clazz, new InvocationSequence(clazz));
 	}
@@ -52,7 +65,12 @@ public final class ArgumentsFactory {
     	if (isLimitedValues(placeholder)) limitedValuesArguments.get().setArgument(placeholder, argument);
     	else argumentsByPlaceholder.put(placeholder, argument);
     }
-    
+
+    /**
+     * Converts a placeholder with the actual argument to which is bound
+     * @param placeholder The placeholder used to retrieve a registered argument
+     * @return The argument bound to the given placeholder
+     */
 	@SuppressWarnings("unchecked")
     public static <T> Argument<T> actualArgument(T placeholder) {
     	if (placeholder instanceof Argument) return (Argument<T>)placeholder;
@@ -84,7 +102,7 @@ public final class ArgumentsFactory {
     	private final Map<Object, Argument<?>> enumArguments = new HashMap<Object, Argument<?>>();
     	
     	private int booleanToInt(Object placeholder) {
-        	return ((Boolean)placeholder).booleanValue() ? 1 : 0;
+        	return (Boolean)placeholder ? 1 : 0;
         }
     	
     	public void setArgument(Object placeholder, Argument<?> argument) {
@@ -165,22 +183,22 @@ public final class ArgumentsFactory {
 	}
 	
 	public static Byte bytPlaceholder(Integer i) {
-		return Byte.valueOf(i.byteValue());
+		return i.byteValue();
 	}
 	
 	public static Short shoPlaceholder(Integer i) {
-		return Short.valueOf(i.shortValue());
+		return i.shortValue();
 	}
 	
 	public static Long lonPlaceholder(Integer i) {
-		return Long.valueOf(i.longValue());
+		return i.longValue();
 	}
 
 	public static Float floPlaceholder(Integer i) {
-		return Float.valueOf(i.floatValue());
+		return i.floatValue();
 	}
 	
 	public static Double douPlaceholder(Integer i) {
-		return Double.valueOf(i.doubleValue());
+		return i.doubleValue();
 	}
 }

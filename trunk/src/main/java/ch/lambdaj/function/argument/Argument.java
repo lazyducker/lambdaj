@@ -1,5 +1,8 @@
-package ch.lambdaj.function.argument;
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Licensed under the Apache License, Version 2.0 (the "License")
 
+package ch.lambdaj.function.argument;
 
 /**
  * An Argument represents a statically defined sequence of method invocations on a given Class.
@@ -16,6 +19,7 @@ public class Argument<T> {
 	/**
 	 * The JavaBean compatible names of the properties defined by the invocations sequence of this Argument.
 	 * For example on an Argument defined as <code>on(Person.class).getBestFriend().isMale()</code> it returns "bestFriend.male"
+     * @return The names of the properties defined by the invocations sequence of this Argument
 	 */
 	public String getInkvokedPropertyName() {
 		return invocationSequence.getInkvokedPropertyName();
@@ -54,8 +58,7 @@ public class Argument<T> {
 	
 	@Override
 	public boolean equals(Object object) {
-		if (!(object instanceof Argument<?>)) return false;
-		return invocationSequence.equals(((Argument<?>)object).invocationSequence);
+		return object instanceof Argument<?> && invocationSequence.equals(((Argument<?>)object).invocationSequence);
 	}
 	
 	@Override

@@ -5,6 +5,7 @@
 package ch.lambdaj.function.convert;
 
 /**
+ * Converts an object in its String representation or an empty String for a null object.
  * @author Mario Fusco
  */
 public class DefaultStringConverter implements StringConverter<Object> {

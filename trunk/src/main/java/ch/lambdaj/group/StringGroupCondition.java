@@ -4,6 +4,8 @@
 
 package ch.lambdaj.group;
 
+import static ch.lambdaj.util.IntrospectionUtil.getPropertyValue;
+
 
 /**
  * @author Mario Fusco
@@ -25,8 +27,8 @@ public class StringGroupCondition extends AbstractGroupCondition<String> {
 		return groupBy;
 	}
 	
-	public String getGroupValue(Object item) {
-		return asStringValue(item, groupBy);
+	public Object getGroupValue(Object item) {
+        return getPropertyValue(item, groupBy);
 	}
 
 	public StringGroupCondition head(String name) {
@@ -39,6 +41,6 @@ public class StringGroupCondition extends AbstractGroupCondition<String> {
 	}
 
 	public String getAdditionalPropertyValue(String name, Object item) {
-		return asStringValue(item, additionalProperties.get(name));
+        return asNotNullString(getPropertyValue(item, additionalProperties.get(name)));
 	}
 }

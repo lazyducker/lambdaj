@@ -7,6 +7,7 @@ package ch.lambdaj.util;
 import java.lang.reflect.*;
 
 /**
+ * This class consists exclusively of static methods that offer some introspection facilities.
  * @author Mario Fusco
  */
 public final class IntrospectionUtil {

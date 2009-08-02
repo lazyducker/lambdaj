@@ -55,8 +55,7 @@ public class Person {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (!Person.class.isInstance(obj)) return false;
-		return getFullName().equals(((Person)obj).getFullName());
+		return Person.class.isInstance(obj) && getFullName().equals(((Person)obj).getFullName());
 	}
 	
 	@Override

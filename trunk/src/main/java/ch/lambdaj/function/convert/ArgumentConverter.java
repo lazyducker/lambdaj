@@ -8,9 +8,10 @@ import static ch.lambdaj.function.argument.ArgumentsFactory.*;
 import ch.lambdaj.function.argument.*;
 
 /**
+ * Converts an object in the value returned by the evaluation of the given argument on it.
  * @author Mario Fusco
  */
-public class ArgumentConverter<F, T> implements Converter<F, T>{
+public class ArgumentConverter<F, T> implements Converter<F, T> {
 
 	private final Argument<T> argument;
 	

@@ -1,3 +1,7 @@
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Licensed under the Apache License, Version 2.0 (the "License")
+
 package ch.lambdaj.function.argument;
 
 import static ch.lambdaj.function.argument.ArgumentsFactory.*;
@@ -7,7 +11,10 @@ import java.lang.reflect.*;
 
 import ch.lambdaj.proxy.*;
 
-public class ProxyArgument extends InvocationInterceptor {
+/**
+ * @author Mario Fusco
+ */
+class ProxyArgument extends InvocationInterceptor {
 	
 	private final Class<?> proxiedClass;
 	

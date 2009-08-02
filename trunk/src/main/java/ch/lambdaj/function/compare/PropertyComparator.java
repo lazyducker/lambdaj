@@ -9,6 +9,7 @@ import java.util.Comparator;
 import ch.lambdaj.util.IntrospectionUtil;
 
 /**
+ * Compares two objects by comparing the values of one of their property.
  * @author Mario Fusco
  */
 public class PropertyComparator<T> implements Comparator<T> {

@@ -5,10 +5,17 @@
 package ch.lambdaj.function.aggregate;
 
 /**
+ * An aggregator that sums numbers
  * @author Mario Fusco
  */
 public class Sum extends PairAggregator<Number> {
-	
+
+    /**
+     * Aggregates two Number by summing them
+     * @param first The first number to be summed
+     * @param second The second number to be summed
+     * @return The sum of the two Numbers
+     */
 	public Number aggregate(Number first, Number second) {
 		if (second == null) return first == null ? 0.0 : first;
 
@@ -21,19 +28,19 @@ public class Sum extends PairAggregator<Number> {
 	}
 
 	private Integer aggregate(Number first, Integer second) {
-		return (first == null ? emptyItem().intValue() : first.intValue()) + second.intValue();
+		return (first == null ? emptyItem().intValue() : first.intValue()) + second;
 	}
 
 	private Long aggregate(Number first, Long second) {
-		return (first == null ? emptyItem().longValue() : first.longValue()) + second.longValue();
+		return (first == null ? emptyItem().longValue() : first.longValue()) + second;
 	}
 
 	private Float aggregate(Number first, Float second) {
-		return (first == null ? emptyItem().floatValue() : first.floatValue()) + second.floatValue();
+		return (first == null ? emptyItem().floatValue() : first.floatValue()) + second;
 	}
 
 	private Double aggregate(Number first, Double second) {
-		return (first == null ? emptyItem().doubleValue() : first.doubleValue()) + second.doubleValue();
+		return (first == null ? emptyItem().doubleValue() : first.doubleValue()) + second;
 	}
 
 	public Number emptyItem() {

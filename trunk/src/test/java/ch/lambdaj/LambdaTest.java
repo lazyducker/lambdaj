@@ -8,13 +8,13 @@ import static ch.lambdaj.Lambda.*;
 import static ch.lambdaj.function.matcher.HasNestedPropertyWithValue.*;
 import static java.util.Arrays.*;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
 
 import java.lang.reflect.*;
 import java.util.*;
 
 import org.hamcrest.*;
 import org.junit.*;
+import static org.junit.Assert.*;
 
 import ch.lambdaj.function.argument.*;
 import ch.lambdaj.function.convert.*;
@@ -235,6 +235,10 @@ public class LambdaTest {
 		Object meAndMyFriends = asList(me, luca, biagio, celestino);
 		Collection<Person> distinctAgePersons = selectDistinctArgument(meAndMyFriends, on(Person.class).getAge());
 		assertEquals(3, distinctAgePersons.size());
+
+        Collection<Integer> distinctAges = selectDistinct(extract(meAndMyFriends, on(Person.class).getAge()));
+        assertEquals(3, distinctAges.size());
+        assertTrue(distinctAges.contains(me.getAge()) && distinctAges.contains(biagio.getAge()) && distinctAges.contains(luca.getAge()));
 	}
 	
 	@Test
@@ -287,6 +291,18 @@ public class LambdaTest {
 		assertEquals(4, maleFriends.size());
 	}
 	
+    @Test
+    public void testProject() {
+        List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+        List<Map<String, Object>> projection = project(meAndMyFriends, as("name", on(Person.class).getFirstName()), as(on(Person.class).getAge()));
+
+        assertEquals(meAndMyFriends.size(), projection.size());
+        for (int i = 0; i < meAndMyFriends.size(); i++) {
+            assertEquals(meAndMyFriends.get(i).getFirstName(), projection.get(i).get("name"));
+            assertEquals(meAndMyFriends.get(i).getAge(), projection.get(i).get("age"));
+        }
+    }
+
 	@Test
 	public void testFilter() {
 		List<Integer> biggerThan3 = filter(greaterThan(3), asList(1, 2, 3, 4, 5));

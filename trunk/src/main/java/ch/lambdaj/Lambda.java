@@ -41,6 +41,7 @@ public final class Lambda {
 	/**
 	 * Returns the actual argument of the methods invocation sequence defined through the {@link Lambda#on(Class)} method.
 	 * @param argumentPlaceholder The placeholder for this argument created using the {@link Lambda#on(Class)} method
+     * @return The actual argument of the methods invocation sequence defined through the {@link Lambda#on(Class)} method
 	 */
 	public static <T> Argument<T> argument(T argumentPlaceholder) {
 		return actualArgument(argumentPlaceholder);
@@ -211,7 +212,7 @@ public final class Lambda {
 	 * @param iterable The iterable of objects to be filtered
 	 * @param matcher The hamcrest Matcher used to filter the given iterable
 	 * @return The only object in the given iterable that matches the given hamcrest Matcher or null if there is no such object
-	 * @throws Runtime Exception if there is more than one object that matches the given hamcrest Matcher
+	 * @throws RuntimeException if there is more than one object that matches the given hamcrest Matcher
 	 */
 	public static <T> T selectUnique(Object iterable, Matcher<?> matcher) {
 		return selectUnique((Iterable<T>) iterable, matcher);
@@ -223,7 +224,7 @@ public final class Lambda {
 	 * @param iterable The iterable of objects to be filtered
 	 * @param matcher The hamcrest Matcher used to filter the given iterable
 	 * @return The only object in the given iterable that matches the given hamcrest Matcher or null if there is no such object
-	 * @throws Runtime Exception if there is more than one object that matches the given hamcrest Matcher
+	 * @throws RuntimeException if there is more than one object that matches the given hamcrest Matcher
 	 */
 	public static <T> T selectUnique(Iterable<T> iterable, Matcher<?> matcher) {
 		T unique = null;
@@ -312,8 +313,7 @@ public final class Lambda {
 	 */
 	public static <T> Collection<T> selectDistinct(Object iterable, Comparator<T> comparator) {
 		Set<T> collected = comparator == null ? new HashSet<T>() : new TreeSet<T>(comparator);
-		if (iterable != null) for (T item : (Iterable<T>) iterable)
-			collected.add(item);
+		if (iterable != null) for (T item : (Iterable<T>) iterable)	collected.add(item);
 		return collected;
 	}
 
@@ -381,7 +381,7 @@ public final class Lambda {
 	 * @param aggregator The function that defines how the objects in this iterable have to be aggregated
 	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
 	 * @return The result of the aggregation of all the items in the given iterable
-	 * @throws A RuntimeException if the iterable is not an Iterable
+	 * @throws RuntimeException if the iterable is not an Iterable
 	 */
 	public static <T, A> T aggregate(Object iterable, Aggregator<T> aggregator, A argument) {
 		if (!(iterable instanceof Iterable)) throw new RuntimeException(iterable + " is not an iterable");
@@ -817,18 +817,49 @@ public final class Lambda {
 			map.put(converter.convert(item), item);
 		return map;
 	}
-	
+
 	/**
-	 * Indexes the objects in the given iterable on the value of their argument.
+	 * Indexes the objects in the given iterable based on the value of their argument.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable containing the objects to be indexed
-	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
+	 * @param argument An argument defined using the {@link Lambda#on(Class)} method
 	 * @return A map having as keys the argument value extracted from the objects in the given iterable and as values the corresponding objects
 	 */
 	public static <F, T> Map<T, F> index(Object iterable, T argument) {
 		return map(iterable, new ArgumentConverter<F, T>(argument));
 	}
-	
+
+    /**
+     * Projects the objects in the given iterable by converting each of them in a set of key/value pairs.
+     * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
+     * @param iterable The iterable containing the objects to be projected
+     * @param projectors The converters that define how each object should be projected
+     * @return A list of map where each map is the result of the projection of an object in the iterable
+     */
+    public static <F> List<Map<String, Object>> project(Object iterable, Converter<F, Map.Entry<String, Object>>... projectors) {
+        return convert(iterable, new ProjectConverter<F>(projectors));
+    }
+
+    /**
+     * Creates a converter that projects the value of the argument of an object using as alias
+     * the argument property name as defined by {@link Argument#getInkvokedPropertyName()}
+     * @param argument An argument defined using the {@link Lambda#on(Class)} method
+     * @return A converter that can be used as projector in the {@link Lambda#project(Object, Converter[])} method
+     */
+    public static <F> Converter<F, Map.Entry<String, Object>> as(Object argument) {
+        return new AliasedArgumentConverter<F, Object>(argument);
+    }
+
+    /**
+     * Creates a converter that projects the value of the argument of an object using as the given alias
+     * @param alias The key on which the argument value is paired
+     * @param argument An argument defined using the {@link Lambda#on(Class)} method
+     * @return A converter that can be used as projector in the {@link Lambda#project(Object, Converter[])} method
+     */
+    public static <F> Converter<F, Map.Entry<String, Object>> as(String alias, Object argument) {
+          return new AliasedArgumentConverter<F, Object>(alias, argument);
+    }
+
 	// ////////////////////////////////////////////////////////////////////////
 	// /// Matcher
 	// ////////////////////////////////////////////////////////////////////////

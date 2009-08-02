@@ -81,4 +81,23 @@ public class Person implements IPerson {
 	public boolean isFailingYoungerThan(int maxAge) {
 		throw new UnsupportedOperationException();
 	}
+
+    public String getFullName() {
+        return getFirstName() + " " + getLastName();
+    }
+
+    @Override
+    public String toString() {
+        return getFullName();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return Person.class.isInstance(obj) && getFullName().equals(((Person)obj).getFullName());
+    }
+
+    @Override
+    public int hashCode() {
+        return getFullName().hashCode();
+    }
 }

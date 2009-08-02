@@ -1,14 +1,22 @@
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Licensed under the Apache License, Version 2.0 (the "License")
+
 package ch.lambdaj.group;
 
 import static ch.lambdaj.function.argument.ArgumentsFactory.*;
 import ch.lambdaj.function.argument.*;
 
-public class ArgumentGroupCondition extends AbstractGroupCondition<Argument<?>> {
+/**
+ *
+ * @author Mario Fusco
+ */
+public class ArgumentGroupCondition<T> extends AbstractGroupCondition<Argument<?>> {
 	
-	private final Argument<?> groupBy;
+	private final Argument<T> groupBy;
 	private final String groupName;
 
-	ArgumentGroupCondition(Object argument) {
+	ArgumentGroupCondition(T argument) {
 		groupBy = actualArgument(argument);
 		groupName = groupBy.getInkvokedPropertyName();
 	}
@@ -17,9 +25,9 @@ public class ArgumentGroupCondition extends AbstractGroupCondition<Argument<?>> 
 		return groupName;
 	}
 
-	public String getGroupValue(Object item) {
-		return asNotNullString(groupBy.evaluate(item));
-	}
+    public Object getGroupValue(Object item) {
+        return groupBy.evaluate(item);
+    }
 
 	@Override
 	public ArgumentGroupCondition as(String alias) {
