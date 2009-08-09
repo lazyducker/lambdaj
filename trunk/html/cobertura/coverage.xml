@@ -2873,7 +2873,7 @@
 		</package>
 		<package name="ch.lambdaj.group" line-rate="0.9389312977099237" branch-rate="0.7647058823529411" complexity="0.0">
 			<classes>
-				<class name="ch.lambdaj.group.AbstractGroupCondition" filename="ch/lambdaj/group/AbstractGroupCondition.java" line-rate="1.0" branch-rate="0.5" complexity="0.0">
+				<class name="ch.lambdaj.group.GroupCondition" filename="ch/lambdaj/group/AbstractGroupCondition.java" line-rate="1.0" branch-rate="0.5" complexity="0.0">
 					<methods>
 						<method name="&lt;init&gt;" signature="()V" line-rate="1.0" branch-rate="1.0">
 							<lines>

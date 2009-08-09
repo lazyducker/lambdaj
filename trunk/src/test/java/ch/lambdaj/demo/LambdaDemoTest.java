@@ -144,7 +144,7 @@ public class LambdaDemoTest {
 			if (youngestPerson == null || person.getAge() < youngestPerson.getAge()) youngestPerson = person;
 			if (oldestPerson == null || person.getAge() > oldestPerson.getAge()) oldestPerson = person;
 		}
-		Map<Person, Map<Person, Sale>> map = new HashMap<Person, Map<Person,Sale>>();
+		Map<Person, Map<Person, Sale>> map = new HashMap<Person, Map<Person, Sale>>();
 		for (Sale sale : db.getSales()) {
 			Person buyer = sale.getBuyer();
 			Map<Person, Sale> buyerMap = map.get(buyer);
@@ -164,6 +164,33 @@ public class LambdaDemoTest {
 		assertEquals(sale, saleIterative);
 	}
 	
+    @Test
+    public void testGroupSalesByBuyersSortedByAge() {
+        Map<Person, List<Sale>> map = new TreeMap<Person, List<Sale>>(new Comparator<Person>() {
+            public int compare(Person p1, Person p2) {
+                return p1.getAge() - p2.getAge();
+            }
+        });
+        for (Sale sale : db.getSales()) {
+            Person buyer = sale.getBuyer();
+            List<Sale> sales = map.get(buyer);
+            if (sales == null) {
+                sales = new ArrayList<Sale>();
+                map.put(buyer, sales);
+            }
+            sales.add(sale);
+        }
+
+        Group<Sale> group = group(db.getSales(), by(on(Sale.class).getBuyer()).sort(on(Person.class).getAge()));
+
+        Iterator<Group<Sale>> groups = group.subgroups().iterator();
+        for (List<Sale> iterativeSales : map.values()) {
+            List<Sale> lambdajSales = groups.next().findAll();
+            assertTrue(iterativeSales.containsAll(lambdajSales));
+            assertTrue(lambdajSales.containsAll(iterativeSales));
+        }
+    }
+
 	@Test
 	public void testFindMostBoughtCar() {
 		Map<Car, Integer> carsBought = new LinkedHashMap<Car, Integer>();
