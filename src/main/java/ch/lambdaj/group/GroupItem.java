@@ -18,11 +18,20 @@ public class GroupItem<T> extends TreeMap<String, Object> implements Iterable<T>
 
 	private boolean leaf = true;
 
-	GroupItem() {}
+    private final Object groupKey;
 
-	GroupItem(String childrenNodeName) {
+	GroupItem() {
+        groupKey = null;
+    }
+
+	GroupItem(Object groupKey, String childrenNodeName) {
+        this.groupKey = groupKey;
 		if (childrenNodeName != null) this.childrenNodeName = childrenNodeName;
 	}
+
+    Object getGroupKey() {
+        return groupKey;
+    }
 
 	private String getChildrenNodeName() {
 		return childrenNodeName;
@@ -32,7 +41,7 @@ public class GroupItem<T> extends TreeMap<String, Object> implements Iterable<T>
 	private List<T> getChildren() {
 		List<T> children = (List<T>) get(getChildrenNodeName());
 		if (children == null) {
-			children = new LinkedList<T>();
+			children = new ArrayList<T>();
 			put(getChildrenNodeName(), children);
 		}
 		return children;

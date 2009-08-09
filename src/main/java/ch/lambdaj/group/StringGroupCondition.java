@@ -8,26 +8,36 @@ import static ch.lambdaj.util.IntrospectionUtil.getPropertyValue;
 
 
 /**
+ * A GroupCondition that groups items based on the values they have on the named JavaBean property
  * @author Mario Fusco
  */
-public class StringGroupCondition extends AbstractGroupCondition<String> {
+public class StringGroupCondition extends GroupCondition<String> {
 
 	private final String groupBy;
 
+    /**
+     * Creates a GroupCondition that groups items based on the values they have on the given JavaBean property
+     * @param groupBy The name of the property on which the items have to be grouped
+     */
 	public StringGroupCondition(String groupBy) {
 		this(groupBy, null);
 	}
 
+    /**
+     * Creates a GroupCondition that groups items based on the values they have on the given JavaBean property
+     * @param groupBy The name of the property on which the items have to be grouped
+     * @param alias The alias used for the groups created using this condition
+     */
 	public StringGroupCondition(String groupBy, String alias) {
 		this.groupBy = groupBy;
 		as(alias);
 	}
 
-	public String getGroupName() {
+	protected String getGroupName() {
 		return groupBy;
 	}
 	
-	public Object getGroupValue(Object item) {
+	protected Object getGroupValue(Object item) {
         return getPropertyValue(item, groupBy);
 	}
 
@@ -40,7 +50,7 @@ public class StringGroupCondition extends AbstractGroupCondition<String> {
 		return this;
 	}
 
-	public String getAdditionalPropertyValue(String name, Object item) {
+	protected String getAdditionalPropertyValue(String name, Object item) {
         return asNotNullString(getPropertyValue(item, additionalProperties.get(name)));
 	}
 }

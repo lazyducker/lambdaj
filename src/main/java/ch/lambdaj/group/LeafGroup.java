@@ -7,7 +7,7 @@ package ch.lambdaj.group;
 import java.util.*;
 
 /**
- *
+ * A leaf group is a group that doesn't contain other groups.
  * @author Mario Fusco
  */
 public class LeafGroup<T> implements Group<T> {

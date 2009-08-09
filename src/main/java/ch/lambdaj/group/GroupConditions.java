@@ -7,6 +7,8 @@ package ch.lambdaj.group;
 import java.util.*;
 
 /**
+ * Defines a list of GroupConditions.
+ * Extending it makes easy to create a simple DSL that creates GroupConditions for some specific objects of your domain.
  * @author Mario Fusco
  */
 public class GroupConditions extends LinkedList<StringGroupCondition> {

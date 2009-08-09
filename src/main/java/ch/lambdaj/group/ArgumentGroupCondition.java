@@ -8,10 +8,10 @@ import static ch.lambdaj.function.argument.ArgumentsFactory.*;
 import ch.lambdaj.function.argument.*;
 
 /**
- *
+ * A GroupCondition that allows to group items based on the value they have on a given argument
  * @author Mario Fusco
  */
-public class ArgumentGroupCondition<T> extends AbstractGroupCondition<Argument<?>> {
+public class ArgumentGroupCondition<T> extends GroupCondition<Argument<?>> {
 	
 	private final Argument<T> groupBy;
 	private final String groupName;
@@ -21,14 +21,19 @@ public class ArgumentGroupCondition<T> extends AbstractGroupCondition<Argument<?
 		groupName = groupBy.getInkvokedPropertyName();
 	}
 	
-	public String getGroupName() {
+	protected String getGroupName() {
 		return groupName;
 	}
 
-    public Object getGroupValue(Object item) {
+    protected Object getGroupValue(Object item) {
         return groupBy.evaluate(item);
     }
 
+    /**
+     * Sets an alias for the groups created using this condition
+     * @param alias The alias to be set
+     * @return The GroupCondition itself in order to allow a fluent interface
+     */
 	@Override
 	public ArgumentGroupCondition as(String alias) {
 		return (ArgumentGroupCondition)super.as(alias);
@@ -45,7 +50,7 @@ public class ArgumentGroupCondition<T> extends AbstractGroupCondition<Argument<?
 		return this;
 	}
 
-	public String getAdditionalPropertyValue(String name, Object item) {
+	protected String getAdditionalPropertyValue(String name, Object item) {
 		return asNotNullString(additionalProperties.get(name).evaluate(item));
 	}
 }

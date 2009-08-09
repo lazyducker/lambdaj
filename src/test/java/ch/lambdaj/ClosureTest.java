@@ -1,3 +1,7 @@
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Licensed under the Apache License, Version 2.0 (the "License")
+
 package ch.lambdaj;
 
 import static ch.lambdaj.Lambda.*;
@@ -26,7 +30,7 @@ public class ClosureTest {
 		return (val1 - val2) * val3;
 	}
 	
-	public static interface NonCommutativeDoer {
+	public interface NonCommutativeDoer {
 		int nonCommutativeDoOnInt(int val1, int val2, int val3);
 	}
 

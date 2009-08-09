@@ -9,35 +9,37 @@ import static ch.lambdaj.Lambda.*;
 import java.util.*;
 
 /**
+ * The standard LambdaJ implementation for the Group interface
  * @author Mario Fusco
  */
-public class GroupImpl<T> extends LinkedList<GroupItem<T>> implements Group<T> {
+public class GroupImpl<T> extends ArrayList<GroupItem<T>> implements Group<T> {
 
 	private static final long serialVersionUID = 1L;
 
 	private final Map<String, GroupItem<T>> groupsMap = new HashMap<String, GroupItem<T>>();
 
-	private transient GroupCondition groupCondition;
+	private transient GroupCondition<?> groupCondition;
 
 	protected GroupImpl() { }
 
-	public GroupImpl(GroupCondition groupCondition) {
+	public GroupImpl(GroupCondition<?> groupCondition) {
 		this.groupCondition = groupCondition;
 	}
 
 	void addItem(T item) {
-		GroupItem<T> groupItem = findOrCreate(item, groupCondition.getGroupValueAsString(item));
+		GroupItem<T> groupItem = findOrCreate(item, groupCondition.getGroupValue(item));
 		groupItem.addChild(item);
 	}
 
-	private GroupItem<T> findOrCreate(T item, String key) {
-		GroupItem<T> groupItem = groupsMap.get(key);
-		return groupItem != null ? groupItem : create(item, key);
+	private GroupItem<T> findOrCreate(T item, Object key) {
+        String keyAsString = key == null ? "" : key.toString();
+		GroupItem<T> groupItem = groupsMap.get(keyAsString);
+		return groupItem != null ? groupItem : create(item, key, keyAsString);
 	}
 
-	private GroupItem<T> create(T item, String key) {
-        GroupItem<T> groupItem = groupCondition.create(item, key);
-        groupsMap.put(key, groupItem);
+	private GroupItem<T> create(T item, Object key, String keyAsString) {
+        GroupItem<T> groupItem = groupCondition.create(item, key, keyAsString);
+        groupsMap.put(keyAsString, groupItem);
         add(groupItem);
         return groupItem;
 	}
