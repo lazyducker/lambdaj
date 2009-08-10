@@ -59,6 +59,7 @@ abstract class AbstractClosure {
 	}
 	
 	void registerInvocation(Method method, Object[] args) {
+        if (!method.isAccessible()) method.setAccessible(true);
 		methodList.add(method);
 		if (args != null) for (Object arg : args) if (isClosureVarPlaceholder(arg)) freeVarsNumber++;
 		argsList.add(args);
