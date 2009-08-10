@@ -1,4 +1,3 @@
-#labels Featured
 #Describes build and release project with our configured maven pom
 
 = Building =
