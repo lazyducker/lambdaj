@@ -1,4 +1,3 @@
-#labels Featured
 select is main function exposed by lambdaj. it is used essentially to filter a collection of objects with a particular condition. But make attentions that "select from" operate over a tree of object and can collect leafs!
 
 an insured have a reference to country, so we can:
