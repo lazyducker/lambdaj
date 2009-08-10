@@ -1,4 +1,3 @@
-#labels Featured
 Have you encountred in you programming life a situation where you will aggregate some information from a list of object and you will make a string separated by a comma?
 
 {{{
