@@ -1,3 +1,4 @@
+#labels Featured
 The best way to understand what lambdaj does and how it works is to start asking why we felt the need to develop it.
 
 We were working on a project that had a very complex data model and we found our code was full of repetitions and tons of pieces of code that did almost the same: iterating over collections of our business objects in order to perform basically the same set of more or less complex tasks.
