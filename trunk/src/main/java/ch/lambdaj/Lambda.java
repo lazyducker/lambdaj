@@ -908,12 +908,12 @@ public final class Lambda {
 	}
 	
     /**
-     * Defines a free argument of the given Class for the currently active closure
+     * Defines a free variable of the given Class for the currently active closure
      * @param clazz The Class of the new argument
-     * @return A placeholder that represent a free closure argument of the given Class
+     * @return A placeholder that represent a free closure variable of the given Class
      */
-	public static <T> T arg(Class<T> clazz) {
-		return createClosureArgPlaceholder(clazz);
+	public static <T> T var(Class<T> clazz) {
+		return createClosureVarPlaceholder(clazz);
 	}
 	
     /**
@@ -925,7 +925,7 @@ public final class Lambda {
 	}
 	
     /**
-     * Creates a closure with a single free paramater and binds it to the current thread
+     * Creates a closure with a single free variable and binds it to the current thread
      * @param type1 The type of the free parameter of the newly created closure
      * @return The newly created closure
      */
@@ -934,9 +934,9 @@ public final class Lambda {
 	}
 	
     /**
-     * Creates a closure with two free paramaters and binds it to the current thread
-     * @param type1 The type of the first free parameter of the newly created closure
-     * @param type2 The type of the second free parameter of the newly created closure
+     * Creates a closure with two free variables and binds it to the current thread
+     * @param type1 The type of the first free variable of the newly created closure
+     * @param type2 The type of the second free variable of the newly created closure
      * @return The newly created closure
      */
 	public static <A, B> Closure2<A, B> closure(Class<A> type1, Class<B> type2) {
@@ -944,10 +944,10 @@ public final class Lambda {
 	}
 	
     /**
-     * Creates a closure with three free paramaters and binds it to the current thread
-     * @param type1 The type of the first free parameter of the newly created closure
-     * @param type2 The type of the second free parameter of the newly created closure
-     * @param type3  The type of the third free parameter of the newly created closure
+     * Creates a closure with three free variables and binds it to the current thread
+     * @param type1 The type of the first free variable of the newly created closure
+     * @param type2 The type of the second free variable of the newly created closure
+     * @param type3  The type of the third free variable of the newly created closure
      * @return The newly created closure
      */
 	public static <A, B, C> Closure3<A, B, C> closure(Class<A> type1, Class<B> type2, Class<C> type3) {

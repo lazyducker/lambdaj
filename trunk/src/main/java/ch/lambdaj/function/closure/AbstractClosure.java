@@ -20,17 +20,17 @@ abstract class AbstractClosure {
 	private List<Method> methodList = new ArrayList<Method>();
 	private List<Object[]> argsList = new ArrayList<Object[]>();
 	
-	private Object[] curriedParams;
-	private boolean[] curriedParamsFlags;
+	private Object[] curriedVars;
+	private boolean[] curriedVarsFlags;
 
-    private int freeParamsNumber = 0;
+    private int freeVarsNumber = 0;
 
     /**
-     * Returns the number of free parameters in this closure
-     * @return The number of free parameters in this closure
+     * Returns the number of free variables in this closure
+     * @return The number of free variables in this closure
      */
-    public int getFreeParamsNumber() {
-        return freeParamsNumber;
+    public int getFreeVarsNumber() {
+        return freeVarsNumber;
     }
 
     /**
@@ -60,19 +60,19 @@ abstract class AbstractClosure {
 	
 	void registerInvocation(Method method, Object[] args) {
 		methodList.add(method);
-		if (args != null) for (Object arg : args) if (isClosureArgPlaceholder(arg)) freeParamsNumber++;
+		if (args != null) for (Object arg : args) if (isClosureVarPlaceholder(arg)) freeVarsNumber++;
 		argsList.add(args);
 	}
 	
     /**
-     * Invokes this closure once by applying the given set of parameters to it.
-     * @param params The set of parameter used to invoke this closure once
+     * Invokes this closure once by applying the given set of variables to it.
+     * @param vars The set of variables used to invoke this closure once
      * @return The result of the closure invocation
-     * @throws WrongClosureInvocationException if the number of the passed parameters doesn't correspond to one
+     * @throws WrongClosureInvocationException if the number of the passed variables doesn't correspond to one
      * with which this closure has been defined
      */
-	Object closeOne(Object... params) throws WrongClosureInvocationException {
-		List<Object[]> boundParams = bindParams(params);
+	Object closeOne(Object... vars) throws WrongClosureInvocationException {
+		List<Object[]> boundParams = bindParams(vars);
 		Object result = closed;
 		
 		Iterator<Object[]> argsIterator = boundParams != null ? boundParams.iterator() : null;
@@ -89,60 +89,60 @@ abstract class AbstractClosure {
 	}
 
     /**
-     * Invokes this closure once for each passed parameter.
-     * It is then assumed that this closure has been defined with exactly one free paramater
-     * @param params The set of parameter used to invoke this closure once for each parameter
+     * Invokes this closure once for each passed variable.
+     * It is then assumed that this closure has been defined with exactly one free variable
+     * @param vars The set of variables used to invoke this closure once for each variable
      * @return A list of Object containing the results of each closure invocation
-     * @throws WrongClosureInvocationException if this closure hasn't been defined with exactly one free parameter
+     * @throws WrongClosureInvocationException if this closure hasn't been defined with exactly one free variable
      */
-	List<Object> closeAll(Object... params) throws WrongClosureInvocationException {
+	List<Object> closeAll(Object... vars) throws WrongClosureInvocationException {
 		List<Object> results = new ArrayList<Object>();
-		for (Object param : params) results.add(closeOne(param));
+		for (Object var : vars) results.add(closeOne(var));
 		return results;
 	}
 	
     /**
-     * Invokes this closure once for each passed set of parameters.
-     * Each iterable is used as a different set of parameters with which this closure is invoked
-     * @param params The parameters used to invoke this closure once for each set of parameters
+     * Invokes this closure once for each passed set of variables.
+     * Each iterable is used as a different set of variables with which this closure is invoked
+     * @param vars The variables used to invoke this closure once for each set of variables
      * @return A list of Object containing the results of each closure invocation
-     * @throws WrongClosureInvocationException if the number of the passed parameters doesn't correspond to one
+     * @throws WrongClosureInvocationException if the number of the passed variables doesn't correspond to one
      * with which this closure has been defined
      */
-	List<Object> closeAll(Iterable<?>... params) throws WrongClosureInvocationException {
+	List<Object> closeAll(Iterable<?>... vars) throws WrongClosureInvocationException {
 		List<Object> results = new ArrayList<Object>();
 		
-		int length = params.length;
+		int length = vars.length;
 		Iterator<?>[] iterators = new Iterator<?>[length];
-		for (int i = 0; i < length; i++) iterators[i] = params[i].iterator();
+		for (int i = 0; i < length; i++) iterators[i] = vars[i].iterator();
 
 		boolean finished = false;
 		while (true) {
-			Object[] paramSet = new Object[length];
+			Object[] varSet = new Object[length];
 			for (int i = 0; i < length; i++) {
 				if (!iterators[i].hasNext()) {
 					finished = true;
 					break;
 				}
-				paramSet[i] = iterators[i].next();
+				varSet[i] = iterators[i].next();
 			}
 			if (finished) break;
-			results.add(closeOne(paramSet));
+			results.add(closeOne(varSet));
 		}
 		
 		return results;
 	}
 	
-	private List<Object[]> bindParams(Object... params) throws WrongClosureInvocationException {
-		if (params == null || params.length == 0) {
-			if (freeParamsNumber != 0)
-				throw new WrongClosureInvocationException("Closure invoked without params instead of the expected " + freeParamsNumber);
-			if (curriedParams == null) return null;
+	private List<Object[]> bindParams(Object... vars) throws WrongClosureInvocationException {
+		if (vars == null || vars.length == 0) {
+			if (freeVarsNumber != 0)
+				throw new WrongClosureInvocationException("Closure invoked without vars instead of the expected " + freeVarsNumber);
+			if (curriedVars == null) return null;
 		}
-		if (freeParamsNumber != params.length)
-			throw new WrongClosureInvocationException("Closure invoked with " + params.length + " params instead of the expected " + freeParamsNumber);
+		if (freeVarsNumber != vars.length)
+			throw new WrongClosureInvocationException("Closure invoked with " + vars.length + " vars instead of the expected " + freeVarsNumber);
 		
-		int paramCounter = 0; 
+		int varCounter = 0;
 		int curriedParamCounter = 0;
 		List<Object[]> boundParams = new ArrayList<Object[]>();
 		for (Object[] args : argsList) {
@@ -150,10 +150,10 @@ abstract class AbstractClosure {
 			else {
 				Object[] objs = new Object[args.length];
 				for (int i = 0; i < args.length; i++) {
-					if (!isClosureArgPlaceholder(args[i])) objs[i] = args[i];
-					else if (curriedParams != null && curriedParamsFlags[curriedParamCounter]) objs[i] = curriedParams[curriedParamCounter++];
+					if (!isClosureVarPlaceholder(args[i])) objs[i] = args[i];
+					else if (curriedVars != null && curriedVarsFlags[curriedParamCounter]) objs[i] = curriedVars[curriedParamCounter++];
 					else {
-						objs[i] = params[paramCounter++];
+						objs[i] = vars[varCounter++];
 						curriedParamCounter++;
 					}
 				} 
@@ -164,41 +164,41 @@ abstract class AbstractClosure {
 	}
 	
     /**
-     * Curry this closure by fixing one of its free parameter to a given value.
+     * Curry this closure by fixing one of its free variable to a given value.
      * @param curriedClosure The closure resulting from this curry operation
-     * @param curried The value to which the free parameter should be curry
-     * @param position The 1-based position of the parameter to which apply the curry operation
-     * @return A Closure having a free parameter less than this one since one of them has been fixed to the given value
-     * @throws IllegalArgumentException if this closure doesn't have a free parameter in the specified position
+     * @param curried The value to which the free variable should be curry
+     * @param position The 1-based position of the variable to which apply the curry operation
+     * @return A Closure having a free variable less than this one since one of them has been fixed to the given value
+     * @throws IllegalArgumentException if this closure doesn't have a free variable in the specified position
      */
 	<T extends AbstractClosure> T curry(T curriedClosure, Object curried, int position) throws IllegalArgumentException {
 		curriedClosure.closed = closed;
 		curriedClosure.methodList = methodList;
 		curriedClosure.argsList = argsList;
-		curriedClosure.curriedParams = curriedParams;
-		curriedClosure.curriedParamsFlags = curriedParamsFlags;
-		curriedClosure.freeParamsNumber = freeParamsNumber;
+		curriedClosure.curriedVars = curriedVars;
+		curriedClosure.curriedVarsFlags = curriedVarsFlags;
+		curriedClosure.freeVarsNumber = freeVarsNumber;
 
 		curriedClosure.curryParam(curried, position);
 		return curriedClosure;
 	}
 	
 	private void curryParam(Object curried, int position) throws IllegalArgumentException {
-		if (curriedParams == null) {
-			curriedParams = new Object[freeParamsNumber];
-			curriedParamsFlags = new boolean[freeParamsNumber];
+		if (curriedVars == null) {
+			curriedVars = new Object[freeVarsNumber];
+			curriedVarsFlags = new boolean[freeVarsNumber];
 		}
 		
-		for (int i = 0; i < curriedParams.length; i++) {
-			if (curriedParamsFlags[i]) continue;
+		for (int i = 0; i < curriedVars.length; i++) {
+			if (curriedVarsFlags[i]) continue;
 			if (--position == 0) {
-				curriedParams[i] = curried;
-				curriedParamsFlags[i] = true;
-				freeParamsNumber--;
+				curriedVars[i] = curried;
+				curriedVarsFlags[i] = true;
+				freeVarsNumber--;
 				return;
 			}
 		}
 		
-		throw new IllegalArgumentException("Trying to curry this closure on an already bound or unexisting paramater");
+		throw new IllegalArgumentException("Trying to curry this closure on an already bound or unexisting variable");
 	}
 }

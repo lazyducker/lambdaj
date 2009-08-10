@@ -7,42 +7,42 @@ package ch.lambdaj.function.closure;
 import java.util.*;
 
 /**
- * A closure with a single free parameter
+ * A closure with a single free variable
  * @author Mario Fusco
  */
 public class Closure1<A> extends AbstractClosure {
 
     /**
-      * Invokes this closure once by applying the given parameter to it.
-      * @param param The parameter used to invoke this closure
+      * Invokes this closure once by applying the given variable to it.
+      * @param var The variable used to invoke this closure
       * @return The result of the closure invocation
       */
-	public Object apply(A param) {
-		return closeOne(param);
+	public Object apply(A var) {
+		return closeOne(var);
 	}
 	
     /**
-     * Invokes this closure once for each passed parameter.
-     * @param params The set of parameter used to invoke this closure once for each parameter
+     * Invokes this closure once for each passed variable.
+     * @param vars The set of variables used to invoke this closure once for each variable
      * @return A list of Object containing the results of each closure invocation
      */
-	public List<Object> each(A... params) {
-		return closeAll(params);
+	public List<Object> each(A... vars) {
+		return closeAll(vars);
 	}
 	
     /**
      * Invokes this closure once for each item in the given iterable.
-     * @param params The parameters used to invoke this closure once for each of its item
+     * @param vars The variables used to invoke this closure once for each of its item
      * @return A list of Object containing the results of each closure invocation
      */
-	public List<Object> each(Iterable<? extends A> params) {
-		return closeAll(params);
+	public List<Object> each(Iterable<? extends A> vars) {
+		return closeAll(vars);
 	}
 	
     /**
-     * Curry this closure by fixing its only free parameter to a given value.
-     * @param curry The value to which the free parameter should be curry
-     * @return A Closure having no free parameter
+     * Curry this closure by fixing its only free variable to a given value.
+     * @param curry The value to which the free variable should be curry
+     * @return A Closure having no free variable
      */
 	public Closure0 curry(A curry) {
 		return curry(new Closure0(), curry, 1);

@@ -50,8 +50,8 @@ public final class ClosuresFactory {
 	}
 
     /**
-     * Creates a closure with a single free paramater and binds it to the current thread
-     * @param type1 The type of the free parameter of the newly created closure
+     * Creates a closure with a single free variable and binds it to the current thread
+     * @param type1 The type of the free variable of the newly created closure
      * @return The newly created closure
      */
 	public static <A> Closure1<A> createClosure(Class<A> type1) {
@@ -61,9 +61,9 @@ public final class ClosuresFactory {
 	}
 
     /**
-     * Creates a closure with two free paramaters and binds it to the current thread
-     * @param type1 The type of the first free parameter of the newly created closure
-     * @param type2 The type of the second free parameter of the newly created closure
+     * Creates a closure with two free variables and binds it to the current thread
+     * @param type1 The type of the first free variable of the newly created closure
+     * @param type2 The type of the second free variable of the newly created closure
      * @return The newly created closure
      */
 	public static <A, B> Closure2<A, B> createClosure(Class<A> type1, Class<B> type2) {
@@ -73,10 +73,10 @@ public final class ClosuresFactory {
 	}
 
     /**
-     * Creates a closure with three free paramaters and binds it to the current thread
-     * @param type1 The type of the first free parameter of the newly created closure
-     * @param type2 The type of the second free parameter of the newly created closure
-     * @param type3 The type of the third free parameter of the newly created closure
+     * Creates a closure with three free variables and binds it to the current thread
+     * @param type1 The type of the first free variable of the newly created closure
+     * @param type2 The type of the second free variable of the newly created closure
+     * @param type3 The type of the third free variable of the newly created closure
      * @return The newly created closure
      */
 	public static <A, B, C> Closure3<A, B, C> createClosure(Class<A> type1, Class<B> type2, Class<C> type3) {
@@ -86,20 +86,20 @@ public final class ClosuresFactory {
 	}
 
     /**
-     * Defines a free argument of the given Class for the currently active closure
-     * @param clazz The Class of the new argument
-     * @return A placeholder that represent a free closure argument of the given Class
+     * Defines a free variable of the given Class for the currently active closure
+     * @param clazz The Class of the new variable
+     * @return A placeholder that represent a free closure variable of the given Class
      */
-    public static <T> T createClosureArgPlaceholder(Class<T> clazz) {
+    public static <T> T createClosureVarPlaceholder(Class<T> clazz) {
 		return isProxable(clazz) ? createVoidProxy(clazz) : createFinalArgumentPlaceholder(clazz);
 	}
 
     /**
-     * Tests if the given object is actually a placeholder for a free argument of a closure
+     * Tests if the given object is actually a placeholder for a free variable of a closure
      * @param object The object to be tested
-     * @return true if the given object is actually a placeholder for a free argument of a closure
+     * @return true if the given object is actually a placeholder for a free variable of a closure
      */
-	public static boolean isClosureArgPlaceholder(Object object) {
+	public static boolean isClosureVarPlaceholder(Object object) {
 		return object != null && (isVoidProxy(object) || object.equals(createFinalArgumentPlaceholder(object.getClass())));
 	}
 }

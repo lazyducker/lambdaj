@@ -5,13 +5,13 @@
 package ch.lambdaj.function.closure;
 
 /**
- * A closure with no free parameters
+ * A closure with no free variables
  * @author Mario Fusco
  */
 public class Closure0 extends AbstractClosure {
 
     /**
-     * Invoke this parameterless closure
+     * Invoke this closure
      * @return The result of the closure invocation
      */
 	public Object apply() {
