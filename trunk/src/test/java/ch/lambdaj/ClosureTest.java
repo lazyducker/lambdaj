@@ -7,7 +7,6 @@ package ch.lambdaj;
 import static ch.lambdaj.Lambda.*;
 import static java.util.Arrays.*;
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 import java.io.*;
 import java.util.*;
