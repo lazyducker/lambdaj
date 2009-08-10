@@ -28,7 +28,7 @@ public class Closure2<A, B> extends AbstractClosure {
      * @param vars2 The second set of variables used to invoke this closure once for each variable
      * @return A list of Object containing the results of each closure invocation
      */
-	public List<Object> each(Iterable<? extends A> vars1, Iterable<? extends B> vars2) {
+	public List<?> each(Iterable<? extends A> vars1, Iterable<? extends B> vars2) {
 		return closeAll(vars1, vars2);
 	}
 

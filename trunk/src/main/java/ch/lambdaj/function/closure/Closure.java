@@ -30,7 +30,7 @@ public class Closure extends AbstractClosure {
      * @return A list of Object containing the results of each closure invocation
      * @throws WrongClosureInvocationException if this closure hasn't been defined with exactly one free variable
      */
-	public List<Object> each(Object... vars) throws WrongClosureInvocationException {
+	public List<?> each(Object... vars) throws WrongClosureInvocationException {
 		return closeAll(vars);
 	}
 
@@ -42,7 +42,7 @@ public class Closure extends AbstractClosure {
      * @throws WrongClosureInvocationException if the number of the passed variables doesn't correspond to one
      * with which this closure has been defined
      */
-	public List<Object> each(Iterable<?>... vars) throws WrongClosureInvocationException {
+	public List<?> each(Iterable<?>... vars) throws WrongClosureInvocationException {
 		return closeAll(vars);
 	}
 

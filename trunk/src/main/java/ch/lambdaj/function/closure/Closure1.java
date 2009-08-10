@@ -26,7 +26,7 @@ public class Closure1<A> extends AbstractClosure {
      * @param vars The set of variables used to invoke this closure once for each variable
      * @return A list of Object containing the results of each closure invocation
      */
-	public List<Object> each(A... vars) {
+	public List<?> each(A... vars) {
 		return closeAll(vars);
 	}
 	
@@ -35,7 +35,7 @@ public class Closure1<A> extends AbstractClosure {
      * @param vars The variables used to invoke this closure once for each of its item
      * @return A list of Object containing the results of each closure invocation
      */
-	public List<Object> each(Iterable<? extends A> vars) {
+	public List<?> each(Iterable<? extends A> vars) {
 		return closeAll(vars);
 	}
 	
