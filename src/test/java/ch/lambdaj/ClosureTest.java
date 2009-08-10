@@ -36,15 +36,15 @@ public class ClosureTest {
 
 	@Test
 	public void testSystemOut() {
-		Closure1<String> println = closure(String.class); { of(System.out).println(arg(String.class)); } 
+		Closure1<String> println = closure(String.class); { of(System.out).println(var(String.class)); }
 		println.each("mickey mouse", "donald duck", "uncle scrooge");
 	}
 	
 	@Test
 	public void testOnList() {
 		StringWriter sw = new StringWriter();
-		Closure writer = closure(); { of(sw).write(arg(String.class)); } 
-        assertEquals(1, writer.getFreeParamsNumber());
+		Closure writer = closure(); { of(sw).write(var(String.class)); }
+        assertEquals(1, writer.getFreeVarsNumber());
 		writer.each(asList("first", "second", "third"));
 		assertEquals("firstsecondthird", sw.toString());
 	}
@@ -52,7 +52,7 @@ public class ClosureTest {
 	@Test
 	public void testOnArray() {
 		StringWriter sw = new StringWriter();
-		Closure writer = closure(); { of(sw).append(arg(String.class)); } 
+		Closure writer = closure(); { of(sw).append(var(String.class)); }
 		writer.each("first", "second", "third");
 		assertEquals("firstsecondthird", sw.toString());
 		
@@ -73,7 +73,7 @@ public class ClosureTest {
 	@Test
 	public void testTypedOnList() {
 		StringWriter sw = new StringWriter();
-		Closure1<String> writer = closure(String.class); { of(sw).append(arg(String.class)); } 
+		Closure1<String> writer = closure(String.class); { of(sw).append(var(String.class)); }
 		writer.each(asList("first", "second", "third"));
 		assertEquals("firstsecondthird", sw.toString());
 		writer.apply("forth");
@@ -85,7 +85,7 @@ public class ClosureTest {
 		StringBuilder sb = new StringBuilder();
 		Closure1<String> appender = closure(String.class); { 
 			try {
-				of(sb, Appendable.class).append(arg(String.class));
+				of(sb, Appendable.class).append(var(String.class));
 			} catch (IOException e) { } 
 		} 
 		appender.each("first", "second", "third");
@@ -95,7 +95,7 @@ public class ClosureTest {
 	@Test
 	public void testAddOnInteger() {
 		Closure2<Integer, Integer> adder = closure(Integer.class, Integer.class); { 
-			of(this).add(arg(Integer.class), arg(Integer.class)); 
+			of(this).add(var(Integer.class), var(Integer.class));
 		} 
 		int sum = (Integer)adder.apply(2, 3);
 		assertEquals(2 + 3, sum);
@@ -104,7 +104,7 @@ public class ClosureTest {
 	@Test
 	public void testDo3OnInt() {
 		Closure3<Integer, Integer, Integer> adder = closure(Integer.class, Integer.class, Integer.class); { 
-			of(this).nonCommutativeDoOnInt(arg(Integer.class), arg(Integer.class), arg(Integer.class)); 
+			of(this).nonCommutativeDoOnInt(var(Integer.class), var(Integer.class), var(Integer.class));
 		} 
 		int result = (Integer)adder.apply(5, 2, 4);
 		assertEquals((5 - 2) * 4, result);
@@ -113,7 +113,7 @@ public class ClosureTest {
 	@Test
 	public void testDo2OnInt() {
 		Closure2<Integer, Integer> adder = closure(Integer.class, Integer.class); { 
-			of(this).nonCommutativeDoOnInt(arg(Integer.class), 2, arg(Integer.class)); 
+			of(this).nonCommutativeDoOnInt(var(Integer.class), 2, var(Integer.class));
 		} 
 		int result = (Integer)adder.apply(5, 4);
 		assertEquals((5 - 2) * 4, result);
@@ -122,31 +122,31 @@ public class ClosureTest {
 	@Test
 	public void testCurry() {
 		Closure3<Integer, Integer, Integer> closure3 = closure(Integer.class, Integer.class, Integer.class); { 
-			of(this).nonCommutativeDoOnInt(arg(Integer.class), arg(Integer.class), arg(Integer.class)); 
+			of(this).nonCommutativeDoOnInt(var(Integer.class), var(Integer.class), var(Integer.class));
 		} 
 		int result = (Integer)closure3.apply(5, 2, 4);
-        assertEquals(3, closure3.getFreeParamsNumber());
+        assertEquals(3, closure3.getFreeVarsNumber());
 		assertEquals((5 - 2) * 4, result);
 		
 		Closure2<Integer, Integer> closure2 = closure3.curry2(2);
 		result = (Integer)closure2.apply(7, 3);
-        assertEquals(2, closure2.getFreeParamsNumber());
+        assertEquals(2, closure2.getFreeVarsNumber());
 		assertEquals((7 - 2) * 3, result);
 		
 		Closure1<Integer> closure1 = closure2.curry2(5);
 		result = (Integer)closure1.apply(4);
-        assertEquals(1, closure1.getFreeParamsNumber());
+        assertEquals(1, closure1.getFreeVarsNumber());
 		assertEquals((4 - 2) * 5, result);
 		
 		Closure0 closure0 = closure1.curry(9);
 		result = (Integer)closure0.apply();
-        assertEquals(0, closure0.getFreeParamsNumber());
+        assertEquals(0, closure0.getFreeVarsNumber());
 		assertEquals((9 - 2) * 5, result);
 	}
 	
 	@Test
 	public void testWrongCurry() {
-		Closure closure = closure(); { of(this).nonCommutativeDoOnInt(arg(Integer.class), arg(Integer.class), arg(Integer.class)); } 
+		Closure closure = closure(); { of(this).nonCommutativeDoOnInt(var(Integer.class), var(Integer.class), var(Integer.class)); }
 		try {
 			closure.curry(3, 4);
 			fail("Curry on wrong argument position must fail");
@@ -156,7 +156,7 @@ public class ClosureTest {
 	@Test
 	public void testAs() {
 		Closure3<Integer, Integer, Integer> closure3 = closure(Integer.class, Integer.class, Integer.class); { 
-			of(this).nonCommutativeDoOnInt(arg(Integer.class), arg(Integer.class), arg(Integer.class)); 
+			of(this).nonCommutativeDoOnInt(var(Integer.class), var(Integer.class), var(Integer.class));
 		}
 		NonCommutativeDoer doer = closure3.as(NonCommutativeDoer.class);
 		int result = doer.nonCommutativeDoOnInt(5, 2, 4);
@@ -165,7 +165,7 @@ public class ClosureTest {
 
 	@Test
 	public void testWrongAs() {
-		Closure closure = closure(); { of(this).nonCommutativeDoOnInt(arg(Integer.class), arg(Integer.class), arg(Integer.class)); } 
+		Closure closure = closure(); { of(this).nonCommutativeDoOnInt(var(Integer.class), var(Integer.class), var(Integer.class)); }
 		try {
 			closure.as(String.class);
 			fail("Closure cast on concrete class must fail");
@@ -180,7 +180,7 @@ public class ClosureTest {
 	public void testClosureOnNonFinalArgument() {
 		Person me = new Person("Mario", "Fusco");
 		Closure2<Person, Integer> ageSetter = closure(Person.class, Integer.class); { 
-			of(this).setAgeOnPerson(arg(Person.class), arg(Integer.class)); 
+			of(this).setAgeOnPerson(var(Person.class), var(Integer.class));
 		}
 		ageSetter.apply(me, 35);
 		assertEquals(35, me.getAge());

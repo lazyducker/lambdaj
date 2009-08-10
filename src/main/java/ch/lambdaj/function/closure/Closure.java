@@ -13,45 +13,45 @@ import java.util.*;
 public class Closure extends AbstractClosure {
 
     /**
-     * Invokes this closure once by applying the given set of parameters to it.
-     * @param params The set of parameter used to invoke this closure once
+     * Invokes this closure once by applying the given set of variables to it.
+     * @param vars The set of variable used to invoke this closure once
      * @return The result of the closure invocation
-     * @throws WrongClosureInvocationException if the number of the passed parameters doesn't correspond to one
+     * @throws WrongClosureInvocationException if the number of the passed variables doesn't correspond to one
      * with which this closure has been defined
      */
-	public Object apply(Object... params) throws WrongClosureInvocationException {
-		return closeOne(params);
+	public Object apply(Object... vars) throws WrongClosureInvocationException {
+		return closeOne(vars);
 	}
 
     /**
-     * Invokes this closure once for each passed parameter.
-     * It is then assumed that this closure has been defined with exactly one free paramater
-     * @param params The set of parameter used to invoke this closure once for each parameter
+     * Invokes this closure once for each passed variable.
+     * It is then assumed that this closure has been defined with exactly one free variable
+     * @param vars The set of variables used to invoke this closure once for each variable
      * @return A list of Object containing the results of each closure invocation
-     * @throws WrongClosureInvocationException if this closure hasn't been defined with exactly one free parameter
+     * @throws WrongClosureInvocationException if this closure hasn't been defined with exactly one free variable
      */
-	public List<Object> each(Object... params) throws WrongClosureInvocationException {
-		return closeAll(params);
+	public List<Object> each(Object... vars) throws WrongClosureInvocationException {
+		return closeAll(vars);
 	}
 
     /**
-     * Invokes this closure once for each passed set of parameters.
-     * Each iterable is used as a different set of parameters with which this closure is invoked
-     * @param params The parameters used to invoke this closure once for each set of parameters
+     * Invokes this closure once for each passed set of variables.
+     * Each iterable is used as a different set of variables with which this closure is invoked
+     * @param vars The variables used to invoke this closure once for each set of variables
      * @return A list of Object containing the results of each closure invocation
-     * @throws WrongClosureInvocationException if the number of the passed parameters doesn't correspond to one
+     * @throws WrongClosureInvocationException if the number of the passed variables doesn't correspond to one
      * with which this closure has been defined
      */
-	public List<Object> each(Iterable<?>... params) throws WrongClosureInvocationException {
-		return closeAll(params);
+	public List<Object> each(Iterable<?>... vars) throws WrongClosureInvocationException {
+		return closeAll(vars);
 	}
 
     /**
-     * Curry this closure by fixing one of its free parameter to a given value.
-     * @param curry The value to which the free parameter should be curry
-     * @param position The 1-based position of the parameter to which apply the curry operation
-     * @return A Closure having a free parameter less than this one since one of them has been fixed to the given value
-     * @throws IllegalArgumentException if this closure doesn't have a free parameter in the specified position
+     * Curry this closure by fixing one of its free variable to a given value.
+     * @param curry The value to which the free variable should be curry
+     * @param position The 1-based position of the variable to which apply the curry operation
+     * @return A Closure having a free variable less than this one since one of them has been fixed to the given value
+     * @throws IllegalArgumentException if this closure doesn't have a free variable in the specified position
      */
 	public Closure curry(Object curry, int position) throws IllegalArgumentException {
 		return curry(new Closure(), curry, position);

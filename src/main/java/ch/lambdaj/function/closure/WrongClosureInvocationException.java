@@ -5,7 +5,7 @@
 package ch.lambdaj.function.closure;
 
 /**
- * This Exception is thrown when a closure gets invoked with a wrong number or type of parameters
+ * This Exception is thrown when a closure gets invoked with a wrong number or type of variables
  * @author Mario Fusco
  */
 public class WrongClosureInvocationException extends RuntimeException {
