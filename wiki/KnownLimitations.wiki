@@ -1,3 +1,5 @@
+#Which are the lambdaj limitations caused by the Java language specification
+
 lambdaj has a known limitation in both of its main features due to 2 different issues of the java language: lack of reified generics and impossibility to proxy a final class. 
 
 In more details the first problem doesn't allow lambdaj to infer the actual type that should be returned by the `forEach()` method when a null or empty collection is passed to it. That means that the following piece of code:
