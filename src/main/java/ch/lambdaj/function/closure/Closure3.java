@@ -30,7 +30,7 @@ public class Closure3<A, B, C> extends AbstractClosure {
      * @param vars3 The third set of variables used to invoke this closure once for each variable
      * @return A list of Object containing the results of each closure invocation
      */
-	public List<Object> each(Iterable<? extends A> vars1, Iterable<? extends B> vars2, Iterable<? extends C> vars3) {
+	public List<?> each(Iterable<? extends A> vars1, Iterable<? extends B> vars2, Iterable<? extends C> vars3) {
 		return closeAll(vars1, vars2, vars3);
 	}
 	

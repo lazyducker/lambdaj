@@ -137,7 +137,13 @@ public class ClosureTest {
 		result = (Integer)closure1.apply(4);
         assertEquals(1, closure1.getFreeVarsNumber());
 		assertEquals((4 - 2) * 5, result);
-		
+
+        Iterator<?> results = closure1.each(4, 5, 6).iterator();
+        assertEquals((4 - 2) * 5, results.next());
+        assertEquals((5 - 2) * 5, results.next());
+        assertEquals((6 - 2) * 5, results.next());
+        assertFalse(results.hasNext());
+
 		Closure0 closure0 = closure1.curry(9);
 		result = (Integer)closure0.apply();
         assertEquals(0, closure0.getFreeVarsNumber());

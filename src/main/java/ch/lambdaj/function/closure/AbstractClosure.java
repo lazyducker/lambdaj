@@ -95,7 +95,7 @@ abstract class AbstractClosure {
      * @return A list of Object containing the results of each closure invocation
      * @throws WrongClosureInvocationException if this closure hasn't been defined with exactly one free variable
      */
-	List<Object> closeAll(Object... vars) throws WrongClosureInvocationException {
+	List<?> closeAll(Object... vars) throws WrongClosureInvocationException {
 		List<Object> results = new ArrayList<Object>();
 		for (Object var : vars) results.add(closeOne(var));
 		return results;
@@ -109,7 +109,7 @@ abstract class AbstractClosure {
      * @throws WrongClosureInvocationException if the number of the passed variables doesn't correspond to one
      * with which this closure has been defined
      */
-	List<Object> closeAll(Iterable<?>... vars) throws WrongClosureInvocationException {
+	List<?> closeAll(Iterable<?>... vars) throws WrongClosureInvocationException {
 		List<Object> results = new ArrayList<Object>();
 		
 		int length = vars.length;
