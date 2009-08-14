@@ -16,17 +16,23 @@ import ch.lambdaj.proxy.*;
 class ProxyClosure extends InvocationInterceptor {
 
 	private boolean registered = false;
-	
+
 	private final AbstractClosure closure;
-	
-	protected ProxyClosure(AbstractClosure closure) {
+
+	ProxyClosure(AbstractClosure closure) {
 		this.closure = closure;
 	}
 
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 		if (registered) return method.invoke(proxy, args);
 		registered = true;
-		closure.registerInvocation(method, args);
-		return createProxyClosure(closure, method.getReturnType());
+		closure.bindInvocation(method, args);
+
+        Class<?> returnType = method.getReturnType();
+        if (returnType == Void.TYPE) {
+            closure.closeUnhandeledInvocations();
+            return null;
+        }
+		return createProxyClosure(closure, returnType);
 	}
 }

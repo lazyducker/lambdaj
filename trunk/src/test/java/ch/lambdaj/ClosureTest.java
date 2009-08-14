@@ -6,12 +6,12 @@ package ch.lambdaj;
 
 import static ch.lambdaj.Lambda.*;
 import static java.util.Arrays.*;
-import static org.junit.Assert.*;
 
 import java.io.*;
 import java.util.*;
 
 import org.junit.*;
+import static org.junit.Assert.*;
 
 import ch.lambdaj.function.closure.*;
 import ch.lambdaj.mock.*;
@@ -25,12 +25,12 @@ public class ClosureTest {
 		return val1 + val2;
 	}
 
-	public int nonCommutativeDoOnInt(int val1, int val2, int val3) {
-		return (val1 - val2) * val3;
+	public int doNonCommutativeOpOnInt(int val1, int val2, int val3, int val4) {
+		return (val1 - val2) * (val3 - val4);
 	}
-	
-	public interface NonCommutativeDoer {
-		int nonCommutativeDoOnInt(int val1, int val2, int val3);
+
+    public interface NonCommutativeDoer {
+		int nonCommutativeDoOnInt(int val1, int val2, int val3, int val4);
 	}
 
 	@Test
@@ -101,32 +101,49 @@ public class ClosureTest {
 	}
 
 	@Test
-	public void testDo3OnInt() {
-		Closure3<Integer, Integer, Integer> adder = closure(Integer.class, Integer.class, Integer.class); { 
-			of(this).nonCommutativeDoOnInt(var(Integer.class), var(Integer.class), var(Integer.class));
+	public void testDo4OnInt() {
+		Closure4<Integer, Integer, Integer, Integer> adder = closure(Integer.class, Integer.class, Integer.class, Integer.class); {
+			of(this).doNonCommutativeOpOnInt(var(Integer.class), var(Integer.class), var(Integer.class), var(Integer.class));
 		} 
-		int result = (Integer)adder.apply(5, 2, 4);
-		assertEquals((5 - 2) * 4, result);
+		int result = (Integer)adder.apply(5, 2, 4, 3);
+		assertEquals((5 - 2) * (4 - 3), result);
 	}
 
 	@Test
 	public void testDo2OnInt() {
 		Closure2<Integer, Integer> adder = closure(Integer.class, Integer.class); { 
-			of(this).nonCommutativeDoOnInt(var(Integer.class), 2, var(Integer.class));
+			of(this).doNonCommutativeOpOnInt(var(Integer.class), 2, var(Integer.class), 3);
 		} 
 		int result = (Integer)adder.apply(5, 4);
-		assertEquals((5 - 2) * 4, result);
+        assertEquals((5 - 2) * (4 - 3), result);
 	}
 
 	@Test
 	public void testCurry() {
-		Closure3<Integer, Integer, Integer> closure3 = closure(Integer.class, Integer.class, Integer.class); { 
-			of(this).nonCommutativeDoOnInt(var(Integer.class), var(Integer.class), var(Integer.class));
-		} 
-		int result = (Integer)closure3.apply(5, 2, 4);
+        Closure4<Integer, Integer, Integer, Integer> closure4 = closure(Integer.class, Integer.class, Integer.class, Integer.class); {
+            of(this).doNonCommutativeOpOnInt(var(Integer.class), var(Integer.class), var(Integer.class), var(Integer.class));
+        }
+
+        assertEquals(4, closure4.getFreeVarsNumber());
+        int result = (Integer)closure4.apply(5, 2, 7, 3);
+        assertEquals((5 - 2) * (7 - 3), result);
+
+        result = (Integer)closure4.curry1(5).apply(4, 7, 3);
+        assertEquals((5 - 4) * (7 - 3), result);
+        result = (Integer)closure4.curry2(2).apply(5, 9, 3);
+        assertEquals((5 - 2) * (9 - 3), result);
+        result = (Integer)closure4.curry3(7).apply(5, 2, 1);
+        assertEquals((5 - 2) * (7 - 1), result);
+
+        Closure3<Integer, Integer, Integer> closure3 = closure4.curry4(0);
         assertEquals(3, closure3.getFreeVarsNumber());
+		result = (Integer)closure3.apply(5, 2, 4);
 		assertEquals((5 - 2) * 4, result);
-		
+        result = (Integer)closure3.curry1(8).apply(3, 4);
+        assertEquals((8 - 3) * 4, result);
+        result = (Integer)closure3.curry3(4).apply(5, 2);
+        assertEquals((5 - 2) * 4, result);
+
 		Closure2<Integer, Integer> closure2 = closure3.curry2(2);
 		result = (Integer)closure2.apply(7, 3);
         assertEquals(2, closure2.getFreeVarsNumber());
@@ -151,7 +168,7 @@ public class ClosureTest {
 	
 	@Test
 	public void testWrongCurry() {
-		Closure closure = closure(); { of(this).nonCommutativeDoOnInt(var(Integer.class), var(Integer.class), var(Integer.class)); }
+		Closure closure = closure(); { of(this).doNonCommutativeOpOnInt(var(Integer.class), var(Integer.class), var(Integer.class), 10); }
 		try {
 			closure.curry(3, 4);
 			fail("Curry on wrong argument position must fail");
@@ -160,17 +177,17 @@ public class ClosureTest {
 
 	@Test
 	public void testAs() {
-		Closure3<Integer, Integer, Integer> closure3 = closure(Integer.class, Integer.class, Integer.class); { 
-			of(this).nonCommutativeDoOnInt(var(Integer.class), var(Integer.class), var(Integer.class));
+		Closure4<Integer, Integer, Integer, Integer> closure4 = closure(Integer.class, Integer.class, Integer.class, Integer.class); {
+			of(this).doNonCommutativeOpOnInt(var(Integer.class), var(Integer.class), var(Integer.class), var(Integer.class));
 		}
-		NonCommutativeDoer doer = closure3.as(NonCommutativeDoer.class);
-		int result = doer.nonCommutativeDoOnInt(5, 2, 4);
-		assertEquals((5 - 2) * 4, result);
+		NonCommutativeDoer doer = closure4.as(NonCommutativeDoer.class);
+		int result = doer.nonCommutativeDoOnInt(5, 2, 4, 3);
+		assertEquals((5 - 2) * (4 - 3), result);
 	}
 
 	@Test
 	public void testWrongAs() {
-		Closure closure = closure(); { of(this).nonCommutativeDoOnInt(var(Integer.class), var(Integer.class), var(Integer.class)); }
+		Closure closure = closure(); { of(this).doNonCommutativeOpOnInt(var(Integer.class), var(Integer.class), var(Integer.class), 10); }
 		try {
 			closure.as(String.class);
 			fail("Closure cast on concrete class must fail");
