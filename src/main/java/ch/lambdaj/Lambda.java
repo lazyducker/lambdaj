@@ -947,10 +947,22 @@ public final class Lambda {
      * Creates a closure with three free variables and binds it to the current thread
      * @param type1 The type of the first free variable of the newly created closure
      * @param type2 The type of the second free variable of the newly created closure
-     * @param type3  The type of the third free variable of the newly created closure
+     * @param type3 The type of the third free variable of the newly created closure
      * @return The newly created closure
      */
 	public static <A, B, C> Closure3<A, B, C> closure(Class<A> type1, Class<B> type2, Class<C> type3) {
 		return createClosure(type1, type2, type3);
+	}
+
+    /**
+     * Creates a closure with four free variables and binds it to the current thread
+     * @param type1 The type of the first free variable of the newly created closure
+     * @param type2 The type of the second free variable of the newly created closure
+     * @param type3 The type of the third free variable of the newly created closure
+     * @param type3 The type of the fourth free variable of the newly created closure
+     * @return The newly created closure
+     */
+	public static <A, B, C, D> Closure4<A, B, C, D> closure(Class<A> type1, Class<B> type2, Class<C> type3, Class<D> type4) {
+		return createClosure(type1, type2, type3, type4);
 	}
 }

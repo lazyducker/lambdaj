@@ -25,6 +25,8 @@ abstract class AbstractClosure {
 
     private int freeVarsNumber = 0;
 
+    private List<Object[]> unhandeledInvocations = new ArrayList<Object[]>();
+
     /**
      * Returns the number of free variables in this closure
      * @return The number of free variables in this closure
@@ -58,13 +60,18 @@ abstract class AbstractClosure {
 		this.closed = closed;
 	}
 	
-	void registerInvocation(Method method, Object[] args) {
+	void bindInvocation(Method method, Object[] args) {
         if (!method.isAccessible()) method.setAccessible(true);
 		methodList.add(method);
 		if (args != null) for (Object arg : args) if (isClosureVarPlaceholder(arg)) freeVarsNumber++;
 		argsList.add(args);
 	}
-	
+
+    void closeUnhandeledInvocations() {
+        for (Object[] vars : unhandeledInvocations) closeOne(vars);
+        unhandeledInvocations.clear();
+    }
+
     /**
      * Invokes this closure once by applying the given set of variables to it.
      * @param vars The set of variables used to invoke this closure once
@@ -73,6 +80,11 @@ abstract class AbstractClosure {
      * with which this closure has been defined
      */
 	Object closeOne(Object... vars) throws WrongClosureInvocationException {
+        if (methodList.isEmpty()) {
+            unhandeledInvocations.add(vars);
+            return null;
+        }
+
 		List<Object[]> boundParams = bindParams(vars);
 		Object result = closed;
 		
@@ -176,9 +188,16 @@ abstract class AbstractClosure {
 		curriedClosure.closed = closed;
 		curriedClosure.methodList = methodList;
 		curriedClosure.argsList = argsList;
-		curriedClosure.curriedVars = curriedVars;
-		curriedClosure.curriedVarsFlags = curriedVarsFlags;
-		curriedClosure.freeVarsNumber = freeVarsNumber;
+        curriedClosure.freeVarsNumber = freeVarsNumber;
+
+        if (curriedVars != null) {
+            curriedClosure.curriedVars = new Object[curriedVars.length];
+            System.arraycopy(curriedVars, 0, curriedClosure.curriedVars, 0, curriedVars.length);
+        }
+        if (curriedVarsFlags != null) {
+            curriedClosure.curriedVarsFlags = new boolean[curriedVarsFlags.length];
+            System.arraycopy(curriedVarsFlags, 0, curriedClosure.curriedVarsFlags, 0, curriedVarsFlags.length);
+        }
 
 		curriedClosure.curryParam(curried, position);
 		return curriedClosure;
