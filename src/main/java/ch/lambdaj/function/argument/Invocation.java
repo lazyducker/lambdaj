@@ -16,13 +16,11 @@ import ch.lambdaj.util.*;
  */
 class Invocation {
 
-	private Class<?> invokedClass;
-	private Method invokedMethod;
+	private final Class<?> invokedClass;
+	private final Method invokedMethod;
 	private String inkvokedPropertyName;
 	private List<WeakReference<Object>> weakArgs;
 
-	Invocation() { }
-	
 	Invocation(Class<?> invokedClass, Method invokedMethod, Object[] args) {
 		this.invokedClass = invokedClass;
 		this.invokedMethod = invokedMethod;
@@ -73,7 +71,7 @@ class Invocation {
 		StringBuilder sb = new StringBuilder(invokedMethod.toString());
 		Object[] args = getConcreteArgs();
 		if (args != null) {
-			sb.append("with args ");
+			sb.append(" with args ");
 			for (int i = 0; i < args.length; i++) sb.append(i == 0 ? "" : ", ").append(args[i]);
 		}
 		return sb.toString();

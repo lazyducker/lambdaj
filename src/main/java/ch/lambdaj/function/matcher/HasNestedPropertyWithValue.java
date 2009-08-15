@@ -29,7 +29,8 @@ public class HasNestedPropertyWithValue<T> extends LambdaJMatcher<T> {
             return false;
         } 
 	}
-	
+
+    @Override
     public void describeTo(Description description) {
         description.appendText("hasProperty(");
         description.appendValue(propertyName);

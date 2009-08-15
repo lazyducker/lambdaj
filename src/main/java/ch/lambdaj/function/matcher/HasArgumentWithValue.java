@@ -33,6 +33,7 @@ public class HasArgumentWithValue<T, A> extends LambdaJMatcher<T> {
         } 
 	}
 	
+    @Override
     public void describeTo(Description description) {
         description.appendText("hasArgument(");
         description.appendValue(argument.getInkvokedPropertyName());

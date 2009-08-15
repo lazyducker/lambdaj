@@ -23,4 +23,6 @@ public abstract class LambdaJMatcher<T> extends BaseMatcher<T> {
 	public LambdaJMatcher<T> or(Matcher<T> matcher) {
 		return OrMatcher.or(this, matcher);
 	}
+
+    public void describeTo(Description description) { }
 }
