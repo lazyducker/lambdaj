@@ -13,6 +13,7 @@ public class ArgumentsFactoryTest {
 	@Test
 	public void testGroupByInsuredName() {
 		assertThat(createArgumentPlaceholder(String.class), instanceOf(String.class));
+        assertThat(createArgumentPlaceholder(StringBuilder.class), instanceOf(StringBuilder.class));
 		assertThat(createArgumentPlaceholder(Integer.class), instanceOf(Integer.class));
 		assertThat(createArgumentPlaceholder(Long.class), instanceOf(Long.class));
 		assertThat(createArgumentPlaceholder(Float.class), instanceOf(Float.class));
@@ -20,6 +21,7 @@ public class ArgumentsFactoryTest {
 		assertThat(createArgumentPlaceholder(Short.class), instanceOf(Short.class));
 		assertThat(createArgumentPlaceholder(Byte.class), instanceOf(Byte.class));
 		assertThat(createArgumentPlaceholder(Boolean.class), instanceOf(Boolean.class));
+        assertThat(createArgumentPlaceholder(Character.class), instanceOf(Character.class));
 		assertThat(createArgumentPlaceholder(Date.class), instanceOf(Date.class));
 	}
 }

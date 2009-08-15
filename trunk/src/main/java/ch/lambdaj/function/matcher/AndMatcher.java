@@ -23,8 +23,6 @@ public class AndMatcher<T> extends LambdaJMatcher<T> {
 		return true;
 	}
 
-	public void describeTo(Description description) { }
-
     @Factory
     public static <T> AndMatcher<T> and(Matcher<T>... matchers) {
     	return new AndMatcher<T>(matchers);

@@ -14,6 +14,7 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 import ch.lambdaj.function.closure.*;
+import ch.lambdaj.function.convert.*;
 import ch.lambdaj.mock.*;
 
 /**
@@ -134,8 +135,12 @@ public class ClosureTest {
         assertEquals((5 - 2) * (9 - 3), result);
         result = (Integer)closure4.curry3(7).apply(5, 2, 1);
         assertEquals((5 - 2) * (7 - 1), result);
+        result = (Integer)closure4.curry4(1).apply(5, 2, 6);
+        assertEquals((5 - 2) * (6 - 1), result);
 
-        Closure3<Integer, Integer, Integer> closure3 = closure4.curry4(0);
+        Closure3<Integer, Integer, Integer> closure3 = closure(Integer.class, Integer.class, Integer.class); {
+            of(this).doNonCommutativeOpOnInt(var(Integer.class), var(Integer.class), var(Integer.class), 0);
+        }
         assertEquals(3, closure3.getFreeVarsNumber());
 		result = (Integer)closure3.apply(5, 2, 4);
 		assertEquals((5 - 2) * 4, result);
@@ -153,6 +158,9 @@ public class ClosureTest {
 		result = (Integer)closure1.apply(4);
         assertEquals(1, closure1.getFreeVarsNumber());
 		assertEquals((4 - 2) * 5, result);
+
+        Converter<Integer, Integer> converter = closure1.cast(Converter.class);
+        assertEquals((4 - 2) * 5, converter.convert(4).intValue());
 
         Iterator<?> results = closure1.each(4, 5, 6).iterator();
         assertEquals((4 - 2) * 5, results.next());
@@ -176,24 +184,24 @@ public class ClosureTest {
 	}
 
 	@Test
-	public void testAs() {
+	public void testCast() {
 		Closure4<Integer, Integer, Integer, Integer> closure4 = closure(Integer.class, Integer.class, Integer.class, Integer.class); {
 			of(this).doNonCommutativeOpOnInt(var(Integer.class), var(Integer.class), var(Integer.class), var(Integer.class));
 		}
-		NonCommutativeDoer doer = closure4.as(NonCommutativeDoer.class);
+		NonCommutativeDoer doer = closure4.cast(NonCommutativeDoer.class);
 		int result = doer.nonCommutativeDoOnInt(5, 2, 4, 3);
 		assertEquals((5 - 2) * (4 - 3), result);
 	}
 
 	@Test
-	public void testWrongAs() {
+	public void testWrongCast() {
 		Closure closure = closure(); { of(this).doNonCommutativeOpOnInt(var(Integer.class), var(Integer.class), var(Integer.class), 10); }
 		try {
-			closure.as(String.class);
+			closure.cast(String.class);
 			fail("Closure cast on concrete class must fail");
 		} catch (IllegalArgumentException iae) { }
 		try {
-			closure.as(Iterator.class);
+			closure.cast(Iterator.class);
 			fail("Closure cast on interface having more than one method  must fail");
 		} catch (IllegalArgumentException iae) { }
 	}

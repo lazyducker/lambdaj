@@ -152,7 +152,7 @@ public final class ArgumentsFactory {
 	}
 	
     private static Object createArgumentPlaceholder(Class<?> clazz, Integer placeholderId) {
-		if (clazz.isPrimitive() || Number.class.isAssignableFrom(clazz)) 
+		if (clazz.isPrimitive() || Number.class.isAssignableFrom(clazz) || Character.class == clazz) 
 			return getPrimitivePlaceHolder(clazz, placeholderId);
 		
 		if (clazz == String.class) return String.valueOf(placeholderId);

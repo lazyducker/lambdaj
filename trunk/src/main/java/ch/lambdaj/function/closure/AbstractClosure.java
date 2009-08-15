@@ -42,7 +42,7 @@ abstract class AbstractClosure {
      * @throws IllegalArgumentException if the given Class is not actually an interface or if it has more than one method
      */
 	@SuppressWarnings("unchecked")
-	public <T> T as(Class<T> asInterface) throws IllegalArgumentException {
+	public <T> T cast(Class<T> asInterface) throws IllegalArgumentException {
 		if (!asInterface.isInterface()) throw new IllegalArgumentException("Cannot cast a closure to the concrete class " + asInterface.getName());
 		Method[] methods = asInterface.getMethods();
 		if (methods.length != 1) throw new IllegalArgumentException("Cannot cast a closure to an interface with more than one method");

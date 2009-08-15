@@ -247,7 +247,10 @@ public class LambdaTest {
 	@Test
 	public void testArgumentIdentity() {
 		assertTrue(on(Person.class).getAge() == on(Person.class).getAge());
-		assertTrue(on(Person.class).isYoungerThan(30) == on(Person.class).isYoungerThan(30));
+        boolean isYoungerThan = on(Person.class).isYoungerThan(30);
+        assertEquals("[public boolean ch.lambdaj.mock.Person.isYoungerThan(int) with args 30]", argument(isYoungerThan).toString());
+
+		assertTrue(on(Person.class).isYoungerThan(30) == isYoungerThan);
 		assertFalse(on(Person.class).isYoungerThan(25) == on(Person.class).isYoungerThan(30));
 		assertTrue(on(Person.class).getGender() == on(Person.class).getGender());
 	}

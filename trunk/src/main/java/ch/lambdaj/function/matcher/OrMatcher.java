@@ -23,8 +23,6 @@ public class OrMatcher<T> extends LambdaJMatcher<T> {
 		return false;
 	}
 
-	public void describeTo(Description description) { }
-
     @Factory
     public static <T> OrMatcher<T> or(Matcher<T>... matchers) {
     	return new OrMatcher<T>(matchers);
