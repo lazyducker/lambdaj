@@ -35,7 +35,7 @@ public int sum(int a, int b) {
 it is possible to instance a closure that invokes this method as it follows:
 
 {{{
-Closure2<Integer, Integer> adder = closure(Integer.class, Integer.class) { of(this).sum(var(Integer.class), var(Integer.class)); }
+Closure2<Integer, Integer> adder = closure(Integer.class, Integer.class); { of(this).sum(var(Integer.class), var(Integer.class)); }
 }}}
    
 While you were allowed to call the first closure with any type and number of variables (it will eventually throw an Exception if invoked in a wrong way), you can invoke this second one only by passing 2 ints to it as expected:
@@ -61,7 +61,7 @@ int result = (Integer)adderOf10.apply(3);
 you will obtain 13 as expected. In the end, note that you could achieve exactly the same result by directly creating a closure with only one free parameter and the second one already fixed to 10 as in this last statement:
 
 {{{
-Closure1<Integer> adderOf10 = closure(Integer.class, Integer.class) { of(this).sum(var(Integer.class), 10); }
+Closure1<Integer> adderOf10 = closure(Integer.class, Integer.class); { of(this).sum(var(Integer.class), 10); }
 }}}
 
 == Casting a closure to a one-method interface ==
@@ -69,7 +69,7 @@ Closure1<Integer> adderOf10 = closure(Integer.class, Integer.class) { of(this).s
 Sometimes, especially when you have to use some existing API, you could still need to have a closure declared in the standard Java fashion: an interface that declares just a single method. In this case it is possible to cast a closure in that interface, leaving to lambdaj the burden to check if they are compatible. For example, if you need a lambdaj Converter that changes an Integer in another Integer 10 units bigger than the first one, you can cast the former closure as it follows:
 
 {{{
-Converter<Integer, Integer> converterAdding10 = adderOf10.cast(Converter.class)
+Converter<Integer, Integer> converterAdding10 = adderOf10.cast(Converter.class);
 }}}
 
 == Why are closures useful? ==
