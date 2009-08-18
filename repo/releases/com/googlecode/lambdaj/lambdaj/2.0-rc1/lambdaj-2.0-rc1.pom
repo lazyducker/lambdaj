@@ -97,19 +97,12 @@
             <descriptorRef>jar-with-dependencies</descriptorRef>
           </descriptorRefs>
           <appendAssemblyId>false</appendAssemblyId>
-          <!--attach>false</attach-->
           <finalName>${name}-${version}-with-dependencies</finalName>
         </configuration>
         <executions>
           <execution>
             <id>make-assembly</id>
-            <!-- this is used for inheritance merges -->
             <phase>verify</phase>
-            <!-- append to the packaging phase. -->
-            <goals>
-              <goal>attached</goal>
-              <!-- goals == mojos -->
-            </goals>
           </execution>
         </executions>
       </plugin>
