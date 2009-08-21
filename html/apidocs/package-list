@@ -1,6 +1,7 @@
 ch.lambdaj
 ch.lambdaj.function.aggregate
 ch.lambdaj.function.argument
+ch.lambdaj.function.closure
 ch.lambdaj.function.compare
 ch.lambdaj.function.convert
 ch.lambdaj.function.matcher
