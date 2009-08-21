@@ -1,4 +1,5 @@
 #summary How lambdaj 2.0 brings (almost) real closures to Java
+#labels Featured
 
 = lambdaj's closure =
 
