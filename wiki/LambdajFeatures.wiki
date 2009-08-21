@@ -79,15 +79,22 @@ where an Aggregator is an implementation of the lambdaj's interface
 
 {{{
 public interface Aggregator<T> {
-	public T emptyItem();
-	public T aggregate(T first, T second);
+	T aggregate(java.lang.Iterable<? extends T> iterable);
 }
 }}}
 
-that defines which is the idempotent item of a given aggregation operation and how to aggregate 2 items. Given this definition the aggregate operation that sums Integer can be defined as:
+that defines how to aggregate a collection of object in a single object of the same type. Could be also convenient to implement an Aggregator by extending the abstract implementation PairAggregator
 
 {{{
-public class Sum implements Aggregator<Integer> {
+public class PairAggregator<T> {
+	protected abstract T emptyItem();
+	protected abstract T aggregate(T first, T second);
+}}}
+
+that defines an aggregation operation through its idempotent item and how to 2 items must be aggregated. Given this definition the aggregate operation that sums Integer can be defined as:
+
+{{{
+public class Sum extends PairAggregator<Integer> {
 	public Integer emptyItem() {
 		return 0;
 	}
