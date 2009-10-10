@@ -59,7 +59,7 @@ public class GroupImpl<T> extends ArrayList<GroupItem<T>> implements Group<T> {
 	
 	@SuppressWarnings("unchecked")
 	public List<Group<T>> subgroups() {
-		return (List<Group<T>>)collect(forEach(this).asGroup());
+		return (List<Group<T>>)collect(forEach(this, GroupItem.class).asGroup());
 	}
 	
 	public List<T> find(String key) {

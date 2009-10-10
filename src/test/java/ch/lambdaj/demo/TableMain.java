@@ -10,28 +10,6 @@ import java.awt.*;
 
 public class TableMain {
 
-    private static final int BEAN_NUMBER = 10;
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        JPanel panel = new JPanel(new GridLayout(1,0));
-        panel.setOpaque(true);
-        frame.setContentPane(panel);
-
-        List<Bean> model = new ArrayList<Bean>();
-        for (int i = 0; i < BEAN_NUMBER; i++) model.add(new Bean(true));
-
-        JTable table = new JTable(new LambdajTableModel(model));
-        table.setPreferredScrollableViewportSize(new Dimension(400, 200));
-        table.setFillsViewportHeight(true);
-        panel.add(new JScrollPane(table));
-
-        frame.pack();
-        frame.setVisible(true);
-    }
-
     private static class LambdajTableModel extends AbstractTableModel {
 
         private List<Bean> model;
@@ -119,5 +97,48 @@ public class TableMain {
         private int c;
         public int getC() { return c; }
         public void setC(int c) { this.c = c; }
+    }
+
+    private static class LambdajCellRenderer extends DefaultTableCellRenderer {
+
+        Font font = new Font("Helvetica Bold", Font.BOLD, 32);
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            JLabel label = (JLabel)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            if (value != null) {
+                if (column > 0) label.setHorizontalAlignment(SwingConstants.RIGHT);
+                label.setFont(font);
+            }
+            return label;
+        }
+    }
+
+    private static final int BEAN_NUMBER = 10;
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setBounds(100, 100, 600, 440);
+
+        JPanel panel = new JPanel(new GridLayout(1,0));
+        panel.setOpaque(true);
+        frame.setContentPane(panel);
+
+        List<Bean> model = new ArrayList<Bean>();
+        for (int i = 0; i < BEAN_NUMBER; i++) model.add(new Bean(true));
+
+        JTable table = new JTable(new LambdajTableModel(model));
+        table.setPreferredScrollableViewportSize(new Dimension(600, 440));
+        table.setFillsViewportHeight(true);
+        panel.add(new JScrollPane(table));
+
+        table.setRowHeight(40);
+        TableColumnModel tcm = table.getColumnModel();
+        for (int i = 0; i < table.getModel().getColumnCount(); i++)
+            tcm.getColumn(i).setCellRenderer(new LambdajCellRenderer());
+
+        frame.pack();
+        frame.setVisible(true);
     }
 }

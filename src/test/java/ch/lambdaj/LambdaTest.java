@@ -13,8 +13,10 @@ import java.lang.reflect.*;
 import java.util.*;
 
 import org.hamcrest.*;
+import org.hamcrest.Matchers;
 import org.junit.*;
 import static org.junit.Assert.*;
+import org.mockito.*;
 
 import ch.lambdaj.function.argument.*;
 import ch.lambdaj.function.convert.*;
@@ -568,6 +570,25 @@ public class LambdaTest {
 		assertThat(countries, hasItem("france"));
 		assertThat(countries, hasItem("brazil"));
 	}
+
+    @Test
+    public void testNullSafeExtract() {
+        Person p1 = new Person("Mario", "Fusco", 35);
+        Person p2 = new Person("Luca", null, 29);
+        Person p3 = new Person("Biagio", "Beatrice", 39);
+        Person p4 = null;
+
+        p1.setBestFriend(p2);
+        p3.setBestFriend(p1);
+
+        List<Person> persons = asList(p1, p2, p3, p4);
+        List<String> lastNames = extract(persons, on(Person.class).getBestFriend().getLastName());
+
+        assertNull(lastNames.get(0));
+        assertNull(lastNames.get(1));
+        assertEquals("Fusco", lastNames.get(2));
+        assertNull(lastNames.get(3));
+    }
 
 	@Test
 	public void testExtractString() {
