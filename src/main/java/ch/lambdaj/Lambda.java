@@ -7,6 +7,7 @@ package ch.lambdaj;
 import static ch.lambdaj.function.argument.ArgumentsFactory.*;
 import static ch.lambdaj.function.closure.ClosuresFactory.*;
 import static ch.lambdaj.function.matcher.HasArgumentWithValue.*;
+import static ch.lambdaj.util.IntrospectionUtil.*;
 
 import java.util.*;
 
@@ -106,13 +107,13 @@ public final class Lambda {
 	 * @throws IllegalArgumentException if the iterable is not an Iterable or a Map
 	 */
 	public static <T> List<? extends T> collect(Object iterable) {
-		if (!(iterable instanceof Iterable) && !(iterable instanceof Map)) 
-			throw new IllegalArgumentException(iterable + " is not an iterable");
 		List<T> collected = new ArrayList<T>();
-		for (Object item : (Iterable<?>) iterable) {
+        Iterator i = asIterator(iterable);
+		while (i.hasNext()) {
+            Object item = i.next();
 			if (item instanceof Iterable) collected.addAll((Collection<T>) collect(item));
 			else if (item instanceof Map) collected.addAll((Collection<T>) collect(((Map<?,?>)item).values()));
-			else collected.add((T) item);
+			else collected.add((T)item);
 		}
 		return collected;
 	}
@@ -164,7 +165,7 @@ public final class Lambda {
 	 */
 	public static <T, A> List<T> sort(Object iterable, A argument, Comparator<A> comparator) {
 		List<T> sorted = new ArrayList<T>();
-		for (T item : (Iterable<T>)iterable) sorted.add(item);
+        for (Iterator<?> i = asIterator(iterable); i.hasNext(); sorted.add((T)i.next()));
 		Collections.sort(sorted, new ArgumentComparator<T, A>(argument, comparator));
 		return sorted;
 	}
@@ -228,8 +229,7 @@ public final class Lambda {
 	 */
 	public static <T> T selectUnique(Iterable<T> iterable, Matcher<?> matcher) {
 		T unique = null;
-		if (iterable == null) return unique;
-		Iterator<T> iterator = iterable.iterator();
+		Iterator<T> iterator = (Iterator<T>)asIterator(iterable);
 		while (iterator.hasNext() && unique == null) {
 			T item = iterator.next();
 			if (matcher.matches(item)) unique = item;
@@ -343,22 +343,16 @@ public final class Lambda {
 	// /// Aggregation
 	// ////////////////////////////////////////////////////////////////////////
 
-	private static final Sum Sum = new Sum();
-	private static final SumInteger SumInteger = new SumInteger();
-	private static final SumLong SumLong = new SumLong();
-	private static final SumDouble SumDouble = new SumDouble();
-	
 	private static Aggregator<? extends Number> getSumAggregator(Object object) {
-		if (object instanceof Integer) return SumInteger;
-		if (object instanceof Double) return SumDouble;
-		if (object instanceof Long) return SumLong;
-		return Sum;
+		if (object instanceof Integer) return new SumInteger((Integer)object);
+		if (object instanceof Double) return new SumDouble((Double)object);
+		if (object instanceof Long) return new SumLong((Long)object);
+		return new Sum((Number)object);
 	}
 
+    private static final Sum Sum = new Sum();
 	private static final Min Min = new Min();
-
 	private static final Max Max = new Max();
-
 	private static final Concat Concat = new Concat();
 
 	/**
@@ -370,7 +364,7 @@ public final class Lambda {
 	 * @throws RuntimeException if the iterable is not an Iterable
 	 */
 	public static <T> T aggregate(Object iterable, Aggregator<T> aggregator) {
-		return aggregator.aggregate((Iterable<T>)iterable);
+		return aggregator.aggregate((Iterator<T>)asIterator(iterable));
 	}
 
 	/**
@@ -384,8 +378,7 @@ public final class Lambda {
 	 * @throws RuntimeException if the iterable is not an Iterable
 	 */
 	public static <T, A> T aggregate(Object iterable, Aggregator<T> aggregator, A argument) {
-		if (!(iterable instanceof Iterable)) throw new RuntimeException(iterable + " is not an iterable");
-		return aggregate(convert(iterable, new ArgumentConverter<T, A>(argument)), aggregator);
+		return aggregate(convertIterator(iterable, new ArgumentConverter<T, A>(argument)), aggregator);
 	}
 	
 	/**
@@ -401,9 +394,7 @@ public final class Lambda {
 	 * @throws IllegalArgumentException if the iterable is null or empty
 	 */
 	public static <T, A> T aggregateFrom(Iterable<T> iterable, Aggregator<A> aggregator) {
-		if (iterable == null) 
-			throw new IllegalArgumentException("The iterable cannot be null");
-		Iterator<T> iterator = iterable.iterator();
+		Iterator<T> iterator = (Iterator<T>)asIterator(iterable);
 		if (!iterator.hasNext()) 
 			throw new IllegalArgumentException("aggregateFrom() is unable to introspect on an empty iterator. Use the overloaded method accepting a class instead");
 		return aggregateFrom(iterable, iterator.next().getClass(), aggregator);
@@ -437,9 +428,8 @@ public final class Lambda {
 	 */
 	public static Number sum(Object iterable) {
 		if (iterable instanceof Number) return (Number)iterable;
-		if (!(iterable instanceof Iterable)) return 0.0;
-		Iterator<?> iterator = ((Iterable<?>)iterable).iterator();
-		return iterator.hasNext() ? aggregate(iterable, getSumAggregator(iterator.next())) : 0.0;
+		Iterator<?> iterator = asIterator(iterable);
+		return iterator.hasNext() ? aggregate(iterator, getSumAggregator(iterator.next())) : 0.0;
 	}
 
 	/**
@@ -451,7 +441,7 @@ public final class Lambda {
 	 * @throws IllegalArgumentException if the iterable is not an Iterable
 	 */
 	public static <T> T sum(Object iterable, T argument) {
-		return (T)aggregate(iterable, getSumAggregator(argument), argument);
+        return (T)sum(convertIterator(iterable, new ArgumentConverter<Object, T>(argument)));
 	}
 	
 	/**
@@ -507,7 +497,7 @@ public final class Lambda {
 	 * @throws IllegalArgumentException if the iterable is not an Iterable
 	 */
 	public static <T> T min(Object iterable) {
-		return (T) aggregate((Iterable<T>) iterable, Min);
+		return (T) aggregate(iterable, Min);
 	}
 
 	/**
@@ -577,7 +567,7 @@ public final class Lambda {
 	 * @throws IllegalArgumentException if the iterable is not an Iterable
 	 */
 	public static <T> T max(Object iterable) {
-		return (T) aggregate((Iterable<T>) iterable, Max);
+		return (T) aggregate(iterable, Max);
 	}
 
 	/**
@@ -767,10 +757,20 @@ public final class Lambda {
 	 */
 	public static <F, T> List<T> convert(Object iterable, Converter<F, T> converter) {
 		List<T> collected = new ArrayList<T>();
-		if (iterable != null) for (F item : (Iterable<F>) iterable)
-			collected.add(converter.convert(item));
+		for (Iterator<T> i = convertIterator(iterable, converter); i.hasNext(); collected.add(i.next()));
 		return collected;
 	}
+
+    /**
+     * Converts all the object in the iterable using the given {@link Converter}.
+     * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
+     * @param iterable The iterable containing the objects to be converted
+     * @param converter The converter that specifies how each object in the iterable must be converted
+     * @return An Iterator on all the objects in the given iterable converted using the given {@link Converter}
+     */
+    public static <F, T> Iterator<T> convertIterator(Object iterable, Converter<F, T> converter) {
+        return new ConverterIterator(converter, asIterator(iterable));
+    }
 
 	/**
 	 * Converts all the object in the iterable extracting the property defined by the given argument.
@@ -959,7 +959,7 @@ public final class Lambda {
      * @param type1 The type of the first free variable of the newly created closure
      * @param type2 The type of the second free variable of the newly created closure
      * @param type3 The type of the third free variable of the newly created closure
-     * @param type3 The type of the fourth free variable of the newly created closure
+     * @param type4 The type of the fourth free variable of the newly created closure
      * @return The newly created closure
      */
 	public static <A, B, C, D> Closure4<A, B, C, D> closure(Class<A> type1, Class<B> type2, Class<C> type3, Class<D> type4) {

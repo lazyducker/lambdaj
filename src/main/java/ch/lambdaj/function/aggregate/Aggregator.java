@@ -4,6 +4,8 @@
 
 package ch.lambdaj.function.aggregate;
 
+import java.util.*;
+
 /**
  * Defines an aggregation operation, i.e. how to aggregate the items of a collection.
  * @author Mario Fusco
@@ -12,8 +14,8 @@ public interface Aggregator<T> {
 
     /**
      * Defines how this operation aggregates a list of objects
-     * @param iterable The objects to be aggregated
+     * @param iterator The objects to be aggregated
      * @return The aggregation of the objects
      */
-    T aggregate(Iterable<? extends T> iterable);
+    T aggregate(Iterator<? extends T> iterator);
 }

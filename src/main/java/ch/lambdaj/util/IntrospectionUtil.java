@@ -5,6 +5,7 @@
 package ch.lambdaj.util;
 
 import java.lang.reflect.*;
+import java.util.*;
 
 /**
  * This class consists exclusively of static methods that offer some introspection facilities.
@@ -13,6 +14,37 @@ import java.lang.reflect.*;
 public final class IntrospectionUtil {
 
 	private IntrospectionUtil() {}
+
+    public static Iterator<?> asIterator(Object object) {
+        if (object == null) return new ArrayList().iterator();
+        if (object instanceof Iterable) return ((Iterable<?>)object).iterator();
+        if (object instanceof Iterator) return (Iterator<?>)object;
+        if (object.getClass().isArray()) return new ArrayIterator<Object>((Object[])object);
+        if (object instanceof Map) return ((Map<?,?>)object).values().iterator();
+        throw new IllegalArgumentException("Cannot convert " + object + " to an iterator");
+    }
+
+    public static class ArrayIterator<T> implements Iterator<T> {
+
+        private T[] array;
+        private int counter = 0;
+
+        public ArrayIterator(T[] array) {
+            this.array = array;
+        }
+
+        public boolean hasNext() {
+            return counter < array.length;
+        }
+
+        public T next() {
+            return array[counter++];
+        }
+
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
+    }
 
 	public static String getPropertyName(Method invokedMethod) {
 		String methodName = invokedMethod.getName();
