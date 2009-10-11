@@ -33,13 +33,12 @@ public class Concat implements Aggregator<Object> {
      * Aggregates two object by concatenating their String representation separating them with the choosen separator.
      * It has been implemented a custom implementation for this method instead of using the one provided
      * by the PairAggregator for performance reason, in order to levarege the StringBuilder features.
-     * @param iterable The objects of which the String representation should be concatenated
+     * @param iterator The objects of which the String representation should be concatenated
      * @return A String resulting of the objects Stringification separated by the given argument
      */
-    public Object aggregate(Iterable<?> iterable) {
-        if (iterable == null) return "";
+    public Object aggregate(Iterator<?> iterator) {
+        if (iterator == null) return "";
         StringBuilder sb = new StringBuilder();
-        Iterator<?> iterator = iterable.iterator();
         while (iterator.hasNext()) {
             Object item = iterator.next();
             if (item == null) continue;

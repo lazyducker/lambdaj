@@ -4,6 +4,8 @@
 
 package ch.lambdaj.function.aggregate;
 
+import java.util.*;
+
 /**
  * An aggregator that uses the definition of how to aggregate a pair of items
  * and of the empty (idempotent respect to this aggregation) item.
@@ -14,12 +16,12 @@ public abstract class PairAggregator<T> implements Aggregator<T> {
     /**
      * Aggregates the objects in the given iterable by aggregating the i-th item with the aggreagation of all the
      * former i-1 items. The first item is aggregated with what as been defined as the empty (idempotent) item.
-     * @param iterable The objects to be aggregated
+     * @param iterator The objects to be aggregated
      * @return The aggregation of the objects
      */
-    public T aggregate(Iterable<? extends T> iterable) {
+    public T aggregate(Iterator<? extends T> iterator) {
         T result = emptyItem();
-        if (iterable != null) for (T item : iterable) result = aggregate(result, item);
+        if (iterator != null) while (iterator.hasNext()) result = aggregate(result, iterator.next());
         return result;
     }
 

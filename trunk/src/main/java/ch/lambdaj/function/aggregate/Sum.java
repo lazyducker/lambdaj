@@ -8,7 +8,15 @@ package ch.lambdaj.function.aggregate;
  * An aggregator that sums numbers
  * @author Mario Fusco
  */
-public class Sum extends PairAggregator<Number> {
+public class Sum extends InitializedPairAggregator<Number> {
+
+    public Sum() {
+        super(0);    
+    }
+
+    public Sum(Number firstItem) {
+        super(firstItem);
+    }
 
     /**
      * Aggregates two Number by summing them
@@ -41,9 +49,5 @@ public class Sum extends PairAggregator<Number> {
 
 	private Double aggregate(Number first, Double second) {
 		return (first == null ? emptyItem().doubleValue() : first.doubleValue()) + second;
-	}
-
-	public Number emptyItem() {
-		return 0.0;
 	}
 }

@@ -35,7 +35,7 @@ public class Assert {
 
 	public static final void assertThatConcat(String op1, String op2, Matcher<String> matcher) {
 		Concat concatenator = new Concat();
-        String result = (String) concatenator.aggregate(asList(op1, op2));
+        String result = (String) concatenator.aggregate(asList(op1, op2).iterator());
 		assertThat(result, matcher);
 	}
 }

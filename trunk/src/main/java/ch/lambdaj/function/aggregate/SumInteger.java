@@ -8,7 +8,11 @@ package ch.lambdaj.function.aggregate;
  * An aggregator that sums ints
  * @author Mario Fusco
  */
-public class SumInteger extends PairAggregator<Integer> {
+public class SumInteger extends InitializedPairAggregator<Integer> {
+
+    public SumInteger(Integer firstItem) {
+        super(firstItem);
+    }
 
     /**
      * Aggregates two ints by summing them
@@ -18,9 +22,5 @@ public class SumInteger extends PairAggregator<Integer> {
      */
 	public Integer aggregate(Integer first, Integer second) {
 		return first + second;
-	}
-
-	public Integer emptyItem() {
-		return 0;
 	}
 }

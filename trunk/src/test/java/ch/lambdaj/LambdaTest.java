@@ -13,10 +13,8 @@ import java.lang.reflect.*;
 import java.util.*;
 
 import org.hamcrest.*;
-import org.hamcrest.Matchers;
 import org.junit.*;
 import static org.junit.Assert.*;
-import org.mockito.*;
 
 import ch.lambdaj.function.argument.*;
 import ch.lambdaj.function.convert.*;
@@ -192,6 +190,17 @@ public class LambdaTest {
 		assertSame(biagio, alphabeticalFirst);
 	}
 	
+    @Test
+    public void testFindOldestOnArray() {
+        Person[] meAndMyFriends = new Person[] { me, luca, biagio, celestino };
+
+        Person oldest = selectMax(meAndMyFriends, on(Person.class).getAge());
+        assertSame(biagio, oldest);
+
+        Person alphabeticalFirst = selectMin(meAndMyFriends, on(Person.class).getFirstName());
+        assertSame(biagio, alphabeticalFirst);
+    }
+
 	@Test
 	public void testSortOnNameLenght() {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
@@ -384,10 +393,26 @@ public class LambdaTest {
 	
 	@Test
 	public void testPlainSumMinMaxFrom() {
-		List<Integer> ints = asList(1, 2, 3, 4, 5);
-		assertThat(15, is(equalTo(sum(ints))));
-		assertThat(1, is(equalTo(min(ints))));
-		assertThat(5, is(equalTo(max(ints))));
+        Integer[] integerArray = new Integer[] { 1, 2, 3, 4, 5 };
+        assertThat(15, is(equalTo(sum(integerArray))));
+        assertThat(1, is(equalTo(min(integerArray))));
+        assertThat(5, is(equalTo(max(integerArray))));
+
+		List<Integer> integerList = asList(integerArray);
+		assertThat(15, is(equalTo(sum(integerList))));
+		assertThat(1, is(equalTo(min(integerList))));
+		assertThat(5, is(equalTo(max(integerList))));
+
+        assertThat(15, is(equalTo(sum(integerList.iterator()))));
+        assertThat(1, is(equalTo(min(integerList.iterator()))));
+        assertThat(5, is(equalTo(max(integerList.iterator()))));
+
+        Long[] longArray = new Long[] { 1L, 2L, 3L, 4L, 5L };
+        assertThat(15L, is(equalTo(sum(longArray))));
+        Double[] doubleArray = new Double[] { 1.0, 2.0, 3.0, 4.0, 5.0 };
+        assertThat(15.0, is(equalTo(sum(doubleArray))));
+        Float[] floatArray = new Float[] { 1f, 2f, 3f, 4f, 5f };
+        assertThat(15f, is(equalTo(sum(floatArray))));
 	}
 	
 	@Test

@@ -8,7 +8,11 @@ package ch.lambdaj.function.aggregate;
  * An aggregator that sums longs
  * @author Mario Fusco
  */
-public class SumLong extends PairAggregator<Long> {
+public class SumLong extends InitializedPairAggregator<Long> {
+
+    public SumLong(Long firstItem) {
+        super(firstItem);
+    }
 
     /**
      * Aggregates two longs by summing them
@@ -18,9 +22,5 @@ public class SumLong extends PairAggregator<Long> {
      */
 	public Long aggregate(Long first, Long second) {
 		return first + second;
-	}
-
-	public Long emptyItem() {
-		return 0L;
 	}
 }

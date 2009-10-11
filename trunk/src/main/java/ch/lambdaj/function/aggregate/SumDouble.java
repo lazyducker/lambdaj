@@ -8,7 +8,11 @@ package ch.lambdaj.function.aggregate;
  * An aggregator that sums doubles
  * @author Mario Fusco
  */
-public class SumDouble extends PairAggregator<Double> {
+public class SumDouble extends InitializedPairAggregator<Double> {
+
+    public SumDouble(Double firstItem) {
+        super(firstItem);
+    }
 
     /**
      * Aggregates two doubles by summing them
@@ -18,9 +22,5 @@ public class SumDouble extends PairAggregator<Double> {
      */
 	public Double aggregate(Double first, Double second) {
 		return first + second;
-	}
-
-	public Double emptyItem() {
-		return 0.0;
 	}
 }
