@@ -4,7 +4,6 @@
 
 package ch.lambdaj;
 
-import static ch.lambdaj.Lambda.*;
 import static ch.lambdaj.function.matcher.HasNestedPropertyWithValue.*;
 import static java.util.Arrays.*;
 import static org.hamcrest.Matchers.*;
@@ -21,6 +20,7 @@ import ch.lambdaj.function.convert.*;
 import ch.lambdaj.mock.*;
 import ch.lambdaj.mock.IPerson.*;
 import ch.lambdaj.proxy.*;
+import static ch.lambdaj.Lambda.*;
 
 /**
  * @author Mario Fusco
@@ -55,7 +55,20 @@ public class LambdaTest {
 		forEach(personInFamily).setLastName("Fusco");
 		for (Person person : personInFamily) assertEquals("Fusco", person.getLastName());
 	}
-	
+
+    @Test
+    public void testForEachOnArray() {
+        Person dad = new Person("Domenico");
+        Person me = new Person("Mario");
+        Person sis = new Person("Irma");
+
+        forEach(dad, me, sis).setLastName("Fusco");
+
+        assertEquals("Fusco", dad.getLastName());
+        assertEquals("Fusco", me.getLastName());
+        assertEquals("Fusco", sis.getLastName());
+    }
+
 	@Test
 	public void testFailingForEach() {
 		List<Person> personInFamily = asList(new Person("Domenico"), new Person("Mario"), new Person("Irma"));
@@ -64,7 +77,7 @@ public class LambdaTest {
 			fail("Invocation on wrong method must fail");
 		} catch (Exception ie) { }
 	}
-	
+
 	@Test
 	public void testForEachForProxy() {
 		IPerson dad = (IPerson)Proxy.newProxyInstance(Person.class.getClassLoader(), new Class<?>[]{ IPerson.class }, new PersonProxy("Domenico"));
@@ -121,7 +134,7 @@ public class LambdaTest {
 	@Test
 	public void testIllegalForEach() {
 		try {
-			forEach(null);
+			forEach((List)null);
 			fail("forEach on null should throw an exception");
 		} catch (IllegalArgumentException e) { }
 		
@@ -225,6 +238,18 @@ public class LambdaTest {
 		assertSame(celestino, friendsIterator.next());
 	}
 	
+    @Test
+    public void testSelectOnForEach() {
+        me.setBestFriend(biagio);
+        biagio.setBestFriend(celestino);
+        celestino.setBestFriend(luca);
+        luca.setBestFriend(me);
+
+        List<Person> friends29aged = select(forEach(me, luca, biagio, celestino).getBestFriend(), having(on(Person.class).getAge(), is(equalTo(29))));
+        assertSame(celestino, friends29aged.get(0));
+        assertSame(luca, friends29aged.get(1));
+    }
+
 	@Test
 	public void testSelectWithHavingInOr() {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
@@ -477,17 +502,25 @@ public class LambdaTest {
 	
 	@Test
 	public void testSelectUnique() {
-		Object meAndMyFriends = asList(me, luca, biagio, celestino);
-		Person person34Aged = selectUnique(meAndMyFriends, having(on(Person.class).getAge(), equalTo(34)));
+        Person[] personArray = new Person[] { me, luca, biagio, celestino };
+        Person person34Aged = selectUnique(personArray, having(on(Person.class).getAge(), equalTo(34)));
+        assertNull(person34Aged);
+        Person person35Aged = selectUnique(personArray, having(on(Person.class).getAge(), equalTo(35)));
+        assertSame(me, person35Aged);
+
+		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+		person34Aged = selectUnique(meAndMyFriends, having(on(Person.class).getAge(), equalTo(34)));
 		assertNull(person34Aged);
-		
-		Person person35Aged = selectUnique(meAndMyFriends, having(on(Person.class).getAge(), equalTo(35)));
+		person35Aged = selectUnique(meAndMyFriends, having(on(Person.class).getAge(), equalTo(35)));
 		assertSame(me, person35Aged);
 		
 		try {
 			selectUnique(meAndMyFriends, having(on(Person.class).getAge(), equalTo(29)));
 			fail("Should throw a RuntimeException since there are two 29 years old persons");
 		} catch (Exception e) { }
+
+        person35Aged = selectUnique(meAndMyFriends.iterator(), having(on(Person.class).getAge(), equalTo(35)));
+        assertSame(me, person35Aged);
 	}
 
 	@Test
@@ -568,6 +601,7 @@ public class LambdaTest {
 	@Test
 	public void testJoinStrings() {
 		assertThat(join(forEach(asList("many", "strings"))), is(equalTo("many, strings")));
+        assertThat(join(forEach("many", "strings")), is(equalTo("many, strings")));
 		assertThat(join(asList("many", "strings")), is(equalTo("many, strings")));
 		assertThat(join(new ArrayList<String>()), is(equalTo("")));
 		assertThat(join(null), is(equalTo("")));

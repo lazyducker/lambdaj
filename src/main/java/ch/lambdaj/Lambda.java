@@ -8,6 +8,7 @@ import static ch.lambdaj.function.argument.ArgumentsFactory.*;
 import static ch.lambdaj.function.closure.ClosuresFactory.*;
 import static ch.lambdaj.function.matcher.HasArgumentWithValue.*;
 import static ch.lambdaj.util.IntrospectionUtil.*;
+import ch.lambdaj.util.*;
 
 import java.util.*;
 
@@ -65,13 +66,24 @@ public final class Lambda {
 	 * @throws IllegalArgumentException if the iterable is null or empty
 	 */
 	public static <T> T forEach(Iterable<? extends T> iterable) {
-		if (iterable == null) 
-			throw new IllegalArgumentException("The iterable cannot be null");
-		Iterator<? extends T> iterator = iterable.iterator();
-		if (!iterator.hasNext()) 
-			throw new IllegalArgumentException("forEach() is unable to introspect on an empty iterator. Use the overloaded method accepting a class instead");
-		return forEach(iterable, (Class<T>)iterator.next().getClass());
+		return forEach((Iterator<T>)asIterator(iterable));
 	}
+
+    /**
+     * Transforms a collection of Ts in a single object having the same methods of a single instance of T.
+     * That allows to invoke a method on each T in the collection with a single strong typed method call.
+     * The actual class of T is inferred from the class of the first iterable's item, but you can
+     * specify a particular class by using the overloaded method.
+     * @param <T> The type of the items in the iterable
+     * @param iterator The iterator to be transformed
+     * @return An object that proxies all the item in the iterator or null if the iterator is null or empty
+     * @throws IllegalArgumentException if the iterable is null or empty
+     */
+    public static <T> T forEach(Iterator<? extends T> iterator) {
+        if (!iterator.hasNext())
+            throw new IllegalArgumentException("forEach() is unable to introspect on an empty iterator. Use the overloaded method accepting a class instead");
+		return ProxyIterator.createProxyIterator(iterator, iterator.next());
+    }
 
 	/**
 	 * Transforms a collection of Ts in a single object having the same methods of a single instance of T.
@@ -91,8 +103,33 @@ public final class Lambda {
 	 * an instance of T that actually proxies an empty Iterable of Ts
 	 */
 	public static <T> T forEach(Iterable<? extends T> iterable, Class<T> clazz) {
-		return ProxyIterator.createProxyIterator(iterable, clazz);
+		return forEach((Iterator<T>)asIterator(iterable), clazz);
 	}
+
+    /**
+     * Transforms an iterator of Ts in a single object having the same methods of a single instance of T.
+     * That allows to invoke a method on each T in the iterator with a single strong typed method call.
+     * The actual class of T is inferred from the class of the first iterable's item, but you can
+     * specify a particular class by using the overloaded method.
+     * @param <T> The type of the items in the iterator
+     * @param iterator The iterator to be transformed
+     * @return An object that proxies all the item in the iterator or null if the iterator is null or empty
+     * @throws IllegalArgumentException if the iterator is null or empty
+     */
+    public static <T> T forEach(Iterator<? extends T> iterator, Class<T> clazz) {
+        return ProxyIterator.createProxyIterator(iterator, clazz);
+    }
+
+    /**
+     * Transforms an array of Ts in a single object having the same methods of a single instance of T.
+     * That allows to invoke a method on each T in the array with a single strong typed method call.
+     * @param <T> The type of the items in the array
+     * @param array The array to be transformed
+     * @return An object that proxies all the item in the array
+     */
+    public static <T> T forEach(T... array) {
+        return ProxyIterator.createProxyIterator((Iterator<T>)asIterator(array), (Class<T>)array[0].getClass());
+    }
 
 	// ////////////////////////////////////////////////////////////////////////
 	// /// Collection
@@ -100,7 +137,7 @@ public final class Lambda {
 
 	/**
 	 * Collects the items in the given iterable putting them in a List.
-	 * Actually it treats also Maps as Iterables by collecting their values.
+	 * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of which the items should be collected
 	 * @return A List containing all the items collected from the give iterable
@@ -129,7 +166,7 @@ public final class Lambda {
 	 * <p/>
 	 * extracts the ages of all the Persons in the list and put them in a List of Integer.
 	 * <p/>
-	 * Actually it treats also Maps as Iterables by collecting their values.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of which the items should be collected
 	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
@@ -146,6 +183,7 @@ public final class Lambda {
 
 	/**
 	 * Sorts all the items in the given iterable on the respective values of the given argument.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of objects to be sorted
 	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
@@ -157,6 +195,7 @@ public final class Lambda {
 	
 	/**
 	 * Sorts all the items in the given iterable on the respective values of the given argument comparing them with the given comparator.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of objects to be sorted
 	 * @param argument An argument defined using the {@link Lambda#on(Class)} method
@@ -210,56 +249,35 @@ public final class Lambda {
 	
 	/**
 	 * Selects the unique object in the given iterable that matches the given hamcrest Matcher
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
+     * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of objects to be filtered
 	 * @param matcher The hamcrest Matcher used to filter the given iterable
 	 * @return The only object in the given iterable that matches the given hamcrest Matcher or null if there is no such object
 	 * @throws RuntimeException if there is more than one object that matches the given hamcrest Matcher
 	 */
 	public static <T> T selectUnique(Object iterable, Matcher<?> matcher) {
-		return selectUnique((Iterable<T>) iterable, matcher);
-	}
-
-	/**
-	 * Selects the unique object in the given iterable that matches the given hamcrest Matcher
-	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
-	 * @param iterable The iterable of objects to be filtered
-	 * @param matcher The hamcrest Matcher used to filter the given iterable
-	 * @return The only object in the given iterable that matches the given hamcrest Matcher or null if there is no such object
-	 * @throws RuntimeException if there is more than one object that matches the given hamcrest Matcher
-	 */
-	public static <T> T selectUnique(Iterable<T> iterable, Matcher<?> matcher) {
-		T unique = null;
-		Iterator<T> iterator = (Iterator<T>)asIterator(iterable);
-		while (iterator.hasNext() && unique == null) {
-			T item = iterator.next();
-			if (matcher.matches(item)) unique = item;
-		}
-		while (iterator.hasNext()) {
-			if (matcher.matches(iterator.next())) throw new RuntimeException("Not unique item");
-		}
-		return unique;
+        Iterator<T> iterator = new MatchingIterator(asIterator(iterable), matcher);
+        if (!iterator.hasNext()) return null;
+        T unique = iterator.next();
+        if (iterator.hasNext()) throw new RuntimeException("Not unique item");
+        return unique;
 	}
 
 	/**
 	 * Selects the first object in the given iterable that matches the given hamcrest Matcher
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
+     * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of objects to be filtered
 	 * @param matcher The hamcrest Matcher used to filter the given iterable
 	 * @return The first object in the given iterable that matches the given hamcrest Matcher or null if there is no such object
 	 */
 	public static <T> T selectFirst(Object iterable, Matcher<?> matcher) {
-		return selectFirst((Iterable<T>) iterable, matcher);
-	}
-
-	/**
-	 * Selects the first object in the given iterable that matches the given hamcrest Matcher
-	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
-	 * @param iterable The iterable of objects to be filtered
-	 * @param matcher The hamcrest Matcher used to filter the given iterable
-	 * @return The first object in the given iterable that matches the given hamcrest Matcher or null if there is no such object
-	 */
-	public static <T> T selectFirst(Iterable<T> iterable, Matcher<?> matcher) {
-		if (iterable == null) return null;
-		for (T item : iterable) if (matcher.matches(item)) return item;
+        Iterator<T> iterator = (Iterator<T>)asIterator(iterable);
+        while (iterator.hasNext()) {
+            T item = iterator.next();
+            if (matcher.matches(item)) return item;
+        }
 		return null;
 	}
 
@@ -357,6 +375,7 @@ public final class Lambda {
 
 	/**
 	 * Aggregates the items in the given iterable using the given {@link Aggregator}.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of numbers to be summed
 	 * @param aggregator The function that defines how the objects in this iterable have to be aggregated
@@ -370,6 +389,7 @@ public final class Lambda {
 	/**
 	 * For each item in the given iterable collects the value defined by the given argument and 
 	 * then aggregates them iterable using the given {@link Aggregator}.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of numbers to be summed
 	 * @param aggregator The function that defines how the objects in this iterable have to be aggregated
@@ -414,13 +434,14 @@ public final class Lambda {
 	 * @return A proxy of the class of the first object in the iterable representing an aggregation lambda function
 	 */
 	public static <T, A> T aggregateFrom(Iterable<T> iterable, Class<?> clazz, Aggregator<A> aggregator) {
-		return ProxyAggregator.createProxyAggregator(iterable, aggregator, clazz);
+		return ProxyAggregator.createProxyAggregator((Iterator<T>)asIterator(iterable), aggregator, clazz);
 	}
 
 	// -- (Sum) ---------------------------------------------------------------
 
 	/**
 	 * Sums the items in the given iterable of Numbers or the iterable itself if it actually is already a single number.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of numbers to be summed
 	 * @return The sum of all the Number in the given iterable or the iterable itself if it actually is already a single number
@@ -434,6 +455,7 @@ public final class Lambda {
 
 	/**
 	 * Sums the property values of the items in the given iterable defined by the given argument.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of items containing the property of which the values have to be summed.
 	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
@@ -491,6 +513,7 @@ public final class Lambda {
 
 	/**
 	 * Finds the minimum item in the given iterable.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of numbers to be summed
 	 * @return The minimum of all the Object in the given iterable
@@ -502,6 +525,7 @@ public final class Lambda {
 
 	/**
 	 * Finds the minimum item in the given iterable defined by the given argument.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of objects on which the minimum should be found
 	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
@@ -561,6 +585,7 @@ public final class Lambda {
 
 	/**
 	 * Finds the maximum item in the given iterable.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of objects on which the maximum should be found
 	 * @return The maximum of all the Object in the given iterable
@@ -572,6 +597,7 @@ public final class Lambda {
 
 	/**
 	 * Finds the maximum item in the given iterable defined by the given argument.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of objects on which the maximum should be found
 	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
@@ -741,7 +767,7 @@ public final class Lambda {
 	 * @return The concatenation of the String representation of all the objects in the given iterable or an empty String if the iterable is null or empty
 	 */
 	public static String join(Object iterable, String separator) {
-		return iterable instanceof Iterable ? (String) aggregate(iterable, new Concat(separator)) : (iterable == null ? "" : iterable.toString());
+        return iterable instanceof Iterable ? (String) aggregate(iterable, new Concat(separator)) : (iterable == null ? "" : iterable.toString());
 	}
 
 	// ////////////////////////////////////////////////////////////////////////
@@ -750,6 +776,7 @@ public final class Lambda {
 
 	/**
 	 * Converts all the object in the iterable using the given {@link Converter}.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable containing the objects to be converted
 	 * @param converter The converter that specifies how each object in the iterable must be converted
@@ -763,6 +790,7 @@ public final class Lambda {
 
     /**
      * Converts all the object in the iterable using the given {@link Converter}.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
      * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
      * @param iterable The iterable containing the objects to be converted
      * @param converter The converter that specifies how each object in the iterable must be converted
