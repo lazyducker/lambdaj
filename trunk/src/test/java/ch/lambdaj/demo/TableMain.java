@@ -17,19 +17,7 @@ public class TableMain {
         LambdajTableModel(List<Bean> beans) {
             model = new ArrayList(beans);
 
-            Bean total = new Bean();
-/*
-            for (Bean bean : beans) {
-                total.setA(total.getA() + bean.getA());
-                total.setB(total.getB() + bean.getB());
-                total.setC(total.getC() + bean.getC());
-            }
-*/
-            total.setA(sum(beans, on(Bean.class).getA()));
-            total.setB(sum(beans, on(Bean.class).getB()));
-            total.setC(sum(beans, on(Bean.class).getC()));
-
-            model.add(total);
+            model.add(sumFrom(beans));
         }
 
         public Object getValueAt(int rowIndex, int columnIndex) {

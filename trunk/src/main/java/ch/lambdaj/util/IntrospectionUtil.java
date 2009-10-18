@@ -15,6 +15,16 @@ public final class IntrospectionUtil {
 
 	private IntrospectionUtil() {}
 
+    /**
+     * Tries to convert a generic object in an Iterator.
+     * This method works with Iterators, Arrays, Iterables and Maps and
+     * in this last case an Iterator over the Map's values is returned.
+     * If the object is null returns an Iterator over an empty collection.
+     * If none of the above applies throws an IllegalArgumentException.
+     * @param object The object to be converted
+     * @return The Iterator resulting from the object conversion
+     * @throws IllegalArgumentException if the given object is neither an Iterator, Array, Iterable or Map.
+     */
     public static Iterator<?> asIterator(Object object) {
         if (object == null) return new ArrayList().iterator();
         if (object instanceof Iterable) return ((Iterable<?>)object).iterator();
@@ -22,28 +32,6 @@ public final class IntrospectionUtil {
         if (object.getClass().isArray()) return new ArrayIterator<Object>((Object[])object);
         if (object instanceof Map) return ((Map<?,?>)object).values().iterator();
         throw new IllegalArgumentException("Cannot convert " + object + " to an iterator");
-    }
-
-    public static class ArrayIterator<T> implements Iterator<T> {
-
-        private T[] array;
-        private int counter = 0;
-
-        public ArrayIterator(T[] array) {
-            this.array = array;
-        }
-
-        public boolean hasNext() {
-            return counter < array.length;
-        }
-
-        public T next() {
-            return array[counter++];
-        }
-
-        public void remove() {
-            throw new UnsupportedOperationException();
-        }
     }
 
 	public static String getPropertyName(Method invokedMethod) {

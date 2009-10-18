@@ -7,6 +7,7 @@ package ch.lambdaj.proxy;
 import static ch.lambdaj.Lambda.*;
 
 import java.lang.reflect.*;
+import java.util.*;
 
 import ch.lambdaj.function.aggregate.*;
 
@@ -18,18 +19,18 @@ public class ProxyAggregator<T, A> extends ProxyIterator<T> {
 
 	private final Aggregator<A> aggregator;
 
-	protected ProxyAggregator(Iterable<T> proxiedCollection, Aggregator<A> aggregator) {
-		super(proxiedCollection);
+	protected ProxyAggregator(Iterator<T> proxiedIterator, Aggregator<A> aggregator) {
+		super(proxiedIterator);
 		this.aggregator = aggregator;
 	}
 
 	@Override
 	public Object invoke(Object obj, Method method, Object[] args) throws Throwable {
-		return aggregate(collectValues(method, args), aggregator);
+		return aggregate(iterateOnValues(method, args), aggregator);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T, A> T createProxyAggregator(Iterable<T> proxiedCollection, Aggregator<A> aggregator, Class<?> clazz) {
-		return (T)ProxyUtil.createIterableProxy(new ProxyAggregator<T, A>(proxiedCollection, aggregator), clazz);
+	public static <T, A> T createProxyAggregator(Iterator<T> proxiedIterator, Aggregator<A> aggregator, Class<?> clazz) {
+		return (T)ProxyUtil.createIterableProxy(new ProxyAggregator<T, A>(proxiedIterator, aggregator), clazz);
 	}
 }
