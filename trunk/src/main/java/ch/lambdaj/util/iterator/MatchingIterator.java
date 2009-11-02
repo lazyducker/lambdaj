@@ -2,13 +2,14 @@
 // Copyright (c) 2009 Mario Fusco, Luca Marrocco.
 // Licensed under the Apache License, Version 2.0 (the "License")
 
-package ch.lambdaj.util;
+package ch.lambdaj.util.iterator;
 
 import org.hamcrest.*;
 
 import java.util.*;
 
 /**
+ * Wraps an iterator filtering its item with the given hamcrest Matcher
  * @author Mario Fusco
  * @author Andrea Polci
  */
@@ -18,11 +19,11 @@ public class MatchingIterator<T> implements Iterator<T> {
 	private final Matcher<?> matcher;
 
 	private T nextElement;
+    private boolean nextAvailable = false;
 
     public MatchingIterator(Iterator<T> iterator, Matcher<?> matcher) {
 		this.iterator = iterator;
 		this.matcher = matcher;
-		searchNext();
 	}
 
 	private void searchNext() {
@@ -31,16 +32,18 @@ public class MatchingIterator<T> implements Iterator<T> {
 			T n = iterator.next();
 			if (matcher.matches(n)) nextElement = n;
 		}
+        nextAvailable = true;
 	}
 
 	public boolean hasNext() {
+        if (!nextAvailable) searchNext();
 		return nextElement != null;
 	}
 
 	public T next() {
 		if (!hasNext()) throw new NoSuchElementException();
 		T n = nextElement;
-		searchNext();
+		nextAvailable = false;
 		return n;
 	}
 

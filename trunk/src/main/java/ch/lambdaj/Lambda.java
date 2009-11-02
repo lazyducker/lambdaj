@@ -7,8 +7,8 @@ package ch.lambdaj;
 import static ch.lambdaj.function.argument.ArgumentsFactory.*;
 import static ch.lambdaj.function.closure.ClosuresFactory.*;
 import static ch.lambdaj.function.matcher.HasArgumentWithValue.*;
-import static ch.lambdaj.util.IntrospectionUtil.*;
-import ch.lambdaj.util.*;
+import static ch.lambdaj.util.iterator.IteratorFactory.*;
+import ch.lambdaj.util.iterator.*;
 
 import java.util.*;
 
@@ -66,7 +66,10 @@ public final class Lambda {
 	 * @throws IllegalArgumentException if the iterable is null or empty
 	 */
 	public static <T> T forEach(Iterable<? extends T> iterable) {
-		return forEach((Iterator<T>)asIterator(iterable));
+        ResettableIterator<T> resettableIterator = (ResettableIterator<T>)asResettableIterator(iterable);
+        if (!resettableIterator.hasNext())
+            throw new IllegalArgumentException("forEach() is unable to introspect on an empty iterator. Use the overloaded method accepting a class instead");
+        return ProxyIterator.createProxyIterator(resettableIterator, resettableIterator.next());
 	}
 
     /**
@@ -82,7 +85,8 @@ public final class Lambda {
     public static <T> T forEach(Iterator<? extends T> iterator) {
         if (!iterator.hasNext())
             throw new IllegalArgumentException("forEach() is unable to introspect on an empty iterator. Use the overloaded method accepting a class instead");
-		return ProxyIterator.createProxyIterator(iterator, iterator.next());
+        ResettableIterator<T> resettableIterator = (ResettableIterator<T>)asResettableIterator(iterator);
+		return ProxyIterator.createProxyIterator(resettableIterator, resettableIterator.next());
     }
 
 	/**
@@ -103,7 +107,7 @@ public final class Lambda {
 	 * an instance of T that actually proxies an empty Iterable of Ts
 	 */
 	public static <T> T forEach(Iterable<? extends T> iterable, Class<T> clazz) {
-		return forEach((Iterator<T>)asIterator(iterable), clazz);
+        return ProxyIterator.createProxyIterator((ResettableIterator<T>)asResettableIterator(iterable), clazz);
 	}
 
     /**
@@ -113,11 +117,12 @@ public final class Lambda {
      * specify a particular class by using the overloaded method.
      * @param <T> The type of the items in the iterator
      * @param iterator The iterator to be transformed
+     * @param clazz The class proxied by the returned object
      * @return An object that proxies all the item in the iterator or null if the iterator is null or empty
      * @throws IllegalArgumentException if the iterator is null or empty
      */
     public static <T> T forEach(Iterator<? extends T> iterator, Class<T> clazz) {
-        return ProxyIterator.createProxyIterator(iterator, clazz);
+        return ProxyIterator.createProxyIterator((ResettableIterator<T>)asResettableIterator(iterator), clazz);
     }
 
     /**
@@ -128,7 +133,7 @@ public final class Lambda {
      * @return An object that proxies all the item in the array
      */
     public static <T> T forEach(T... array) {
-        return ProxyIterator.createProxyIterator((Iterator<T>)asIterator(array), (Class<T>)array[0].getClass());
+        return ProxyIterator.createProxyIterator((ResettableIterator<T>)asResettableIterator(array), (Class<T>)array[0].getClass());
     }
 
 	// ////////////////////////////////////////////////////////////////////////
@@ -204,7 +209,7 @@ public final class Lambda {
 	 */
 	public static <T, A> List<T> sort(Object iterable, A argument, Comparator<A> comparator) {
 		List<T> sorted = new ArrayList<T>();
-        for (Iterator<?> i = asIterator(iterable); i.hasNext(); sorted.add((T)i.next()));
+        for (Iterator<?> i = asIterator(iterable); i.hasNext();) sorted.add((T)i.next());
 		Collections.sort(sorted, new ArgumentComparator<T, A>(argument, comparator));
 		return sorted;
 	}
@@ -215,38 +220,75 @@ public final class Lambda {
 
 	/**
 	 * Filters all the objects in the given iterable that match the given hamcrest Matcher
-	 * @param iterable The iterable of objects to be filtered
 	 * @param matcher The hamcrest Matcher used to filter the given iterable
+     * @param iterable The iterable of objects to be filtered
 	 * @return A sublist of the given iterable containing all the objects that match the given hamcrest Matcher
 	 */
 	public static <T> List<T> filter(Matcher<?> matcher, Iterable<T> iterable) {
 		return select(iterable, matcher);
 	}
 
+    /**
+     * Filters all the objects in the given array that match the given hamcrest Matcher
+     * @param matcher The hamcrest Matcher used to filter the given array
+     * @param array The array of objects to be filtered
+     * @return A sublist of the given array containing all the objects that match the given hamcrest Matcher
+     */
+    public static <T> List<T> filter(Matcher<?> matcher, T... array) {
+        return select(array, matcher);
+    }
+
 	/**
-	 * Selects all the objects in the given iterable that match the given hamcrest Matcher
-	 * @param iterable The iterable of objects to be filtered
+	 * Selects all the objects in the given iterator that match the given hamcrest Matcher
+	 * @param iterator The iterator of objects to be filtered
 	 * @param matcher The hamcrest Matcher used to filter the given iterable
 	 * @return A sublist of the given iterable containing all the objects that match the given hamcrest Matcher
 	 */
-	public static <T> List<T> select(Iterable<T> iterable, Matcher<?> matcher) {
+	public static <T> List<T> select(Iterator<T> iterator, Matcher<?> matcher) {
 		List<T> collected = new ArrayList<T>();
-		if (iterable == null) return collected;
-		for (T item : iterable) if (matcher.matches(item)) collected.add(item);
+        while (iterator.hasNext()) {
+            T item = iterator.next();
+            if (matcher.matches(item)) collected.add(item);
+        }
 		return collected;
 	}
 
+    /**
+     * Selects all the objects in the given iterable that match the given hamcrest Matcher
+     * @param iterable The iterable of objects to be filtered
+     * @param matcher The hamcrest Matcher used to filter the given iterable
+     * @return A sublist of the given iterable containing all the objects that match the given hamcrest Matcher
+     */
+    public static <T> List<T> select(Iterable<T> iterable, Matcher<?> matcher) {
+        return select(iterable.iterator(), matcher);
+    }
+
 	/**
 	 * Selects all the objects in the given iterable that match the given hamcrest Matcher
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of objects to be filtered
 	 * @param matcher The hamcrest Matcher used to filter the given iterable
 	 * @return A sublist of the given iterable containing all the objects that match the given hamcrest Matcher
 	 */
 	public static <T> List<T> select(Object iterable, Matcher<?> matcher) {
-		return select((Iterable<T>) iterable, matcher);
+		return select((Iterator<T>)asIterator(iterable), matcher);
 	}
-	
+
+    /**
+     * Selects all the objects in the given iterable that match the given hamcrest Matcher
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
+	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
+	 * Unlike the method {@link #select(Iterable, Matcher)} this one doesn't build a new collection, and the
+	 * selection is done while iterating the returned iterator.
+     * @param iterable The iterable of objects to be filtered
+     * @param matcher The hamcrest Matcher used to filter the given iterable
+	 * @return An iterator containing all the objects in the given iterable converted using the given {@link Converter}
+	 */
+	public static <T> Iterator<T> selectIterator(Object iterable, Matcher<?> matcher) {
+		return new MatchingIterator<T>((Iterator<T>) asIterator(iterable), matcher);
+	}
+
 	/**
 	 * Selects the unique object in the given iterable that matches the given hamcrest Matcher
      * Actually it handles also Maps, Arrays and Iterator by collecting their values.
@@ -324,6 +366,7 @@ public final class Lambda {
 	
 	/**
 	 * Filters away all the duplicated items in the given iterable based on the given comparator.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of objects to be filtered
 	 * @param comparator The comparator used to decide if 2 items are different or not
@@ -331,12 +374,13 @@ public final class Lambda {
 	 */
 	public static <T> Collection<T> selectDistinct(Object iterable, Comparator<T> comparator) {
 		Set<T> collected = comparator == null ? new HashSet<T>() : new TreeSet<T>(comparator);
-		if (iterable != null) for (T item : (Iterable<T>) iterable)	collected.add(item);
+        for (Iterator<T> i = (Iterator<T>)asIterator(iterable); i.hasNext();) collected.add(i.next());
 		return collected;
 	}
 
 	/**
 	 * Selects the item in the given iterable having the lowest value on the given argument defined using the on method.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of objects to be filtered
 	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
@@ -348,6 +392,7 @@ public final class Lambda {
 	
 	/**
 	 * Selects the item in the given iterable having the highest value on the given argument defined using the on method.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable of objects to be filtered
 	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
@@ -434,7 +479,7 @@ public final class Lambda {
 	 * @return A proxy of the class of the first object in the iterable representing an aggregation lambda function
 	 */
 	public static <T, A> T aggregateFrom(Iterable<T> iterable, Class<?> clazz, Aggregator<A> aggregator) {
-		return ProxyAggregator.createProxyAggregator((Iterator<T>)asIterator(iterable), aggregator, clazz);
+		return ProxyAggregator.createProxyAggregator((ResettableIterator<T>) asResettableIterator(iterable), aggregator, clazz);
 	}
 
 	// -- (Sum) ---------------------------------------------------------------
@@ -784,7 +829,7 @@ public final class Lambda {
 	 */
 	public static <F, T> List<T> convert(Object iterable, Converter<F, T> converter) {
 		List<T> collected = new ArrayList<T>();
-		for (Iterator<T> i = convertIterator(iterable, converter); i.hasNext(); collected.add(i.next()));
+		for (Iterator<T> i = convertIterator(iterable, converter); i.hasNext();) collected.add(i.next());
 		return collected;
 	}
 
@@ -802,6 +847,7 @@ public final class Lambda {
 
 	/**
 	 * Converts all the object in the iterable extracting the property defined by the given argument.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable containing the objects to be converted
 	 * @param argument An argument defined using the {@link Lambda#on(Class)} method 
@@ -811,8 +857,23 @@ public final class Lambda {
 		return convert(iterable, new ArgumentConverter<F, T>(argument));
 	}
 	
+    /**
+     * Converts all the object in the iterable extracting the property defined by the given argument.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
+	 * Unlike the method {@link #extract(Object, Object)} this one doesn't build a new collection, and the
+	 * extraction is done only when someone iterates over the returned iterator.
+     * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
+     * @param iterable The iterable containing the objects to be converted
+     * @param argument An argument defined using the {@link Lambda#on(Class)} method
+     * @return A list containing the argument's value extracted from the object in the given iterable
+     */
+    public static <F, T> Iterator<T> extractIterator(Object iterable, T argument) {
+        return convertIterator(iterable, new ArgumentConverter<F, T>(argument));
+    }
+    
 	/**
 	 * Converts all the object in the iterable in its String representation.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable containing the objects to be converted in strings
 	 * @return A list containing the String representation of the objects in the given iterable
@@ -823,6 +884,7 @@ public final class Lambda {
 	
 	/**
 	 * Converts all the object in the iterable extracting the named property.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable containing the objects to be converted
 	 * @param propertyName The name of the item's property on which the item must have no duplicated value
@@ -834,6 +896,7 @@ public final class Lambda {
 	
 	/**
 	 * Maps the objects in the given iterable on the value extracted using the given {@link Converter}.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable containing the objects to be mapped
 	 * @param converter The converter that specifies the key on which each object should be mapped
@@ -841,13 +904,17 @@ public final class Lambda {
 	 */
 	public static <F, T> Map<T, F> map(Object iterable, Converter<F, T> converter) {
 		Map<T, F> map = new HashMap<T, F>();
-		if (iterable != null) for (F item : (Iterable<F>) iterable)
-			map.put(converter.convert(item), item);
+        Iterator<F> i = (Iterator<F>)asIterator(iterable);
+        while (i.hasNext()) {
+            F item = i.next();
+            map.put(converter.convert(item), item);
+        }
 		return map;
 	}
 
 	/**
 	 * Indexes the objects in the given iterable based on the value of their argument.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable containing the objects to be indexed
 	 * @param argument An argument defined using the {@link Lambda#on(Class)} method
@@ -859,6 +926,7 @@ public final class Lambda {
 
     /**
      * Projects the objects in the given iterable by converting each of them in a set of key/value pairs.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
      * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
      * @param iterable The iterable containing the objects to be projected
      * @param projectors The converters that define how each object should be projected
@@ -993,4 +1061,8 @@ public final class Lambda {
 	public static <A, B, C, D> Closure4<A, B, C, D> closure(Class<A> type1, Class<B> type2, Class<C> type3, Class<D> type4) {
 		return createClosure(type1, type2, type3, type4);
 	}
+
+    public static <T> ClosureResult<T> delayedClosure(DelayedClosure<T> delayedClosure) {
+        return delayedClosure.getClosureResult();
+    }
 }

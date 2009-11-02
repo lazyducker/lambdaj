@@ -5,6 +5,7 @@
 package ch.lambdaj.proxy;
 
 import static ch.lambdaj.proxy.ProxyUtil.*;
+import ch.lambdaj.util.iterator.*;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -15,59 +16,36 @@ import java.util.*;
  */
 public class ProxyIterator<T> extends InvocationInterceptor implements Iterable<T> {
 
-	private final Iterator<? extends T> proxiedIterator;
-    private final T firstItem;
+	private final ResettableIterator<? extends T> proxiedIterator;
 
-	protected ProxyIterator(Iterator<? extends T> proxiedIterator) {
-		this(proxiedIterator, null);
-	}
-
-    private ProxyIterator(Iterator<? extends T> proxiedIterator, T firstItem) {
+	protected ProxyIterator(ResettableIterator<? extends T> proxiedIterator) {
         this.proxiedIterator = proxiedIterator;
-        this.firstItem = firstItem;
-    }
+	}
 
 	public Object invoke(Object obj, Method method, Object[] args) throws Throwable {
 		if (method.getName().equals("iterator")) return iterator();
 		return createProxyIterator(iterateOnValues(method, args), (Class<Object>)method.getReturnType());
 	}
 
-	protected Iterator<Object> iterateOnValues(Method method, Object[] args) throws Throwable {
+	protected ResettableIterator<Object> iterateOnValues(Method method, Object[] args) throws Throwable {
+        proxiedIterator.reset();
         List<Object> list = new ArrayList<Object>();
-        if (firstItem != null) list.add(method.invoke(firstItem, args));
         while (proxiedIterator.hasNext()) list.add(method.invoke(proxiedIterator.next(), args));
-		return list.iterator();
+		return new ResettableIteratorOnIterable(list);
 	}
 
-	public static <T> T createProxyIterator(Iterator<? extends T> proxiedIterator, Class<T> clazz) {
+	public static <T> T createProxyIterator(ResettableIterator<? extends T> proxiedIterator, Class<T> clazz) {
 		return createIterableProxy(new ProxyIterator<T>(proxiedIterator), clazz);
 	}
 
-    public static <T> T createProxyIterator(Iterator<? extends T> proxiedIterator, T firstItem) {
-        return (T)createIterableProxy(new ProxyIterator<T>(proxiedIterator, firstItem), firstItem.getClass());
+    public static <T> T createProxyIterator(ResettableIterator<? extends T> proxiedIterator, T firstItem) {
+        T proxy = createProxyIterator(proxiedIterator, (Class<T>)firstItem.getClass());
+        proxiedIterator.reset();
+        return proxy;
     }
 
     @SuppressWarnings("unchecked")
 	public Iterator<T> iterator() {
-		return firstItem == null ? (Iterator<T>)proxiedIterator : new IteratorWithFirstItem();
+		return (Iterator<T>)proxiedIterator;
 	}
-
-    private class IteratorWithFirstItem implements Iterator<T> {
-
-        private boolean firstItemConsumed = false;
-
-        public boolean hasNext() {
-            return !firstItemConsumed || proxiedIterator.hasNext();
-        }
-
-        public T next() {
-            if (firstItemConsumed) return proxiedIterator.next();
-            firstItemConsumed = true;
-            return firstItem;
-        }
-
-        public void remove() {
-            throw new UnsupportedOperationException();
-        }
-    }
 }
