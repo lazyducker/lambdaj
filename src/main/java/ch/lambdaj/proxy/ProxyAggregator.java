@@ -7,9 +7,9 @@ package ch.lambdaj.proxy;
 import static ch.lambdaj.Lambda.*;
 
 import java.lang.reflect.*;
-import java.util.*;
 
 import ch.lambdaj.function.aggregate.*;
+import ch.lambdaj.util.iterator.*;
 
 /**
  * Proxies a list of objects in order to seamlessly aggregate their value by exposing the API of a single object.
@@ -19,7 +19,7 @@ public class ProxyAggregator<T, A> extends ProxyIterator<T> {
 
 	private final Aggregator<A> aggregator;
 
-	protected ProxyAggregator(Iterator<T> proxiedIterator, Aggregator<A> aggregator) {
+	protected ProxyAggregator(ResettableIterator<T> proxiedIterator, Aggregator<A> aggregator) {
 		super(proxiedIterator);
 		this.aggregator = aggregator;
 	}
@@ -30,7 +30,7 @@ public class ProxyAggregator<T, A> extends ProxyIterator<T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T, A> T createProxyAggregator(Iterator<T> proxiedIterator, Aggregator<A> aggregator, Class<?> clazz) {
+	public static <T, A> T createProxyAggregator(ResettableIterator<T> proxiedIterator, Aggregator<A> aggregator, Class<?> clazz) {
 		return (T)ProxyUtil.createIterableProxy(new ProxyAggregator<T, A>(proxiedIterator, aggregator), clazz);
 	}
 }

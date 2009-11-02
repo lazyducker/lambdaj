@@ -2,19 +2,17 @@
 // Copyright (c) 2009 Mario Fusco, Luca Marrocco.
 // Licensed under the Apache License, Version 2.0 (the "License")
 
-package ch.lambdaj.util;
-
-import java.util.*;
+package ch.lambdaj.util.iterator;
 
 /**
  * @author Mario Fusco
  */
-public class ArrayIterator<T> implements Iterator<T> {
+public class ResettableIteratorOnArray<T> extends ResettableIterator<T> {
 
     private T[] array;
     private int counter = 0;
 
-    public ArrayIterator(T[] array) {
+    public ResettableIteratorOnArray(T[] array) {
         this.array = array;
     }
 
@@ -26,7 +24,7 @@ public class ArrayIterator<T> implements Iterator<T> {
         return array[counter++];
     }
 
-    public void remove() {
-        throw new UnsupportedOperationException();
+    public void reset() {
+        counter = 0;
     }
 }

@@ -57,6 +57,13 @@ public class LambdaTest {
 	}
 
     @Test
+    public void testForEachOnIterator() {
+        List<Person> personInFamily = asList(new Person("Domenico"), new Person("Mario"), new Person("Irma"));
+        forEach(personInFamily.iterator()).setLastName("Fusco");
+        for (Person person : personInFamily) assertEquals("Fusco", person.getLastName());
+    }
+
+    @Test
     public void testForEachOnArray() {
         Person dad = new Person("Domenico");
         Person me = new Person("Mario");
@@ -76,6 +83,10 @@ public class LambdaTest {
 			forEach(personInFamily).setFailingLastName("Fusco");
 			fail("Invocation on wrong method must fail");
 		} catch (Exception ie) { }
+        try {
+            forEach(personInFamily.iterator()).setFailingLastName("Fusco");
+            fail("Invocation on wrong method must fail");
+        } catch (Exception ie) { }
 	}
 
 	@Test
@@ -239,6 +250,16 @@ public class LambdaTest {
 	}
 	
     @Test
+    public void testSelectIteratorWithHaving() {
+        List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+
+        Iterator<Person> friends29agedIterator = selectIterator(meAndMyFriends, having(on(Person.class).getAge(), is(equalTo(29))));
+        assertSame(luca, friends29agedIterator.next());
+        assertSame(celestino, friends29agedIterator.next());
+        assertFalse(friends29agedIterator.hasNext());
+    }
+
+    @Test
     public void testSelectOnForEach() {
         me.setBestFriend(biagio);
         biagio.setBestFriend(celestino);
@@ -353,6 +374,14 @@ public class LambdaTest {
 		assertEquals(5, (int)biggerThan3.get(1));
 	}
 	
+    @Test
+    public void testFilterArray() {
+        List<Integer> biggerThan3 = filter(greaterThan(3), 1, 2, 3, 4, 5);
+        assertEquals(2, biggerThan3.size());
+        assertEquals(4, (int)biggerThan3.get(0));
+        assertEquals(5, (int)biggerThan3.get(1));
+    }
+
 	@Test
 	public void testFilterOnCustomMatcher() {
 		Matcher<Integer> odd = new TypeSafeMatcher<Integer>() {
@@ -365,7 +394,7 @@ public class LambdaTest {
 			}
 		};
 
-		List<Integer> odds = filter(odd, asList(1, 2, 3, 4, 5));
+		List<Integer> odds = filter(odd, 1, 2, 3, 4, 5);
 		assertEquals(3, odds.size());
 		assertEquals(1, (int)odds.get(0));
 		assertEquals(3, (int)odds.get(1));
@@ -399,9 +428,11 @@ public class LambdaTest {
 	public void testSumMinMaxFrom() {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
 
-		int totalAge = sumFrom(meAndMyFriends).getAge();
-		assertThat(totalAge, is(equalTo(35+29+39+29)));
-		
+        Person ageSummer = sumFrom(meAndMyFriends);
+		assertThat(ageSummer.getAge(), is(equalTo(35+29+39+29)));
+        // check that the sumFrom proxy works also on the second invocation
+        assertThat(ageSummer.getAge(), is(equalTo(35+29+39+29)));
+
 		int minAge = minFrom(meAndMyFriends).getAge();
 		assertThat(minAge, is(equalTo(29)));
 
@@ -629,6 +660,15 @@ public class LambdaTest {
 		assertThat(countries, hasItem("france"));
 		assertThat(countries, hasItem("brazil"));
 	}
+
+    @Test
+    public void testExtractIterator() {
+        Exposure[] exposures = new Exposure[] { new Exposure("france", "first"), new Exposure("brazil", "second") };
+        Iterator<String> countriesIterator = extractIterator(exposures, on(Exposure.class).getCountryName());
+        assertEquals("france", countriesIterator.next());
+        assertEquals("brazil", countriesIterator.next());
+        assertFalse(countriesIterator.hasNext());
+    }
 
     @Test
     public void testNullSafeExtract() {

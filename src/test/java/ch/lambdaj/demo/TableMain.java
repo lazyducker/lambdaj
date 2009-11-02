@@ -12,7 +12,7 @@ public class TableMain {
 
     private static class LambdajTableModel extends AbstractTableModel {
 
-        private List<Bean> model;
+        private final List<Bean> model;
 
         LambdajTableModel(List<Bean> beans) {
             model = new ArrayList(beans);

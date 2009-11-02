@@ -15,8 +15,6 @@ import ch.lambdaj.proxy.*;
  */
 class ProxyClosure extends InvocationInterceptor {
 
-	private boolean registered = false;
-
 	private final AbstractClosure closure;
 
 	ProxyClosure(AbstractClosure closure) {
@@ -24,9 +22,9 @@ class ProxyClosure extends InvocationInterceptor {
 	}
 
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-		if (registered) return method.invoke(proxy, args);
-		registered = true;
 		closure.bindInvocation(method, args);
+
+        DelayedClosure.call();
 
         Class<?> returnType = method.getReturnType();
         if (returnType == Void.TYPE) {
