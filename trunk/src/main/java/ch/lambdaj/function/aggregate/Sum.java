@@ -4,6 +4,8 @@
 
 package ch.lambdaj.function.aggregate;
 
+import java.math.*;
+
 /**
  * An aggregator that sums numbers
  * @author Mario Fusco
@@ -31,6 +33,8 @@ public class Sum extends InitializedPairAggregator<Number> {
 		if (second instanceof Long) return aggregate(first, (Long)second);
 		if (second instanceof Float) return aggregate(first, (Float)second);
 		if (second instanceof Double) return aggregate(first, (Double)second);
+        if (second instanceof BigInteger) return aggregate(first, (BigInteger)second);
+        if (second instanceof BigDecimal) return aggregate(first, (BigDecimal)second);
 
 		throw new RuntimeException("unable to aggregate " + first + " and " + second);
 	}
@@ -50,4 +54,12 @@ public class Sum extends InitializedPairAggregator<Number> {
 	private Double aggregate(Number first, Double second) {
 		return (first == null ? emptyItem().doubleValue() : first.doubleValue()) + second;
 	}
+
+    private BigInteger aggregate(Number first, BigInteger second) {
+        return (first == null || first == emptyItem() ? BigInteger.ZERO : (BigInteger)first).add(second);
+    }
+
+    private BigDecimal aggregate(Number first, BigDecimal second) {
+        return (first == null || first == emptyItem() ? BigDecimal.ZERO : (BigDecimal)first).add(second);
+    }
 }

@@ -10,6 +10,7 @@ import static org.hamcrest.Matchers.*;
 
 import java.lang.reflect.*;
 import java.util.*;
+import java.math.*;
 
 import org.hamcrest.*;
 import org.junit.*;
@@ -154,6 +155,11 @@ public class LambdaTest {
 			fail("forEach on empty iterable should throw an exception");
 		} catch (IllegalArgumentException e) { }
 
+        try {
+            forEach(new LinkedList<Person>().iterator());
+            fail("forEach on empty iterable should throw an exception");
+        } catch (IllegalArgumentException e) { }
+
 		try {
 			forEach(asList(new FinalPerson("Domenico"), new FinalPerson("Mario"), new FinalPerson("Irma")));
 			fail("forEach on empty iterable should throw an exception");
@@ -162,6 +168,7 @@ public class LambdaTest {
 		}
 
 		forEach(new LinkedList<Person>(), Person.class);
+        forEach(new LinkedList<Person>().iterator(), Person.class);
 		forEach(asList(new FinalPerson("Domenico"), new FinalPerson("Mario"), new FinalPerson("Irma")), Person.class);
 	}
 	
@@ -432,6 +439,9 @@ public class LambdaTest {
 		assertThat(ageSummer.getAge(), is(equalTo(35+29+39+29)));
         // check that the sumFrom proxy works also on the second invocation
         assertThat(ageSummer.getAge(), is(equalTo(35+29+39+29)));
+
+        assertThat(ageSummer.getAgeAsBigInteger(), is(equalTo(BigInteger.valueOf(35+29+39+29))));
+        assertThat(ageSummer.getAgeAsBigDecimal(), is(equalTo(BigDecimal.valueOf(35+29+39+29))));
 
 		int minAge = minFrom(meAndMyFriends).getAge();
 		assertThat(minAge, is(equalTo(29)));

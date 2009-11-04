@@ -1,6 +1,7 @@
 package ch.lambdaj.mock;
 
 import java.util.*;
+import java.math.*;
 
 
 public class Person implements IPerson {
@@ -63,6 +64,13 @@ public class Person implements IPerson {
 		birthDate = new GregorianCalendar(2009 - age, 0, 1).getTime();
 	}
 	
+    public BigInteger getAgeAsBigInteger() {
+        return BigInteger.valueOf(getAge());
+    }
+    public BigDecimal getAgeAsBigDecimal() {
+        return BigDecimal.valueOf(getAge());
+    }
+
 	public Date getBirthDate() {
 		return birthDate;
 	}
