@@ -3,7 +3,9 @@ package ch.lambdaj.mock;
 import java.util.*;
 import java.math.*;
 
-
+/**
+ * @author Mario Fusco
+ */
 public class Person implements IPerson {
 	
 	private String firstName;
