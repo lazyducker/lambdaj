@@ -924,6 +924,19 @@ public final class Lambda {
 		return map(iterable, new ArgumentConverter<F, T>(argument));
 	}
 
+     /**
+      * Converts the objects in the given iterable in objects of the given Class.
+      * The objects are created by invoking its constructor passing to it the values taken
+      * from the object to be converted using the given arguments.
+      * Actually it handles also Maps, Arrays and Iterator by collecting their values.
+      * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
+      * @param iterable The iterable containing the objects to be projected
+      * @return A list of map where each map is the result of the projection of an object in the iterable
+      */
+    public static <T> List<T> project(Object iterable, Class<T> targetClass, Object... arguments) {
+        return convert(iterable, new ConstructorArgumentConverter<Object, T>(targetClass, arguments));
+    }
+
     /**
      * Projects the objects in the given iterable by converting each of them in a set of key/value pairs.
      * Actually it handles also Maps, Arrays and Iterator by collecting their values.

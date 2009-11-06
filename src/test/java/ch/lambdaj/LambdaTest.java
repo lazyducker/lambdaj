@@ -373,6 +373,31 @@ public class LambdaTest {
         }
     }
 
+    @Test
+    public void testProjectDto() {
+        List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+        List<PersonDto> meAndMyFriendsDto = project(meAndMyFriends, PersonDto.class, on(Person.class).getFirstName(), on(Person.class).getAge());
+
+        assertEquals(meAndMyFriends.size(), meAndMyFriendsDto.size());
+        for (int i = 0; i < meAndMyFriends.size(); i++) {
+            assertEquals(meAndMyFriends.get(i).getFirstName(), meAndMyFriendsDto.get(i).getName());
+            assertEquals(meAndMyFriends.get(i).getAge(), meAndMyFriendsDto.get(i).getAge());
+        }
+    }
+
+    @Test
+    public void testInvalidProjectDto() {
+        List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+        try {
+            project(meAndMyFriends, PersonDto.class, on(Person.class).getFirstName(), on(Person.class).getLastName(), on(Person.class).getAge());
+            fail("Project using non existent constructor must fail");
+        } catch (RuntimeException e) { }
+        try {
+            project(meAndMyFriends, PersonDto.class, on(Person.class).getFirstName(), on(Person.class).getLastName());
+            fail("Project using non existent constructor must fail");
+        } catch (RuntimeException e) { }
+    }
+
 	@Test
 	public void testFilter() {
 		List<Integer> biggerThan3 = filter(greaterThan(3), asList(1, 2, 3, 4, 5));
