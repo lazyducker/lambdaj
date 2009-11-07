@@ -5,9 +5,14 @@
 package ch.lambdaj.function.closure;
 
 /**
+ * The result returned by a closure defined through the delayed syntax
  * @author Mario Fusco
  */
 public interface ClosureResult<T> {
 
+    /**
+     * The result returned by the delayed closure invocation
+     * @return The closure invocation result
+     */
     T get();
 }
