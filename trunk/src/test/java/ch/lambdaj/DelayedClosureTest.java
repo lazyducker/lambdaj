@@ -8,6 +8,10 @@ import java.io.*;
 import java.util.*;
 import org.junit.*;
 
+/**
+ * @author Guillaume Bort
+ * @author Mario Fusco
+ */
 public class DelayedClosureTest {
 
     PrintWriter out;
@@ -38,7 +42,6 @@ public class DelayedClosureTest {
         }
 
         List<String> resultList = result.get();
-        System.out.println(">>> " + resultList);
         assertEquals(2, resultList.size());
         assertEquals("Yop", resultList.get(0));
         assertEquals("Kiki", resultList.get(1));
@@ -65,7 +68,6 @@ public class DelayedClosureTest {
                 return null;
             }
         });
-
     }
 
     public <T> ClosureResult<List<T>> grep(final List<T> objects) {

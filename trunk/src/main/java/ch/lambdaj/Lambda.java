@@ -140,6 +140,17 @@ public final class Lambda {
 	// /// Collection
 	// ////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Flattens the given iterable by recursively descending through its nested Collections
+     * and create a flat List of all of the leaves.
+     * This method also works with Maps (by collecting their values) and arrays.
+     * @param iterable The iterable to be flattened
+     * @return The flattened iterable
+     */
+    public static <T> List<T> flatten(Object iterable) {
+        return flattenIterator(iterable);
+    }
+
 	/**
 	 * Collects the items in the given iterable putting them in a List.
 	 * Actually it handles also Maps, Arrays and Iterator by collecting their values.
@@ -925,12 +936,14 @@ public final class Lambda {
 	}
 
      /**
-      * Converts the objects in the given iterable in objects of the given Class.
+      * Converts the objects in the given iterable in objects of the given target Class.
       * The objects are created by invoking its constructor passing to it the values taken
       * from the object to be converted using the given arguments.
       * Actually it handles also Maps, Arrays and Iterator by collecting their values.
       * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
       * @param iterable The iterable containing the objects to be projected
+      * @param targetClass The class in which the objects in the given iterable must be converted
+      * @param arguments The arguments of the objects to be converted that will be used to create the objects of the target class
       * @return A list of map where each map is the result of the projection of an object in the iterable
       */
     public static <T> List<T> project(Object iterable, Class<T> targetClass, Object... arguments) {

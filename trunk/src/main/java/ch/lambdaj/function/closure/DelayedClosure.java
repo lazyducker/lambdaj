@@ -7,7 +7,7 @@ package ch.lambdaj.function.closure;
 import static ch.lambdaj.function.closure.ClosuresFactory.createClosure;
 
 /**
- * @author Guillaime Bort
+ * @author Guillaume Bort
  * @author Mario Fusco
  */
 public abstract class DelayedClosure<T> {
@@ -24,11 +24,16 @@ public abstract class DelayedClosure<T> {
         currentDelayed.set(this);
     }
 
-    public ClosureResult<T> getClosureResult() {
+    /**
+     * Override this method to define how the closure has to be used during its delayed invocation
+     * @param closure The closure used inside this delayed invocation
+     * @return The result of the closure invocation
+     */
+    public abstract T doWithClosure(Closure closure);
+
+    public final ClosureResult<T> getClosureResult() {
         return closureResult;
     }
-
-    public abstract T doWithClosure(Closure closure);
 
     static void call() throws Exception {
         DelayedClosure delayedClosure = currentDelayed.get();

@@ -542,6 +542,36 @@ public class LambdaTest {
 		assertThat(totalMyFriendsAge, is(equalTo(29+39+29)));
 	}
 
+    @Test
+    public void testFlatten1() {
+        List<Object> list = new ArrayList<Object>();
+        list.add(me);
+        Map<String, Person> map = new LinkedHashMap<String, Person>();
+        map.put("celestino", celestino);
+        map.put("luca", luca);
+        list.add(map);
+        list.add(new Person[] { biagio } );
+
+        List<Person> flattened = flatten(list);
+        assertEquals(me, flattened.get(0));
+        assertEquals(celestino, flattened.get(1));
+        assertEquals(luca, flattened.get(2));
+        assertEquals(biagio, flattened.get(3));
+    }
+
+    @Test
+    public void testFlatten2() {
+        List<Object> list = new ArrayList<Object>();
+        list.addAll(asList(asList(me), celestino));
+        list.addAll(asList(asList(luca, biagio)));
+
+        List<Person> flattened = flatten(list);
+        assertEquals(me, flattened.get(0));
+        assertEquals(celestino, flattened.get(1));
+        assertEquals(luca, flattened.get(2));
+        assertEquals(biagio, flattened.get(3));
+    }
+
 	@Test
 	public void testCollectAges() {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);

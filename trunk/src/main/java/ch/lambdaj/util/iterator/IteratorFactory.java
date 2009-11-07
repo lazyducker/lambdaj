@@ -40,4 +40,27 @@ public final class IteratorFactory {
         if (object instanceof Map) return new ResettableIteratorOnIterable(((Map<?,?>)object).values());
         throw new IllegalArgumentException("Cannot convert " + object + " to an iterator");
     }
+
+    /**
+     * Flattens the given iterable by recursively descending through its nested Collections
+     * and create a flat List of all of the leaves.
+     * This method also works with Maps (by collecting their values) and arrays.
+     * @param iterable The iterable to be flattened
+     * @return The flattened iterable
+     */
+    public static <T> List<T> flattenIterator(Object iterable) {
+        List<Object> flattened = new ArrayList<Object>();
+        try {
+            flattened.addAll(flattenIterator(asIterator(iterable)));
+        } catch (IllegalArgumentException iae) {
+            flattened.add(iterable);
+        }
+        return (List<T>)flattened;
+    }
+
+    private static <Object> List<Object> flattenIterator(Iterator iterator) {
+        List<Object> flattened = new ArrayList<Object>();
+        while (iterator.hasNext()) flattened.addAll((List<Object>)flattenIterator(iterator.next()));
+        return flattened;
+    }
 }
