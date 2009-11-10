@@ -160,12 +160,26 @@ public final class ArgumentsFactory {
 		if (clazz.isArray()) return Array.newInstance(clazz.getComponentType(), 1);
 
 		try {
-			return clazz.newInstance();
+			return createArgumentPlaceholderForUnknownClass(clazz, placeholderId);
 		} catch (Exception e) {
 			throw new RuntimeException("It is not possible to create a placeholder for class: " + clazz.getName());
 		}
     }
     
+    private static Object createArgumentPlaceholderForUnknownClass(Class<?> clazz, Integer placeholderId) throws Exception {
+        for (Constructor constructor : clazz.getConstructors()) {
+            Class<?>[] params = constructor.getParameterTypes();
+            if (params.length != 1) continue;
+            try {
+                if (params[0] == String.class)
+                    return constructor.newInstance(String.valueOf(placeholderId));
+                if (params[0] == Integer.TYPE || params[0] == Long.TYPE || params[0] == Integer.class || params[0] == Long.class)
+                    return constructor.newInstance(placeholderId);
+            } catch (Exception e) { }
+        }
+        return clazz.newInstance();
+    }
+
     private static Object getPrimitivePlaceHolder(Class<?> clazz, Integer placeholderId) {
         switch (clazz.getSimpleName().charAt(0)) {
             case 'i':

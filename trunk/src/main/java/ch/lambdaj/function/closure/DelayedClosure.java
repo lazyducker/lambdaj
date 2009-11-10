@@ -7,6 +7,26 @@ package ch.lambdaj.function.closure;
 import static ch.lambdaj.function.closure.ClosuresFactory.createClosure;
 
 /**
+ * Extends this class in order to define a closure that can be used with a nicer and more readable syntax as it follows:
+ * <pre>
+ *  withTransaction(); {
+ *      of(this).doSomething();
+ *  }
+ * </pre>
+ * To achieve this result the withTransaction() should be defined as:
+ * <pre>
+ *  public void withTransaction() {
+ *      delayedClosure(new DelayedClosure&lt;Void&gt;() {
+ *          public Void doWithClosure(Closure closure) {
+ *              beginTransaction();
+ *              closure.apply();
+ *              commit();
+ *              return null;
+ *          }
+ *      });
+ *  }
+ * </pre>
+ * It is also possible to get a result from the method that uses this kind of closure by reading it from the getClosureResult() method
  * @author Guillaume Bort
  * @author Mario Fusco
  */
@@ -31,6 +51,10 @@ public abstract class DelayedClosure<T> {
      */
     public abstract T doWithClosure(Closure closure);
 
+    /**
+     * Returns the result of the invocation of the method that uses this closure 
+     * @return A ClosureResult containing the result of the invocation of the method that uses this closure
+     */
     public final ClosureResult<T> getClosureResult() {
         return closureResult;
     }

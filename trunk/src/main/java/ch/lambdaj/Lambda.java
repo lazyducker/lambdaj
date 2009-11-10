@@ -52,12 +52,10 @@ public final class Lambda {
 	/**
 	 * Transforms a collection of Ts in a single object having the same methods of a single instance of T.
 	 * That allows to invoke a method on each T in the collection with a single strong typed method call as in the following example:
-	 * <p/>
-	 * <code>
-	 * 		List<Person> personInFamily = asList(new Person("Domenico"), new Person("Mario"), new Person("Irma"));
+	 * <pre>
+	 * 		List&lt;Person&gt; personInFamily = asList(new Person("Domenico"), new Person("Mario"), new Person("Irma"));
 	 *		forEach(personInFamily).setLastName("Fusco");
-	 * </code>
-	 * <p/>
+	 * </pre>
 	 * The actual class of T is inferred from the class of the first iterable's item, but you can
 	 * specify a particular class by using the overloaded method.
 	 * @param <T> The type of the items in the iterable
@@ -92,12 +90,10 @@ public final class Lambda {
 	/**
 	 * Transforms a collection of Ts in a single object having the same methods of a single instance of T.
 	 * That allows to invoke a method on each T in the collection with a single strong typed method call as in the following example:
-	 * <p/>
-	 * <code>
-	 * 		List<Person> personInFamily = asList(new Person("Domenico"), new Person("Mario"), new Person("Irma"));
+	 * <pre>
+	 * 		List&lt;Person&gt; personInFamily = asList(new Person("Domenico"), new Person("Mario"), new Person("Irma"));
 	 *		forEach(personInFamily, Person.class).setLastName("Fusco");
-	 * </code>
-	 * <p/>
+	 * </pre>
 	 * The given class represents the proxied by the returned object, so it should be a superclass of all the objects in the iterable.
 	 * This overloaded version should be always used when it is not insured that the given iterable is null or empty.
 	 * @param <T> The type of the items in the iterable
@@ -174,12 +170,10 @@ public final class Lambda {
 	/**
 	 * For each item in the given iterable collects the value defined by the given argument and put them in a List.
 	 * For example the following code:
-	 * <p/>
-	 * <code>
-	 * 		List<Person> myFriends = asList(new Person("Biagio", 39), new Person("Luca", 29), new Person("Celestino", 29));
-	 *		List<Integer> ages = collect(meAndMyFriends, on(Person.class).getAge());
-	 * </code>
-	 * <p/>
+	 * <pre>
+	 * 		List&lt;Person&gt; myFriends = asList(new Person("Biagio", 39), new Person("Luca", 29), new Person("Celestino", 29));
+	 *		List&lt;Integer&gt; ages = collect(meAndMyFriends, on(Person.class).getAge());
+	 * </pre>
 	 * extracts the ages of all the Persons in the list and put them in a List of Integer.
 	 * <p/>
      * Actually it handles also Maps, Arrays and Iterator by collecting their values.
@@ -1088,6 +1082,11 @@ public final class Lambda {
 		return createClosure(type1, type2, type3, type4);
 	}
 
+    /**
+     * Returns the result of the invocation of the method that uses the given delayed closure
+     * @param delayedClosure The closure defined through the {@link DelayedClosure} syntax
+     * @return The result of the invocation of the method that uses the given delayed closure
+     */
     public static <T> ClosureResult<T> delayedClosure(DelayedClosure<T> delayedClosure) {
         return delayedClosure.getClosureResult();
     }
