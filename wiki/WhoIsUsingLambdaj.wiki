@@ -1,4 +1,5 @@
 #summary The list of the lambdaj user
+#labels Featured
 
 = Who is using lambdaj? =
 
