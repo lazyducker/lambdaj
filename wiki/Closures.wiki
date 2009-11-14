@@ -147,7 +147,7 @@ private void readFileByLine(String fileName, Closure1<String> lineReader) {
 
 == Closure's delayed evaluation ==
 
-When a closure returns void, as it should happen in the biggest part of the cases and as it is for all the three closures in the former example, lambdaj allows a delayed evaluation. In other words, it is possible to invoke them before they have been defined through the of() method. In this case the evaluation of the closure will be delayed until it gets defined. That in turns allows to use closures in a more syntetic and elegant way as in the last example below. Note that here the closure creation has been moved inside the method that uses it, while the corresponding definition comes immediately after the invocation of that method itself. You can imagine as the private method that uses the closure takes the closure definition as a further implicit parameter. I believe that this last style, despite its elegance or due to it, could be a bit too much implicit, so it should be a good idea to use it in a private method but not in a public API unless not very well documented.
+Lambdaj also provides a different usage pattern called delayed evaluation because the invocation of the closure itself it is delayed until it gets defined. That in turns allows to use closures in a more syntetic and elegant way as in the last example below. Note that here the closure creation has been moved inside the method that uses it, while the corresponding definition comes immediately after the invocation of that method itself.  
 
 {{{
 public void printFile(String fileName) {
@@ -172,22 +172,29 @@ void countNonEmptyLine(String line) {
 }
 	
 private void readFileByLine(String fileName) {
-    Closure1<String> lineReader = closure(String.class);
-    BufferedReader reader = null;
-    try {
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(fileName);
-        reader = new BufferedReader(new InputStreamReader(stream));
-        for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-            lineReader.apply(line);
+    delayedClosure(new DelayedClosure<Void>() {
+
+        @Override
+        public Void doWithClosure(Closure closure) {
+            BufferedReader reader = null;
+            try {
+                InputStream stream = getClass().getClassLoader().getResourceAsStream(fileName);
+                reader = new BufferedReader(new InputStreamReader(stream));
+                for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+                    lineReader.apply(line);
+                }
+            } catch (IOException ioe) {
+                throw new RuntimeException("Error while reading file " + fileName, ioe);
+            } finally {
+                try {
+                    if (reader != null) reader.close();
+                } catch (IOException ioe) {
+                    throw new RuntimeException("Error while closing file reader", ioe);
+                }
+            }
         }
-    } catch (IOException ioe) {
-        throw new RuntimeException("Error while reading file " + fileName, ioe);
-    } finally {
-        try {
-            if (reader != null) reader.close();
-        } catch (IOException ioe) {
-            throw new RuntimeException("Error while closing file reader", ioe);
-        }
-    }
+    });
 }
 }}}
+
+This syntax, while already available in the 2.0 release has been vastly improved in the 2.1 one. Moreover it also now allows to return a value from the method that uses the delayed closure as shown in the examples provided in the [http://code.google.com/p/lambdaj/wiki/Lambdaj21ReleaseNotes lambdaj 2.1 release notes].
