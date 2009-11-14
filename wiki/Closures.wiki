@@ -175,7 +175,7 @@ private void readFileByLine(String fileName) {
     delayedClosure(new DelayedClosure<Void>() {
 
         @Override
-        public Void doWithClosure(Closure closure) {
+        public Void doWithClosure(Closure lineReader) {
             BufferedReader reader = null;
             try {
                 InputStream stream = getClass().getClassLoader().getResourceAsStream(fileName);
