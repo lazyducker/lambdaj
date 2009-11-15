@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.2.2" timestamp="2009-08-21T22:03:47.109">
+<pmd version="4.2.2" timestamp="2009-11-15T11:29:39.421">
+<file name="C:\data\development\IntelliJ\lambdaj\src\main\java\ch\lambdaj\function\argument\ArgumentsFactory.java">
+<violation beginline="178" endline="178" begincolumn="15" endcolumn="37" rule="EmptyCatchBlock" ruleset="Basic Rules" package="ch.lambdaj.function.argument" class="ArgumentsFactory" method="createArgumentPlaceholderForUnknownClass" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
 <file name="C:\data\development\IntelliJ\lambdaj\src\main\java\ch\lambdaj\proxy\InvocationInterceptor.java">
 <violation beginline="8" endline="8" begincolumn="8" endcolumn="42" rule="DuplicateImports" ruleset="Import Statement Rules" package="ch.lambdaj.proxy" externalInfoUrl="http://pmd.sourceforge.net/rules/imports.html#DuplicateImports" priority="4">
 Avoid duplicate imports such as 'java.lang.reflect.InvocationHandler'

@@ -42,7 +42,7 @@
   
     
             <div class="xleft">
-        Last Published: 2009-08-21
+        Last Published: 2009-11-15
                       </div>
             <div class="xright">            <a href="">lambdaj</a>
             
@@ -174,8 +174,8 @@
 <th>Errors</th>
 <th>Missing Classes</th>
 </tr>
-<tr class="b"><td>332</td>
-<td>15</td>
+<tr class="b"><td>358</td>
+<td>19</td>
 <td>0</td>
 <td>0</td>
 </tr>
@@ -187,7 +187,7 @@
 </tr>
 <tr class="b"><td><a href="#ch.lambdaj.function.argument.ArgumentsFactory">ch.lambdaj.function.argument.ArgumentsFactory</a>
 </td>
-<td>1</td>
+<td>2</td>
 </tr>
 <tr class="a"><td><a href="#ch.lambdaj.function.argument.Invocation">ch.lambdaj.function.argument.Invocation</a>
 </td>
@@ -209,29 +209,37 @@
 </td>
 <td>1</td>
 </tr>
-<tr class="b"><td><a href="#ch.lambdaj.function.convert.ProjectConverter">ch.lambdaj.function.convert.ProjectConverter</a>
+<tr class="b"><td><a href="#ch.lambdaj.function.convert.ConstructorArgumentConverter">ch.lambdaj.function.convert.ConstructorArgumentConverter</a>
 </td>
 <td>1</td>
 </tr>
-<tr class="a"><td><a href="#ch.lambdaj.function.matcher.AndMatcher">ch.lambdaj.function.matcher.AndMatcher</a>
+<tr class="a"><td><a href="#ch.lambdaj.function.convert.ProjectConverter">ch.lambdaj.function.convert.ProjectConverter</a>
 </td>
 <td>1</td>
 </tr>
-<tr class="b"><td><a href="#ch.lambdaj.function.matcher.OrMatcher">ch.lambdaj.function.matcher.OrMatcher</a>
+<tr class="b"><td><a href="#ch.lambdaj.function.matcher.AndMatcher">ch.lambdaj.function.matcher.AndMatcher</a>
 </td>
 <td>1</td>
 </tr>
-<tr class="a"><td><a href="#ch.lambdaj.group.GroupComparator">ch.lambdaj.group.GroupComparator</a>
+<tr class="a"><td><a href="#ch.lambdaj.function.matcher.OrMatcher">ch.lambdaj.function.matcher.OrMatcher</a>
 </td>
 <td>1</td>
 </tr>
-<tr class="b"><td><a href="#ch.lambdaj.proxy.ClassImposterizer$4">ch.lambdaj.proxy.ClassImposterizer$4</a>
+<tr class="b"><td><a href="#ch.lambdaj.group.GroupComparator">ch.lambdaj.group.GroupComparator</a>
 </td>
 <td>1</td>
 </tr>
-<tr class="a"><td><a href="#ch.lambdaj.util.IntrospectionUtil">ch.lambdaj.util.IntrospectionUtil</a>
+<tr class="a"><td><a href="#ch.lambdaj.proxy.ClassImposterizer$4">ch.lambdaj.proxy.ClassImposterizer$4</a>
+</td>
+<td>1</td>
+</tr>
+<tr class="b"><td><a href="#ch.lambdaj.util.IntrospectionUtil">ch.lambdaj.util.IntrospectionUtil</a>
 </td>
 <td>4</td>
+</tr>
+<tr class="a"><td><a href="#ch.lambdaj.util.iterator.ResettableIteratorOnArray">ch.lambdaj.util.iterator.ResettableIteratorOnArray</a>
+</td>
+<td>2</td>
 </tr>
 </table>
 </div>
@@ -242,22 +250,28 @@
 <th>Details</th>
 <th>Line</th>
 </tr>
-<tr class="a"><td>Exception is caught when Exception is not thrown in ch.lambdaj.function.argument.ArgumentsFactory.createArgumentPlaceholder(Class, Integer)</td>
+<tr class="a"><td>Exception is caught when Exception is not thrown in ch.lambdaj.function.argument.ArgumentsFactory.createArgumentPlaceholderForUnknownClass(Class, Integer)</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#REC_CATCH_EXCEPTION">REC_CATCH_EXCEPTION</a>
 </td>
-<td>164</td>
+<td>178</td>
+</tr>
+<tr class="b"><td>Exception is caught when Exception is not thrown in ch.lambdaj.function.argument.ArgumentsFactory.createArgumentPlaceholderForUnknownClass(Class, Integer)</td>
+<td>STYLE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#REC_CATCH_EXCEPTION">REC_CATCH_EXCEPTION</a>
+</td>
+<td>178</td>
 </tr>
 </table>
 </div>
 <a name="ch.lambdaj.function.argument.Invocation"></a>
 <div class="section"><h3>ch.lambdaj.function.argument.Invocation</h3>
-<table class="bodyTable"><tr class="b"><th>Bug</th>
+<table class="bodyTable"><tr class="a"><th>Bug</th>
 <th>Category</th>
 <th>Details</th>
 <th>Line</th>
 </tr>
-<tr class="a"><td>Should ch.lambdaj.function.argument.Invocation.getConcreteArgs() return a zero length array rather than null?</td>
+<tr class="b"><td>Should ch.lambdaj.function.argument.Invocation.getConcreteArgs() return a zero length array rather than null?</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#PZLA_PREFER_ZERO_LENGTH_ARRAYS">PZLA_PREFER_ZERO_LENGTH_ARRAYS</a>
 </td>
@@ -267,12 +281,12 @@
 </div>
 <a name="ch.lambdaj.function.closure.AbstractClosure"></a>
 <div class="section"><h3>ch.lambdaj.function.closure.AbstractClosure</h3>
-<table class="bodyTable"><tr class="b"><th>Bug</th>
+<table class="bodyTable"><tr class="a"><th>Bug</th>
 <th>Category</th>
 <th>Details</th>
 <th>Line</th>
 </tr>
-<tr class="a"><td>ch.lambdaj.function.closure.AbstractClosure.bindInvocation(Method, Object[]) invokes java.lang.reflect.Method.setAccessible(boolean), which should be invoked from within a doPrivileged block</td>
+<tr class="b"><td>ch.lambdaj.function.closure.AbstractClosure.bindInvocation(Method, Object[]) invokes java.lang.reflect.Method.setAccessible(boolean), which should be invoked from within a doPrivileged block</td>
 <td>BAD_PRACTICE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DP_DO_INSIDE_DO_PRIVILEGED">DP_DO_INSIDE_DO_PRIVILEGED</a>
 </td>
@@ -282,12 +296,12 @@
 </div>
 <a name="ch.lambdaj.function.compare.ArgumentComparator"></a>
 <div class="section"><h3>ch.lambdaj.function.compare.ArgumentComparator</h3>
-<table class="bodyTable"><tr class="b"><th>Bug</th>
+<table class="bodyTable"><tr class="a"><th>Bug</th>
 <th>Category</th>
 <th>Details</th>
 <th>Line</th>
 </tr>
-<tr class="a"><td>ch.lambdaj.function.compare.ArgumentComparator implements Comparator but not Serializable</td>
+<tr class="b"><td>ch.lambdaj.function.compare.ArgumentComparator implements Comparator but not Serializable</td>
 <td>BAD_PRACTICE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SE_COMPARATOR_SHOULD_BE_SERIALIZABLE">SE_COMPARATOR_SHOULD_BE_SERIALIZABLE</a>
 </td>
@@ -297,12 +311,12 @@
 </div>
 <a name="ch.lambdaj.function.compare.ArgumentComparatorDefaultArgumentComparator"></a>
 <div class="section"><h3>ch.lambdaj.function.compare.ArgumentComparator$DefaultArgumentComparator</h3>
-<table class="bodyTable"><tr class="b"><th>Bug</th>
+<table class="bodyTable"><tr class="a"><th>Bug</th>
 <th>Category</th>
 <th>Details</th>
 <th>Line</th>
 </tr>
-<tr class="a"><td>ch.lambdaj.function.compare.ArgumentComparator$DefaultArgumentComparator implements Comparator but not Serializable</td>
+<tr class="b"><td>ch.lambdaj.function.compare.ArgumentComparator$DefaultArgumentComparator implements Comparator but not Serializable</td>
 <td>BAD_PRACTICE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SE_COMPARATOR_SHOULD_BE_SERIALIZABLE">SE_COMPARATOR_SHOULD_BE_SERIALIZABLE</a>
 </td>
@@ -312,12 +326,12 @@
 </div>
 <a name="ch.lambdaj.function.compare.PropertyComparator"></a>
 <div class="section"><h3>ch.lambdaj.function.compare.PropertyComparator</h3>
-<table class="bodyTable"><tr class="b"><th>Bug</th>
+<table class="bodyTable"><tr class="a"><th>Bug</th>
 <th>Category</th>
 <th>Details</th>
 <th>Line</th>
 </tr>
-<tr class="a"><td>ch.lambdaj.function.compare.PropertyComparator implements Comparator but not Serializable</td>
+<tr class="b"><td>ch.lambdaj.function.compare.PropertyComparator implements Comparator but not Serializable</td>
 <td>BAD_PRACTICE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SE_COMPARATOR_SHOULD_BE_SERIALIZABLE">SE_COMPARATOR_SHOULD_BE_SERIALIZABLE</a>
 </td>
@@ -325,14 +339,29 @@
 </tr>
 </table>
 </div>
-<a name="ch.lambdaj.function.convert.ProjectConverter"></a>
-<div class="section"><h3>ch.lambdaj.function.convert.ProjectConverter</h3>
-<table class="bodyTable"><tr class="b"><th>Bug</th>
+<a name="ch.lambdaj.function.convert.ConstructorArgumentConverter"></a>
+<div class="section"><h3>ch.lambdaj.function.convert.ConstructorArgumentConverter</h3>
+<table class="bodyTable"><tr class="a"><th>Bug</th>
 <th>Category</th>
 <th>Details</th>
 <th>Line</th>
 </tr>
-<tr class="a"><td>ch.lambdaj.function.convert.ProjectConverter.ProjectConverter(Converter[]) may expose internal representation by storing an externally mutable object into ProjectConverter.projectors</td>
+<tr class="b"><td>Exception is caught when Exception is not thrown in ch.lambdaj.function.convert.ConstructorArgumentConverter.isCompatible(Constructor, Object[])</td>
+<td>STYLE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#REC_CATCH_EXCEPTION">REC_CATCH_EXCEPTION</a>
+</td>
+<td>40</td>
+</tr>
+</table>
+</div>
+<a name="ch.lambdaj.function.convert.ProjectConverter"></a>
+<div class="section"><h3>ch.lambdaj.function.convert.ProjectConverter</h3>
+<table class="bodyTable"><tr class="a"><th>Bug</th>
+<th>Category</th>
+<th>Details</th>
+<th>Line</th>
+</tr>
+<tr class="b"><td>ch.lambdaj.function.convert.ProjectConverter.ProjectConverter(Converter[]) may expose internal representation by storing an externally mutable object into ProjectConverter.projectors</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#EI_EXPOSE_REP2">EI_EXPOSE_REP2</a>
 </td>
@@ -342,12 +371,12 @@
 </div>
 <a name="ch.lambdaj.function.matcher.AndMatcher"></a>
 <div class="section"><h3>ch.lambdaj.function.matcher.AndMatcher</h3>
-<table class="bodyTable"><tr class="b"><th>Bug</th>
+<table class="bodyTable"><tr class="a"><th>Bug</th>
 <th>Category</th>
 <th>Details</th>
 <th>Line</th>
 </tr>
-<tr class="a"><td>ch.lambdaj.function.matcher.AndMatcher.AndMatcher(Matcher[]) may expose internal representation by storing an externally mutable object into AndMatcher.matchers</td>
+<tr class="b"><td>ch.lambdaj.function.matcher.AndMatcher.AndMatcher(Matcher[]) may expose internal representation by storing an externally mutable object into AndMatcher.matchers</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#EI_EXPOSE_REP2">EI_EXPOSE_REP2</a>
 </td>
@@ -357,12 +386,12 @@
 </div>
 <a name="ch.lambdaj.function.matcher.OrMatcher"></a>
 <div class="section"><h3>ch.lambdaj.function.matcher.OrMatcher</h3>
-<table class="bodyTable"><tr class="b"><th>Bug</th>
+<table class="bodyTable"><tr class="a"><th>Bug</th>
 <th>Category</th>
 <th>Details</th>
 <th>Line</th>
 </tr>
-<tr class="a"><td>ch.lambdaj.function.matcher.OrMatcher.OrMatcher(Matcher[]) may expose internal representation by storing an externally mutable object into OrMatcher.matchers</td>
+<tr class="b"><td>ch.lambdaj.function.matcher.OrMatcher.OrMatcher(Matcher[]) may expose internal representation by storing an externally mutable object into OrMatcher.matchers</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#EI_EXPOSE_REP2">EI_EXPOSE_REP2</a>
 </td>
@@ -372,12 +401,12 @@
 </div>
 <a name="ch.lambdaj.group.GroupComparator"></a>
 <div class="section"><h3>ch.lambdaj.group.GroupComparator</h3>
-<table class="bodyTable"><tr class="b"><th>Bug</th>
+<table class="bodyTable"><tr class="a"><th>Bug</th>
 <th>Category</th>
 <th>Details</th>
 <th>Line</th>
 </tr>
-<tr class="a"><td>ch.lambdaj.group.GroupComparator implements Comparator but not Serializable</td>
+<tr class="b"><td>ch.lambdaj.group.GroupComparator implements Comparator but not Serializable</td>
 <td>BAD_PRACTICE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SE_COMPARATOR_SHOULD_BE_SERIALIZABLE">SE_COMPARATOR_SHOULD_BE_SERIALIZABLE</a>
 </td>
@@ -387,12 +416,12 @@
 </div>
 <a name="ch.lambdaj.proxy.ClassImposterizer4"></a>
 <div class="section"><h3>ch.lambdaj.proxy.ClassImposterizer$4</h3>
-<table class="bodyTable"><tr class="b"><th>Bug</th>
+<table class="bodyTable"><tr class="a"><th>Bug</th>
 <th>Category</th>
 <th>Details</th>
 <th>Line</th>
 </tr>
-<tr class="a"><td>The class ch.lambdaj.proxy.ClassImposterizer$4 could be refactored into a named _static_ inner class</td>
+<tr class="b"><td>The class ch.lambdaj.proxy.ClassImposterizer$4 could be refactored into a named _static_ inner class</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SIC_INNER_SHOULD_BE_STATIC_ANON">SIC_INNER_SHOULD_BE_STATIC_ANON</a>
 </td>
@@ -402,34 +431,55 @@
 </div>
 <a name="ch.lambdaj.util.IntrospectionUtil"></a>
 <div class="section"><h3>ch.lambdaj.util.IntrospectionUtil</h3>
-<table class="bodyTable"><tr class="b"><th>Bug</th>
+<table class="bodyTable"><tr class="a"><th>Bug</th>
 <th>Category</th>
 <th>Details</th>
 <th>Line</th>
-</tr>
-<tr class="a"><td>Use of non-localized String.toUpperCase() or String.toLowerCase</td>
-<td>I18N</td>
-<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DM_CONVERT_CASE">DM_CONVERT_CASE</a>
-</td>
-<td>21</td>
 </tr>
 <tr class="b"><td>Use of non-localized String.toUpperCase() or String.toLowerCase</td>
 <td>I18N</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DM_CONVERT_CASE">DM_CONVERT_CASE</a>
 </td>
-<td>29</td>
+<td>24</td>
 </tr>
-<tr class="a"><td>Exception is caught when Exception is not thrown in ch.lambdaj.util.IntrospectionUtil.getBooleanPropertyValue(Object, String, String)</td>
-<td>STYLE</td>
-<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#REC_CATCH_EXCEPTION">REC_CATCH_EXCEPTION</a>
-</td>
-<td>40</td>
-</tr>
-<tr class="b"><td>Exception is caught when Exception is not thrown in ch.lambdaj.util.IntrospectionUtil.getPropertyValue(Object, String)</td>
-<td>STYLE</td>
-<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#REC_CATCH_EXCEPTION">REC_CATCH_EXCEPTION</a>
+<tr class="a"><td>Use of non-localized String.toUpperCase() or String.toLowerCase</td>
+<td>I18N</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DM_CONVERT_CASE">DM_CONVERT_CASE</a>
 </td>
 <td>32</td>
+</tr>
+<tr class="b"><td>Exception is caught when Exception is not thrown in ch.lambdaj.util.IntrospectionUtil.getBooleanPropertyValue(Object, String, String)</td>
+<td>STYLE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#REC_CATCH_EXCEPTION">REC_CATCH_EXCEPTION</a>
+</td>
+<td>43</td>
+</tr>
+<tr class="a"><td>Exception is caught when Exception is not thrown in ch.lambdaj.util.IntrospectionUtil.getPropertyValue(Object, String)</td>
+<td>STYLE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#REC_CATCH_EXCEPTION">REC_CATCH_EXCEPTION</a>
+</td>
+<td>35</td>
+</tr>
+</table>
+</div>
+<a name="ch.lambdaj.util.iterator.ResettableIteratorOnArray"></a>
+<div class="section"><h3>ch.lambdaj.util.iterator.ResettableIteratorOnArray</h3>
+<table class="bodyTable"><tr class="b"><th>Bug</th>
+<th>Category</th>
+<th>Details</th>
+<th>Line</th>
+</tr>
+<tr class="a"><td>ch.lambdaj.util.iterator.ResettableIteratorOnArray.ResettableIteratorOnArray(Object[]) may expose internal representation by storing an externally mutable object into ResettableIteratorOnArray.array</td>
+<td>MALICIOUS_CODE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#EI_EXPOSE_REP2">EI_EXPOSE_REP2</a>
+</td>
+<td>16</td>
+</tr>
+<tr class="b"><td>ch.lambdaj.util.iterator.ResettableIteratorOnArray.next() can't throw NoSuchElement exception</td>
+<td>BAD_PRACTICE</td>
+<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#IT_NO_SUCH_ELEMENT">IT_NO_SUCH_ELEMENT</a>
+</td>
+<td>24</td>
 </tr>
 </table>
 </div>
