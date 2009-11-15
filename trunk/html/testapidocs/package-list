@@ -8,3 +8,4 @@ ch.lambdaj.group
 ch.lambdaj.mock
 ch.lambdaj.proxy.nodefconstructor
 ch.lambdaj.proxy.nodefconstructor.problem
+ch.lambdaj.util.iterator
