@@ -192,6 +192,7 @@ private void readFileByLine(String fileName) {
                     throw new RuntimeException("Error while closing file reader", ioe);
                 }
             }
+            return null;
         }
     });
 }
