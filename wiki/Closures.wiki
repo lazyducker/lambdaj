@@ -5,15 +5,13 @@
 
 Closures represent probably the most important feature that is missing in the tools box of each Java programmer. Some of them don't feel (or don't understand) the need of closures, while some other does and probably for this reason are evaluating to migrate toward a functional enabled programming language. The biggest part of us just learned to partially workaround this lack by using the verbose and poorly readable (anonymous) inner classes.
 
-Actually the opportunity to provide Java with this feature has been vastly debated and for a certain amount of time it seemed they were going to introduce it in Java 7 through the (in my opinion awful) BGGA specification. In the end they decided to give up with it leaving the Java developers still orphans of closures.
-
 lambdaj tries to partially fill this lack by introducing in its release 2.0 a new feature that allow to define, in its traditional DSL style, first-class functions with free variables like in the following example:
 
 {{{
 Closure println = closure(); { of(System.out).println(var(String.class)); }
 }}}
 
-I believe it is straightforward to understand what the println closure does. In particular the var() method binds a free variable of type String to the closure. Moreover, note that the curly brackets around the statement that define the behaviour of the closure are only syntactic sugar and then could be safely removed even if I find the code more readable by keeping them. You can then invoke this closure by "closing" its free variable once:
+I believe it is straightforward to understand what the println closure does. In particular the var() method binds a free variable of type String to the closure. Moreover, note that the curly brackets around the statement that define the behaviour of the closure are only syntactic sugar and then could be safely removed even if I find the code more readable by keeping them. Also note that the method invoked on the object returned by the of(...) statement cannot be a private one. You can then invoke this closure by "closing" its free variable once:
 
 {{{
 println.apply("one");
