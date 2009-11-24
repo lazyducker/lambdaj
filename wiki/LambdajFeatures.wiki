@@ -3,7 +3,13 @@
 
 =lambdaj features=
 
-lambdaj is designed to easily manipulate collections. Its features are intended to filter, convert, index and aggregate the items of a collection without explicitly iterate on it. Moreover the lambdaj API are designed to be easily concatenated in order to jointly use two or more features in a single statement. Let's investigate these features in more details: ...
+lambdaj is designed to easily manipulate collections. Its features are intended to filter, convert, index and aggregate the items of a collection without explicitly iterate on it. Moreover the lambdaj API are designed to be easily concatenated in order to jointly use two or more features in a single statement. All those features are provided as static methods in the class Lambda, so the best way to use them is just to add the following import:
+
+{{{
+import static ch.lambdaj.Lambda.*;
+}}}
+
+in the classes where you want to use it. Let's investigate these features in more details: ...
 
 ==Filtering on a condition==
 
