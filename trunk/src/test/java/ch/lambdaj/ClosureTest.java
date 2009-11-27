@@ -153,7 +153,7 @@ public class ClosureTest {
 		result = (Integer)closure2.apply(7, 3);
         assertEquals(2, closure2.getFreeVarsNumber());
 		assertEquals((7 - 2) * 3, result);
-		
+
 		Closure1<Integer> closure1 = closure2.curry2(5);
 		result = (Integer)closure1.apply(4);
         assertEquals(1, closure1.getFreeVarsNumber());
@@ -173,7 +173,17 @@ public class ClosureTest {
         assertEquals(0, closure0.getFreeVarsNumber());
 		assertEquals((9 - 2) * 5, result);
 	}
-	
+
+    @Test
+    public void testCast() {
+        Closure4<Integer, Integer, Integer, Integer> closure4 = closure(Integer.class, Integer.class, Integer.class, Integer.class); {
+            of(this).doNonCommutativeOpOnInt(var(Integer.class), var(Integer.class), var(Integer.class), var(Integer.class));
+        }
+        NonCommutativeDoer doer = closure4.cast(NonCommutativeDoer.class);
+        int result = doer.nonCommutativeDoOnInt(5, 2, 4, 3);
+        assertEquals((5 - 2) * (4 - 3), result);
+    }
+
 	@Test
 	public void testWrongCurry() {
 		Closure closure = closure(); { of(this).doNonCommutativeOpOnInt(var(Integer.class), var(Integer.class), var(Integer.class), 10); }
@@ -181,16 +191,6 @@ public class ClosureTest {
 			closure.curry(3, 4);
 			fail("Curry on wrong argument position must fail");
 		} catch (IllegalArgumentException iae) { }
-	}
-
-	@Test
-	public void testCast() {
-		Closure4<Integer, Integer, Integer, Integer> closure4 = closure(Integer.class, Integer.class, Integer.class, Integer.class); {
-			of(this).doNonCommutativeOpOnInt(var(Integer.class), var(Integer.class), var(Integer.class), var(Integer.class));
-		}
-		NonCommutativeDoer doer = closure4.cast(NonCommutativeDoer.class);
-		int result = doer.nonCommutativeDoOnInt(5, 2, 4, 3);
-		assertEquals((5 - 2) * (4 - 3), result);
 	}
 
 	@Test

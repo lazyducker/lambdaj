@@ -44,10 +44,6 @@ public final class ProxyUtil {
     // /// Void Proxy
     // ////////////////////////////////////////////////////////////////////////
     
-	public static boolean isVoidProxy(Object object) {
-		return object instanceof InvocationInterceptor.VoidInterceptor;
-	}
-	
 	public static <T> T createVoidProxy(Class<T> clazz) {
 		return createProxy(InvocationInterceptor.VOID, clazz, false, InvocationInterceptor.VoidInterceptor.class);
 	}
