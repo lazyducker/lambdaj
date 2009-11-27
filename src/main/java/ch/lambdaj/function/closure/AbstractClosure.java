@@ -150,7 +150,7 @@ abstract class AbstractClosure {
 		if (vars == null || vars.length == 0) {
 			if (freeVarsNumber != 0)
 				throw new WrongClosureInvocationException("Closure invoked without vars instead of the expected " + freeVarsNumber);
-			if (curriedVars == null) return null;
+			if (curriedVars == null && argsList == null) return null;
 		}
 		if (freeVarsNumber != vars.length)
 			throw new WrongClosureInvocationException("Closure invoked with " + vars.length + " vars instead of the expected " + freeVarsNumber);

@@ -6,6 +6,7 @@ package ch.lambdaj.function.closure;
 
 import static ch.lambdaj.function.argument.ArgumentsFactory.*;
 import static ch.lambdaj.proxy.ProxyUtil.*;
+import ch.lambdaj.proxy.*;
 
 /**
  * An utility class of static factory methods that create closures
@@ -105,7 +106,7 @@ public final class ClosuresFactory {
      * @return A placeholder that represent a free closure variable of the given Class
      */
     public static <T> T createClosureVarPlaceholder(Class<T> clazz) {
-		return isProxable(clazz) ? createVoidProxy(clazz) : createFinalArgumentPlaceholder(clazz);
+		return createClosureArgumentPlaceholder(clazz);
 	}
 
     /**
@@ -114,6 +115,6 @@ public final class ClosuresFactory {
      * @return true if the given object is actually a placeholder for a free variable of a closure
      */
 	public static boolean isClosureVarPlaceholder(Object object) {
-		return object != null && (isVoidProxy(object) || object.equals(createFinalArgumentPlaceholder(object.getClass())));
+		return object instanceof InvocationInterceptor.VoidInterceptor || createClosureArgumentPlaceholder(object.getClass()).equals(object);
 	}
 }

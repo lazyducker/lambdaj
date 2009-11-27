@@ -9,6 +9,7 @@ import java.util.*;
 import java.util.concurrent.atomic.*;
 
 import ch.lambdaj.proxy.*;
+import static ch.lambdaj.proxy.ProxyUtil.*;
 
 /**
  * An utility class of static factory methods that creates arguments and binds them with their placeholders
@@ -51,7 +52,7 @@ public final class ArgumentsFactory {
 	
 	private static Object createPlaceholder(Class<?> clazz, InvocationSequence invocationSequence) {
 		return !Modifier.isFinal(clazz.getModifiers()) ? 
-				ProxyUtil.createIterableProxy(new ProxyArgument(clazz, invocationSequence), clazz) : 
+				createIterableProxy(new ProxyArgument(clazz, invocationSequence), clazz) :
 				createArgumentPlaceholder(clazz);
 	}
 
@@ -134,8 +135,12 @@ public final class ArgumentsFactory {
 	// /// Placeholders
 	// ////////////////////////////////////////////////////////////////////////
 	
+    public static <T> T createClosureArgumentPlaceholder(Class<T> clazz) {
+        return isProxable(clazz) ? createVoidProxy(clazz) : createFinalArgumentPlaceholder(clazz);
+    }
+
     @SuppressWarnings("unchecked")
-    public static <T> T createFinalArgumentPlaceholder(Class<T> clazz) {
+    private static <T> T createFinalArgumentPlaceholder(Class<T> clazz) {
     	if (clazz == Boolean.TYPE || clazz == Boolean.class) return (T)Boolean.FALSE; 
     	if (clazz.isEnum()) return (T)EnumSet.allOf((Class<? extends Enum>)clazz).iterator().next();
     	return (T)createArgumentPlaceholder(clazz, Integer.MIN_VALUE+1);
