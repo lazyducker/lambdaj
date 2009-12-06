@@ -1,5 +1,5 @@
 // Modified or written by Ex Machina SAGL for inclusion with lambdaj.
-// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Copyright (c) 2009 Mario Fusco.
 // Licensed under the Apache License, Version 2.0 (the "License")
 
 package ch.lambdaj.function.argument;
@@ -56,14 +56,11 @@ class Invocation {
 	}
 
 	Object invokeOn(Object object) throws InvocationException {
-		if (object == null || invokedMethod == null) return object;
-		Object result;
 		try {
-			result = invokedMethod.invoke(object, getConcreteArgs());
+			return object == null ? null : invokedMethod.invoke(object, getConcreteArgs());
 		} catch (Exception e) {
 			throw new InvocationException(e, invokedMethod, object);
 		}
-		return result;
 	}
 	
 	@Override

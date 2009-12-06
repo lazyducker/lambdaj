@@ -1,5 +1,5 @@
 // Modified or written by Ex Machina SAGL for inclusion with lambdaj.
-// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Copyright (c) 2009 Mario Fusco.
 // Licensed under the Apache License, Version 2.0 (the "License")
 
 package ch.lambdaj.util.iterator;
@@ -9,7 +9,7 @@ package ch.lambdaj.util.iterator;
  */
 public class ResettableIteratorOnArray<T> extends ResettableIterator<T> {
 
-    private T[] array;
+    private final T[] array;
     private int counter = 0;
 
     public ResettableIteratorOnArray(T[] array) {

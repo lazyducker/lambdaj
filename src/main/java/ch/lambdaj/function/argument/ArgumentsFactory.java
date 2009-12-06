@@ -1,5 +1,5 @@
 // Modified or written by Ex Machina SAGL for inclusion with lambdaj.
-// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Copyright (c) 2009 Mario Fusco.
 // Licensed under the Apache License, Version 2.0 (the "License")
 
 package ch.lambdaj.function.argument;
@@ -8,7 +8,6 @@ import java.lang.reflect.*;
 import java.util.*;
 import java.util.concurrent.atomic.*;
 
-import ch.lambdaj.proxy.*;
 import static ch.lambdaj.proxy.ProxyUtil.*;
 
 /**
@@ -52,7 +51,7 @@ public final class ArgumentsFactory {
 	
 	private static Object createPlaceholder(Class<?> clazz, InvocationSequence invocationSequence) {
 		return !Modifier.isFinal(clazz.getModifiers()) ? 
-				createIterableProxy(new ProxyArgument(clazz, invocationSequence), clazz) :
+				createProxy(new ProxyArgument(clazz, invocationSequence), clazz, false) :
 				createArgumentPlaceholder(clazz);
 	}
 
@@ -147,11 +146,7 @@ public final class ArgumentsFactory {
 	}
     
     private static final AtomicInteger placeholderCounter = new AtomicInteger(Integer.MIN_VALUE);
-    
-    static int getNextPlaceholderId() {
-    	return placeholderCounter.addAndGet(1);
-    }
-    
+
     static Object createArgumentPlaceholder(Class<?> clazz) {
     	return isLimitedValues(clazz) ? limitedValuesArguments.get().getNextPlaceholder(clazz) : createArgumentPlaceholder(clazz, placeholderCounter.addAndGet(1));
 	}
