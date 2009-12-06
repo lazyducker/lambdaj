@@ -1,5 +1,5 @@
 // Modified or written by Ex Machina SAGL for inclusion with lambdaj.
-// Copyright (c) 2009 Mario Fusco, Luca Marrocco.
+// Copyright (c) 2009 Mario Fusco.
 // Licensed under the Apache License, Version 2.0 (the "License")
 
 package ch.lambdaj.function.convert;
@@ -22,18 +22,16 @@ public class AliasedArgumentConverter<F, T> implements Converter<F, Map.Entry<St
      * Creates a converter that projects the value of the argument of an object using as alias
      * the argument property name as defined by {@link Argument#getInkvokedPropertyName()}
      * @param argument An argument defined using the {@link ch.lambdaj.Lambda#on(Class)} method
-     * @return A converter that can be used as projector in the {@link ch.lambdaj.Lambda#project(Object, Converter[])} method
      */
     public AliasedArgumentConverter(T argument) {
         this.argument = actualArgument(argument);
-        this.alias = this.argument.getInkvokedPropertyName();
+        alias = this.argument.getInkvokedPropertyName();
     }
 
     /**
      * Creates a converter that projects the value of the argument of an object using as the given alias
      * @param alias The key on which the argument value is paired
      * @param argument An argument defined using the {@link ch.lambdaj.Lambda#on(Class)} method
-     * @return A converter that can be used as projector in the {@link ch.lambdaj.Lambda#project(Object, Converter[])} method
      */
     public AliasedArgumentConverter(String alias, T argument) {
         this.argument = actualArgument(argument);

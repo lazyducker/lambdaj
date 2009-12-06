@@ -64,7 +64,7 @@ class ClassImposterizer  {
     private static final NamingPolicy DEFAULT_POLICY = new DefaultNamingPolicy() {
         @Override
         protected String getTag() {
-            return "ByMockitoWithCGLIB";
+            return "ByLambdajWithCGLIB";
         }
     };
     
@@ -76,7 +76,7 @@ class ClassImposterizer  {
         
         @Override
         protected String getTag() {
-            return "ByMockitoWithCGLIB";
+            return "ByLambdajWithCGLIB";
         }
     };
     
@@ -86,7 +86,7 @@ class ClassImposterizer  {
         }
     };
     
-    public <T> T imposterise(final MethodInterceptor interceptor, Class<T> mockedType, Class<?>... ancillaryTypes) {
+    public <T> T imposterise(MethodInterceptor interceptor, Class<T> mockedType, Class<?>... ancillaryTypes) {
         try {
             setConstructorsAccessible(mockedType, true);
             Class<?> proxyClass = createProxyClass(mockedType, ancillaryTypes);
@@ -102,7 +102,7 @@ class ClassImposterizer  {
         }
     }
     
-    private <T> Class<?> createProxyClass(Class<?> mockedType, Class<?>...interfaces) {
+    private Class<?> createProxyClass(Class<?> mockedType, Class<?>...interfaces) {
         if (mockedType == Object.class) mockedType = ClassWithSuperclassToWorkAroundCglibBug.class;
         
         Enhancer enhancer = new Enhancer() {
@@ -125,7 +125,7 @@ class ClassImposterizer  {
         }
     }
     
-    private Object createProxy(Class<?> proxyClass, final MethodInterceptor interceptor) {
+    private Object createProxy(Class<?> proxyClass, MethodInterceptor interceptor) {
         Factory proxy = (Factory) objenesis.newInstance(proxyClass);
         proxy.setCallbacks(new Callback[] {interceptor, NoOp.INSTANCE});
         return proxy;
