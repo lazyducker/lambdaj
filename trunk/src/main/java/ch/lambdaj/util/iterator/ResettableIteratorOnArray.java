@@ -4,6 +4,8 @@
 
 package ch.lambdaj.util.iterator;
 
+import java.util.*;
+
 /**
  * @author Mario Fusco
  */
@@ -21,6 +23,7 @@ public class ResettableIteratorOnArray<T> extends ResettableIterator<T> {
     }
 
     public T next() {
+        if (!hasNext()) throw new NoSuchElementException();
         return array[counter++];
     }
 
