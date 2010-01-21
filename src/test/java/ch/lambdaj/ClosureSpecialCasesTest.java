@@ -8,6 +8,7 @@ import static ch.lambdaj.Lambda.*;
 import ch.lambdaj.function.closure.*;
 
 import java.util.*;
+import java.lang.reflect.*;
 
 import org.junit.*;
 
@@ -22,6 +23,14 @@ public class ClosureSpecialCasesTest {
 
     void twoArg(Object o, String readThis) {
         System.out.println("called two-arg: " + o + ", " + readThis);
+    }
+
+    <T> T createObject(Class<T> clazz, String arg) {
+        try {
+            return clazz.getConstructor(String.class).newInstance(arg);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
@@ -66,5 +75,23 @@ public class ClosureSpecialCasesTest {
         items.add("added later");
         closure.apply();
         assertEquals(asList("initial", "added later"), items);
+    }
+
+    @Test
+    public void testWithFixedClassArgument() {
+        Closure objectCreator = closure(); {
+            of(this).createObject(String.class, var(String.class));
+        }
+        String string = (String)objectCreator.apply("pippo");
+        assertEquals("pippo", string);
+    }
+
+    @Test
+    public void testWithFreeClassArgument() {
+        Closure objectCreator = closure(); {
+            of(this).createObject(var(Class.class), var(String.class));
+        }
+        String string = (String)objectCreator.apply(String.class, "pippo");
+        assertEquals("pippo", string);
     }
 }

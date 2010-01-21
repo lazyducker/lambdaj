@@ -66,7 +66,7 @@ public final class ProxyUtil {
         Enhancer enhancer = new Enhancer();
         enhancer.setCallback(interceptor);
         enhancer.setSuperclass(clazz);
-        if (interfaces != null) enhancer.setInterfaces(interfaces);
+        if (interfaces != null && interfaces.length > 0) enhancer.setInterfaces(interfaces);
         return enhancer;
     }
 	
