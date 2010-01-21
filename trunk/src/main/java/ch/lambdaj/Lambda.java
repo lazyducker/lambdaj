@@ -129,7 +129,19 @@ public final class Lambda {
      * @return An object that proxies all the item in the array
      */
     public static <T> T forEach(T... array) {
-        return ProxyIterator.createProxyIterator((ResettableIterator<T>)asResettableIterator(array), (Class<T>)array[0].getClass());
+        return forEach((Class<T>)array[0].getClass(), array);
+    }
+
+    /**
+     * Transforms an array of Ts in a single object having the same methods of a single instance of T.
+     * That allows to invoke a method on each T in the array with a single strong typed method call.
+     * @param <T> The type of the items in the array
+     * @param clazz The class proxied by the returned object
+     * @param array The array to be transformed
+     * @return An object that proxies all the item in the array
+     */
+    public static <T> T forEach(Class<T> clazz, T... array) {
+        return ProxyIterator.createProxyIterator((ResettableIterator<T>)asResettableIterator(array), clazz);
     }
 
 	// ////////////////////////////////////////////////////////////////////////
