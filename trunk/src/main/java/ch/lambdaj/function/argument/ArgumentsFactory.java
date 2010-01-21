@@ -135,6 +135,7 @@ public final class ArgumentsFactory {
 	// ////////////////////////////////////////////////////////////////////////
 	
     public static <T> T createClosureArgumentPlaceholder(Class<T> clazz) {
+        if (clazz == Class.class) return (T)ArgumentsFactory.class;
         return isProxable(clazz) ? createVoidProxy(clazz) : createFinalArgumentPlaceholder(clazz);
     }
 
