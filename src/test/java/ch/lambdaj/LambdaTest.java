@@ -33,6 +33,8 @@ public class LambdaTest {
 	private final Person luca = new Person("Luca", "Marrocco", 29);
 	private final Person biagio = new Person("Biagio", "Beatrice", 39);
 	private final Person celestino = new Person("Celestino", "Bellone", 29);
+    private final Person sister = new Person("Irma", "Fusco", 31);
+    private final Person dad = new Person("Domenico", "Fusco", 70);
 
 	@Test
 	public void testArgument() {
@@ -784,6 +786,15 @@ public class LambdaTest {
         Map<String, Person> map = index(meAndMyFriends, on(Person.class).getFirstName());
         Map<String, String> convertedMap = convertMap(map, on(Person.class).getLastName());
         assertEquals("Fusco", convertedMap.get("Mario"));
+    }
+
+    @Test
+    public void testCount() {
+        List<Person> meAndMyFriends = asList(me, luca, biagio, celestino, sister, dad);
+        Map<String, Integer> lastNameCounter = count(meAndMyFriends, on(Person.class).getLastName());
+        assertThat(3, equalTo(lastNameCounter.get("Fusco")));
+        assertThat(1, equalTo(lastNameCounter.get("Beatrice")));
+        assertNull(lastNameCounter.get("Pippo"));
     }
 
 	@SuppressWarnings("unchecked")

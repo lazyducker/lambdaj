@@ -230,7 +230,36 @@ public final class Lambda {
 		Collections.sort(sorted, new ArgumentComparator<T, A>(argument, comparator));
 		return sorted;
 	}
+
+    /**
+     * Counts the number of occurrencies of the objects in the given iterable
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
+     * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
+     * @param iterable The iterable of objects to be counted
+     * @return A map having as values the number of occurrencies of the corresponding key in the given iterable
+     */
+    public static <T> Map<T, Integer> count(Object iterable) {
+        Map<T, Integer> countMap = new HashMap<T, Integer>();
+        for (Iterator<?> i = asIterator(iterable); i.hasNext();) {
+            T item = (T)i.next();
+            Integer counter = countMap.get(item);
+            countMap.put(item, counter == null ? 1 : counter+1);
+        }
+        return countMap;
+    }
 	
+    /**
+     * Counts the number of occurrencies of the argument's value in the objects of the given iterable
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
+     * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
+     * @param iterable The iterable of objects' arguments to be counted
+     * @param argument An argument defined using the {@link Lambda#on(Class)} method
+     * @return A map having as values the number of occurrencies of the corresponding object's argument in the given iterable
+     */
+    public static <A> Map<A, Integer> count(Object iterable, A argument) {
+        return count(extract(iterable, argument));
+    }
+
 	// ////////////////////////////////////////////////////////////////////////
 	// /// Selection
 	// ////////////////////////////////////////////////////////////////////////
