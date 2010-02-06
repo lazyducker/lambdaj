@@ -862,7 +862,31 @@ public final class Lambda {
         return new ConverterIterator(converter, asIterator(iterable));
     }
 
-	/**
+    /**
+	 * Converts all the values in the map  using the given {@link Converter}.
+	 * @param map The map containing the values to be converted
+     * @param converter The converter that specifies how each map's value must be converted
+	 * @return A Map containing the same keys of the original one and the value converted from the ones 
+     *      in the corresponding entry of the map
+	 */
+    public static <K, F, T> Map<K, T> convertMap(Map<K, F> map, Converter<F, T> converter) {
+        Map<K, T> converted = new HashMap<K, T>();
+        for (Map.Entry<K, F> entry : map.entrySet()) converted.put(entry.getKey(), converter.convert(entry.getValue()));
+        return converted;
+    }
+
+    /**
+	 * Converts all the values in the map extracting the property defined by the given argument.
+	 * @param map The map containing the values to be converted
+	 * @param argument An argument defined using the {@link Lambda#on(Class)} method
+	 * @return A Map containing the same keys of the original one and the argument's value extracted from the value
+     *      in the corresponding entry of the map
+	 */
+    public static <K, F, T> Map<K, T> convertMap(Map<K, F> map, T argument) {
+        return convertMap(map, new ArgumentConverter<F, T>(argument));
+    }
+
+    /**
 	 * Converts all the object in the iterable extracting the property defined by the given argument.
      * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.

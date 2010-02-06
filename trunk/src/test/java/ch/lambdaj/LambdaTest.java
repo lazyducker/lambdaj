@@ -778,6 +778,14 @@ public class LambdaTest {
 		for (int length : lengths) assertEquals(strings.get(i++).length(), length);
 	}
 
+    @Test
+    public void testConvertMap() {
+        List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+        Map<String, Person> map = index(meAndMyFriends, on(Person.class).getFirstName());
+        Map<String, String> convertedMap = convertMap(map, on(Person.class).getLastName());
+        assertEquals("Fusco", convertedMap.get("Mario"));
+    }
+
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testStringPropertyExtractor() {
