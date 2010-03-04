@@ -28,7 +28,7 @@ public final class ProxyUtil {
     }
 	
 	public static <T> T createProxy(InvocationInterceptor interceptor, Class<T> clazz, boolean failSafe, Class<?> ... implementedInterface) {
-		if (clazz.isInterface()) return (T)createNativeJavaProxy(clazz.getClassLoader(), interceptor, concatClasses(clazz, implementedInterface));
+		if (clazz.isInterface()) return (T)createNativeJavaProxy(clazz.getClassLoader(), interceptor, concatClasses(new Class<?>[] { clazz }, implementedInterface));
 
 		try {
 			return (T)createEnhancer(interceptor, clazz, implementedInterface).create();
@@ -74,10 +74,6 @@ public final class ProxyUtil {
         return Proxy.newProxyInstance(classLoader, interfaces, interceptor);
     }
 	
-    private static Class<?>[] concatClasses(Class<?> first, Class<?> ... second) {
-        return concatClasses(new Class<?>[] { first }, second);
-    }
-
 	private static Class<?>[] concatClasses(Class<?>[] first, Class<?>[] second) {
         if (first == null) return second;
         if (second == null) return first;

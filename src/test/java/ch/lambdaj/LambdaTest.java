@@ -50,6 +50,11 @@ public class LambdaTest {
 		assertEquals(Person.class, bestFriendAgeArgument.getRootArgumentClass());
 		assertEquals(Integer.TYPE, bestFriendAgeArgument.getReturnType());
         assertEquals("[public ch.lambdaj.mock.Person ch.lambdaj.mock.Person.getBestFriend(), public int ch.lambdaj.mock.Person.getAge()]", bestFriendAgeArgument.toString());
+
+        me.setBestFriend(biagio);
+        assertEquals(biagio, bestFriendArgument.evaluate(me));
+        assertEquals(biagio.getAge(), (int)bestFriendAgeArgument.evaluate(me));
+        me.setBestFriend(null);
 	}
 	
 	@Test
