@@ -129,52 +129,55 @@ abstract class AbstractClosure {
 		Iterator<?>[] iterators = new Iterator<?>[length];
 		for (int i = 0; i < length; i++) iterators[i] = vars[i].iterator();
 
-		boolean finished = false;
 		while (true) {
 			Object[] varSet = new Object[length];
-			for (int i = 0; i < length; i++) {
-				if (!iterators[i].hasNext()) {
-					finished = true;
-					break;
-				}
-				varSet[i] = iterators[i].next();
-			}
-			if (finished) break;
+            if (buildParams(length, iterators, varSet)) break;
 			results.add(closeOne(varSet));
 		}
 		
 		return results;
 	}
-	
-	private List<Object[]> bindParams(Object... vars) throws WrongClosureInvocationException {
-		if (vars == null || vars.length == 0) {
-			if (freeVarsNumber != 0)
-				throw new WrongClosureInvocationException("Closure invoked without vars instead of the expected " + freeVarsNumber);
-			if (curriedVars == null && argsList == null) return null;
-		}
-		if (freeVarsNumber != vars.length)
-			throw new WrongClosureInvocationException("Closure invoked with " + vars.length + " vars instead of the expected " + freeVarsNumber);
-		
+
+    private boolean buildParams(int length, Iterator<?>[] iterators, Object[] varSet) {
+        for (int i = 0; i < length; i++) {
+            if (!iterators[i].hasNext()) return true;
+            varSet[i] = iterators[i].next();
+        }
+        return false;
+    }
+
+    private List<Object[]> bindParams(Object... vars) throws WrongClosureInvocationException {
+        if (checkParams(vars)) return null;
 		int varCounter = 0;
 		int curriedParamCounter = 0;
 		List<Object[]> boundParams = new ArrayList<Object[]>();
 		for (Object[] args : argsList) {
-			if (args == null) boundParams.add(null);
-			else {
-				Object[] objs = new Object[args.length];
-				for (int i = 0; i < args.length; i++) {
-					if (!isClosureVarPlaceholder(args[i])) objs[i] = args[i];
-					else if (curriedVars != null && curriedVarsFlags[curriedParamCounter]) objs[i] = curriedVars[curriedParamCounter++];
-					else {
-						objs[i] = vars[varCounter++];
-						curriedParamCounter++;
-					}
-				} 
-				boundParams.add(objs);
-			}
+			if (args == null) {
+                boundParams.add(null);
+                continue;
+            }
+            Object[] objs = new Object[args.length];
+            for (int i = 0; i < args.length; i++) {
+                if (isClosureVarPlaceholder(args[i])) {
+                    objs[i] = (curriedVars != null && curriedVarsFlags[curriedParamCounter]) ? curriedVars[curriedParamCounter] : vars[varCounter++];
+                    curriedParamCounter++;
+                } else objs[i] = args[i];
+            }
+            boundParams.add(objs);
 		}
 		return boundParams;
 	}
+
+    private boolean checkParams(Object... vars) {
+        if (vars == null || vars.length == 0) {
+            if (freeVarsNumber != 0)
+                throw new WrongClosureInvocationException("Closure invoked without vars instead of the expected " + freeVarsNumber);
+            if (curriedVars == null && argsList == null) return true;
+        }
+        if (freeVarsNumber != vars.length)
+            throw new WrongClosureInvocationException("Closure invoked with " + vars.length + " vars instead of the expected " + freeVarsNumber);
+        return false;
+    }
 	
     /**
      * Curry this closure by fixing one of its free variable to a given value.

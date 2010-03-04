@@ -163,7 +163,7 @@ public final class ArgumentsFactory {
 		try {
 			return createArgumentPlaceholderForUnknownClass(clazz, placeholderId);
 		} catch (Exception e) {
-			throw new RuntimeException("It is not possible to create a placeholder for class: " + clazz.getName());
+			throw new RuntimeException("It is not possible to create a placeholder for class: " + clazz.getName(), e);
 		}
     }
     
@@ -172,37 +172,32 @@ public final class ArgumentsFactory {
             Class<?>[] params = constructor.getParameterTypes();
             if (params.length != 1) continue;
             try {
-                if (params[0] == String.class)
-                    return constructor.newInstance(String.valueOf(placeholderId));
-                if (params[0] == Integer.TYPE || params[0] == Long.TYPE || params[0] == Integer.class || params[0] == Long.class)
-                    return constructor.newInstance(placeholderId);
+                if (params[0] == String.class) return constructor.newInstance(String.valueOf(placeholderId));
+                if (isNumericClass(params[0])) return constructor.newInstance(placeholderId);
             } catch (Exception e) { }
         }
         return clazz.newInstance();
     }
 
+    private static boolean isNumericClass(Class<?> clazz) {
+        return clazz == Integer.TYPE || clazz == Long.TYPE || clazz == Integer.class || clazz == Long.class;
+    }
+
     private static Object getPrimitivePlaceHolder(Class<?> clazz, Integer placeholderId) {
-        switch (clazz.getSimpleName().charAt(0)) {
+        switch (Character.toLowerCase(clazz.getSimpleName().charAt(0))) {
             case 'i':
-            case 'I':
                 return placeholderId;
             case 'l':
-            case 'L':
                 return placeholderId.longValue();
             case 'd':
-            case 'D':
                 return placeholderId.doubleValue();
             case 'f':
-            case 'F':
                 return placeholderId.floatValue();
             case 'c':
-            case 'C':
                 return Character.forDigit(placeholderId % Character.MAX_RADIX, Character.MAX_RADIX);
             case 'b':
-            case 'B':
                 return placeholderId.byteValue();
             case 's':
-            case 'S':
                 return placeholderId.shortValue();
         }
         throw new RuntimeException("Unable to create placeholder for class " + clazz.getName());
