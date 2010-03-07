@@ -1071,16 +1071,25 @@ public final class Lambda {
 	
     /**
      * Binds an object to the active closure that is the last one created in the current thread.
-     * @param closed The object that has to be bind to the active closure
+     * @param closed The object that has to be bound to the active closure
      * @return A proxy of the same class of the passed object used to register all the invocation on the closed object
      */
 	public static <T> T of(T closed) {
 		return of(closed, (Class<T>)closed.getClass());
 	}
-	
+
+    /**
+     * Binds a free variable of the given class to the active closure that is the last one created in the current thread.
+     * @param closedClass The type of the free variable to be bound to the active closure
+     * @return A proxy of the same class of the passed class used to register all the invocation on the closed object
+     */
+    public static <T> T of(Class<T> closedClass) {
+        return bindClosure(closedClass, closedClass);
+    }
+
     /**
      * Binds an object to the active closure that is the last one created in the current thread.
-     * @param closed The object that has to be bind to the active closure
+     * @param closed The object that has to be bound to the active closure
      * @param closedClass The actual class of the proxied object
      * @return An instance of the closedClass that is actually a proxy used to register all the invocation on the closed object
      */

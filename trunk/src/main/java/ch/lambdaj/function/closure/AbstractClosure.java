@@ -58,7 +58,12 @@ abstract class AbstractClosure {
 
     void setClosed(Object closed) {
 		this.closed = closed;
+        if (isClosedOnFreeVar()) freeVarsNumber++;
 	}
+
+    private boolean isClosedOnFreeVar() {
+        return closed instanceof Class<?>;
+    }
 	
 	void bindInvocation(Method method, Object[] args) {
         if (!method.isAccessible()) method.setAccessible(true);
@@ -86,7 +91,7 @@ abstract class AbstractClosure {
         }
 
 		List<Object[]> boundParams = bindParams(vars);
-		Object result = closed;
+		Object result = isClosedOnFreeVar() ? vars[0] : closed;
 		
 		Iterator<Object[]> argsIterator = boundParams != null ? boundParams.iterator() : null;
 		for (Method method : methodList) {
@@ -148,7 +153,7 @@ abstract class AbstractClosure {
 
     private List<Object[]> bindParams(Object... vars) throws WrongClosureInvocationException {
         if (checkParams(vars)) return null;
-		int varCounter = 0;
+		int varCounter = isClosedOnFreeVar() ? 1 : 0;
 		int curriedParamCounter = 0;
 		List<Object[]> boundParams = new ArrayList<Object[]>();
 		for (Object[] args : argsList) {
@@ -176,7 +181,13 @@ abstract class AbstractClosure {
         }
         if (freeVarsNumber != vars.length)
             throw new WrongClosureInvocationException("Closure invoked with " + vars.length + " vars instead of the expected " + freeVarsNumber);
+        if (isClosedOnFreeVar()) checkClosedType(vars[0]);
         return false;
+    }
+
+    private void checkClosedType(Object toBeClosed) {
+        if (!((Class<?>)closed).isInstance(toBeClosed))
+            throw new WrongClosureInvocationException("The first var must be of class " + closed);
     }
 	
     /**
@@ -188,9 +199,16 @@ abstract class AbstractClosure {
      * @throws IllegalArgumentException if this closure doesn't have a free variable in the specified position
      */
 	<T extends AbstractClosure> T curry(T curriedClosure, Object curried, int position) throws IllegalArgumentException {
-		curriedClosure.closed = closed;
-		curriedClosure.methodList = methodList;
-		curriedClosure.argsList = argsList;
+        cloneClosureForCurry(curriedClosure);
+
+		curriedClosure.curryParam(curried, position);
+		return curriedClosure;
+	}
+
+    private <T extends AbstractClosure> void cloneClosureForCurry(T curriedClosure) {
+        curriedClosure.closed = closed;
+        curriedClosure.methodList = methodList;
+        curriedClosure.argsList = argsList;
         curriedClosure.freeVarsNumber = freeVarsNumber;
 
         if (curriedVars != null) {
@@ -201,27 +219,38 @@ abstract class AbstractClosure {
             curriedClosure.curriedVarsFlags = new boolean[curriedVarsFlags.length];
             System.arraycopy(curriedVarsFlags, 0, curriedClosure.curriedVarsFlags, 0, curriedVarsFlags.length);
         }
+    }
 
-		curriedClosure.curryParam(curried, position);
-		return curriedClosure;
-	}
-	
-	private void curryParam(Object curried, int position) throws IllegalArgumentException {
-		if (curriedVars == null) {
+    private void curryParam(Object curried, int position) throws IllegalArgumentException {
+        if (checkCurriedOnClosed(curried, position)) return;
+
+        if (curriedVars == null) {
 			curriedVars = new Object[freeVarsNumber];
 			curriedVarsFlags = new boolean[freeVarsNumber];
 		}
 		
-		for (int i = 0; i < curriedVars.length; i++) {
-			if (curriedVarsFlags[i]) continue;
-			if (--position == 0) {
-				curriedVars[i] = curried;
-				curriedVarsFlags[i] = true;
-				freeVarsNumber--;
-				return;
-			}
-		}
-		
-		throw new IllegalArgumentException("Trying to curry this closure on an already bound or unexisting variable");
+        if (!findVarToBeCurried(curried, position))
+		    throw new IllegalArgumentException("Trying to curry this closure on an already bound or unexisting variable");
 	}
+
+    private boolean checkCurriedOnClosed(Object curried, int position) {
+        if (position != 1 || !isClosedOnFreeVar()) return false;
+        checkClosedType(curried);
+        closed = curried;
+        freeVarsNumber--;
+        return true;
+    }
+
+    private boolean findVarToBeCurried(Object curried, int position) {
+        for (int i = 0; i < curriedVars.length; i++) {
+            if (curriedVarsFlags[i]) continue;
+            if (--position == 0) {
+                curriedVars[i] = curried;
+                curriedVarsFlags[i] = true;
+                freeVarsNumber--;
+                return true;
+            }
+        }
+        return false;
+    }
 }

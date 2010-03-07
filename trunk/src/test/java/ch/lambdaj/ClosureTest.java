@@ -223,4 +223,43 @@ public class ClosureTest {
 	public void setAgeOnPerson(Person person, int age) {
 		person.setAge(age);
 	}
+
+    @Test
+    public void testClosureOnClass() {
+        Closure2<Person, Integer> ageSetter = closure(Person.class, Integer.class); {
+            of(Person.class).setAge(var(Integer.class));
+        }
+        Person me = new Person("Mario", "Fusco");
+        ageSetter.apply(me, 35);
+        assertEquals(35, me.getAge());
+
+        Closure1<Integer> ageSetterOnMyself = ageSetter.curry1(me);
+        ageSetterOnMyself.apply(36);
+        assertEquals(36, me.getAge());
+    }
+
+    @Test
+    public void testReturningClosureOnClass() {
+        Closure1<Person> ageGetter = closure(Person.class); {
+            of(Person.class).getAge();
+        }
+
+        Person me = new Person("Mario", "Fusco", 35);
+        assertEquals(35, ageGetter.apply(me));
+
+        Closure0 ageGetterOnMyself = ageGetter.curry(me);
+        assertEquals(35, ageGetterOnMyself.apply());
+    }
+
+    @Test
+    public void testWrongClosureOnClass() {
+        Closure2<Integer, Person> ageSetter = closure(Integer.class, Person.class); {
+            of(Person.class).setAge(var(Integer.class));
+        }
+        Person me = new Person("Mario", "Fusco");
+        try {
+            ageSetter.apply(35, me);
+            fail("must throw WrongClosureInvocationException");
+        } catch (WrongClosureInvocationException e) { }
+    }
 }
