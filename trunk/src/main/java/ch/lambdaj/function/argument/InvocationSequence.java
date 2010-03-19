@@ -30,7 +30,7 @@ class InvocationSequence extends ArrayList<Invocation> {
 	InvocationSequence(InvocationSequence sequence, Invocation invocation) {
 		this(sequence);
 		add(invocation);
-		inkvokedPropertyName = sequence.getInkvokedPropertyName() + (sequence.isEmpty() ? "" : ".") + invocation.getInkvokedPropertyName();
+		inkvokedPropertyName = sequence.getInkvokedPropertyName() + (sequence.isEmpty() ? "" : ".") + invocation.getInvokedPropertyName();
 	}
 	
 	Class<?> getRootInvokedClass() {

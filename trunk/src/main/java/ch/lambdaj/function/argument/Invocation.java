@@ -18,10 +18,10 @@ class Invocation {
 
 	private final Class<?> invokedClass;
 	private final Method invokedMethod;
-	private String inkvokedPropertyName;
+	private String invokedPropertyName;
 	private List<WeakReference<Object>> weakArgs;
 
-	Invocation(Class<?> invokedClass, Method invokedMethod, Object[] args) {
+    Invocation(Class<?> invokedClass, Method invokedMethod, Object[] args) {
 		this.invokedClass = invokedClass;
 		this.invokedMethod = invokedMethod;
 		if (args != null && args.length > 0) {
@@ -50,9 +50,9 @@ class Invocation {
 		return invokedMethod.getReturnType();
 	}
 	
-	String getInkvokedPropertyName() {
-		if (inkvokedPropertyName == null) inkvokedPropertyName = IntrospectionUtil.getPropertyName(invokedMethod);
-		return inkvokedPropertyName;
+	String getInvokedPropertyName() {
+		if (invokedPropertyName == null) invokedPropertyName = IntrospectionUtil.getPropertyName(invokedMethod);
+		return invokedPropertyName;
 	}
 
 	Object invokeOn(Object object) throws InvocationException {

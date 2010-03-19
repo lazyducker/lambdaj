@@ -67,4 +67,9 @@ public class Closure4<A, B, C, D> extends AbstractClosure {
 	public Closure3<A, B, C> curry4(D curry) {
 		return curry(new Closure3<A, B, C>(), curry, 4);
 	}
+
+    @Override
+    public Closure4<A, B, C, D> of(Object closedObject, String methodName, Object ... args) {
+        return (Closure4<A, B, C, D>)super.of(closedObject, methodName, args);
+    }
 }

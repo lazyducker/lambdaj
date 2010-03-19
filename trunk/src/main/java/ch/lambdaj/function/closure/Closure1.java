@@ -47,4 +47,9 @@ public class Closure1<A> extends AbstractClosure {
 	public Closure0 curry(A curry) {
 		return curry(new Closure0(), curry, 1);
 	}
+
+    @Override
+    public Closure1<A> of(Object closedObject, String methodName, Object ... args) {
+        return (Closure1<A>)super.of(closedObject, methodName, args);
+    }
 }

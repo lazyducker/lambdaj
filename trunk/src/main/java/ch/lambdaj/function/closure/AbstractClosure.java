@@ -5,6 +5,7 @@
 package ch.lambdaj.function.closure;
 
 import static ch.lambdaj.function.closure.ClosuresFactory.*;
+import static ch.lambdaj.util.IntrospectionUtil.findMethod;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -26,6 +27,14 @@ abstract class AbstractClosure {
     private int freeVarsNumber = 0;
 
     private final List<Object[]> unhandeledInvocations = new ArrayList<Object[]>();
+
+    protected AbstractClosure of(Object closedObject, String methodName, Object ... args) {
+        Class<?> closedClass = closedObject instanceof Class<?> ? (Class<?>)closedObject : closedObject.getClass();
+        Method method = findMethod(closedClass, methodName, args);
+        bindInvocation(method, args);
+        setClosed(Modifier.isStatic(method.getModifiers()) ? null : closedObject);
+        return this;
+    }
 
     /**
      * Returns the number of free variables in this closure
@@ -95,7 +104,6 @@ abstract class AbstractClosure {
 		
 		Iterator<Object[]> argsIterator = boundParams != null ? boundParams.iterator() : null;
 		for (Method method : methodList) {
-			if (result == null) return null;
 			try {
 				result = method.invoke(result, argsIterator != null ? argsIterator.next() : null);
 			} catch (Exception e) {
