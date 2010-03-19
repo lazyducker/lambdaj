@@ -17,4 +17,9 @@ public class Closure0 extends AbstractClosure {
 	public Object apply() {
 		return closeOne();
 	}
+
+    @Override
+    public Closure0 of(Object closedObject, String methodName, Object ... args) {
+        return (Closure0)super.of(closedObject, methodName, args);
+    }
 }

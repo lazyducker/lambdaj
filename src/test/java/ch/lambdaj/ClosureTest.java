@@ -110,6 +110,14 @@ public class ClosureTest {
 		assertEquals((5 - 2) * (4 - 3), result);
 	}
 
+    @Test
+    public void testUntypedDo4OnInt() {
+        Closure4<Integer, Integer, Integer, Integer> adder = closure(Integer.class, Integer.class, Integer.class, Integer.class)
+            .of(this, "doNonCommutativeOpOnInt", var(Integer.class), var(Integer.class), var(Integer.class), var(Integer.class));
+        int result = (Integer)adder.apply(5, 2, 4, 3);
+        assertEquals((5 - 2) * (4 - 3), result);
+    }
+
 	@Test
 	public void testDo2OnInt() {
 		Closure2<Integer, Integer> adder = closure(Integer.class, Integer.class); { 
@@ -260,6 +268,58 @@ public class ClosureTest {
         try {
             ageSetter.apply(35, me);
             fail("must throw WrongClosureInvocationException");
+        } catch (WrongClosureInvocationException e) { }
+    }
+
+    @Test
+    public void tesStaticClosure() {
+        Closure1<String> intParser = closure(String.class).of(Integer.class, "parseInt", var(String.class));
+        assertEquals(666, intParser.apply("666"));
+
+        Closure intParser0 = closure().of(Integer.class, "parseInt", "666");
+        assertEquals(666, intParser0.apply());
+    }
+
+    @Test
+    public void tesFinalClosure() {
+        Closure1<String> toUpperCase = closure(String.class).of(String.class, "toUpperCase");
+        assertEquals("MARIO", toUpperCase.apply("mario"));
+
+        Closure toUpperCaseMe = closure().of("mario", "toUpperCase");
+        assertEquals("MARIO", toUpperCaseMe.apply());
+    }
+
+    @Test
+    public void tesFinalClosureWithParams() {
+        Closure3<String, Integer, Integer> varSubstring = closure(String.class, Integer.class, Integer.class)
+            .of(String.class, "substring", var(Integer.class), var(Integer.class));
+        assertEquals("ar", varSubstring.apply("mario", 1, 3));
+
+        Closure2<Integer, Integer> fixedSubstring = closure(Integer.class, Integer.class)
+            .of("mario", "substring", var(Integer.class), var(Integer.class));
+        assertEquals("mari", fixedSubstring.apply(0, 4));
+
+        Closure1<String> substring3From2 = closure(String.class).of(String.class, "substring", 2, 5);
+        assertEquals("rio", substring3From2.apply("mario"));
+    }
+
+    @Test
+    public void testNotExistingMethod() {
+        try {
+            closure().of(String.class, "mario");
+            fail("closure creation on non existing method must fail");
+        } catch (Exception e) { }
+    }
+
+    @Test
+    public void testToStringAsClosure() {
+        Closure stringifier = closure().of(Object.class, "toString");
+        assertEquals("mario", stringifier.apply("mario"));
+        assertEquals("123", stringifier.apply(123));
+
+        try {
+            stringifier.apply();
+            fail("stringifier without any param must fail");
         } catch (WrongClosureInvocationException e) { }
     }
 }

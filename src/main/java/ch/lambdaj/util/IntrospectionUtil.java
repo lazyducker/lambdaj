@@ -49,4 +49,42 @@ public final class IntrospectionUtil {
 			throw new RuntimeException(e);
 		}
 	}
+
+    public static Method findMethod(Class<?> clazz, String methodName, Object... args) {
+        Class<?>[] parameterTypes = new Class<?>[args == null ? 0 : args.length];
+        for (int i = 0; i < parameterTypes.length; i++) parameterTypes[i] = args[i].getClass();
+        return findMethod(clazz, methodName, parameterTypes);
+    }
+
+    public static Method findMethod(Class<?> clazz, String methodName, Class<?>... parameterTypes) {
+        try {
+            return clazz.getMethod(methodName,  parameterTypes);
+        } catch (NoSuchMethodException e) {
+            Method method = discoverMethod(clazz, methodName, parameterTypes);
+            if (method == null) throw new RuntimeException(e);
+            return method;
+        }
+    }
+
+    private static Method discoverMethod(Class<?> clazz, String methodName, Class<?>... parameterTypes) {
+        for (Method m : clazz.getMethods()) {
+            if (!m.getName().equals(methodName)) continue;
+            Class<?>[] methodParams = m.getParameterTypes();
+            if (methodParams == null || methodParams.length != parameterTypes.length) continue;
+            boolean found = true;
+            for (int i = 0; i < methodParams.length; i++)
+                found &= areCompatible(methodParams[i], parameterTypes[i]);
+            if (found) return m;
+        }
+        return null;
+    }
+
+    private static boolean areCompatible(Class<?> methodParam, Class<?> actualParam) {
+        return methodParam.isAssignableFrom(actualParam) ||
+                methodParam.isPrimitive() ? areBoxingCompatible(methodParam, actualParam) : areBoxingCompatible(actualParam, methodParam);
+    }
+
+    private static boolean areBoxingCompatible(Class<?> primitiveClass, Class<?> boxedClass) {
+         return boxedClass.getSimpleName().toLowerCase().startsWith(primitiveClass.getSimpleName());
+    }
 }

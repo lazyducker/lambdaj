@@ -56,4 +56,9 @@ public class Closure extends AbstractClosure {
 	public Closure curry(Object curry, int position) throws IllegalArgumentException {
 		return curry(new Closure(), curry, position);
 	}
+
+    @Override
+    public Closure of(Object closedObject, String methodName, Object ... args) {
+        return (Closure)super.of(closedObject, methodName, args);
+    }
 }
