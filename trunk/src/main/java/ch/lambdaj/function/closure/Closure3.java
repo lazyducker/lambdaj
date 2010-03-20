@@ -61,6 +61,17 @@ public class Closure3<A, B, C> extends AbstractClosure {
 		return curry(new Closure2<A, B>(), curry, 3);
 	}
 
+    /**
+     * Defines the method invoked by this closure.
+     * @param closedObject The object on which the closure has to be invoked. It can be a fixed object or a Class.
+     *                     In this last case, if the method is not static, it is treated as it was an
+     *                     unbound argument defined through the {@link ch.lambdaj.Lambda#var(Class)} method
+     * @param methodName The name of the method invoked by this closure or {@link AbstractClosure#CONSTRUCTOR}
+      *                   if you want to call a constructor
+      * @param args The arguments used to invoke this closure. They can be a mixed of fixed value and
+     *             unbound one defined through the {@link ch.lambdaj.Lambda#var(Class)} method
+     * @return The closure itself
+     */
     @Override
     public Closure3<A, B, C> of(Object closedObject, String methodName, Object ... args) {
         return (Closure3<A, B, C>)super.of(closedObject, methodName, args);
