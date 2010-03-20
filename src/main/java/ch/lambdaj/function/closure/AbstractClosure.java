@@ -5,7 +5,7 @@
 package ch.lambdaj.function.closure;
 
 import static ch.lambdaj.function.closure.ClosuresFactory.*;
-import static ch.lambdaj.util.IntrospectionUtil.findMethod;
+import static ch.lambdaj.util.IntrospectionUtil.*;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -16,9 +16,11 @@ import java.util.*;
  */
 abstract class AbstractClosure {
 
+    public static final String CONSTRUCTOR = "<init>";
+
 	private Object closed;
 	
-	private List<Method> methodList = new ArrayList<Method>();
+	private List<Invokable> invokables = new ArrayList<Invokable>();
 	private List<Object[]> argsList = new ArrayList<Object[]>();
 	
 	private Object[] curriedVars;
@@ -28,11 +30,24 @@ abstract class AbstractClosure {
 
     private final List<Object[]> unhandeledInvocations = new ArrayList<Object[]>();
 
+    /**
+     * Defines the method invoked by this closure.
+     * @param closedObject The object on which the closure has to be invoked. It can be a fixed object or a Class.
+     *                     In this last case, if the method is not static, it is treated as it was an
+     *                     unbound argument defined through the {@link ch.lambdaj.Lambda#var(Class)} method
+     * @param methodName The name of the method invoked by this closure or {@link AbstractClosure#CONSTRUCTOR}
+     *                   if you want to call a constructor
+     * @param args The arguments used to invoke this closure. They can be a mixed of fixed value and
+     *             unbound one defined through the {@link ch.lambdaj.Lambda#var(Class)} method
+     * @return The closure itself
+     */
     protected AbstractClosure of(Object closedObject, String methodName, Object ... args) {
         Class<?> closedClass = closedObject instanceof Class<?> ? (Class<?>)closedObject : closedObject.getClass();
-        Method method = findMethod(closedClass, methodName, args);
-        bindInvocation(method, args);
-        setClosed(Modifier.isStatic(method.getModifiers()) ? null : closedObject);
+        Invokable invokable = methodName.equals(CONSTRUCTOR) ?
+                new InvokableConstructor(findConstructor(closedClass, args)) :
+                new InvokableMethod(findMethod(closedClass, methodName, args));
+        bindInvocation(invokable, args);
+        setClosed(invokable.isStatic() ? null : closedObject);
         return this;
     }
 
@@ -74,9 +89,13 @@ abstract class AbstractClosure {
         return closed instanceof Class<?>;
     }
 	
-	void bindInvocation(Method method, Object[] args) {
+    void bindInvocation(Method method, Object[] args) {
         if (!method.isAccessible()) method.setAccessible(true);
-		methodList.add(method);
+        bindInvocation(new InvokableMethod(method),args);
+    }
+
+    private void bindInvocation(Invokable invokable, Object[] args) {
+		invokables.add(invokable);
 		if (args != null) for (Object arg : args) if (isClosureVarPlaceholder(arg)) freeVarsNumber++;
 		argsList.add(args);
 	}
@@ -94,7 +113,7 @@ abstract class AbstractClosure {
      * with which this closure has been defined
      */
 	Object closeOne(Object... vars) throws WrongClosureInvocationException {
-        if (methodList.isEmpty()) {
+        if (invokables.isEmpty()) {
             unhandeledInvocations.add(vars);
             return null;
         }
@@ -103,14 +122,8 @@ abstract class AbstractClosure {
 		Object result = isClosedOnFreeVar() ? vars[0] : closed;
 		
 		Iterator<Object[]> argsIterator = boundParams != null ? boundParams.iterator() : null;
-		for (Method method : methodList) {
-			try {
-				result = method.invoke(result, argsIterator != null ? argsIterator.next() : null);
-			} catch (Exception e) {
-				throw new WrongClosureInvocationException("Error invoking " + method + " on " + result, e);
-			}
-		}
-		
+		for (Invokable invokable : invokables)
+            result = invokable.invoke(result, argsIterator != null ? argsIterator.next() : null);
 		return result;
 	}
 
@@ -215,7 +228,7 @@ abstract class AbstractClosure {
 
     private <T extends AbstractClosure> void cloneClosureForCurry(T curriedClosure) {
         curriedClosure.closed = closed;
-        curriedClosure.methodList = methodList;
+        curriedClosure.invokables = invokables;
         curriedClosure.argsList = argsList;
         curriedClosure.freeVarsNumber = freeVarsNumber;
 
