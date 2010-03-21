@@ -214,6 +214,10 @@ public class ClosureTest {
 		} catch (IllegalArgumentException iae) { }
 	}
 
+    public void setAgeOnPerson(Person person, int age) {
+        person.setAge(age);
+    }
+
 	@Test
 	public void testClosureOnNonFinalArgument() {
 		Person me = new Person("Mario", "Fusco");
@@ -228,15 +232,23 @@ public class ClosureTest {
 		assertEquals(36, me.getAge());
 	}
 	
-	public void setAgeOnPerson(Person person, int age) {
-		person.setAge(age);
-	}
-
     @Test
     public void testClosureOnClass() {
         Closure2<Person, Integer> ageSetter = closure(Person.class, Integer.class); {
             of(Person.class).setAge(var(Integer.class));
         }
+        testClosureOnClass(ageSetter);
+    }
+
+    @Test
+    public void testNoThreadLocalClosureOnClass() {
+        Closure2<Person, Integer> ageSetter = new Closure2<Person, Integer>() {{
+            of(Person.class).setAge(var(Integer.class));
+        }};
+        testClosureOnClass(ageSetter);
+    }
+
+    private void testClosureOnClass(Closure2<Person, Integer> ageSetter) {
         Person me = new Person("Mario", "Fusco");
         ageSetter.apply(me, 35);
         assertEquals(35, me.getAge());

@@ -75,8 +75,8 @@ public final class ProxyUtil {
     }
 	
 	private static Class<?>[] concatClasses(Class<?>[] first, Class<?>[] second) {
-        if (first == null) return second;
-        if (second == null) return first;
+        if (first == null || first.length == 0) return second;
+        if (second == null || second.length == 0) return first;
         Class<?>[] concatClasses = new Class[first.length + second.length];
         System.arraycopy(first, 0, concatClasses, 0, first.length);
         System.arraycopy(second, 0, concatClasses, first.length, second.length);
