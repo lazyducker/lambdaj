@@ -31,6 +31,35 @@ abstract class AbstractClosure {
     private final List<Object[]> unhandeledInvocations = new ArrayList<Object[]>();
 
     /**
+     * Binds a free variable of the given class to the this closure.
+     * @param closedClass The type of the free variable to be bound to this closure
+     * @return A proxy of the same class of the passed class used to register all the invocation on the closed object
+     */
+    public <T> T of(Class<T> closedClass) {
+        return of(closedClass, closedClass);
+    }
+
+    /**
+     * Binds an object to this closure.
+     * @param closed The object that has to be bound to this closure
+     * @return A proxy of the same class of the passed object used to register all the invocation on the closed object
+     */
+    public <T> T of(T closed) {
+        return of(closed, (Class<T>)closed.getClass());
+    }
+
+    /**
+     * Binds an object to this closure.
+     * @param closed The object that has to be bound to this closure
+     * @param closedClass The actual class of the proxied object
+     * @return An instance of the closedClass that is actually a proxy used to register all the invocation on the closed object
+     */
+    public <T> T of(Object closed, Class<T> closedClass) {
+        setClosed(closed);
+        return createProxyClosure(this, closedClass);
+    }
+
+    /**
      * Defines the method invoked by this closure.
      * @param closedObject The object on which the closure has to be invoked. It can be a fixed object or a Class.
      *                     In this last case, if the method is not static, it is treated as it was an

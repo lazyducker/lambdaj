@@ -25,9 +25,7 @@ public final class ClosuresFactory {
      * @return An instance of the closedClass that is actually a proxy used to register all the invocation on the closed object
      */
 	public static <T> T bindClosure(Object closed, Class<T> closedClass) {
-		AbstractClosure closure = closures.get();
-		closure.setClosed(closed);
-		return createProxyClosure(closure, closedClass);
+		return closures.get().of(closed, closedClass);
 	}
 
     /**

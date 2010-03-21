@@ -37,7 +37,7 @@ public class SwitcherTest {
     @Test
     public void testExecSwitch() {
         Switcher<Integer> switcher = new Switcher<Integer>()
-                .addCase("+", closure().of(this, "add", var(Integer.class), var(Integer.class)))
+                .addCase("+", new Closure() {{ of(SwitcherTest.this).add(var(Integer.class), var(Integer.class)); }})
                 .addCase("-", closure().of(this, "sub", var(Integer.class), var(Integer.class)))
                 .addCase("*", closure().of(this, "mul", var(Integer.class), var(Integer.class)))
                 .addCase("/", closure().of(this, "div", var(Integer.class), var(Integer.class)));
