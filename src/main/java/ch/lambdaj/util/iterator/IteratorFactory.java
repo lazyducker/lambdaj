@@ -13,6 +13,16 @@ public final class IteratorFactory {
 
     private IteratorFactory() { }
 
+    public static Class<?> discoverGenericType(Iterable<?> iterable) {
+        return discoverGenericType(iterable.iterator());
+    }
+
+    private static Class<?> discoverGenericType(Iterator<?> iterator) {
+        if (!iterator.hasNext())
+            throw new IllegalArgumentException("aggregateFrom() is unable to introspect on an empty iterator. Use the overloaded method accepting a class instead");
+        return iterator.next().getClass();
+    }
+
     /**
      * Tries to convert a generic object in an Iterator.
      * This method works with Iterators, Arrays, Iterables and Maps and
