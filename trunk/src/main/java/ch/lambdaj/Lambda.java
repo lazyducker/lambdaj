@@ -505,13 +505,10 @@ public final class Lambda {
 	 * @throws IllegalArgumentException if the iterable is null or empty
 	 */
 	public static <T, A> T aggregateFrom(Iterable<T> iterable, Aggregator<A> aggregator) {
-		Iterator<T> iterator = (Iterator<T>)asIterator(iterable);
-		if (!iterator.hasNext()) 
-			throw new IllegalArgumentException("aggregateFrom() is unable to introspect on an empty iterator. Use the overloaded method accepting a class instead");
-		return aggregateFrom(iterable, iterator.next().getClass(), aggregator);
+		return aggregateFrom(iterable, discoverGenericType(iterable), aggregator);
 	}
 
-	/**
+    /**
 	 * Returns a lambda function defined as:
 	 * <p/>
 	 * 		aggregateFrom : (aggregator, iterable) => lambda : (convert : object => object) => object
