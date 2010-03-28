@@ -82,7 +82,7 @@ and then create a Person by invoking apply() on this closure as it follows:
 Person me = (Person)personCreator.apply("Mario", 36);
 }}}
 
-*7.* A *Switcher* that greatly enriches the feature of the native java switch in order to provide a powerful and easy to read tool to implement strategy and factory patterns.
+*7.* A [http://lambdaj.googlecode.com/svn/trunk/html/apidocs/index.html Switcher] that greatly enriches the feature of the native java switch in order to provide a powerful and easy to read tool to implement strategy and factory patterns.
 
 Through a fluent interface you can add cases to the Switcher that in the most general case can be defined with the method:
 
