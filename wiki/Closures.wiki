@@ -197,3 +197,59 @@ private void readFileByLine(String fileName) {
 }}}
 
 This syntax, while already available in the 2.0 release has been vastly improved in the 2.1 one. Moreover it also now allows to return a value from the method that uses the delayed closure as shown in the examples provided in the [http://code.google.com/p/lambdaj/wiki/Lambdaj21ReleaseNotes lambdaj 2.1 release notes].
+
+== Using the object on which the closure as unbound variable ==
+
+Starting from lambdaj 2.2 also the object on which the closure is invoked can be used as an unbound variable. In particular by passing to the of() method a class instead of an object you're saying that the object on which the closure will be invoked will be passed during the closure invocation itself. For example if you define a closure as it follows:
+
+{{{
+Closure2<Person, Integer> ageSetter = closure(Person.class, Integer.class); {
+    of(Person.class).setAge(var(Integer.class));
+}
+}}}
+
+you can then invoke it in this way:
+
+{{{
+ageSetter.apply(person, 35);
+}}}
+
+== Defining a closure without using a ThreadLocal ==
+
+Somebody found confusing (or code smell) to bound a closure to a ThreadLocal before to define it. Starting from the release 2.2, you can create a closure without any ThreadLocal as it follows:
+
+{{{
+Closure2<Person, Integer> ageSetter = new Closure2<Person, Integer>() {{
+    of(Person.class).setAge(var(Integer.class));
+}};
+}}}
+
+== Defining a closure on a final class or invoking a static method or a constructor ==
+
+By using the method name instead of defining the closure through a dynamic proxy is also possible to let the closure invoking a static method:
+
+{{{
+Closure1<String> intParser = closure(String.class).of(Integer.class, "parseInt", var(String.class));
+}}}
+
+or a method of a final class:
+
+{{{
+Closure2<Integer, Integer> substringOfMyName = closure(Integer.class, Integer.class)
+    .of("mario", "substring", var(Integer.class), var(Integer.class));
+}}}
+
+As already stated, the method to be invoked by the closure is defined by its name and not by registering the method invocation on the proxy returned by the of() method. Of course it is possible to define a closure in this way also when the invoked method is not static and doesn't belong to a final class, even if in this way the strong typed invocation is lost.
+
+By using the constant Closure.CONSTRUCTOR as method name in the closure definition form provided by the former point it is possible to define a closure that invokes a constructor. For example if you have a class Person with a constructor Person(String name, int age) you can define a closure that invokes it:
+
+{{{
+Closure2<String, Integer> personCreator = closure()
+    .of(Person.class, Closure.CONSTRUCTOR, var(String.class), var(Integer.class));
+}}}
+
+and then create a Person by invoking apply() on this closure as it follows:
+
+{{{
+Person me = (Person)personCreator.apply("Mario", 36);
+}}}
