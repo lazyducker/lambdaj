@@ -198,7 +198,7 @@ private void readFileByLine(String fileName) {
 
 This syntax, while already available in the 2.0 release has been vastly improved in the 2.1 one. Moreover it also now allows to return a value from the method that uses the delayed closure as shown in the examples provided in the [http://code.google.com/p/lambdaj/wiki/Lambdaj21ReleaseNotes lambdaj 2.1 release notes].
 
-== Using the object on which the closure as unbound variable ==
+== Using the object on which the closure is invoked as unbound variable ==
 
 Starting from lambdaj 2.2 also the object on which the closure is invoked can be used as an unbound variable. In particular by passing to the of() method a class instead of an object you're saying that the object on which the closure will be invoked will be passed during the closure invocation itself. For example if you define a closure as it follows:
 
