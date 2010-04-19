@@ -19,14 +19,15 @@ class Invocation {
 	private final Class<?> invokedClass;
 	private final Method invokedMethod;
 	private String invokedPropertyName;
-	private List<WeakReference<Object>> weakArgs;
+	private List<ParameterReference<Object>> weakArgs;
 
     Invocation(Class<?> invokedClass, Method invokedMethod, Object[] args) {
 		this.invokedClass = invokedClass;
 		this.invokedMethod = invokedMethod;
 		if (args != null && args.length > 0) {
-			weakArgs = new ArrayList<WeakReference<Object>>();
-			for (Object arg : args) weakArgs.add(new WeakReference<Object>(arg));
+			weakArgs = new ArrayList<ParameterReference<Object>>();
+			for (int i = 0; i < args.length; i++)
+                weakArgs.add(new ParameterReference<Object>(args[i], !invokedMethod.getParameterTypes()[i].isPrimitive()));
 		}
 	}
 	
@@ -34,7 +35,7 @@ class Invocation {
 		if (weakArgs == null) return null;
 		Object[] args = new Object[weakArgs.size()];
 		int i = 0;
-		for (WeakReference<Object> weakArg : weakArgs) args[i++] = weakArg.get();
+		for (ParameterReference<Object> weakArg : weakArgs) args[i++] = weakArg.get();
 		return args;
 	}
 
@@ -94,4 +95,20 @@ class Invocation {
 	private boolean areNullSafeEquals(Object first, Object second) {
 		return (first == null && second == null) || (first != null && second != null && first.equals(second));
 	}
+
+    private static class ParameterReference<T> {
+        private final boolean garbageCollectable;
+        private WeakReference<T> weakRef;
+        private T strongRef;
+
+        private ParameterReference(T referent, boolean garbageCollectable) {
+            this.garbageCollectable = garbageCollectable;
+            if (garbageCollectable) weakRef = new WeakReference<T>(referent);
+            else strongRef = referent;
+        }
+
+        public T get() {
+            return garbageCollectable ? weakRef.get() : strongRef;
+        }
+    }
 }
