@@ -97,7 +97,7 @@
             <descriptorRef>jar-with-dependencies</descriptorRef>
           </descriptorRefs>
           <appendAssemblyId>false</appendAssemblyId>
-          <finalName>${name}-${version}-with-dependencies</finalName>
+          <finalName>${project.name}-${project.version}-with-dependencies</finalName>
         </configuration>
         <executions>
           <execution>
@@ -165,7 +165,7 @@
             <format>html</format>
           </formats>
         </configuration>
-        <version>2.3</version>
+        <version>2.4</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
