@@ -14,7 +14,7 @@ import ch.lambdaj.util.*;
  * Registers a method invocation
  * @author Mario Fusco
  */
-class Invocation {
+final class Invocation {
 
 	private final Class<?> invokedClass;
 	private final Method invokedMethod;

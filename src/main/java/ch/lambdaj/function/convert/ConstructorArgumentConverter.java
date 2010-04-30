@@ -19,9 +19,9 @@ public class ConstructorArgumentConverter<F, T> implements Converter<F, T> {
     private final List<ArgumentConverter<F, Object>> argumentConverters = new ArrayList<ArgumentConverter<F, Object>>();
 
     public ConstructorArgumentConverter(Class<T> clazz, Object... arguments) {
-        for (Constructor<?> constructor : clazz.getConstructors()) {
-            if (isCompatible(constructor, arguments)) {
-                this.constructor = (Constructor<T>)constructor;
+        for (Constructor<?> c : clazz.getConstructors()) {
+            if (isCompatible(c, arguments)) {
+                this.constructor = (Constructor<T>)c;
                 break;
             }
         }

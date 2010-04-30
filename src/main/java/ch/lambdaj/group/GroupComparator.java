@@ -9,13 +9,14 @@ import static ch.lambdaj.function.argument.ArgumentsFactory.*;
 import ch.lambdaj.function.argument.*;
 
 import java.util.*;
+import java.io.*;
 
 /**
  * A comparator that allows to sort group based on the value assumed on the given argument
  * by the object that is the key for a group itself
  * @author Mario Fusco
  */
-class GroupComparator<A extends Comparable<A>> implements Comparator<GroupItem<?>> {
+class GroupComparator<A extends Comparable<A>> implements Comparator<GroupItem<?>>, Serializable {
 
     private final Argument<A> argument;
 

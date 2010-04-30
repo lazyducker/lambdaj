@@ -28,8 +28,8 @@ import ch.lambdaj.proxy.*;
  */
 @SuppressWarnings("unchecked")
 public final class Lambda {
-	
-	private Lambda() { }
+
+    private Lambda() { }
 	
 	/**
 	 * Constructs a proxy object that mocks the given Class registering all the subsequent invocations on the object.
@@ -459,10 +459,10 @@ public final class Lambda {
 		return new Sum((Number)object);
 	}
 
-    private static final Sum Sum = new Sum();
-	private static final Min Min = new Min();
-	private static final Max Max = new Max();
-	private static final Concat Concat = new Concat();
+    private static final Sum SUM = new Sum();
+	private static final Min MIN = new Min();
+	private static final Max MAX = new Max();
+	private static final Concat CONCAT = new Concat();
 
 	/**
 	 * Aggregates the items in the given iterable using the given {@link Aggregator}.
@@ -573,7 +573,7 @@ public final class Lambda {
 	 * @throws IllegalArgumentException if the iterable is null or empty
 	 */
 	public static <T> T sumFrom(Iterable<T> iterable) {
-		return aggregateFrom(iterable, Sum);
+		return aggregateFrom(iterable, SUM);
 	}
 
 	/**
@@ -594,7 +594,7 @@ public final class Lambda {
 	 * @return A proxy of the class of the first object in the iterable representing a sum lambda function
 	 */
 	public static <T> T sumFrom(Iterable<T> iterable, Class<?> clazz) {
-		return aggregateFrom(iterable, clazz, Sum);
+		return aggregateFrom(iterable, clazz, SUM);
 	}
 
 	// -- (Min) ---------------------------------------------------------------
@@ -608,7 +608,7 @@ public final class Lambda {
 	 * @throws IllegalArgumentException if the iterable is not an Iterable
 	 */
 	public static <T> T min(Object iterable) {
-		return (T) aggregate(iterable, Min);
+		return (T) aggregate(iterable, MIN);
 	}
 
 	/**
@@ -621,7 +621,7 @@ public final class Lambda {
 	 * @throws IllegalArgumentException if the iterable is not an Iterable
 	 */
 	public static <T> T min(Object iterable, T argument) {
-		return (T)aggregate(iterable, Min, argument);
+		return (T)aggregate(iterable, MIN, argument);
 	}
 	
 	/**
@@ -644,7 +644,7 @@ public final class Lambda {
 	 * @throws IllegalArgumentException if the iterable is null or empty
 	 */
 	public static <T> T minFrom(Iterable<T> iterable) {
-		return (T) aggregateFrom(iterable, Min);
+		return (T) aggregateFrom(iterable, MIN);
 	}
 
 	/**
@@ -666,7 +666,7 @@ public final class Lambda {
 	 * @return A proxy of the class of the first object in the iterable representing a min lambda function
 	 */
 	public static <T> T minFrom(Iterable<T> iterable, Class<?> clazz) {
-		return (T) aggregateFrom(iterable, clazz, Min);
+		return (T) aggregateFrom(iterable, clazz, MIN);
 	}
 
 	// -- (Max) ---------------------------------------------------------------
@@ -680,7 +680,7 @@ public final class Lambda {
 	 * @throws IllegalArgumentException if the iterable is not an Iterable
 	 */
 	public static <T> T max(Object iterable) {
-		return (T) aggregate(iterable, Max);
+		return (T) aggregate(iterable, MAX);
 	}
 
 	/**
@@ -693,7 +693,7 @@ public final class Lambda {
 	 * @throws IllegalArgumentException if the iterable is not an Iterable
 	 */
 	public static <T> T max(Object iterable, T argument) {
-		return (T)aggregate(iterable, Max, argument);
+		return (T)aggregate(iterable, MAX, argument);
 	}
 	
 	/**
@@ -716,7 +716,7 @@ public final class Lambda {
 	 * @throws IllegalArgumentException if the iterable is null or empty
 	 */
 	public static <T> T maxFrom(Iterable<T> iterable) {
-		return (T) aggregateFrom(iterable, Max);
+		return (T) aggregateFrom(iterable, MAX);
 	}
 
 	/**
@@ -738,7 +738,7 @@ public final class Lambda {
 	 * @return A proxy of the class of the first object in the iterable representing a max lambda function
 	 */
 	public static <T> T maxFrom(Iterable<T> iterable, Class<?> clazz) {
-		return (T) aggregateFrom(iterable, clazz, Max);
+		return (T) aggregateFrom(iterable, clazz, MAX);
 	}
 
 	// -- (Join) --------------------------------------------------------------
@@ -762,7 +762,7 @@ public final class Lambda {
 	 * @throws IllegalArgumentException if the iterable is null or empty
 	 */
 	public static <T> T joinFrom(Iterable<T> iterable) {
-		return aggregateFrom(iterable, Concat);
+		return aggregateFrom(iterable, CONCAT);
 	}
 
 	/**
@@ -808,7 +808,7 @@ public final class Lambda {
 	 * @return A proxy of the class of the first object in the iterable representing a join lambda function
 	 */
 	public static <T> T joinFrom(Iterable<T> iterable, Class<?> clazz) {
-		return aggregateFrom(iterable, clazz, Concat);
+		return aggregateFrom(iterable, clazz, CONCAT);
 	}
 
 	/**

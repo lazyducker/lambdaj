@@ -107,7 +107,7 @@ public class Switcher<T> {
         return results;
     }
 
-    private static class Case<T> {
+    private static final class Case<T> {
         private final Matcher<?> matcher;
         private final Result<T> result;
 
@@ -141,7 +141,7 @@ public class Switcher<T> {
         }
     }
 
-    private static class ClosureResult<T> implements Result<T> {
+    private static final class ClosureResult<T> implements Result<T> {
         private final AbstractClosure closure;
 
         private ClosureResult(AbstractClosure closure) {

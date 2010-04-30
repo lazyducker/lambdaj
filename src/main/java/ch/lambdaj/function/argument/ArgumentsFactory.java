@@ -16,7 +16,7 @@ import static ch.lambdaj.proxy.ProxyUtil.*;
  */
 public final class ArgumentsFactory {
 
-	private ArgumentsFactory() { }
+    private ArgumentsFactory() { }
 	
 	// ////////////////////////////////////////////////////////////////////////
 	// /// Factory
@@ -31,16 +31,16 @@ public final class ArgumentsFactory {
 		return createArgument(clazz, new InvocationSequence(clazz));
 	}
 	
-	private static final Map<InvocationSequence, Object> placeholderByInvocation = new WeakHashMap<InvocationSequence, Object>();
+	private static final Map<InvocationSequence, Object> PLACEHOLDER_BY_INVOCATION = new WeakHashMap<InvocationSequence, Object>();
     
 	@SuppressWarnings("unchecked")
 	static <T> T createArgument(Class<T> clazz, InvocationSequence invocationSequence) {
-		T placeholder = (T)placeholderByInvocation.get(invocationSequence);
+		T placeholder = (T) PLACEHOLDER_BY_INVOCATION.get(invocationSequence);
 		boolean isNewPlaceholder = placeholder == null;
 		
 		if (isNewPlaceholder) {
 			placeholder = (T)createPlaceholder(clazz, invocationSequence);
-	    	placeholderByInvocation.put(invocationSequence, placeholder);
+	    	PLACEHOLDER_BY_INVOCATION.put(invocationSequence, placeholder);
 		}
 		
 		if (isNewPlaceholder || isLimitedValues(placeholder))
@@ -59,11 +59,11 @@ public final class ArgumentsFactory {
 	// /// Arguments
 	// ////////////////////////////////////////////////////////////////////////
 	
-	private static final Map<Object, Argument<?>> argumentsByPlaceholder = new WeakHashMap<Object, Argument<?>>();
+	private static final Map<Object, Argument<?>> ARGUMENTS_BY_PLACEHOLDER = new WeakHashMap<Object, Argument<?>>();
 	
     private static <T> void bindArgument(T placeholder, Argument<T> argument) {
-    	if (isLimitedValues(placeholder)) limitedValuesArguments.get().setArgument(placeholder, argument);
-    	else argumentsByPlaceholder.put(placeholder, argument);
+    	if (isLimitedValues(placeholder)) LIMITED_VALUE_ARGUMENTS.get().setArgument(placeholder, argument);
+    	else ARGUMENTS_BY_PLACEHOLDER.put(placeholder, argument);
     }
 
     /**
@@ -74,12 +74,12 @@ public final class ArgumentsFactory {
 	@SuppressWarnings("unchecked")
     public static <T> Argument<T> actualArgument(T placeholder) {
     	if (placeholder instanceof Argument) return (Argument<T>)placeholder;
-    	Argument<T> actualArgument = (Argument<T>)(isLimitedValues(placeholder) ? limitedValuesArguments.get().getArgument(placeholder) : argumentsByPlaceholder.get(placeholder));
+    	Argument<T> actualArgument = (Argument<T>)(isLimitedValues(placeholder) ? LIMITED_VALUE_ARGUMENTS.get().getArgument(placeholder) : ARGUMENTS_BY_PLACEHOLDER.get(placeholder));
     	if (actualArgument == null) throw new RuntimeException("Unable to convert the placeholder " + placeholder + " in a valid argument");
     	return actualArgument;
     }
     
-	private static final ThreadLocal<LimitedValuesArgumentHolder> limitedValuesArguments = new ThreadLocal<LimitedValuesArgumentHolder>() {
+	private static final ThreadLocal<LimitedValuesArgumentHolder> LIMITED_VALUE_ARGUMENTS = new ThreadLocal<LimitedValuesArgumentHolder>() {
         protected LimitedValuesArgumentHolder initialValue() {
             return new LimitedValuesArgumentHolder();
         }
@@ -146,10 +146,10 @@ public final class ArgumentsFactory {
     	return (T)createArgumentPlaceholder(clazz, Integer.MIN_VALUE+1);
 	}
     
-    private static final AtomicInteger placeholderCounter = new AtomicInteger(Integer.MIN_VALUE);
+    private static final AtomicInteger PLACEHOLDER_COUNTER = new AtomicInteger(Integer.MIN_VALUE);
 
     static Object createArgumentPlaceholder(Class<?> clazz) {
-    	return isLimitedValues(clazz) ? limitedValuesArguments.get().getNextPlaceholder(clazz) : createArgumentPlaceholder(clazz, placeholderCounter.addAndGet(1));
+    	return isLimitedValues(clazz) ? LIMITED_VALUE_ARGUMENTS.get().getNextPlaceholder(clazz) : createArgumentPlaceholder(clazz, PLACEHOLDER_COUNTER.addAndGet(1));
 	}
 	
     private static Object createArgumentPlaceholder(Class<?> clazz, Integer placeholderId) {

@@ -36,12 +36,12 @@ public abstract class DelayedClosure<T> {
     private final ClosureResult<T> closureResult;
     private T result;
 
-    private static final ThreadLocal<DelayedClosure<?>> currentDelayed = new ThreadLocal<DelayedClosure<?>>();
+    private static final ThreadLocal<DelayedClosure<?>> CURRENT_DELAYED = new ThreadLocal<DelayedClosure<?>>();
 
     public DelayedClosure() {
         closure = createClosure();
         closureResult = new ClosureResult<T>() { public T get() { return result; }};
-        currentDelayed.set(this);
+        CURRENT_DELAYED.set(this);
     }
 
     /**
@@ -60,8 +60,8 @@ public abstract class DelayedClosure<T> {
     }
 
     static void call() throws Exception {
-        DelayedClosure delayedClosure = currentDelayed.get();
-        currentDelayed.set(null);
+        DelayedClosure delayedClosure = CURRENT_DELAYED.get();
+        CURRENT_DELAYED.set(null);
         if (delayedClosure != null) delayedClosure.execute();
     }
 

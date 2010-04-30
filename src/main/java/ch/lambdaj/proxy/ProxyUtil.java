@@ -54,9 +54,13 @@ public final class ProxyUtil {
     
 	public static <T> T createIterableProxy(InvocationInterceptor interceptor, Class<T> clazz) {
         if (clazz.isPrimitive()) return null;
-        if (clazz == String.class) clazz = (Class<T>)CharSequence.class;
-        return createProxy(interceptor, clazz, false, Iterable.class);
+        return createProxy(interceptor, normalizeProxiedClass(clazz), false, Iterable.class);
 	}
+
+    private static <T> Class<T> normalizeProxiedClass(Class<T> clazz) {
+        if (clazz == String.class) return (Class<T>)CharSequence.class;
+        return clazz;
+    }
 
     // ////////////////////////////////////////////////////////////////////////
     // /// Private

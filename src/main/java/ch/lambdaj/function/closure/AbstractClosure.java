@@ -292,9 +292,10 @@ abstract class AbstractClosure {
     }
 
     private boolean findVarToBeCurried(Object curried, int position) {
+        int counter = position;
         for (int i = 0; i < curriedVars.length; i++) {
             if (curriedVarsFlags[i]) continue;
-            if (--position == 0) {
+            if (--counter == 0) {
                 curriedVars[i] = curried;
                 curriedVarsFlags[i] = true;
                 freeVarsNumber--;
