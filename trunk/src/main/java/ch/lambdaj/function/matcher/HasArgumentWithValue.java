@@ -49,7 +49,7 @@ public class HasArgumentWithValue<T, A> extends LambdaJMatcher<T> {
      */
     @Factory
      public static <T> HasArgumentWithValue<T, Boolean> havingValue(Boolean argument) {
-    	return havingValue(argument, booleanMatcher);
+    	return havingValue(argument, BOOLEAN_MATCHER);
     }
     
     /**
@@ -64,7 +64,7 @@ public class HasArgumentWithValue<T, A> extends LambdaJMatcher<T> {
     	return new HasArgumentWithValue<T, A>(actualArgument(argument), matcher);
     }
 
-    private static final BooleanMatcher booleanMatcher = new BooleanMatcher();
+    private static final BooleanMatcher BOOLEAN_MATCHER = new BooleanMatcher();
     private static class BooleanMatcher extends BaseMatcher<Boolean> {
 		public boolean matches(Object item) {
 			return (Boolean)item;

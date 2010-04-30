@@ -11,6 +11,7 @@ package ch.lambdaj.function.compare;
 import static ch.lambdaj.function.argument.ArgumentsFactory.*;
 
 import java.util.*;
+import java.io.*;
 
 import ch.lambdaj.function.argument.*;
 
@@ -18,7 +19,7 @@ import ch.lambdaj.function.argument.*;
  * Compares two objects by comparing the values returned by an Argument call on them.
  * @author Mario Fusco
  */
-public class ArgumentComparator<T, A> implements Comparator<T> {
+public class ArgumentComparator<T, A> implements Comparator<T>, Serializable {
 
 	private final Argument<A> argument;
 	private final Comparator<A> comparator;
@@ -50,7 +51,7 @@ public class ArgumentComparator<T, A> implements Comparator<T> {
 	
 	private static final Comparator<?> DEFAULT_ARGUMENT_COMPARATOR = new DefaultArgumentComparator();
 
-	private static class DefaultArgumentComparator implements Comparator<Object> {
+	private static class DefaultArgumentComparator implements Comparator<Object>, Serializable {
 		@SuppressWarnings("unchecked")
 		public int compare(Object val1, Object val2) {
 			return val1 != null ? ((Comparable)val1).compareTo(val2) : -((Comparable)val2).compareTo(null);

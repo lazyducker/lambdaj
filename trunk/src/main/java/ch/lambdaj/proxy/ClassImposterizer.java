@@ -53,7 +53,7 @@ import org.objenesis.*;
  * @author Mario Fusco
  * @author Sebastian Jancke
  */
-class ClassImposterizer  {
+final class ClassImposterizer  {
 
     public static final ClassImposterizer INSTANCE = new ClassImposterizer();
     

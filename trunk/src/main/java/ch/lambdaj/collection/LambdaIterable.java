@@ -68,7 +68,7 @@ public class LambdaIterable<T> implements Iterable<T> {
     }
 
     public boolean exists(Matcher<T> matcher) {
-        return Lambda.filter(matcher, inner) != null;
+        return Lambda.selectFirst(inner, matcher) != null;
     }
 
     public LambdaIterable<T> filter(Matcher<?> matcher) {
