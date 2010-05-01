@@ -2,14 +2,12 @@
 // Copyright (c) 2009 Mario Fusco.
 // Licensed under the Apache License, Version 2.0 (the "License")
 
-package ch.lambdaj.proxy;
-
-import static ch.lambdaj.Lambda.*;
+package ch.lambdaj.function.aggregate;
 
 import java.lang.reflect.*;
 
-import ch.lambdaj.function.aggregate.*;
 import ch.lambdaj.util.iterator.*;
+import ch.lambdaj.proxy.*;
 
 /**
  * Proxies a list of objects in order to seamlessly aggregate their value by exposing the API of a single object.
@@ -26,7 +24,7 @@ public class ProxyAggregator<T, A> extends ProxyIterator<T> {
 
 	@Override
 	public Object invoke(Object obj, Method method, Object[] args) throws Throwable {
-		return aggregate(iterateOnValues(method, args), aggregator);
+		return aggregator.aggregate((ResettableIterator<A>)iterateOnValues(method, args));
 	}
 
 	@SuppressWarnings("unchecked")
