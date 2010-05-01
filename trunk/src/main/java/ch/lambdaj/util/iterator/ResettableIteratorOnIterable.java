@@ -20,7 +20,7 @@ public class ResettableIteratorOnIterable<T> extends ResettableIterator<T> {
         reset();
     }
 
-    public void reset() {
+    public final void reset() {
         iterator = iterable.iterator();
     }
 

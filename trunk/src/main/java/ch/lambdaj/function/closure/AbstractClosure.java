@@ -125,12 +125,12 @@ abstract class AbstractClosure {
 
     private void bindInvocation(Invokable invokable, Object[] args) {
 		invokables.add(invokable);
-		if (args != null) for (Object arg : args) if (isClosureVarPlaceholder(arg)) freeVarsNumber++;
+		if (args != null) for (Object arg : args) { if (isClosureVarPlaceholder(arg)) freeVarsNumber++; }
 		argsList.add(args);
 	}
 
     void closeUnhandeledInvocations() {
-        for (Object[] vars : unhandeledInvocations) closeOne(vars);
+        for (Object[] vars : unhandeledInvocations) { closeOne(vars); }
         unhandeledInvocations.clear();
     }
 
@@ -151,8 +151,9 @@ abstract class AbstractClosure {
 		Object result = isClosedOnFreeVar() ? vars[0] : closed;
 		
 		Iterator<Object[]> argsIterator = boundParams != null ? boundParams.iterator() : null;
-		for (Invokable invokable : invokables)
+		for (Invokable invokable : invokables) {
             result = invokable.invoke(result, argsIterator != null ? argsIterator.next() : null);
+        }
 		return result;
 	}
 
@@ -165,7 +166,7 @@ abstract class AbstractClosure {
      */
 	List<?> closeAll(Object... vars) throws WrongClosureInvocationException {
 		List<Object> results = new ArrayList<Object>();
-		for (Object var : vars) results.add(closeOne(var));
+		for (Object var : vars) { results.add(closeOne(var)); }
 		return results;
 	}
 	
@@ -182,7 +183,7 @@ abstract class AbstractClosure {
 		
 		int length = vars.length;
 		Iterator<?>[] iterators = new Iterator<?>[length];
-		for (int i = 0; i < length; i++) iterators[i] = vars[i].iterator();
+		for (int i = 0; i < length; i++) { iterators[i] = vars[i].iterator(); }
 
 		while (true) {
 			Object[] varSet = new Object[length];

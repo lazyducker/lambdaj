@@ -65,8 +65,9 @@ public final class IntrospectionUtil {
     }
 
     private static <T> Constructor<T> discoverConstructor(Class<?> clazz, Class<?>... parameterTypes) {
-        for (Constructor<?> c : clazz.getConstructors())
+        for (Constructor<?> c : clazz.getConstructors()) {
             if (areCompatible(c.getParameterTypes(), parameterTypes)) return (Constructor<T>)c;
+        }
         return null;
     }
 
@@ -85,15 +86,17 @@ public final class IntrospectionUtil {
     }
 
     private static Method discoverMethod(Class<?> clazz, String methodName, Class<?>... parameterTypes) {
-        for (Method m : clazz.getMethods())
+        for (Method m : clazz.getMethods()) {
             if (m.getName().equals(methodName) && areCompatible(m.getParameterTypes(), parameterTypes)) return m;
+        }
         return null;
     }
 
     private static boolean areCompatible(Class<?>[] methodParams, Class<?>[] actualParam) {
         if (methodParams == null || methodParams.length != actualParam.length) return false;
-        for (int i = 0; i < methodParams.length; i++)
+        for (int i = 0; i < methodParams.length; i++) {
             if (!areCompatible(methodParams[i], actualParam[i])) return false;
+        }
         return true;
     }
 
@@ -108,7 +111,7 @@ public final class IntrospectionUtil {
 
     private static Class<?>[] objectsToClasses(Object... args) {
         Class<?>[] parameterTypes = new Class<?>[args == null ? 0 : args.length];
-        for (int i = 0; i < parameterTypes.length; i++) parameterTypes[i] = args[i].getClass();
+        for (int i = 0; i < parameterTypes.length; i++) { parameterTypes[i] = args[i].getClass(); }
         return parameterTypes;
     }
 }
