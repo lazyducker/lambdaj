@@ -105,11 +105,7 @@ final class ClassImposterizer  {
     private Class<?> createProxyClass(Class<?> mockedType, Class<?>...interfaces) {
         if (mockedType == Object.class) mockedType = ClassWithSuperclassToWorkAroundCglibBug.class;
         
-        Enhancer enhancer = new Enhancer() {
-            @Override
-            @SuppressWarnings("unchecked")
-            protected void filterConstructors(Class sc, List constructors) { }
-        };
+        Enhancer enhancer = new ClassEnhancer();
         enhancer.setUseFactory(true);
         enhancer.setSuperclass(mockedType);
         enhancer.setInterfaces(interfaces);
@@ -123,6 +119,12 @@ final class ClassImposterizer  {
         } catch (CodeGenerationException e) {
             throw new UnproxableClassException(mockedType, e);
         }
+    }
+
+    private static class ClassEnhancer extends Enhancer {
+        @Override
+        @SuppressWarnings("unchecked")
+        protected void filterConstructors(Class sc, List constructors) { }
     }
     
     private Object createProxy(Class<?> proxyClass, MethodInterceptor interceptor) {

@@ -26,16 +26,17 @@ final class Invocation {
 		this.invokedMethod = invokedMethod;
 		if (args != null && args.length > 0) {
 			weakArgs = new ArrayList<ParameterReference<Object>>();
-			for (int i = 0; i < args.length; i++)
+			for (int i = 0; i < args.length; i++) {
                 weakArgs.add(new ParameterReference<Object>(args[i], !invokedMethod.getParameterTypes()[i].isPrimitive()));
+            }
 		}
 	}
 	
 	private Object[] getConcreteArgs() {
-		if (weakArgs == null) return null;
+		if (weakArgs == null) return new Object[0];
 		Object[] args = new Object[weakArgs.size()];
 		int i = 0;
-		for (ParameterReference<Object> weakArg : weakArgs) args[i++] = weakArg.get();
+		for (ParameterReference<Object> weakArg : weakArgs) { args[i++] = weakArg.get(); }
 		return args;
 	}
 
@@ -68,9 +69,9 @@ final class Invocation {
 	public String toString() {
 		StringBuilder sb = new StringBuilder(invokedMethod.toString());
 		Object[] args = getConcreteArgs();
-		if (args != null) {
+		if (args.length > 0) {
 			sb.append(" with args ");
-			for (int i = 0; i < args.length; i++) sb.append(i == 0 ? "" : ", ").append(args[i]);
+			for (int i = 0; i < args.length; i++) { sb.append(i == 0 ? "" : ", ").append(args[i]); }
 		}
 		return sb.toString();
 	}

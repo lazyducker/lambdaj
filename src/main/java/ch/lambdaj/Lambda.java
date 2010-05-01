@@ -226,7 +226,7 @@ public final class Lambda {
 	 */
 	public static <T, A> List<T> sort(Object iterable, A argument, Comparator<A> comparator) {
 		List<T> sorted = new ArrayList<T>();
-        for (Iterator<?> i = asIterator(iterable); i.hasNext();) sorted.add((T)i.next());
+        for (Iterator<?> i = asIterator(iterable); i.hasNext();) { sorted.add((T)i.next()); }
 		Collections.sort(sorted, new ArgumentComparator<T, A>(argument, comparator));
 		return sorted;
 	}
@@ -420,7 +420,7 @@ public final class Lambda {
 	 */
 	public static <T> Collection<T> selectDistinct(Object iterable, Comparator<T> comparator) {
 		Set<T> collected = comparator == null ? new HashSet<T>() : new TreeSet<T>(comparator);
-        for (Iterator<T> i = (Iterator<T>)asIterator(iterable); i.hasNext();) collected.add(i.next());
+        for (Iterator<T> i = (Iterator<T>)asIterator(iterable); i.hasNext();) { collected.add(i.next()); }
 		return collected;
 	}
 
@@ -872,7 +872,7 @@ public final class Lambda {
 	 */
 	public static <F, T> List<T> convert(Object iterable, Converter<F, T> converter) {
 		List<T> collected = new ArrayList<T>();
-		for (Iterator<T> i = convertIterator(iterable, converter); i.hasNext();) collected.add(i.next());
+		for (Iterator<T> i = convertIterator(iterable, converter); i.hasNext();) { collected.add(i.next()); }
 		return collected;
 	}
 
@@ -897,7 +897,7 @@ public final class Lambda {
 	 */
     public static <K, F, T> Map<K, T> convertMap(Map<K, F> map, Converter<F, T> converter) {
         Map<K, T> converted = new HashMap<K, T>();
-        for (Map.Entry<K, F> entry : map.entrySet()) converted.put(entry.getKey(), converter.convert(entry.getValue()));
+        for (Map.Entry<K, F> entry : map.entrySet()) { converted.put(entry.getKey(), converter.convert(entry.getValue())); }
         return converted;
     }
 
