@@ -12,7 +12,7 @@ import java.util.*;
  * The standard LambdaJ implementation for the Group interface
  * @author Mario Fusco
  */
-public class GroupImpl<T> extends ArrayList<GroupItem<T>> implements Group<T> {
+class GroupImpl<T> extends ArrayList<GroupItem<T>> implements Group<T> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -44,51 +44,95 @@ public class GroupImpl<T> extends ArrayList<GroupItem<T>> implements Group<T> {
         return groupItem;
 	}
 	
+    /**
+     * Returns the set of the keys of the subgroups of this group
+     */
 	public Set<String> keySet() {
 		return groupsMap.keySet();
 	}
 
+    /**
+     * Returns the subgroup indexed with the given key
+     * @param key The key that identifies the searched subgroup
+     * @return the subgroup with the given key or null if such a group doesn't exist
+     */
 	public Group<T> findGroup(String key) {
 		GroupItem<T> groupItem = groupsMap.get(key);
 		return groupItem == null ? null : groupItem.asGroup();
 	}
 
+    /**
+     * Returns the subgroup indexed with the given key
+     * @param key The key that identifies the searched subgroup
+     * @return the subgroup with the given key or null if such a group doesn't exist
+     */
 	public Group<T> findGroup(Object key) {
 		return findGroup(key.toString());
 	}
 	
+    /**
+     * Returns all the subgroups of this group or an empty one if this group is a leaf
+     * @return the list of all the subgroups of this group
+     */
 	@SuppressWarnings("unchecked")
 	public List<Group<T>> subgroups() {
 		return (List<Group<T>>)collect(forEach(this, GroupItem.class).asGroup());
 	}
 	
+    /**
+     * Returns all the items in the subgroup indexed with the given key
+     * @param key The key that identifies the searched subgroup
+     * @return all the object in the subgroup with the given key or an empty List if such group doesn't exist or is empty
+     */
 	public List<T> find(String key) {
 		GroupItem<T> groupItem = groupsMap.get(key);
 		return groupItem == null ? new LinkedList<T>() : groupItem.asList();
 	}
 
+    /**
+     * Returns all the items in the subgroup indexed with the given key
+     * @param key The key that identifies the searched subgroup
+     * @return all the object in the subgroup with the given key or an empty List if such group doesn't exist or is empty
+     */
+
 	public List<T> find(Object key) {
 		return find(key.toString());
 	}
 	
+    /**
+     * Returns all the items in this group
+     */
 	public List<T> findAll() {
 		List<T> allItems = new LinkedList<T>();
 		for (GroupItem<T> groupItem : this) allItems.addAll(groupItem.asList());
 		return allItems;
 	}
 	
+    /**
+     * Returns how many items are present in this group.
+     */
 	public int getSize() {
 		return findAll().size();
 	}
 	
+    /**
+     * Returns true if this group is a leaf or false if it has further subgroups
+     */
 	public boolean isLeaf() {
 		return false;
 	}
 	
+    /**
+     * Returns the set of headers used to tag this group
+     */
 	public Set<String> getHeads() {
 		return new HashSet<String>();
 	}
 
+    /**
+     * Returns the value of the tag with the given key
+     * @param key The key of the request tag value
+     */
 	public String getHeadValue(String key) {
 		return "";
 	}

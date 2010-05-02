@@ -855,7 +855,7 @@ public final class Lambda {
 	 * @return The concatenation of the String representation of all the objects in the given iterable or an empty String if the iterable is null or empty
 	 */
 	public static String join(Object iterable, String separator) {
-        return iterable instanceof Iterable ? (String) aggregate(iterable, new Concat(separator)) : (iterable == null ? "" : iterable.toString());
+        return iterable instanceof Iterable || iterable instanceof Iterator ? (String) aggregate(iterable, new Concat(separator)) : (iterable == null ? "" : iterable.toString());
 	}
 
 	// ////////////////////////////////////////////////////////////////////////
