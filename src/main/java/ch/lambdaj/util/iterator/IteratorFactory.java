@@ -13,14 +13,25 @@ public final class IteratorFactory {
 
     private IteratorFactory() { }
 
+    /**
+     * Discovers the generic type of the given Iterable based on the type of its first item (if any
+     * @param iterable The Iterable to be analyzed
+     * @return The Class of the first item of this iterable (if any)
+     */
     public static Class<?> discoverGenericType(Iterable<?> iterable) {
         return discoverGenericType(iterable.iterator());
     }
 
-    private static Class<?> discoverGenericType(Iterator<?> iterator) {
+    /**
+     * Discovers the generic type of the given Iterator based on the type of its first item (if any)
+     * @param iterator The Iterator to be analyzed
+     * @return The Class of the first item of this iterator (if any)
+     */
+    public static Class<?> discoverGenericType(Iterator<?> iterator) {
         if (!iterator.hasNext())
-            throw new IllegalArgumentException("aggregateFrom() is unable to introspect on an empty iterator. Use the overloaded method accepting a class instead");
-        return iterator.next().getClass();
+            throw new IllegalArgumentException("Unable to introspect on an empty iterator. Use the overloaded method accepting a class instead");
+        Object next = iterator.next();
+        return next != null ? next.getClass() : Object.class;
     }
 
     /**
@@ -42,6 +53,16 @@ public final class IteratorFactory {
         throw new IllegalArgumentException("Cannot convert " + object + " to an iterator");
     }
 
+    /**
+     * Tries to convert a generic object in a ResettableIterator.
+     * This method works with Iterators, Arrays, Iterables and Maps and
+     * in this last case a ResettableIterator over the Map's values is returned.
+     * If the object is null returns aa ResettableIterator over an empty collection.
+     * If none of the above applies throws an IllegalArgumentException.
+     * @param object The object to be converted
+     * @return The ResettableIterator resulting from the object conversion
+     * @throws IllegalArgumentException if the given object is neither an Iterator, Array, Iterable or Map.
+     */
     public static ResettableIterator<?> asResettableIterator(Object object) {
         if (object == null) return new ResettableIteratorOnIterable(new ArrayList());
         if (object instanceof Iterable) return new ResettableIteratorOnIterable((Iterable<?>)object);

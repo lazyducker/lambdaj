@@ -10,7 +10,7 @@ import java.util.*;
  * A leaf group is a group that doesn't contain other groups.
  * @author Mario Fusco
  */
-public class LeafGroup<T> implements Group<T> {
+class LeafGroup<T> implements Group<T> {
 
 	private final List<T> list;
 	private Map<String, Object> headMap = new TreeMap<String, Object>();
@@ -21,47 +21,90 @@ public class LeafGroup<T> implements Group<T> {
 		list = (List<T>)headMap.remove(childrenNodeName);
 	}
 	
+    /**
+     * Returns all the items in the subgroup indexed with the given key
+     * @param key The key that identifies the searched subgroup
+     * @return all the object in the subgroup with the given key or an empty List if such group doesn't exist or is empty
+     */
 	public List<T> find(String key) {
 		return list;
 	}
 
+    /**
+     * Returns all the items in the subgroup indexed with the given key
+     * @param key The key that identifies the searched subgroup
+     * @return all the object in the subgroup with the given key or an empty List if such group doesn't exist or is empty
+     */
 	public List<T> find(Object key) {
 		return find(key.toString());
 	}
 	
+    /**
+     * Returns all the items in this group
+     */
 	public List<T> findAll() {
 		return list;
 	}
 
+    /**
+     * Returns the subgroup indexed with the given key
+     * @param key The key that identifies the searched subgroup
+     * @return the subgroup with the given key or null if such a group doesn't exist
+     */
 	public Group<T> findGroup(String key) {
 		return this;
 	}
 	
+    /**
+     * Returns the subgroup indexed with the given key
+     * @param key The key that identifies the searched subgroup
+     * @return the subgroup with the given key or null if such a group doesn't exist
+     */
 	public Group<T> findGroup(Object key) {
 		return findGroup(key.toString());
 	}
 	
+    /**
+     * Returns all the subgroups of this group or an empty one if this group is a leaf
+     * @return the list of all the subgroups of this group
+     */
 	public List<Group<T>> subgroups() {
 		return new ArrayList<Group<T>>();
 	}
 
+    /**
+     * Returns how many items are present in this group.
+     */
 	public int getSize() {
 		return list.size();
 	}
 
+    /**
+     * Returns true if this group is a leaf or false if it has further subgroups
+     */
 	public boolean isLeaf() {
 		return true;
 	}
 
+    /**
+     * Returns the set of the keys of the subgroups of this group
+     */
 	public Set<String> keySet() {
 		return new HashSet<String>();
 	}
 
+    /**
+     * Returns the value of the tag with the given key
+     * @param key The key of the request tag value
+     */
 	public String getHeadValue(String key) {
 		Object value = headMap.get(key);
 		return value == null ? "" : value.toString();
 	}
 
+    /**
+     * Returns the set of headers used to tag this group
+     */
 	public Set<String> getHeads() {
 		return headMap.keySet();
 	}

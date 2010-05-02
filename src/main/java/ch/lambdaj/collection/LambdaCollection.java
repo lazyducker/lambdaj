@@ -1,6 +1,11 @@
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco.
+// Licensed under the Apache License, Version 2.0 (the "License")
+
 package ch.lambdaj.collection;
 
 import java.util.*;
+import static java.util.Arrays.asList;
 
 import org.hamcrest.*;
 
@@ -15,12 +20,16 @@ public class LambdaCollection<T> extends LambdaIterable<T> implements Collection
     }
 
     private Collection<T> innerCollection() {
-        return (Collection<T>)inner;
+        return (Collection<T>) innerIterable;
     }
 
     public LambdaCollection<T> remove(Matcher<T> matcher) {
         // TODO
         return this;
+    }
+
+    public LambdaCollection<T> filter(Matcher<?> matcher) {
+        return new LambdaCollection(doFilter(matcher), type);        
     }
 
     public boolean add(T e) {
@@ -29,6 +38,16 @@ public class LambdaCollection<T> extends LambdaIterable<T> implements Collection
 
     public boolean addAll(Collection<? extends T> c) {
         return innerCollection().addAll(c);
+    }
+
+    public LambdaCollection<T> append(List<T> list) {
+        innerCollection().addAll(list);
+        return this;
+    }
+
+    public LambdaCollection<T> append(T... list) {
+        innerCollection().addAll(asList(list));
+        return this;
     }
 
     public void clear() {

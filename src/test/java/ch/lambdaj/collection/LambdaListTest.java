@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import ch.lambdaj.function.aggregate.Money;
 import ch.lambdaj.mock.Person;
-import static ch.lambdaj.collection.LambdaList.with;
+import static ch.lambdaj.collection.LambdaCollections.with;
 
 public class LambdaListTest {
 

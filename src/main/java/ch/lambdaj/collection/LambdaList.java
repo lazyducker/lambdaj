@@ -1,10 +1,12 @@
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco.
+// Licensed under the Apache License, Version 2.0 (the "License")
+
 package ch.lambdaj.collection;
 
 import org.hamcrest.*;
 
 import java.util.*;
-
-import ch.lambdaj.*;
 
 /**
  * @author Gianfranco Tognana
@@ -12,20 +14,12 @@ import ch.lambdaj.*;
  */
 public class LambdaList<T> extends LambdaCollection<T> implements List<T> {
 
-	public static <T> LambdaList<T> with(List<? extends T> inner) {
-		return new LambdaList<T>(inner, null);
-	}
-
-	public static <T> LambdaList<T> with(List<? extends T> inner, Class<T> type) {
-		return new LambdaList<T>(inner, type);
-	}
-
 	LambdaList(List<? extends T> inner, Class<T> type) {
         super(inner, type);
 	}
 
     private List<T> innerList() {
-        return (List<T>)inner;
+        return (List<T>) innerIterable;
     }
 
     public void add(int index, T element) {
@@ -69,7 +63,6 @@ public class LambdaList<T> extends LambdaCollection<T> implements List<T> {
     }
 
     public LambdaList<T> filter(Matcher<?> matcher) {
-        return (LambdaList<T>)super.filter(matcher);
+        return new LambdaList(doFilter(matcher), type);        
     }
-
 }
