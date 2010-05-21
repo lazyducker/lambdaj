@@ -13,13 +13,22 @@ import java.util.*;
 class LeafGroup<T> implements Group<T> {
 
 	private final List<T> list;
-	private Map<String, Object> headMap = new TreeMap<String, Object>();
+	private final Map<String, Object> headMap;
+    private final Object key;
 	
 	@SuppressWarnings("unchecked")
-	LeafGroup(Map<String, Object> map, String childrenNodeName) {
-		headMap = new TreeMap<String, Object>(map);
+	LeafGroup(GroupItem<T> groupItem, String childrenNodeName) {
+        key = groupItem.getGroupKey();
+		headMap = new TreeMap<String, Object>(groupItem);
 		list = (List<T>)headMap.remove(childrenNodeName);
 	}
+
+    /**
+     * Returns the key of this group
+     */
+    public Object key() {
+        return key;
+    }
 	
     /**
      * Returns all the items in the subgroup indexed with the given key
@@ -45,6 +54,13 @@ class LeafGroup<T> implements Group<T> {
 	public List<T> findAll() {
 		return list;
 	}
+
+    /**
+     * Returns the first item in this group
+     */
+    public T first() {
+        return list.get(0);
+    }
 
     /**
      * Returns the subgroup indexed with the given key

@@ -12,6 +12,11 @@ import java.util.*;
  */
 public interface Group<T> {
 	
+    /**
+     * Returns the key of this group
+     */
+    Object key();
+
 	/**
 	 * Returns the set of the keys of the subgroups of this group
 	 */
@@ -55,6 +60,11 @@ public interface Group<T> {
 	 * Returns all the items in this group
 	 */
 	List<T> findAll();
+
+    /**
+     * Returns the first item in this group
+     */
+    T first();
 
 	/**
 	 * Returns how many items are present in this group.

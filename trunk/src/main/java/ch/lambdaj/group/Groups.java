@@ -60,7 +60,7 @@ public final class Groups {
 		if (conditions.length > 1) {
 			GroupCondition<?>[] newConditions = new GroupCondition<?>[conditions.length - 1];
 			System.arraycopy(conditions, 1, newConditions, 0, newConditions.length);
-			for (GroupItem<T> groupItem : group) groupItem.setChildren(group(groupItem, newConditions));
+			for (GroupItem<T> groupItem : group) groupItem.setChildren((GroupImpl<T>)group(groupItem, newConditions));
 		}
 
         condition.sortGroup(group);

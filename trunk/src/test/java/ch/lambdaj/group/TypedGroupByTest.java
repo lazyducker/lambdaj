@@ -8,9 +8,9 @@ import static java.util.Arrays.*;
 import java.util.*;
 
 import org.junit.*;
+import static org.junit.Assert.*;
 
 import ch.lambdaj.mock.*;
-import static org.junit.Assert.*;
 
 public class TypedGroupByTest {
 
@@ -101,4 +101,26 @@ public class TypedGroupByTest {
 		Group<Person> groupLuca = group29aged.findGroup("Luca");
 		assertTrue(groupLuca.findAll().contains(luca));
 	}
+
+    @Test
+    public void testGroupAndSubgroup() {
+        List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+
+        Group<Person> group = group(meAndMyFriends, by(on(Person.class).getAge()), by(on(Person.class).getFirstName()));
+        assertEquals(4, group.getSize());
+        assertEquals(3, group.subgroups().size());
+        assertFalse(group.isLeaf());
+        assertEquals(me, group.first());
+        assertNull(group.key());
+
+        Group<Person> subgroup = group.subgroups().get(0);
+        assertFalse(subgroup.isLeaf());
+        assertEquals(me, subgroup.first());
+        assertEquals(me.getAge(), subgroup.key());
+
+        Group<Person> subsubgroup = subgroup.subgroups().get(0);
+        assertTrue(subsubgroup.isLeaf());
+        assertEquals(me, subgroup.first());
+        assertEquals(me.getFirstName(), subsubgroup.key());
+    }
 }
