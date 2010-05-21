@@ -4,8 +4,6 @@
 
 package ch.lambdaj.group;
 
-import static ch.lambdaj.Lambda.*;
-
 import java.util.*;
 
 /**
@@ -20,9 +18,9 @@ class GroupImpl<T> extends ArrayList<GroupItem<T>> implements Group<T> {
 
 	private transient GroupCondition<?> groupCondition;
 
-	protected GroupImpl() { }
+    private Object key;
 
-	public GroupImpl(GroupCondition<?> groupCondition) {
+	GroupImpl(GroupCondition<?> groupCondition) {
 		this.groupCondition = groupCondition;
 	}
 
@@ -43,7 +41,18 @@ class GroupImpl<T> extends ArrayList<GroupItem<T>> implements Group<T> {
         add(groupItem);
         return groupItem;
 	}
-	
+
+    /**
+     * Returns the key of this group
+     */
+    public Object key() {
+        return key;
+    }
+
+    void setKey(Object key) {
+        this.key = key;
+    }
+
     /**
      * Returns the set of the keys of the subgroups of this group
      */
@@ -76,7 +85,9 @@ class GroupImpl<T> extends ArrayList<GroupItem<T>> implements Group<T> {
      */
 	@SuppressWarnings("unchecked")
 	public List<Group<T>> subgroups() {
-		return (List<Group<T>>)collect(forEach(this, GroupItem.class).asGroup());
+        List<Group<T>> resultList = new LinkedList<Group<T>>();
+        for (GroupItem<T> groupItem : this) { resultList.add(groupItem.asGroup()); }
+        return resultList;
 	}
 	
     /**
@@ -104,9 +115,16 @@ class GroupImpl<T> extends ArrayList<GroupItem<T>> implements Group<T> {
      */
 	public List<T> findAll() {
 		List<T> allItems = new LinkedList<T>();
-		for (GroupItem<T> groupItem : this) allItems.addAll(groupItem.asList());
+		for (GroupItem<T> groupItem : this) { allItems.addAll(groupItem.asList()); }
 		return allItems;
 	}
+
+    /**
+     * Returns the first item in this group
+     */
+    public T first() {
+        return get(0).asList().get(0);
+    }
 	
     /**
      * Returns how many items are present in this group.

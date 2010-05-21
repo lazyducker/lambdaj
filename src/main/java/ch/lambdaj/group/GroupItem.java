@@ -68,8 +68,9 @@ public class GroupItem<T> extends TreeMap<String, Object> implements Iterable<T>
 		getChildren().add(child);
 	}
 
-	public void setChildren(Group<T> children) {
+	void setChildren(GroupImpl<T> children) {
 		leaf = false;
+        children.setKey(getGroupKey());
 		put(getChildrenNodeName(), children);
 	}
 }
