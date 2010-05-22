@@ -4,7 +4,12 @@
 
 package ch.lambdaj.collection;
 
+import org.hamcrest.*;
+
 import java.util.*;
+
+import ch.lambdaj.*;
+import ch.lambdaj.function.convert.*;
 
 /**
  * @author Gianfranco Tognana
@@ -16,14 +21,54 @@ public class LambdaIterator<T> extends AbstractLambdaCollection<T> implements It
         super(inner);
     }
 
+    /**
+     * Filters all the objects in this iteraor that match the given hamcrest Matcher
+     * @param matcher The hamcrest Matcher used to filter this iterator
+     * @return A sublist of this iterator containing all the objects that match the given hamcrest Matcher
+     */
+    public LambdaIterator<T> filter(Matcher<?> matcher) {
+        return new LambdaIterator<T>((Iterator<T>)Lambda.selectIterator(innerIterator, matcher));
+    }
+
+    /**
+     * Converts all the object in this iterator using the given {@link Converter}.
+     * @param converter The converter that specifies how each object in the iterator must be converted
+     * @return A LambdaIterator containing all the objects in this iterator converted using the given {@link Converter}
+     */
+    public <V> LambdaIterator<V> convert(Converter<T, V> converter) {
+        return new LambdaIterator<V>(Lambda.convertIterator(innerIterator, converter));
+    }
+
+    /**
+	 * Converts all the object in this iterator extracting the property defined by the given argument.
+	 * @param argument An argument defined using the {@link Lambda#on(Class)} method
+	 * @return A LambdaIterable containing the argument's value extracted from the object in this iterator
+	 */
+    public <V> LambdaIterator<V> extract(V argument) {
+        return new LambdaIterator<V>(Lambda.extractIterator(innerIterator, argument));
+    }
+
+    // ////////////////////////////////////////////////////////////////////////
+    // /// Iterator interface
+    // ////////////////////////////////////////////////////////////////////////
+
+    /**
+     * {@inheritDoc}
+     */
 	public boolean hasNext() {
 		return innerIterator.hasNext();
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	public T next() {
 		return innerIterator.next();
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	public void remove() {
 		innerIterator.remove();
 	}

@@ -8,6 +8,7 @@ import java.util.*;
 import static java.util.Arrays.asList;
 
 import org.hamcrest.*;
+import ch.lambdaj.function.convert.*;
 
 /**
  * @author Gianfranco Tognana
@@ -28,9 +29,30 @@ public class LambdaCollection<T> extends LambdaIterable<T> implements Collection
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public LambdaCollection<T> filter(Matcher<?> matcher) {
-        return new LambdaCollection(doFilter(matcher), type);        
+        return new LambdaCollection<T>(doFilter(matcher), type);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public <V> LambdaCollection<V> convert(Converter<T, V> converter) {
+        return new LambdaCollection<V>(doConvert(converter), null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public <V> LambdaCollection<V> extract(V argument) {
+        return new LambdaCollection<V>(doExtract(argument), (Class<V>)argument.getClass());
+    }
+
+    // ////////////////////////////////////////////////////////////////////////
+    // /// Collection interface
+    // ////////////////////////////////////////////////////////////////////////
 
     public boolean add(T e) {
         return innerCollection().add(e);
