@@ -378,7 +378,7 @@ public class LambdaDemoTestMain {
 
 		for (int i = 0; i < ITERATIONS; i++) {
 			Group<Sale> group = selectMax(group(db.getSales(), by(on(Sale.class).getCar())).subgroups(), on(Group.class).getSize());
-			Car mostBoughtCar = group.findAll().get(0).getCar();
+			Car mostBoughtCar = group.first().getCar();
 			int boughtTimes = group.getSize();
 		}
 

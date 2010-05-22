@@ -8,7 +8,7 @@ import java.util.*;
 
 import org.hamcrest.*;
 
-public class AbstractLambdaCollection<T> {
+class AbstractLambdaCollection<T> {
 
     protected final Iterable<? extends T> innerIterable;
     protected final Iterator<? extends T> innerIterator;
@@ -30,31 +30,91 @@ public class AbstractLambdaCollection<T> {
         return innerIterable != null ? innerIterable : innerIterator;
     }
 
-    public <T> T aggregate(Aggregator<T> aggregator) {
+    public T aggregate(Aggregator<T> aggregator) {
         return Lambda.aggregate(getInner(), aggregator);
     }
 
-    public <T> T aggregate(T argument, Aggregator<T> aggregator) {
+    public T aggregate(T argument, Aggregator<T> aggregator) {
         return Lambda.aggregate(getInner(), aggregator, argument);
     }
 
-    public <F> LambdaIterable<F> convert(Converter<T, F> converter) {
-        return new LambdaIterable<F>(Lambda.convert(getInner(), converter), null);
+    /**
+     * Finds the minimum item in this iterable defined by the given argument.
+     * @param argument An argument defined using the {@link Lambda#on(Class)} method
+     * @return The minimum of all the Object in the given iterable
+     */
+    public <A> A min(A argument) {
+        return Lambda.min(getInner(), argument);
     }
 
+    /**
+     * Finds the maximum item in this iterable defined by the given argument.
+     * @param argument An argument defined using the {@link Lambda#on(Class)} method
+     * @return The maximum of all the Object in the given iterable
+     */
+    public <A> A max(A argument) {
+        return Lambda.max(getInner(), argument);
+    }
+
+    /**
+     * Sums the property values of the items in this iterable defined by the given argument.
+     * @param argument An argument defined using the {@link Lambda#on(Class)} method
+     * @return The sum of the property values extracted from all the items in the given iterable
+     */
+    public <A> A sum(A argument) {
+        return Lambda.sum(getInner(), argument);
+    }
+
+    /**
+     * Selects the item in this iterable having the lowest value on the given argument defined using the on method.
+     * @param argument An argument defined using the {@link Lambda#on(Class)} method
+     * @return The item in the given iterable with the minimum value on the given argument
+     */
+    public <A> T selectMin(A argument) {
+        return (T)Lambda.selectMin(getInner(), argument);
+    }
+
+    /**
+     * Selects the item in this iterable having the highest value on the given argument defined using the on method.
+     * @param argument An argument defined using the {@link Lambda#on(Class)} method
+     * @return The item in the given iterable with the maximum value on the given argument
+     */
+    public <A> T selectMax(A argument) {
+        return (T)Lambda.selectMax(getInner(), argument);
+    }
+
+    /**
+     * Joins all the object in this iterable by concatenating all their String representation.
+     * It invokes toString() an all the objects and concatening them using the default separator ", ".
+     * @return The concatenation of the String representation of all the objects in the given iterable or an empty String if the iterable is null or empty
+     */
     public String join() {
         return Lambda.join(getInner());
     }
 
+    /**
+     * Joins all the object in this iterable by concatenating all their String representation.
+     * It invokes toString() an all the objects and concatening them using the given separator.
+     * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
+     * @param separator The String used to separe the item's String representation
+     * @return The concatenation of the String representation of all the objects in the given iterable or an empty String if the iterable is null or empty
+     */
     public String join(String separator) {
         return Lambda.join(getInner(), separator);
     }
 
+    /**
+     * Transforms this iterable in a single object having the same methods of a single object in this iterable.
+     * That allows to invoke a method on each T in the collection with a single strong typed method call.
+     * The actual class of T is inferred from the class of the first iterable's item, but you can
+     * specify a particular class by using the overloaded method.
+     * @return An object that proxies all the item in the iterator or null if the iterator is null or empty
+     */
     public T foreach() {
         return Lambda.forEach(innerIterator);
     }
 
-    public T foreach(Matcher<T> matcher) {
+    public T foreach(Matcher<?> matcher) {
         return Lambda.forEach((List<T>)Lambda.select(getInner(), matcher));
     }
 

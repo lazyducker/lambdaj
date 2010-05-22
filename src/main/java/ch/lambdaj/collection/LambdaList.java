@@ -8,6 +8,8 @@ import org.hamcrest.*;
 
 import java.util.*;
 
+import ch.lambdaj.function.convert.*;
+
 /**
  * @author Gianfranco Tognana
  * @author Mario Fusco
@@ -21,6 +23,31 @@ public class LambdaList<T> extends LambdaCollection<T> implements List<T> {
     private List<T> innerList() {
         return (List<T>) innerIterable;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public LambdaList<T> filter(Matcher<?> matcher) {
+        return new LambdaList<T>(doFilter(matcher), type);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public <V> LambdaList<V> convert(Converter<T, V> converter) {
+        return new LambdaList<V>(doConvert(converter), null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public <V> LambdaList<V> extract(V argument) {
+        return new LambdaList<V>(doExtract(argument), (Class<V>)argument.getClass());
+    }
+
+    // ////////////////////////////////////////////////////////////////////////
+    // /// List interface
+    // ////////////////////////////////////////////////////////////////////////
 
     /**
      * {@inheritDoc}
@@ -88,14 +115,7 @@ public class LambdaList<T> extends LambdaCollection<T> implements List<T> {
     /**
      * {@inheritDoc}
      */
-    public List<T> subList(int fromIndex, int toIndex) {
-        return innerList().subList(fromIndex, toIndex);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public LambdaList<T> filter(Matcher<?> matcher) {
-        return new LambdaList(doFilter(matcher), type);        
+    public LambdaList<T> subList(int fromIndex, int toIndex) {
+        return new LambdaList(innerList().subList(fromIndex, toIndex), type);
     }
 }
