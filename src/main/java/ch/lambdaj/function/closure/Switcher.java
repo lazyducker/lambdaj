@@ -89,7 +89,7 @@ public class Switcher<T> {
      * @return The result of the matching case invocation
      */
     public T exec(Object match, Object ... args) {
-        for (Case<T> c : cases) if (c.matches(match)) return c.exec(args);
+        for (Case<T> c : cases) { if (c.matches(match)) return c.exec(args); }
         return defaultResult != null ? defaultResult.exec(args) : null;
     }
 
@@ -102,7 +102,7 @@ public class Switcher<T> {
      */
     public List<T> execAll(Object match, Object ... args) {
         List<T> results = new ArrayList<T>();
-        for (Case<T> c : cases) if (c.matches(match)) results.add(c.exec(args));
+        for (Case<T> c : cases) { if (c.matches(match)) results.add(c.exec(args)); }
         if (defaultResult != null) results.add(defaultResult.exec(args));
         return results;
     }

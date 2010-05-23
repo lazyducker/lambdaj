@@ -12,8 +12,8 @@ import java.util.*;
  */
 public class LambdaSet<T> extends LambdaCollection<T> implements Set<T> {
 
-	LambdaSet(Set<? extends T> inner, Class<T> type) {
-        super(inner, type);
+	LambdaSet(Set<? extends T> inner) {
+        super(inner);
 	}
 
     private Set<T> innerSet() {

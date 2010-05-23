@@ -8,6 +8,7 @@ import java.util.*;
 import static java.util.Arrays.asList;
 
 /**
+ * This class consists exclusively of static methods that allow to create LambdaCollections.
  * @author Gianfranco Tognana
  * @author Mario Fusco
  */
@@ -15,43 +16,66 @@ public final class LambdaCollections {
     
     private LambdaCollections() { }
 
-    public static <T> LambdaIterator<T> with(Iterator<? extends T> inner) {
-        return new LambdaIterator<T>(inner);
+    /**
+     * Creates a LambdaIterator that wraps the given Iterator
+     * @param iterator The Iterator to be wrapped
+     * @return The LambdaIterator that wraps the given Iterator
+     */
+    public static <T> LambdaIterator<T> with(Iterator<? extends T> iterator) {
+        return new LambdaIterator<T>(iterator);
     }
 
-    public static <T> LambdaList<T> with(List<? extends T> inner) {
-        return with(inner, null);
+    /**
+     * Creates a LambdaList that wraps the given List
+     * @param list The List to be wrapped
+     * @return The LambdaList that wraps the given List
+     */
+    public static <T> LambdaList<T> with(List<? extends T> list) {
+        return new LambdaList<T>(list);
     }
 
-    public static <T> LambdaList<T> with(List<? extends T> inner, Class<T> type) {
-        return new LambdaList<T>(inner, type);
-    }
-
-	public static <T> LambdaList<T> with(T... inner) {
-		return with(new ArrayList<T>(asList(inner)), (Class<T>)inner.getClass().getComponentType());
+    /**
+     * Creates a LambdaList that wraps the given array
+     * @param array The array to be wrapped
+     * @return The LambdaList that wraps the given array
+     */
+	public static <T> LambdaList<T> with(T... array) {
+		return new LambdaList<T>(new ArrayList<T>(asList(array)));
 	}
 
-	public static <T> LambdaCollection<T> with(Collection<T> inner) {
-		return with(inner, null);
+    /**
+     * Creates a LambdaCollection that wraps the given Collection
+     * @param collection The collection to be wrapped
+     * @return The LambdaCollection that wraps the given Collection
+     */
+	public static <T> LambdaCollection<T> with(Collection<T> collection) {
+		return new LambdaCollection<T>(collection);
 	}
 
-	public static <T> LambdaCollection<T> with(Collection<? extends T> inner, Class<T> type) {
-		return new LambdaCollection<T>(inner, type);
-	}
-	
-	public static <T> LambdaIterable<T> with(Iterable<? extends T> inner) {
-		return with(inner, null);
-	}
-
-	public static <T> LambdaIterable<T> with(Iterable<? extends T> inner, Class<T> type) {
-		return new LambdaIterable<T>(inner, type);
-	}
-	
-	public static <K, V> LambdaMap<K, V> with(Map<K, V> inner) {
-		return new LambdaMap<K, V>(inner);
+    /**
+     * Creates a LambdaIterable that wraps the given Iterable
+     * @param iterable The Iterable to be wrapped
+     * @return The LambdaIterable that wraps the given Iterable
+     */
+	public static <T> LambdaIterable<T> with(Iterable<? extends T> iterable) {
+		return new LambdaIterable<T>(iterable);
 	}
 
-	public static <T> LambdaSet<T> with(Set<? extends T> inner, Class<T> type) {
-		return new LambdaSet<T>(inner, type);
+    /**
+     * Creates a LambdaMap that wraps the given Map
+     * @param map The Map to be wrapped
+     * @return The LambdaMap that wraps the given Map
+     */
+	public static <K, V> LambdaMap<K, V> with(Map<K, V> map) {
+		return new LambdaMap<K, V>(map);
+	}
+
+    /**
+     * Creates a LambdaSet that wraps the given Set
+     * @param set The Set to be wrapped
+     * @return The LambdaSet that wraps the given Set
+     */
+	public static <T> LambdaSet<T> with(Set<? extends T> set) {
+		return new LambdaSet<T>(set);
 	}
 }

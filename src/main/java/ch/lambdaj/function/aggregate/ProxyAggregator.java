@@ -5,6 +5,7 @@
 package ch.lambdaj.function.aggregate;
 
 import java.lang.reflect.*;
+import java.util.*;
 
 import ch.lambdaj.util.iterator.*;
 import ch.lambdaj.proxy.*;
@@ -23,8 +24,8 @@ public class ProxyAggregator<T, A> extends ProxyIterator<T> {
 	}
 
 	@Override
-	public Object invoke(Object obj, Method method, Object[] args) throws Throwable {
-		return aggregator.aggregate((ResettableIterator<A>)iterateOnValues(method, args));
+	public Object invoke(Object obj, Method method, Object[] args) throws Exception {
+		return aggregator.aggregate((Iterator<A>)iterateOnValues(method, args));
 	}
 
 	@SuppressWarnings("unchecked")

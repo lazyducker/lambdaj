@@ -44,8 +44,9 @@ public abstract class GroupCondition<T> {
     <I> GroupItem<I> create(I item, Object key, String keyAsString) {
         GroupItem<I> groupItem = new GroupItem<I>(key, getAlias());
         groupItem.put(getGroupName(), keyAsString);
-        for (String propertyName : getAdditionalPropertyNames())
+        for (String propertyName : getAdditionalPropertyNames()) {
             groupItem.put(propertyName, getAdditionalPropertyValue(propertyName, item));
+        }
         return groupItem;
     }
 

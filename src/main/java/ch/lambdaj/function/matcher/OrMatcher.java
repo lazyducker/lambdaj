@@ -19,7 +19,7 @@ public class OrMatcher<T> extends LambdaJMatcher<T> {
 	}
 	
 	public boolean matches(Object item) {
-		for (Matcher<T> matcher : matchers) if (matcher.matches(item)) return true;
+		for (Matcher<T> matcher : matchers) { if (matcher.matches(item)) return true; }
 		return false;
 	}
 

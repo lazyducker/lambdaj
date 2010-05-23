@@ -4,8 +4,8 @@
 
 package ch.lambdaj.collection;
 
-import static ch.lambdaj.util.iterator.IteratorFactory.discoverGenericType;
 import ch.lambdaj.*;
+import ch.lambdaj.group.*;
 import ch.lambdaj.function.convert.*;
 import org.hamcrest.*;
 
@@ -17,18 +17,23 @@ import java.util.*;
  */
 public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements Iterable<T> {
 
-    protected final Class<T> type;
-
-    protected LambdaIterable(Iterable<? extends T> inner, Class<T> type) {
+    protected LambdaIterable(Iterable<? extends T> inner) {
         super(inner);
-        this.type = type == null ? (Class<T>)discoverGenericType(inner) : type;
     }
 
     /**
      * {@inheritDoc}
      */
     public LambdaIterator<T> iterator() {
-        return new LambdaIterator(innerIterator);
+        return new LambdaIterator<T>(innerIterable.iterator());
+    }
+
+    public T joinFrom() {
+        return Lambda.joinFrom(innerIterable);
+    }
+
+    public T joinFrom(String separator) {
+        return Lambda.joinFrom(innerIterable, separator);
     }
 
     /**
@@ -37,11 +42,24 @@ public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements It
      * @return A sublist of this containing all the objects that match the given hamcrest Matcher
      */
     public LambdaIterable<T> filter(Matcher<?> matcher) {
-        return new LambdaIterable(doFilter(matcher), type);
+        return new LambdaIterable<T>(doFilter(matcher));
     }
 
     List<T> doFilter(Matcher<?> matcher) {
         return (List<T>)Lambda.select(innerIterable, matcher);
+    }
+
+    /**
+     * Sorts all the items in this iterable on the respective values of the given argument.
+     * @param argument An argument defined using the {@link Lambda#on(Class)} method
+     * @return A List with the same items of this iterable sorted on the respective value of the given argument
+     */
+    public LambdaIterable<T> sort(Object argument) {
+        return new LambdaIterable<T>(doSort(argument));
+    }
+
+    List<T> doSort(Object argument) {
+        return Lambda.sort(innerIterable, argument);
     }
 
     /**
@@ -50,7 +68,7 @@ public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements It
      * @return A LambdaIterable containing all the objects in this iterable converted using the given {@link Converter}
      */
     public <V> LambdaIterable<V> convert(Converter<T, V> converter) {
-        return new LambdaIterable<V>(doConvert(converter), null);
+        return new LambdaIterable<V>(doConvert(converter));
     }
 
     <V> List<V> doConvert(Converter<T, V> converter) {
@@ -63,10 +81,19 @@ public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements It
 	 * @return A LambdaIterable containing the argument's value extracted from the object in this iterable
 	 */
     public <V> LambdaIterable<V> extract(V argument) {
-        return new LambdaIterable<V>(doExtract(argument), (Class<V>)argument.getClass());
+        return new LambdaIterable<V>(doExtract(argument));
     }
 
     <V> List<V> doExtract(V argument) {
         return Lambda.extract(innerIterable, argument);
+    }
+
+    /**
+     * Organizes the given list of items in (hierarchy of) groups based on the given grouping conditions
+     * @param conditions The conditions that define how the items have to be grouped
+     * @return The items grouped by the given conditions
+     */
+	public Group<T> group(GroupCondition<?>... conditions) {
+         return (Group<T>)Lambda.group(innerIterable, conditions);
     }
 }

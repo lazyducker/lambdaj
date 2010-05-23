@@ -16,8 +16,8 @@ import ch.lambdaj.function.convert.*;
  */
 public class LambdaCollection<T> extends LambdaIterable<T> implements Collection<T> {
 
-    protected LambdaCollection(Collection<? extends T> inner, Class<T> type) {
-        super(inner, type);
+    protected LambdaCollection(Collection<? extends T> inner) {
+        super(inner);
     }
 
     private Collection<T> innerCollection() {
@@ -33,21 +33,28 @@ public class LambdaCollection<T> extends LambdaIterable<T> implements Collection
      * {@inheritDoc}
      */
     public LambdaCollection<T> filter(Matcher<?> matcher) {
-        return new LambdaCollection<T>(doFilter(matcher), type);
+        return new LambdaCollection<T>(doFilter(matcher));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public LambdaCollection<T> sort(Object argument) {
+        return new LambdaCollection<T>(doSort(argument));
     }
 
     /**
      * {@inheritDoc}
      */
     public <V> LambdaCollection<V> convert(Converter<T, V> converter) {
-        return new LambdaCollection<V>(doConvert(converter), null);
+        return new LambdaCollection<V>(doConvert(converter));
     }
 
     /**
      * {@inheritDoc}
      */
     public <V> LambdaCollection<V> extract(V argument) {
-        return new LambdaCollection<V>(doExtract(argument), (Class<V>)argument.getClass());
+        return new LambdaCollection<V>(doExtract(argument));
     }
 
     // ////////////////////////////////////////////////////////////////////////

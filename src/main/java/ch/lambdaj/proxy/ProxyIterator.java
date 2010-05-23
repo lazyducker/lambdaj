@@ -22,15 +22,15 @@ public class ProxyIterator<T> extends InvocationInterceptor implements Iterable<
         this.proxiedIterator = proxiedIterator;
 	}
 
-	public Object invoke(Object obj, Method method, Object[] args) throws Throwable {
+	public Object invoke(Object obj, Method method, Object[] args) throws Exception {
 		if (method.getName().equals("iterator")) return iterator();
 		return createProxyIterator(iterateOnValues(method, args), (Class<Object>)method.getReturnType());
 	}
 
-	protected ResettableIterator<Object> iterateOnValues(Method method, Object[] args) throws Throwable {
+	protected ResettableIterator<Object> iterateOnValues(Method method, Object[] args) throws Exception {
         proxiedIterator.reset();
         List<Object> list = new ArrayList<Object>();
-        while (proxiedIterator.hasNext()) list.add(method.invoke(proxiedIterator.next(), args));
+        while (proxiedIterator.hasNext()) { list.add(method.invoke(proxiedIterator.next(), args)); }
 		return new ResettableIteratorOnIterable(list);
 	}
 

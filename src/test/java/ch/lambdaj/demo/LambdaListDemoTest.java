@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.*;
 import static ch.lambdaj.collection.LambdaCollections.with;
 import static ch.lambdaj.Lambda.*;
 import static ch.lambdaj.demo.Util.listsAreEqual;
+import ch.lambdaj.group.*;
 
 import java.util.*;
 
@@ -21,8 +22,10 @@ public class LambdaListDemoTest {
         String brandsIterative = sb.toString().substring(0, sb.length()-2);
 
         String brands = with(db.getCars()).extract(on(Car.class).getBrand()).join();
-
         assertEquals(brandsIterative, brands);
+
+        String brands2 = with(db.getCars()).joinFrom().getBrand();
+        assertEquals(brandsIterative, brands2);
     }
 
     @Test
@@ -91,8 +94,124 @@ public class LambdaListDemoTest {
             }
         }
 
-        int age = min(with(db.getSales()).foreach(having(on(Sale.class).getCost(), greaterThan(50000.00))).getBuyer(), on(Person.class).getAge());
+        int age = min(with(db.getSales()).forEach(having(on(Sale.class).getCost(), greaterThan(50000.00))).getBuyer(), on(Person.class).getAge());
 
         assertEquals(age, ageIterative);
+    }
+
+    @Test
+    public void testSortSalesByCost() {
+        List<Sale> sortedSalesIterative = new ArrayList<Sale>(db.getSales());
+        Collections.sort(sortedSalesIterative, new Comparator<Sale>() {
+            public int compare(Sale s1, Sale s2) {
+                return Double.valueOf(s1.getCost()).compareTo(s2.getCost());
+            }
+        });
+
+        List<Sale> sortedSales = with(db.getSales()).sort(on(Sale.class).getCost());
+
+        assertTrue(listsAreEqual(sortedSales, sortedSalesIterative));
+    }
+
+    @Test
+    public void testExtractCarsOriginalCost() {
+        List<Double> costsIterative = new ArrayList<Double>();
+        for (Car car : db.getCars()) costsIterative.add(car.getOriginalValue());
+
+        List<Double> costs = with(db.getCars()).extract(on(Car.class).getOriginalValue());
+
+        assertTrue(listsAreEqual(costs, costsIterative));
+    }
+
+    @Test
+    public void testIndexCarsByBrand() {
+        Map<String, Car> carsByBrandIterative = new HashMap<String, Car>();
+        for (Car car : db.getCars()) carsByBrandIterative.put(car.getBrand(), car);
+
+        Map<String, Car> carsByBrand = with(db.getCars()).index(on(Car.class).getBrand());
+
+        assertEquals(carsByBrand.get("Ferrari"), carsByBrandIterative.get("Ferrari"));
+    }
+
+    @Test
+    public void testGroupSalesByBuyersAndSellers() {
+        Person youngestPerson = null;
+        Person oldestPerson = null;
+        for (Person person : db.getPersons()) {
+            if (youngestPerson == null || person.getAge() < youngestPerson.getAge()) youngestPerson = person;
+            if (oldestPerson == null || person.getAge() > oldestPerson.getAge()) oldestPerson = person;
+        }
+        Map<Person, Map<Person, Sale>> map = new HashMap<Person, Map<Person, Sale>>();
+        for (Sale sale : db.getSales()) {
+            Person buyer = sale.getBuyer();
+            Map<Person, Sale> buyerMap = map.get(buyer);
+            if (buyerMap == null) {
+                buyerMap = new HashMap<Person, Sale>();
+                map.put(buyer, buyerMap);
+            }
+            buyerMap.put(sale.getSeller(), sale);
+        }
+        Sale saleIterative = map.get(youngestPerson).get(oldestPerson);
+
+        Person youngest = with(db.getPersons()).selectMin(on(Person.class).getAge());
+        Person oldest = with(db.getPersons()).selectMax(on(Person.class).getAge());
+        Group<Sale> group = with(db.getSales()).group(by(on(Sale.class).getBuyer()), by(on(Sale.class).getSeller()));
+        Sale sale = group.findGroup(youngest).find(oldest).get(0);
+
+        assertEquals(sale, saleIterative);
+    }
+
+    @Test
+    public void testGroupSalesByBuyersSortedByAge() {
+        Map<Person, List<Sale>> map = new TreeMap<Person, List<Sale>>(new Comparator<Person>() {
+            public int compare(Person p1, Person p2) {
+                return p1.getAge() - p2.getAge();
+            }
+        });
+        for (Sale sale : db.getSales()) {
+            Person buyer = sale.getBuyer();
+            List<Sale> sales = map.get(buyer);
+            if (sales == null) {
+                sales = new ArrayList<Sale>();
+                map.put(buyer, sales);
+            }
+            sales.add(sale);
+        }
+
+        Group<Sale> group = with(db.getSales()).group(by(on(Sale.class).getBuyer()).sort(on(Person.class).getAge()));
+
+        Iterator<Group<Sale>> groupIterator = group.subgroups().iterator();
+        for (List<Sale> iterativeSales : map.values()) {
+            List<Sale> lambdajSales = groupIterator.next().findAll();
+            assertTrue(iterativeSales.containsAll(lambdajSales));
+            assertTrue(lambdajSales.containsAll(iterativeSales));
+        }
+    }
+
+    @Test
+    public void testFindMostBoughtCar() {
+        Map<Car, Integer> carsBought = new LinkedHashMap<Car, Integer>();
+        for (Sale sale : db.getSales()) {
+            Car car = sale.getCar();
+            Integer boughtTimes = carsBought.get(car);
+            carsBought.put(car, boughtTimes == null ? 1 : boughtTimes+1);
+        }
+        Car mostBoughtCarIterative = null;
+        int boughtTimesIterative = 0;
+        for (Map.Entry<Car, Integer> entry : carsBought.entrySet()) {
+            if (entry.getValue() > boughtTimesIterative) {
+                mostBoughtCarIterative = entry.getKey();
+                boughtTimesIterative = entry.getValue();
+            }
+        }
+
+        Group<Sale> group = with(db.getSales()).group(by(on(Sale.class).getCar())).subgroups().selectMax(on(Group.class).getSize());
+        Car mostBoughtCar = group.first().getCar();
+        int boughtTimes = group.getSize();
+
+        assertEquals(boughtTimesIterative, boughtTimes);
+        System.out.println("mostBoughtCarIterative = " + mostBoughtCarIterative);
+        System.out.println("mostBoughtCar = " + mostBoughtCar);
+//		assertEquals(mostBoughtCarIterative, mostBoughtCar);
     }
 }

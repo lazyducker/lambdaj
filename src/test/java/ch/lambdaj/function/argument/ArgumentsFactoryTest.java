@@ -33,7 +33,7 @@ public class ArgumentsFactoryTest {
         try {
             createArgumentPlaceholder(UnistatiableClass.class);
             fail("Should not be possible to instanciate an argument placeholder for UnistatiableClass");
-        } catch (Exception e) { }
+        } catch (ArgumentConversionException e) { }
     }
 
     public static final class IntegerWrapper {

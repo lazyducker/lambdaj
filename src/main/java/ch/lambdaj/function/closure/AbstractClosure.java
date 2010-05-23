@@ -102,7 +102,7 @@ abstract class AbstractClosure {
 
 		return (T)Proxy.newProxyInstance(asInterface.getClassLoader(), new Class<?>[] { asInterface },
 			new InvocationHandler() {
-				public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+				public Object invoke(Object proxy, Method method, Object[] args) throws WrongClosureInvocationException {
 					return closeOne(args);
 				}
 			}

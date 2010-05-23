@@ -4,6 +4,8 @@
 
 package ch.lambdaj.group;
 
+import ch.lambdaj.collection.*;
+
 import java.util.*;
 
 /**
@@ -40,7 +42,7 @@ public interface Group<T> {
 	 * Returns all the subgroups of this group or an empty one if this group is a leaf 
 	 * @return the list of all the subgroups of this group
 	 */
-	List<Group<T>> subgroups();
+	LambdaList<Group<T>> subgroups();
 
 	/**
 	 * Returns all the items in the subgroup indexed with the given key

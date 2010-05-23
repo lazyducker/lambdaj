@@ -2,7 +2,6 @@ package ch.lambdaj.group;
 
 import static ch.lambdaj.Lambda.*;
 import static ch.lambdaj.Strings.*;
-import static ch.lambdaj.group.Groups.*;
 import static java.util.Arrays.*;
 
 import java.util.*;

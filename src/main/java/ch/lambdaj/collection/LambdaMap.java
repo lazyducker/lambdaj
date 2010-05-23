@@ -26,59 +26,105 @@ public class LambdaMap<K, V> implements Map<K, V> {
 		return new LambdaMap<K, T>(convertMap(inner, converter));
 	}
 
+    // ////////////////////////////////////////////////////////////////////////
+    // /// Map interface
+    // ////////////////////////////////////////////////////////////////////////
+
+    /**
+     * {@inheritDoc}
+     */
 	public void clear() {
 	    inner.clear();
     }
 
+    /**
+     * {@inheritDoc}
+     */
 	public boolean containsKey(Object key) {
         return inner.containsKey(key);
     }
 
+    /**
+     * {@inheritDoc}
+     */
 	public boolean containsValue(Object value) {
 	    return inner.containsValue(value);
     }
 
-	public Set<java.util.Map.Entry<K, V>> entrySet() {
-	    return new LambdaSet<java.util.Map.Entry<K, V>>(inner.entrySet(), null);
+    /**
+     * {@inheritDoc}
+     */
+	public LambdaSet<java.util.Map.Entry<K, V>> entrySet() {
+	    return new LambdaSet<java.util.Map.Entry<K, V>>(inner.entrySet());
     }
 
+    /**
+     * {@inheritDoc}
+     */
 	public boolean equals(Object o) {
 	    return inner.equals(o);
     }
 
+    /**
+     * {@inheritDoc}
+     */
 	public V get(Object key) {
 	    return inner.get(key);
     }
 
+    /**
+     * {@inheritDoc}
+     */
 	public int hashCode() {
 	    return inner.hashCode();
     }
 
+    /**
+     * {@inheritDoc}
+     */
 	public boolean isEmpty() {
 	    return inner.isEmpty();
     }
 
+    /**
+     * {@inheritDoc}
+     */
 	public Set<K> keySet() {
-	    return new LambdaSet<K>(inner.keySet(), null);
+	    return new LambdaSet<K>(inner.keySet());
     }
 
+    /**
+     * {@inheritDoc}
+     */
 	public V put(K key, V value) {
 	    return inner.put(key, value);
     }
 
+    /**
+     * {@inheritDoc}
+     */
 	public void putAll(Map<? extends K, ? extends V> m) {
 	    inner.putAll(m);
     }
 
+    /**
+     * {@inheritDoc}
+     */
 	public V remove(Object key) {
 	    return inner.remove(key);
     }
 
+    /**
+     * {@inheritDoc}
+     */
 	public int size() {
 	    return inner.size();
     }
 
-	public Collection<V> values() {
-	    return inner.values();
+    /**
+     * {@inheritDoc}
+     */
+	public LambdaCollection<V> values() {
+	    return new LambdaCollection(inner.values());
     }
 }
