@@ -16,8 +16,8 @@ import ch.lambdaj.function.convert.*;
  */
 public class LambdaList<T> extends LambdaCollection<T> implements List<T> {
 
-	LambdaList(List<? extends T> inner, Class<T> type) {
-        super(inner, type);
+	LambdaList(List<? extends T> inner) {
+        super(inner);
 	}
 
     private List<T> innerList() {
@@ -28,21 +28,28 @@ public class LambdaList<T> extends LambdaCollection<T> implements List<T> {
      * {@inheritDoc}
      */
     public LambdaList<T> filter(Matcher<?> matcher) {
-        return new LambdaList<T>(doFilter(matcher), type);
+        return new LambdaList<T>(doFilter(matcher));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public LambdaList<T> sort(Object argument) {
+        return new LambdaList<T>(doSort(argument));
     }
 
     /**
      * {@inheritDoc}
      */
     public <V> LambdaList<V> convert(Converter<T, V> converter) {
-        return new LambdaList<V>(doConvert(converter), null);
+        return new LambdaList<V>(doConvert(converter));
     }
 
     /**
      * {@inheritDoc}
      */
     public <V> LambdaList<V> extract(V argument) {
-        return new LambdaList<V>(doExtract(argument), (Class<V>)argument.getClass());
+        return new LambdaList<V>(doExtract(argument));
     }
 
     // ////////////////////////////////////////////////////////////////////////
@@ -116,6 +123,6 @@ public class LambdaList<T> extends LambdaCollection<T> implements List<T> {
      * {@inheritDoc}
      */
     public LambdaList<T> subList(int fromIndex, int toIndex) {
-        return new LambdaList(innerList().subList(fromIndex, toIndex), type);
+        return new LambdaList(innerList().subList(fromIndex, toIndex));
     }
 }

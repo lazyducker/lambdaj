@@ -75,7 +75,7 @@ public final class ArgumentsFactory {
     public static <T> Argument<T> actualArgument(T placeholder) {
     	if (placeholder instanceof Argument) return (Argument<T>)placeholder;
     	Argument<T> actualArgument = (Argument<T>)(isLimitedValues(placeholder) ? LIMITED_VALUE_ARGUMENTS.get().getArgument(placeholder) : ARGUMENTS_BY_PLACEHOLDER.get(placeholder));
-    	if (actualArgument == null) throw new RuntimeException("Unable to convert the placeholder " + placeholder + " in a valid argument");
+    	if (actualArgument == null) throw new ArgumentConversionException("Unable to convert the placeholder " + placeholder + " in a valid argument");
     	return actualArgument;
     }
     
@@ -163,7 +163,7 @@ public final class ArgumentsFactory {
 		try {
 			return createArgumentPlaceholderForUnknownClass(clazz, placeholderId);
 		} catch (Exception e) {
-			throw new RuntimeException("It is not possible to create a placeholder for class: " + clazz.getName(), e);
+			throw new ArgumentConversionException("It is not possible to create a placeholder for class: " + clazz.getName(), e);
 		}
     }
     
@@ -200,6 +200,6 @@ public final class ArgumentsFactory {
             case 's':
                 return placeholderId.shortValue();
         }
-        throw new RuntimeException("Unable to create placeholder for class " + clazz.getName());
+        throw new ArgumentConversionException("Unable to create placeholder for class " + clazz.getName());
 	}
 }

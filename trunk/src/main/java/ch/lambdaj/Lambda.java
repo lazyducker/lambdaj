@@ -21,6 +21,7 @@ import ch.lambdaj.function.compare.*;
 import ch.lambdaj.function.convert.*;
 import ch.lambdaj.function.matcher.*;
 import ch.lambdaj.proxy.*;
+import ch.lambdaj.group.*;
 
 /**
  * This class consists exclusively of static methods that allow to use all the core features of the lambdaj library.
@@ -1060,6 +1061,49 @@ public final class Lambda {
      */
     public static <T, A> HasArgumentWithValue<T, A> having(A argument, Matcher<?> matcher) {
     	return havingValue(argument, matcher);
+    }
+
+    // ////////////////////////////////////////////////////////////////////////
+    // /// Group
+    // ////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Creates a GroupCondition that allows to group items based on the value they have on a given argument
+     * @param argument The argument defined using the {@link ch.lambdaj.Lambda#on(Class)} method on which the items have to be grouped
+     * @return A GroupCondition that can be used to group items through the {@link Groups#group(Iterable, ch.lambdaj.group.GroupCondition[])} method
+     */
+    public static <T> ArgumentGroupCondition<T> by(T argument) {
+		return Groups.by(argument);
+	}
+
+    /**
+     * Organizes the given list of items in (hierarchy of) groups based on the given grouping conditions
+     * @param iterable The items to be grouped
+     * @param conditions The conditions that define how the items have to be grouped
+     * @return The items grouped by the given conditions
+     */
+	public static <T> Group<T> group(Iterable<T> iterable, Collection<? extends GroupCondition<?>> conditions) {
+		return Groups.group(iterable, conditions);
+	}
+
+    /**
+     * Organizes the given list of items in (hierarchy of) groups based on the values they have on the named JavaBean proprties
+     * @param iterable The items to be grouped
+     * @param groupers The names of the properties on which the items have to be grouped
+     * @return The items grouped on the values of their JavaBean properties
+     */
+	public static <T> Group<T> group(Iterable<T> iterable, String... groupers) {
+		return Groups.group(iterable, groupers);
+	}
+
+    /**
+     * Organizes the given list of items in (hierarchy of) groups based on the given grouping conditions
+     * @param iterable The items to be grouped
+     * @param conditions The conditions that define how the items have to be grouped
+     * @return The items grouped by the given conditions
+     */
+	public static <T> Group<T> group(Iterable<T> iterable, GroupCondition<?>... conditions) {
+        return Groups.group(iterable, conditions);
     }
 
 	// ////////////////////////////////////////////////////////////////////////

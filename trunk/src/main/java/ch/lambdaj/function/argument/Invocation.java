@@ -97,7 +97,7 @@ final class Invocation {
 		return (first == null && second == null) || (first != null && second != null && first.equals(second));
 	}
 
-    private static class ParameterReference<T> {
+    private static final class ParameterReference<T> {
         private final boolean garbageCollectable;
         private WeakReference<T> weakRef;
         private T strongRef;

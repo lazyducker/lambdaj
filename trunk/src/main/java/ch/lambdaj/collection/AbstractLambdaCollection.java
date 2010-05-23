@@ -3,6 +3,7 @@ package ch.lambdaj.collection;
 import ch.lambdaj.function.aggregate.*;
 import ch.lambdaj.function.convert.*;
 import ch.lambdaj.*;
+import ch.lambdaj.group.*;
 
 import java.util.*;
 
@@ -110,16 +111,33 @@ class AbstractLambdaCollection<T> {
      * specify a particular class by using the overloaded method.
      * @return An object that proxies all the item in the iterator or null if the iterator is null or empty
      */
-    public T foreach() {
+    public T forEach() {
         return Lambda.forEach(innerIterator);
     }
 
-    public T foreach(Matcher<?> matcher) {
+    /**
+     * Transforms the subset of objects in this iterable that match the given Mathcer
+     * in a single object having the same methods of a single object in this iterable.
+     * That allows to invoke a method on each T in the collection with a single strong typed method call.
+     * The actual class of T is inferred from the class of the first iterable's item, but you can
+     * specify a particular class by using the overloaded method.
+     * @return An object that proxies all the item in the iterator or null if the iterator is null or empty
+     */
+    public T forEach(Matcher<?> matcher) {
         return Lambda.forEach((List<T>)Lambda.select(getInner(), matcher));
     }
 
     public <K> LambdaMap<K, T> map(Converter<T, K> converter) {
         return new LambdaMap<K, T>(Lambda.map(getInner(), converter));
+    }
+
+    /**
+     * Indexes the objects in this iterable based on the value of their argument.
+     * @param argument An argument defined using the {@link Lambda#on(Class)} method
+     * @return A map having as keys the argument value extracted from the objects in the given iterable and as values the corresponding objects
+     */
+    public <A> LambdaMap<A, T> index(A argument) {
+        return new LambdaMap<A, T>((Map<A, T>)Lambda.index(getInner(), argument));
     }
 
     @SuppressWarnings("unchecked")
@@ -131,8 +149,23 @@ class AbstractLambdaCollection<T> {
         return Lambda.selectFirst(getInner(), matcher) != null;
     }
 
+    /**
+     * Selects the first object in this iterable that matches the given hamcrest Matcher
+     * @param matcher The hamcrest Matcher used to filter the given iterable
+     * @return The first object in the given iterable that matches the given hamcrest Matcher or null if there is no such object
+     */
     public T first(Matcher<?> matcher) {
         return (T)Lambda.selectFirst(getInner(), matcher);
+    }
+
+    /**
+     * Selects the unique object in this iterable that matches the given hamcrest Matcher
+     * @param matcher The hamcrest Matcher used to filter the given iterable
+     * @return The only object in the given iterable that matches the given hamcrest Matcher or null if there is no such object
+     * @throws RuntimeException if there is more than one object that matches the given hamcrest Matcher
+     */
+    public T unique(Matcher<?> matcher) {
+        return (T)Lambda.selectUnique(getInner(), matcher);
     }
 
     @Override

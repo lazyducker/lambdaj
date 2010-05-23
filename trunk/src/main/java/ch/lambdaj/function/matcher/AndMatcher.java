@@ -19,7 +19,7 @@ public class AndMatcher<T> extends LambdaJMatcher<T> {
 	}
 	
 	public boolean matches(Object item) {
-		for (Matcher<T> matcher : matchers) if (!matcher.matches(item)) return false;
+		for (Matcher<T> matcher : matchers) { if (!matcher.matches(item)) return false; }
 		return true;
 	}
 

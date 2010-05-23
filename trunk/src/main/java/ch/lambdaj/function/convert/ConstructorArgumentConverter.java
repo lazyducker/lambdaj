@@ -30,7 +30,7 @@ public class ConstructorArgumentConverter<F, T> implements Converter<F, T> {
             throw new RuntimeException("Unable to find a constructor of " + clazz.getName() + " compatible with the given arguments");
 
         if (arguments != null)
-            for (Object argument : arguments) argumentConverters.add(new ArgumentConverter<F, Object>(argument));
+            for (Object argument : arguments) { argumentConverters.add(new ArgumentConverter<F, Object>(argument)); }
     }
 
     private boolean isCompatible(Constructor<?> constructor, Object... arguments) {
@@ -45,8 +45,9 @@ public class ConstructorArgumentConverter<F, T> implements Converter<F, T> {
     public T convert(F from) {
         Object[] initArgs = new Object[argumentConverters.size()];
         int i = 0;
-        for (ArgumentConverter<F, Object> argumentConverter : argumentConverters)
+        for (ArgumentConverter<F, Object> argumentConverter : argumentConverters) {
             initArgs[i++] = argumentConverter.convert(from);
+        }
         try {
             return constructor.newInstance(initArgs);
         } catch (Exception e) {

@@ -51,7 +51,7 @@ final class InvocationSequence extends ArrayList<Invocation> {
 		InvocationSequence othersSequence = (InvocationSequence)object;
 		if (!rootInvokedClass.equals(othersSequence.getRootInvokedClass())) return false;
 		if (size() != othersSequence.size()) return false;
-		for (int i = 0; i < size(); i++) if (!get(i).equals(othersSequence.get(i))) return false;
+		for (int i = 0; i < size(); i++) { if (!get(i).equals(othersSequence.get(i))) return false; }
 		return true;
 	}
 	
@@ -60,7 +60,7 @@ final class InvocationSequence extends ArrayList<Invocation> {
 	@Override
 	public int hashCode() {
 		int hashCode = 11 * rootInvokedClass.hashCode();
-		for (int i = 0; i < size(); i++) hashCode += primes[i % primes.length] * get(i).hashCode();
+		for (int i = 0; i < size(); i++) { hashCode += primes[i % primes.length] * get(i).hashCode(); }
 		return hashCode;
 	}
 }

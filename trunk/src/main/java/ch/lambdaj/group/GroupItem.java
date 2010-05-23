@@ -59,7 +59,7 @@ public class GroupItem<T> extends TreeMap<String, Object> implements Iterable<T>
 	List<T> asList() {
 		if (leaf) return getChildren();
 		List<T> leafs = new LinkedList<T>();
-		for (T item : asGroup().findAll()) leafs.add(item);
+		for (T item : asGroup().findAll()) { leafs.add(item); }
 		return leafs;
 	}
 
