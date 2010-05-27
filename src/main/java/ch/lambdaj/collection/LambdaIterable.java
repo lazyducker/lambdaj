@@ -93,7 +93,7 @@ public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements It
      * @param conditions The conditions that define how the items have to be grouped
      * @return The items grouped by the given conditions
      */
-	public Group<T> group(GroupCondition<?>... conditions) {
-         return (Group<T>)Lambda.group(innerIterable, conditions);
+	public LambdaGroup<T> group(GroupCondition<?>... conditions) {
+         return new LambdaGroup(Lambda.group(innerIterable, conditions));
     }
 }

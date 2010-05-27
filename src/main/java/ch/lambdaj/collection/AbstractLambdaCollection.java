@@ -168,11 +168,17 @@ class AbstractLambdaCollection<T> {
         return (T)Lambda.selectUnique(getInner(), matcher);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final boolean equals(Object o) {
         return getInner().equals(o);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final int hashCode() {
         return getInner().hashCode();

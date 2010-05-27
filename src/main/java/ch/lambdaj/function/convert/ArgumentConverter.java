@@ -23,6 +23,9 @@ public class ArgumentConverter<F, T> implements Converter<F, T> {
 		this(actualArgument(argument));
 	}
 	
+    /**
+     * {@inheritDoc}
+     */
 	public T convert(F from) {
 		return argument.evaluate(from);
 	}

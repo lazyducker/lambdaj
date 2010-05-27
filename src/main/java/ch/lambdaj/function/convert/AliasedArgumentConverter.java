@@ -38,6 +38,9 @@ public class AliasedArgumentConverter<F, T> implements Converter<F, Map.Entry<St
         this.alias = alias;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Map.Entry<String, T> convert(final F from) {
         return new Map.Entry<String, T>() {
             public String getKey() { return alias; }

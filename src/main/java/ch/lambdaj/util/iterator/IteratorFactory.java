@@ -91,7 +91,7 @@ public final class IteratorFactory {
 
     private static <Object> List<Object> flattenIterator(Iterator iterator) {
         List<Object> flattened = new ArrayList<Object>();
-        while (iterator.hasNext()) flattened.addAll((List<Object>)flattenIterator(iterator.next()));
+        while (iterator.hasNext()) { flattened.addAll((List<Object>)flattenIterator(iterator.next())); }
         return flattened;
     }
 }

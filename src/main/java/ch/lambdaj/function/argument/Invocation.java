@@ -65,6 +65,9 @@ final class Invocation {
 		}
 	}
 	
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(invokedMethod.toString());
@@ -76,6 +79,9 @@ final class Invocation {
 		return sb.toString();
 	}
 	
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public int hashCode() {
 		int hashCode = 13 * invokedClass.hashCode();
@@ -84,6 +90,9 @@ final class Invocation {
 		return hashCode;
 	}
 	
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public boolean equals(Object object) {
 		if (!(object instanceof Invocation)) return false;
@@ -108,7 +117,7 @@ final class Invocation {
             else strongRef = referent;
         }
 
-        public T get() {
+        private T get() {
             return garbageCollectable ? weakRef.get() : strongRef;
         }
     }

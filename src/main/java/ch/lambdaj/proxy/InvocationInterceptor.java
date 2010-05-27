@@ -18,7 +18,7 @@ public abstract class InvocationInterceptor implements MethodInterceptor, Invoca
 	public interface VoidInterceptor { }
 	
 	public static final InvocationInterceptor VOID = new InvocationInterceptor() {
-		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+		public Object invoke(Object proxy, Method method, Object[] args) {
 			return (method.getName().equals("equals") && args != null && args.length == 1) ? isVoidProxy(args[0]) : null;
 		}
 

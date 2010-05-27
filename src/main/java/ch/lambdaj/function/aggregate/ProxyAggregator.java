@@ -24,7 +24,7 @@ public class ProxyAggregator<T, A> extends ProxyIterator<T> {
 	}
 
 	@Override
-	public Object invoke(Object obj, Method method, Object[] args) throws Exception {
+	public Object invoke(Object obj, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
 		return aggregator.aggregate((Iterator<A>)iterateOnValues(method, args));
 	}
 

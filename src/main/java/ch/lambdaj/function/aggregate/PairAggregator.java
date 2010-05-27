@@ -21,7 +21,7 @@ public abstract class PairAggregator<T> implements Aggregator<T> {
      */
     public T aggregate(Iterator<? extends T> iterator) {
         T result = emptyItem();
-        if (iterator != null) while (iterator.hasNext()) result = aggregate(result, iterator.next());
+        if (iterator != null) while (iterator.hasNext()) { result = aggregate(result, iterator.next()); }
         return result;
     }
 
