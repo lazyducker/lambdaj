@@ -18,6 +18,9 @@ public class ProjectConverter<F> implements Converter<F, Map<String, Object>> {
         this.projectors = projectors;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Map<String, Object> convert(F from) {
         Map<String, Object> map = new HashMap<String, Object>();
         for (Converter<F, Map.Entry<String, Object>> projector : projectors) {

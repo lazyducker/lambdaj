@@ -42,6 +42,9 @@ public class ConstructorArgumentConverter<F, T> implements Converter<F, T> {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public T convert(F from) {
         Object[] initArgs = new Object[argumentConverters.size()];
         int i = 0;

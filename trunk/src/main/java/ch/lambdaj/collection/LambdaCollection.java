@@ -61,60 +61,102 @@ public class LambdaCollection<T> extends LambdaIterable<T> implements Collection
     // /// Collection interface
     // ////////////////////////////////////////////////////////////////////////
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean add(T e) {
         return innerCollection().add(e);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean addAll(Collection<? extends T> c) {
         return innerCollection().addAll(c);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public LambdaCollection<T> append(List<T> list) {
         innerCollection().addAll(list);
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public LambdaCollection<T> append(T... list) {
         innerCollection().addAll(asList(list));
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void clear() {
         innerCollection().clear();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean contains(Object o) {
         return innerCollection().contains(o);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean containsAll(Collection<?> c) {
         return innerCollection().containsAll(c);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isEmpty() {
         return innerCollection().isEmpty();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean remove(Object o) {
         return innerCollection().remove(o);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean removeAll(Collection<?> c) {
         return innerCollection().removeAll(c);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean retainAll(Collection<?> c) {
         return innerCollection().retainAll(c);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public int size() {
         return innerCollection().size();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Object[] toArray() {
         return innerCollection().toArray();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public <T> T[] toArray(T[] a) {
         return innerCollection().toArray(a);
     }

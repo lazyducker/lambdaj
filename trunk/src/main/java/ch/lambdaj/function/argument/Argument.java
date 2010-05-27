@@ -52,16 +52,25 @@ public class Argument<T> {
 		return (Class<T>)invocationSequence.getReturnType();
 	}
 	
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public String toString() {
 		return invocationSequence.toString();
 	}
 	
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public boolean equals(Object object) {
 		return object instanceof Argument<?> && invocationSequence.equals(((Argument<?>)object).invocationSequence);
 	}
 	
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public int hashCode() {
 		return invocationSequence.hashCode();

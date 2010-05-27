@@ -23,7 +23,7 @@ class ProxyClosure extends InvocationInterceptor {
 		this.closure = closure;
 	}
 
-	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+	public Object invoke(Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
         if (registered) return method.invoke(proxy, args);
         registered = true;
 		closure.bindInvocation(method, args);

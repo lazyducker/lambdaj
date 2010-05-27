@@ -19,6 +19,9 @@ public class PropertyExtractor<F, T> implements Converter<F, T> {
 		this.propertyName = propertyName; 
 	}
 	
+    /**
+     * {@inheritDoc}
+     */
 	@SuppressWarnings("unchecked")
 	public T convert(F from) {
 		return (T)IntrospectionUtil.getPropertyValue(from, propertyName);

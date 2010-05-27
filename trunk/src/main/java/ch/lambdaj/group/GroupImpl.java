@@ -4,9 +4,6 @@
 
 package ch.lambdaj.group;
 
-import ch.lambdaj.collection.*;
-import static ch.lambdaj.collection.LambdaCollections.with;
-
 import java.util.*;
 
 /**
@@ -19,7 +16,7 @@ class GroupImpl<T> extends ArrayList<GroupItem<T>> implements Group<T> {
 
 	private final Map<String, GroupItem<T>> groupsMap = new HashMap<String, GroupItem<T>>();
 
-	private transient GroupCondition<?> groupCondition;
+	private final GroupCondition<?> groupCondition;
 
     private Object key;
 
@@ -87,8 +84,8 @@ class GroupImpl<T> extends ArrayList<GroupItem<T>> implements Group<T> {
      * @return the list of all the subgroups of this group
      */
 	@SuppressWarnings("unchecked")
-	public LambdaList<Group<T>> subgroups() {
-        LambdaList<Group<T>> resultList = with(new LinkedList<Group<T>>());
+	public List<Group<T>> subgroups() {
+        List<Group<T>> resultList = new LinkedList<Group<T>>();
         for (GroupItem<T> groupItem : this) { resultList.add(groupItem.asGroup()); }
         return resultList;
 	}

@@ -167,7 +167,7 @@ public final class ArgumentsFactory {
 		}
     }
     
-    private static Object createArgumentPlaceholderForUnknownClass(Class<?> clazz, Integer placeholderId) throws Exception {
+    private static Object createArgumentPlaceholderForUnknownClass(Class<?> clazz, Integer placeholderId) throws IllegalAccessException, InstantiationException {
         for (Constructor constructor : clazz.getConstructors()) {
             Class<?>[] params = constructor.getParameterTypes();
             if (params.length != 1) continue;

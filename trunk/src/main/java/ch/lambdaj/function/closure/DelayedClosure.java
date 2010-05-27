@@ -59,7 +59,7 @@ public abstract class DelayedClosure<T> {
         return closureResult;
     }
 
-    static void call() throws Exception {
+    static void call() {
         DelayedClosure delayedClosure = CURRENT_DELAYED.get();
         CURRENT_DELAYED.set(null);
         if (delayedClosure != null) delayedClosure.execute();

@@ -4,9 +4,6 @@
 
 package ch.lambdaj.group;
 
-import ch.lambdaj.collection.*;
-import static ch.lambdaj.collection.LambdaCollections.with;
-
 import java.util.*;
 
 /**
@@ -87,8 +84,8 @@ class LeafGroup<T> implements Group<T> {
      * Returns all the subgroups of this group or an empty one if this group is a leaf
      * @return the list of all the subgroups of this group
      */
-	public LambdaList<Group<T>> subgroups() {
-		return with(new ArrayList<Group<T>>());
+	public List<Group<T>> subgroups() {
+		return new ArrayList<Group<T>>();
 	}
 
     /**

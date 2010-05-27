@@ -20,14 +20,23 @@ public class ConverterIterator<F, T> implements Iterator<T> {
         this.iterator = iterator;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean hasNext() {
         return iterator.hasNext();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public T next() {
         return converter.convert(iterator.next());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void remove() {
         iterator.remove();
     }

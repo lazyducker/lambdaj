@@ -45,6 +45,9 @@ final class InvocationSequence extends ArrayList<Invocation> {
 		return get(size()-1).getReturnType();
 	}
 	
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public boolean equals(Object object) {
 		if (!(object instanceof InvocationSequence)) return false;
@@ -57,6 +60,9 @@ final class InvocationSequence extends ArrayList<Invocation> {
 	
 	final int[] primes = new int[] { 13, 17, 19, 23, 29, 31, 37 };
 	
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public int hashCode() {
 		int hashCode = 11 * rootInvokedClass.hashCode();
