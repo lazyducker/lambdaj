@@ -176,7 +176,7 @@ that gives as result the concatenation of the first name of all the persons in t
 lambdaj allows to convert the items of a List by applying on all of them the conversion function defined by implementing the one-method [http://lambdaj.googlecode.com/svn/trunk/html/apidocs/ch/lambdaj/function/convert/Converter.html Converter] interface. For example the function that converts a String in an int representing its length can be defined as:
 
 {{{
-public class StringLengthConverter implements PropertyExtractor<String, Integer> {
+public class StringLengthConverter extends PropertyExtractor<String, Integer> {
 	public int convert(String string) {
 		return string.length();
 	}
