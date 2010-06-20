@@ -23,10 +23,23 @@ public final class ProxyUtil {
     // /// Generic Proxy
     // ////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Check if the given class is nor final neither a primitive one
+     * @param clazz The class to be checked
+     * @return True if the class is proxable, false otherwise
+     */
     public static boolean isProxable(Class<?> clazz) {
         return !clazz.isPrimitive() && !Modifier.isFinal(clazz.getModifiers()) && !clazz.isAnonymousClass();
     }
-	
+
+    /**
+     * Creates a dynamic proxy
+     * @param interceptor The interceptor that manages the invocations to the created proxy
+     * @param clazz The class to be proxied
+     * @param failSafe If true return null if it is not possible to proxy the request class, otherwise throws an UnproxableClassException
+     * @param implementedInterface The interfaces that has to be implemented by the new proxy
+     * @return The newly created proxy
+     */
 	public static <T> T createProxy(InvocationInterceptor interceptor, Class<T> clazz, boolean failSafe, Class<?> ... implementedInterface) {
 		if (clazz.isInterface()) return (T)createNativeJavaProxy(clazz.getClassLoader(), interceptor, concatClasses(new Class<?>[] { clazz }, implementedInterface));
 
@@ -43,7 +56,12 @@ public final class ProxyUtil {
     // ////////////////////////////////////////////////////////////////////////
     // /// Void Proxy
     // ////////////////////////////////////////////////////////////////////////
-    
+
+    /**
+     * Creates a proxy of the given class that just ignores any invocation on it
+     * @param clazz The class to be proxied
+     * @return The newly created proxy
+     */
 	public static <T> T createVoidProxy(Class<T> clazz) {
 		return createProxy(InvocationInterceptor.VOID, clazz, false, InvocationInterceptor.VoidInterceptor.class);
 	}
@@ -52,6 +70,11 @@ public final class ProxyUtil {
     // /// Iterable Proxy
     // ////////////////////////////////////////////////////////////////////////
     
+    /**
+     * Creates a proxy of the given class that also decorates it with Iterable interface
+     * @param clazz The class to be proxied
+     * @return The newly created proxy
+     */
 	public static <T> T createIterableProxy(InvocationInterceptor interceptor, Class<T> clazz) {
         if (clazz.isPrimitive()) return null;
         return createProxy(interceptor, normalizeProxiedClass(clazz), false, Iterable.class);

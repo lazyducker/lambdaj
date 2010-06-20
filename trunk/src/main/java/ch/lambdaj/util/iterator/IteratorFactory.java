@@ -7,6 +7,7 @@ package ch.lambdaj.util.iterator;
 import java.util.*;
 
 /**
+ * A class of utility static method used to build the different kinds of Iterators used in lambdaj
  * @author Mario Fusco
  */
 public final class IteratorFactory {

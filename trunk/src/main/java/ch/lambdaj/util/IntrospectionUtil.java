@@ -15,13 +15,24 @@ public final class IntrospectionUtil {
 
 	private IntrospectionUtil() {}
 
+    /**
+     * Returns the bean compliant name of the property accessed by the given method
+     * @param invokedMethod The method to be introspected
+     * @return The bean compliant name of the property accessed by the given method
+     */
 	public static String getPropertyName(Method invokedMethod) {
 		String methodName = invokedMethod.getName();
 		if (methodName.startsWith("get") || methodName.startsWith("set")) methodName = methodName.substring(3);
 		else if (methodName.startsWith("is")) methodName = methodName.substring(2);
 		return methodName.substring(0, 1).toLowerCase(Locale.getDefault()) + methodName.substring(1);
 	}
-	
+
+    /**
+     * Return the value of named property on the given bean
+     * @param bean The bean to be introspected
+     * @param propertyName The name of the property to be introspected
+     * @return The value of named property on the given bean
+     */
 	public static Object getPropertyValue(Object bean, String propertyName) {
 		if (bean == null) return null;
 		int dotPos = propertyName.indexOf('.');
@@ -51,10 +62,22 @@ public final class IntrospectionUtil {
 		}
 	}
 
+    /**
+     * Finds the consructor of the given class that matches the given arguments
+     * @param clazz The class for which a constructor should be found
+     * @param args The arguments that have to be assignable to the parameters of the constructor to be found
+     * @return The consructor of the given class that matches the given arguments
+     */
     public static <T> Constructor<T> findConstructor(Class<T> clazz, Object... args) {
         return findConstructor(clazz, objectsToClasses(args));
     }
 
+    /**
+     * Finds the consructor of the given class having arguments of the given types
+     * @param clazz The class for which a constructor should be found
+     * @param parameterTypes The types of the parameters of the constructor to be found
+     * @return The consructor of the given class having arguments of the given types
+     */
     public static <T> Constructor<T> findConstructor(Class<T> clazz, Class<?>... parameterTypes) {
         try {
             return clazz.getConstructor(parameterTypes);
@@ -72,10 +95,23 @@ public final class IntrospectionUtil {
         return null;
     }
 
+
+    /**
+     * Finds a method of the given class with the given name that matches the given arguments
+     * @param clazz The class containing the method should be found
+     * @param args The arguments that have to be assignable to the parameters of the method to be found
+     * @return The method of the given class with the given name that matches the given arguments
+     */
     public static Method findMethod(Class<?> clazz, String methodName, Object... args) {
         return findMethod(clazz, methodName, objectsToClasses(args));
     }
 
+    /**
+     * Finds a method of the given class with the given name having arguments of the given types
+     * @param clazz The class containing the method should be found
+     * @param parameterTypes The types of the parameters of the method to be found
+     * @return The method of the given class with the given name having arguments of the given types
+     */
     public static Method findMethod(Class<?> clazz, String methodName, Class<?>... parameterTypes) {
         try {
             return clazz.getMethod(methodName,  parameterTypes);

@@ -7,6 +7,7 @@ package ch.lambdaj.util.iterator;
 import java.util.*;
 
 /**
+ * A ResettabkeIterator that iterates over a wrapped Iterable
  * @author Mario Fusco
  */
 public class ResettableIteratorOnIterable<T> extends ResettableIterator<T> {
@@ -15,19 +16,32 @@ public class ResettableIteratorOnIterable<T> extends ResettableIterator<T> {
 
     private Iterator<T> iterator;
 
+    /**
+     * Creates a ResettableIterator that wraps the given Iterable
+     * @param iterable The Iterable to be wrapped
+     */
     public ResettableIteratorOnIterable(Iterable<T> iterable) {
         this.iterable = iterable;
         reset();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public final void reset() {
         iterator = iterable.iterator();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean hasNext() {
         return iterator.hasNext();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public T next() {
         return iterator.next();
     }
