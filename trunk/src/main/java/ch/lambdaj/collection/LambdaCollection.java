@@ -27,6 +27,7 @@ public class LambdaCollection<T> extends LambdaIterable<T> implements Collection
     /**
      * {@inheritDoc}
      */
+    @Override
     public LambdaCollection<T> filter(Matcher<?> matcher) {
         return new LambdaCollection<T>(doFilter(matcher));
     }
@@ -34,13 +35,15 @@ public class LambdaCollection<T> extends LambdaIterable<T> implements Collection
     /**
      * {@inheritDoc}
      */
-    public LambdaCollection<T> remove(Matcher<T> matcher) {
+    @Override
+    public LambdaCollection<T> remove(Matcher<?> matcher) {
         return new LambdaCollection<T>(doRemove(matcher));
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public LambdaCollection<T> sort(Object argument) {
         return new LambdaCollection<T>(doSort(argument));
     }
@@ -48,6 +51,7 @@ public class LambdaCollection<T> extends LambdaIterable<T> implements Collection
     /**
      * {@inheritDoc}
      */
+    @Override
     public <V> LambdaCollection<V> convert(Converter<T, V> converter) {
         return new LambdaCollection<V>(doConvert(converter));
     }
@@ -55,10 +59,35 @@ public class LambdaCollection<T> extends LambdaIterable<T> implements Collection
     /**
      * {@inheritDoc}
      */
+    @Override
     public <V> LambdaCollection<V> extract(V argument) {
         return new LambdaCollection<V>(doExtract(argument));
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public LambdaCollection<T> replace(Matcher<?> matcher, T replacer) {
+        return new LambdaCollection<T>(doReplace(matcher, replacer));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public LambdaCollection<T> distinct(Object argument) {
+        return new LambdaCollection<T>(doDistinct(argument));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <V> LambdaCollection<V> project(Class<V> targetClass, Object... arguments) {
+        return new LambdaCollection<V>(doProject(targetClass, arguments));
+    }
+    
     // ////////////////////////////////////////////////////////////////////////
     // /// Collection interface
     // ////////////////////////////////////////////////////////////////////////

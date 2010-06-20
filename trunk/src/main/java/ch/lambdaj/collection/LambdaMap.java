@@ -22,8 +22,12 @@ public class LambdaMap<K, V> implements Map<K, V> {
 		this.inner = inner;
 	}
 	
-	public <T> LambdaMap<K, T> apply(Converter<V, T> converter) {
-		return new LambdaMap<K, T>(convertMap(inner, converter));
+    public <T> LambdaMap<K, T> convertValues(Converter<V, T> converter) {
+        return new LambdaMap<K, T>(convertMap(inner, converter));
+    }
+
+	public <T> LambdaMap<K, T> convertValues(T argument) {
+		return new LambdaMap<K, T>(convertMap(inner, argument));
 	}
 
     // ////////////////////////////////////////////////////////////////////////
