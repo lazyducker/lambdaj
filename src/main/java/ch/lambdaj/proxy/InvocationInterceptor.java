@@ -16,8 +16,14 @@ import net.sf.cglib.proxy.*;
 public abstract class InvocationInterceptor implements MethodInterceptor, InvocationHandler {
 
 	public interface VoidInterceptor { }
-	
+
+    /**
+     * A dummy InvocationInterceptor that just ignores any invocation on it
+     */
 	public static final InvocationInterceptor VOID = new InvocationInterceptor() {
+        /**
+         * {@inheritDoc}
+         */
 		public Object invoke(Object proxy, Method method, Object[] args) {
 			return (method.getName().equals("equals") && args != null && args.length == 1) ? isVoidProxy(args[0]) : null;
 		}
@@ -27,6 +33,9 @@ public abstract class InvocationInterceptor implements MethodInterceptor, Invoca
         }
 	};
 	
+    /**
+     * {@inheritDoc}
+     */
 	public final Object intercept(Object proxy, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
 		return invoke(proxy, method, args);
 	}

@@ -9,7 +9,7 @@ import org.hamcrest.*;
 import java.util.*;
 
 /**
- * Wraps an iterator filtering its item with the given hamcrest Matcher
+ * Wraps an iterator filtering its items with the given hamcrest Matcher
  * @author Mario Fusco
  * @author Andrea Polci
  */
@@ -21,6 +21,11 @@ public class MatchingIterator<T> implements Iterator<T> {
 	private T nextElement;
     private boolean nextAvailable = false;
 
+    /**
+     * Creates an Iterator that wraps another iterator filtering its items with the given hamcrest Matcher
+     * @param iterator The iterator to be wrapped and filtered
+     * @param matcher The matcher used to filter the wrapped iterator
+     */
     public MatchingIterator(Iterator<T> iterator, Matcher<?> matcher) {
 		this.iterator = iterator;
 		this.matcher = matcher;
@@ -35,11 +40,17 @@ public class MatchingIterator<T> implements Iterator<T> {
         nextAvailable = true;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	public boolean hasNext() {
         if (!nextAvailable) searchNext();
 		return nextElement != null;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	public T next() {
 		if (!hasNext()) throw new NoSuchElementException();
 		T n = nextElement;
@@ -47,6 +58,9 @@ public class MatchingIterator<T> implements Iterator<T> {
 		return n;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	public void remove() {
 		throw new UnsupportedOperationException();
 	}
