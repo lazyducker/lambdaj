@@ -59,6 +59,28 @@ public class LambdaList<T> extends LambdaCollection<T> implements List<T> {
         return new LambdaList<V>(doExtract(argument));
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public LambdaList<T> replace(Matcher<?> matcher, T replacer) {
+        return new LambdaList<T>(doReplace(matcher, replacer));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public LambdaList<T> distinct(Object argument) {
+        return new LambdaList<T>(new ArrayList<T>(doDistinct(argument)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <V> LambdaList<V> project(Class<V> targetClass, Object... arguments) {
+        return new LambdaList<V>(doProject(targetClass, arguments));
+    }
+
     // ////////////////////////////////////////////////////////////////////////
     // /// List interface
     // ////////////////////////////////////////////////////////////////////////

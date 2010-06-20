@@ -116,7 +116,7 @@ public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements It
     List<T> doReplace(Matcher<?> matcher, T replacer) {
         List<T> list = new ArrayList<T>();
         for (T item : innerIterable) { list.add(matcher.matches(item) ? replacer : item); }
-        return null;
+        return list;
     }
 
     /**
@@ -129,12 +129,33 @@ public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements It
         return new LambdaSet<T>(set);
     }
 
+    /**
+     * Selects all the items in this iterable having a different value on the given argument defined using the on method.
+     * @param argument An argument defined using the {@link Lambda#on(Class)} method
+     * @return A LambdaIterable with the same items of the given iterable but containing no duplicate values on the given argument
+     */
     public LambdaIterable<T> distinct(Object argument) {
         return new LambdaIterable<T>(doDistinct(argument));
     }
 
     Collection<T> doDistinct(Object argument) {
         return Lambda.selectDistinctArgument(innerIterable, argument);
+    }
+
+    /**
+     * Converts the objects in this iterable in objects of the given target Class.
+     * The objects are created by invoking its constructor passing to it the values taken
+     * from the object to be converted using the given arguments.
+     * @param targetClass The class in which the objects in the given iterable must be converted
+     * @param arguments The arguments of the objects to be converted that will be used to create the objects of the target class
+     * @return A list of map where each map is the result of the projection of an object in this iterable
+     */
+    public <V> LambdaIterable<V> project(Class<V> targetClass, Object... arguments) {
+        return new LambdaIterable(doProject(targetClass, arguments));
+    }
+
+    <V> List<V> doProject(Class<V> targetClass, Object... arguments) {
+        return Lambda.project(innerIterable, targetClass, arguments);
     }
 
     /**

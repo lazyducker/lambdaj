@@ -106,7 +106,7 @@ public class LambdaCollectionTest {
 
     @Test
     public void testMap2() {
-        Map<Integer, Person> personsByAge = with(meAndMyFriends).map(on(Person.class).getAge()).apply(new MapConverter());
+        Map<Integer, Person> personsByAge = with(meAndMyFriends).map(on(Person.class).getAge()).convertValues(new MapConverter());
 
         assertNotNull(personsByAge);
         assertEquals(3, personsByAge.size());

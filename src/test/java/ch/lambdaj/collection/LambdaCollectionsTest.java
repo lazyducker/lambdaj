@@ -1,5 +1,6 @@
 package ch.lambdaj.collection;
 
+import ch.lambdaj.function.convert.*;
 import org.junit.*;
 import static org.junit.Assert.*;
 import static org.hamcrest.Matchers.*;
@@ -105,41 +106,41 @@ public class LambdaCollectionsTest {
         assertSame(celestino, friendsIterator.next());
     }
 
-/*
     @Test
     public void testSelectDistinctAge() {
-        Object meAndMyFriends = asList(me, luca, biagio, celestino);
-        Collection<Person> distinctAgePersons = selectDistinct(meAndMyFriends, "age");
-        assertEquals(3, distinctAgePersons.size());
-    }
-
-    @Test
-    public void testSelectDistinctOnAge() {
-        Object meAndMyFriends = asList(me, luca, biagio, celestino);
-        Collection<Person> distinctAgePersons = selectDistinctArgument(meAndMyFriends, on(Person.class).getAge());
-        assertEquals(3, distinctAgePersons.size());
-
-        Collection<Integer> distinctAges = selectDistinct(extract(meAndMyFriends, on(Person.class).getAge()));
-        assertEquals(3, distinctAges.size());
+        LambdaList<Person> meAndMyFriends = with(me, luca, biagio, celestino);
+        LambdaList<Person> distinctAgedPerson = meAndMyFriends.distinct(on(Person.class).getAge());
+        assertEquals(3, distinctAgedPerson.size());
+        LambdaList<Integer> distinctAges = distinctAgedPerson.extract(on(Person.class).getAge());
         assertTrue(distinctAges.contains(me.getAge()) && distinctAges.contains(biagio.getAge()) && distinctAges.contains(luca.getAge()));
     }
 
     @Test
-    public void testProject() {
-        List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
-        List<Map<String, Object>> projection = project(meAndMyFriends, as("name", on(Person.class).getFirstName()), as(on(Person.class).getAge()));
+    public void testSelectDistinct() {
+        Collection<String> results = with("first", "second", "third", "first", "second").distinct();
+        assertThat(results.size(), is(equalTo(3)));
+    }
 
-        assertEquals(meAndMyFriends.size(), projection.size());
-        for (int i = 0; i < meAndMyFriends.size(); i++) {
-            assertEquals(meAndMyFriends.get(i).getFirstName(), projection.get(i).get("name"));
-            assertEquals(meAndMyFriends.get(i).getAge(), projection.get(i).get("age"));
-        }
+    @Test
+    public void testRemoveNull() {
+        Collection<String> results = with("first", null, "second", null, "third").remove(nullValue());
+        assertThat(results.size(), is(equalTo(3)));
+        assertFalse(results.contains(null));
+    }
+
+    @Test
+    public void testReplace() {
+        List<String> results = with("first", "second", "third", "fourth").replace(startsWith("f"), "xxx");
+        assertEquals("xxx", results.get(0));
+        assertEquals("second", results.get(1));
+        assertEquals("third", results.get(2));
+        assertEquals("xxx", results.get(3));
     }
 
     @Test
     public void testProjectDto() {
-        List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
-        List<PersonDto> meAndMyFriendsDto = project(meAndMyFriends, PersonDto.class, on(Person.class).getFirstName(), on(Person.class).getAge());
+        LambdaList<Person> meAndMyFriends = with(me, luca, biagio, celestino);
+        List<PersonDto> meAndMyFriendsDto = meAndMyFriends.project(PersonDto.class, on(Person.class).getFirstName(), on(Person.class).getAge());
 
         assertEquals(meAndMyFriends.size(), meAndMyFriendsDto.size());
         for (int i = 0; i < meAndMyFriends.size(); i++) {
@@ -147,7 +148,7 @@ public class LambdaCollectionsTest {
             assertEquals(meAndMyFriends.get(i).getAge(), meAndMyFriendsDto.get(i).getAge());
         }
     }
-*/
+
     @Test
     public void testTypedSumMinMax() {
         LambdaList<Person> meAndMyFriends = with(me, luca, biagio, celestino);
@@ -225,23 +226,6 @@ public class LambdaCollectionsTest {
         assertThat(results, hasItems("second", "third"));
     }
 
-/*
-    @Test
-    public void testSelectDistinct() {
-        Object strings = asList("first", "second", "third", "first", "second");
-
-        Collection<String> results = selectDistinct(strings);
-        assertThat(results.size(), is(equalTo(3)));
-
-        results = selectDistinct(strings, new Comparator<String>() {
-            public int compare(String s1, String s2) {
-                return s1.length() - s2.length();
-            }
-        });
-        assertThat(results.size(), is(equalTo(2)));
-    }
-*/
-
     @Test
     public void testJoin() {
         LambdaList<String> strings = with("first", "second", "third");
@@ -268,23 +252,21 @@ public class LambdaCollectionsTest {
         assertThat(countries, hasItem("brazil"));
     }
 
-/*
     @Test
     public void testConvert() {
-        List<String> strings = asList("first", "second", "third", "four");
-        Collection<Integer> lengths = convert(strings, new StringLengthConverter());
+        LambdaList<String> strings = with("first", "second", "third", "four");
+        Collection<Integer> lengths = strings.convert(new StringLengthConverter());
         int i = 0;
         for (int length : lengths) assertEquals(strings.get(i++).length(), length);
     }
 
     @Test
     public void testConvertMap() {
-        List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
-        Map<String, Person> map = index(meAndMyFriends, on(Person.class).getFirstName());
-        Map<String, String> convertedMap = convertMap(map, on(Person.class).getLastName());
+        LambdaList<Person> meAndMyFriends = with(me, luca, biagio, celestino);
+        LambdaMap<String, String> convertedMap = meAndMyFriends.index(on(Person.class).getFirstName()).convertValues(on(Person.class).getLastName());
         assertEquals("Fusco", convertedMap.get("Mario"));
     }
-*/
+
     @Test
     public void testIndex() {
         Exposure frenchExposure = new Exposure("france", "first");
