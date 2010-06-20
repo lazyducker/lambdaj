@@ -5,6 +5,7 @@
 package ch.lambdaj.group;
 
 import static ch.lambdaj.function.argument.ArgumentsFactory.*;
+import static ch.lambdaj.function.compare.ComparatorUtil.nullSafeCompare;
 
 import ch.lambdaj.function.argument.*;
 
@@ -20,18 +21,26 @@ class GroupComparator<A extends Comparable<A>> implements Comparator<GroupItem<?
 
     private final Argument<A> argument;
 
+    /**
+     * Creates a comparator that compares two groups by comparing the values assumed on the given argument
+     * @param argument The argument identifying the property to be compared
+     */
     public GroupComparator(A argument) {
         this(actualArgument(argument));
     }
 
+    /**
+     * Creates a comparator that compares two groups by comparing the values assumed on the given argument
+     * @param argument The argument identifying the property to be compared
+     */
     public GroupComparator(Argument<A> argument) {
         this.argument = argument;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public int compare(GroupItem<?> group1, GroupItem<?> group2) {
-        A val1 = argument.evaluate(group1.getGroupKey());
-        A val2 = argument.evaluate(group2.getGroupKey());
-        if (val1 == null && val2 == null) return 0;
-        return val1 != null ? val1.compareTo(val2) : -val2.compareTo(null);
+        return nullSafeCompare(argument.evaluate(group1.getGroupKey()), argument.evaluate(group2.getGroupKey()));
     }
 }

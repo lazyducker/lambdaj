@@ -89,7 +89,7 @@ public class LambdaMap<K, V> implements Map<K, V> {
     /**
      * {@inheritDoc}
      */
-	public Set<K> keySet() {
+	public LambdaSet<K> keySet() {
 	    return new LambdaSet<K>(inner.keySet());
     }
 

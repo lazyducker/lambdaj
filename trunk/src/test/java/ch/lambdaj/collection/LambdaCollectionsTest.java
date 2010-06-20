@@ -187,6 +187,20 @@ public class LambdaCollectionsTest {
     }
 
     @Test
+    public void testExists() {
+        LambdaList<Person> meAndMyFriends = with(me, luca, biagio, celestino);
+        assertFalse(meAndMyFriends.exists(having(on(Person.class).getAge(), equalTo(34))));
+        assertTrue(meAndMyFriends.exists(having(on(Person.class).getAge(), equalTo(35))));
+    }
+
+    @Test
+    public void testAll() {
+        LambdaList<Person> meAndMyFriends = with(me, luca, biagio, celestino);
+        assertFalse(meAndMyFriends.all(having(on(Person.class).getAge(), equalTo(35))));
+        assertTrue(meAndMyFriends.all(instanceOf(Person.class)));
+    }
+
+    @Test
     public void testSelectUnique() {
         LambdaList<Person> meAndMyFriends = with(me, luca, biagio, celestino);
 

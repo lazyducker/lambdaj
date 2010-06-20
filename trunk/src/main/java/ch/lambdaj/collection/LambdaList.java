@@ -34,6 +34,13 @@ public class LambdaList<T> extends LambdaCollection<T> implements List<T> {
     /**
      * {@inheritDoc}
      */
+    public LambdaList<T> remove(Matcher<?> matcher) {
+        return new LambdaList<T>(doRemove(matcher));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public LambdaList<T> sort(Object argument) {
         return new LambdaList<T>(doSort(argument));
     }

@@ -206,6 +206,18 @@ public class LambdaTest {
 		assertSame(biagio, sorted.get(3));
 	}
 	
+    @Test
+    public void testSortOnAgeWithNull() {
+        List<Person> meAndMyFriends = asList(me, luca, null, biagio, celestino);
+
+        List<Person> sorted = sort(meAndMyFriends, on(Person.class).getAge());
+        assertSame(luca, sorted.get(0));
+        assertSame(celestino, sorted.get(1));
+        assertSame(me, sorted.get(2));
+        assertSame(biagio, sorted.get(3));
+        assertNull(sorted.get(4));
+    }
+
 	@Test
 	public void testSortOnAgeArgument() {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);

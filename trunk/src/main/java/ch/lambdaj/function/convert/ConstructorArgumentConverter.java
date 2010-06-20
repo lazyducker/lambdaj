@@ -4,6 +4,8 @@
 
 package ch.lambdaj.function.convert;
 
+import ch.lambdaj.util.*;
+
 import java.lang.reflect.*;
 import java.util.*;
 
@@ -27,7 +29,7 @@ public class ConstructorArgumentConverter<F, T> implements Converter<F, T> {
         }
 
         if (constructor == null)
-            throw new RuntimeException("Unable to find a constructor of " + clazz.getName() + " compatible with the given arguments");
+            throw new IntrospectionException("Unable to find a constructor of " + clazz.getName() + " compatible with the given arguments");
 
         if (arguments != null)
             for (Object argument : arguments) { argumentConverters.add(new ArgumentConverter<F, Object>(argument)); }
@@ -54,7 +56,7 @@ public class ConstructorArgumentConverter<F, T> implements Converter<F, T> {
         try {
             return constructor.newInstance(initArgs);
         } catch (Exception e) {
-            throw new RuntimeException("Unable to create an object of class " + constructor.getDeclaringClass().getName(), e);
+            throw new IntrospectionException("Unable to create an object of class " + constructor.getDeclaringClass().getName(), e);
         }
     }
 }

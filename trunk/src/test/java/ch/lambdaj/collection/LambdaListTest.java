@@ -54,7 +54,7 @@ public class LambdaListTest {
 		assertNotNull(oldFriends);
 		assertEquals(2, oldFriends.size());
 	}
-/*
+
 	@Test
 	public void test4() {
 		Premium endorsementPremium1 = premiumOf("1,311,314,330.89 GBP");
@@ -63,11 +63,11 @@ public class LambdaListTest {
 
 		List<Premium> premiums = asList(endorsementPremium1, endorsementPremium2, endorsementPremium3);
 
-		Premium totalizer = with(premiums, Premium.class).aggregate(new MoneyAggregator());
+		Money total = with(premiums).aggregate(on(Premium.class).getPremium(), new Money.MoneyAggregator());
 
-		assertEquals(money("1,412,321,057.24 GBP").getValue(), totalizer.getPremium().getValue(), 0.000001);
+		assertEquals(money("1,412,321,057.24 GBP").getValue(), total.getValue(), 0.000001);
 	}
-*/
+
 	@Test
 	public void testConcatNull1() {
 		String result = with(asList(null, "a")).join();
@@ -121,10 +121,4 @@ public class LambdaListTest {
 	public interface Premium {
 		Money getPremium();
 	}
-
-	public Person convert(Person from) {
-	  // TODO Auto-generated method stub
-	  return null;
-  }
-
 }

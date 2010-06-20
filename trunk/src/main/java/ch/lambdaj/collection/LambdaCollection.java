@@ -24,16 +24,18 @@ public class LambdaCollection<T> extends LambdaIterable<T> implements Collection
         return (Collection<T>) innerIterable;
     }
 
-    public LambdaCollection<T> remove(Matcher<T> matcher) {
-        // TODO
-        return this;
-    }
-
     /**
      * {@inheritDoc}
      */
     public LambdaCollection<T> filter(Matcher<?> matcher) {
         return new LambdaCollection<T>(doFilter(matcher));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public LambdaCollection<T> remove(Matcher<T> matcher) {
+        return new LambdaCollection<T>(doRemove(matcher));
     }
 
     /**

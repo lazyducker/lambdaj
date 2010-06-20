@@ -185,8 +185,6 @@ public final class ArgumentsFactory {
 
     private static Object getPrimitivePlaceHolder(Class<?> clazz, Integer placeholderId) {
         switch (Character.toLowerCase(clazz.getSimpleName().charAt(0))) {
-            case 'i':
-                return placeholderId;
             case 'l':
                 return placeholderId.longValue();
             case 'd':
@@ -199,7 +197,8 @@ public final class ArgumentsFactory {
                 return placeholderId.byteValue();
             case 's':
                 return placeholderId.shortValue();
+            default:
+                return placeholderId;
         }
-        throw new ArgumentConversionException("Unable to create placeholder for class " + clazz.getName());
 	}
 }
