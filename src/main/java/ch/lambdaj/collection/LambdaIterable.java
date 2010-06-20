@@ -11,6 +11,8 @@ import org.hamcrest.*;
 
 import java.util.*;
 
+import static org.hamcrest.Matchers.not;
+
 /**
  * @author Gianfranco Tognana
  * @author Mario Fusco
@@ -50,6 +52,19 @@ public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements It
     }
 
     /**
+     * Removes all the objects in this iterable that match the given hamcrest Matcher
+     * @param matcher The hamcrest Matcher used to filter this iterable
+     * @return A sublist of this containing all the objects that don't match the given hamcrest Matcher
+     */
+    public LambdaIterable<T> remove(Matcher<?> matcher) {
+        return new LambdaIterable<T>(doRemove(matcher));
+    }
+
+    List<T> doRemove(Matcher<?> matcher) {
+        return (List<T>)Lambda.select(innerIterable, not(matcher));
+    }
+
+    /**
      * Sorts all the items in this iterable on the respective values of the given argument.
      * @param argument An argument defined using the {@link Lambda#on(Class)} method
      * @return A List with the same items of this iterable sorted on the respective value of the given argument
@@ -86,6 +101,40 @@ public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements It
 
     <V> List<V> doExtract(V argument) {
         return Lambda.extract(innerIterable, argument);
+    }
+
+    /**
+     * Replace with the given replacer all the items in this iterable that match the given matcher
+     * @param matcher The hamcrest Matcher used to filter this iterable
+     * @param replacer The item with which all the items that matches will be replaced
+     * @return A LambdaIterable with all the items matching the given matcher replaced by the given replacer
+     */
+    public LambdaIterable<T> replace(Matcher<?> matcher, T replacer) {
+        return new LambdaIterable<T>(doReplace(matcher, replacer));
+    }
+
+    List<T> doReplace(Matcher<?> matcher, T replacer) {
+        List<T> list = new ArrayList<T>();
+        for (T item : innerIterable) { list.add(matcher.matches(item) ? replacer : item); }
+        return null;
+    }
+
+    /**
+     * Returns a Set containing only distinict items in this iterable
+     * @return A Set containing only distinict items in this iterable
+     */
+    public LambdaSet<T> distinct() {
+        Set<T> set = new HashSet<T>();
+        for (T item : innerIterable) { set.add(item); }
+        return new LambdaSet<T>(set);
+    }
+
+    public LambdaIterable<T> distinct(Object argument) {
+        return new LambdaIterable<T>(doDistinct(argument));
+    }
+
+    Collection<T> doDistinct(Object argument) {
+        return Lambda.selectDistinctArgument(innerIterable, argument);
     }
 
     /**

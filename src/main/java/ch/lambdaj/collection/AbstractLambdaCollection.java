@@ -31,11 +31,23 @@ class AbstractLambdaCollection<T> {
         return innerIterable != null ? innerIterable : innerIterator;
     }
 
+    /**
+     * Aggregates the items in this iterable using the given {@link Aggregator}.
+     * @param aggregator The function that defines how the objects in this iterable have to be aggregated
+     * @return The result of the aggregation of all the items in this iterable
+     */
     public T aggregate(Aggregator<T> aggregator) {
         return Lambda.aggregate(getInner(), aggregator);
     }
 
-    public T aggregate(T argument, Aggregator<T> aggregator) {
+    /**
+     * For each item in the given iterable collects the value defined by the given argument and
+     * then aggregates them iterable using the given {@link Aggregator}.
+     * @param argument An argument defined using the {@link Lambda#on(Class)} method
+     * @param aggregator The function that defines how the objects in this iterable have to be aggregated
+     * @return The result of the aggregation of all the items in this iterable
+     */
+    public <A> A aggregate(A argument, Aggregator<A> aggregator) {
         return Lambda.aggregate(getInner(), aggregator, argument);
     }
 
@@ -127,8 +139,23 @@ class AbstractLambdaCollection<T> {
         return Lambda.forEach((List<T>)Lambda.select(getInner(), matcher));
     }
 
+    /**
+     * Maps the objects in this iterable on the value extracted using the given {@link Converter}.
+     * @param converter The converter that specifies the key on which each object should be mapped
+     * @return A map having as keys the argument value extracted from the objects in the given iterable and as values the corresponding objects
+     */
     public <K> LambdaMap<K, T> map(Converter<T, K> converter) {
         return new LambdaMap<K, T>(Lambda.map(getInner(), converter));
+    }
+
+    /**
+     * Indexes the objects in this iterable based on the value of their argument.
+     * @param argument An argument defined using the {@link Lambda#on(Class)} method
+     * @return A map having as keys the argument value extracted from the objects in the given iterable and as values the corresponding objects
+     */
+    @SuppressWarnings("unchecked")
+    public <K> LambdaMap<K, T> map(K argument) {
+        return new LambdaMap<K, T>((Map<K, T>) Lambda.index(getInner(), argument));
     }
 
     /**
@@ -140,13 +167,23 @@ class AbstractLambdaCollection<T> {
         return new LambdaMap<A, T>((Map<A, T>)Lambda.index(getInner(), argument));
     }
 
-    @SuppressWarnings("unchecked")
-    public <K> LambdaMap<K, T> map(K argument) {
-        return new LambdaMap<K, T>((Map<K, T>) Lambda.index(getInner(), argument));
+    /**
+     * Returns true if exists at least one item in this iterable that matches the given hamcrest Matcher
+     * @param matcher The hamcrest Matcher used to match the items in this iterable
+     * @return True if exists at least one item in this iterable that matches the given hamcrest Matcher, false otherwise
+     */
+    public boolean exists(Matcher<?> matcher) {
+        return first(matcher) != null;
     }
 
-    public boolean exists(Matcher<T> matcher) {
-        return Lambda.selectFirst(getInner(), matcher) != null;
+    /**
+     * Returns true if all the items in this iterable match the given hamcrest Matcher
+     * @param matcher The hamcrest Matcher used to match the items in this iterable
+     * @return True if all the items in this iterable match the given hamcrest Matcher, false otherwise
+     */
+    public boolean all(Matcher<?> matcher) {
+        while (innerIterator.hasNext()) { if (!matcher.matches(innerIterator.next())) return false; }
+        return true;
     }
 
     /**

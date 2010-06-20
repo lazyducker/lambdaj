@@ -9,6 +9,9 @@ import java.io.*;
 
 import ch.lambdaj.util.IntrospectionUtil;
 
+import static ch.lambdaj.function.compare.ComparatorUtil.nullSafeCompare;
+import static ch.lambdaj.util.IntrospectionUtil.getPropertyValue;
+
 /**
  * Compares two objects by comparing the values of one of their property.
  * @author Mario Fusco
@@ -17,16 +20,19 @@ public class PropertyComparator<T> implements Comparator<T>, Serializable {
 
 	private final String propertyName;
 
+    /**
+     * Creates a comparator that compares two objects by comparing the values of one of their property
+     * @param propertyName The name of the property to be compared
+     */
 	public PropertyComparator(String propertyName) {
 		this.propertyName = propertyName;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@SuppressWarnings("unchecked")
 	public int compare(T o1, T o2) {
-		Comparable val1 = (Comparable)IntrospectionUtil.getPropertyValue(o1, propertyName);
-		Comparable val2 = (Comparable)IntrospectionUtil.getPropertyValue(o2, propertyName);
-		if (val1 == null && val2 == null) return 0;
-		return val1 != null ? val1.compareTo(val2) : -val2.compareTo(null);
+        return nullSafeCompare(getPropertyValue(o1, propertyName), getPropertyValue(o2, propertyName));
 	}
-
 }

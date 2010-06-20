@@ -5,6 +5,7 @@
 package ch.lambdaj.util;
 
 import java.lang.reflect.*;
+import java.util.*;
 
 /**
  * This class consists exclusively of static methods that offer some introspection facilities.
@@ -18,7 +19,7 @@ public final class IntrospectionUtil {
 		String methodName = invokedMethod.getName();
 		if (methodName.startsWith("get") || methodName.startsWith("set")) methodName = methodName.substring(3);
 		else if (methodName.startsWith("is")) methodName = methodName.substring(2);
-		return methodName.substring(0, 1).toLowerCase() + methodName.substring(1);
+		return methodName.substring(0, 1).toLowerCase(Locale.getDefault()) + methodName.substring(1);
 	}
 	
 	public static Object getPropertyValue(Object bean, String propertyName) {
@@ -26,7 +27,7 @@ public final class IntrospectionUtil {
 		int dotPos = propertyName.indexOf('.');
 		if (dotPos > 0) return getPropertyValue(getPropertyValue(bean, propertyName.substring(0, dotPos)), propertyName.substring(dotPos + 1));
 
-		String accessorName = propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
+		String accessorName = propertyName.substring(0, 1).toUpperCase(Locale.getDefault()) + propertyName.substring(1);
 		try {
 			return bean.getClass().getMethod("get" + accessorName).invoke(bean, (Object[]) null);
 		} catch (Exception e) {
@@ -46,7 +47,7 @@ public final class IntrospectionUtil {
 		try {
 			return bean.getClass().getMethod(propertyName).invoke(bean, (Object[]) null);
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new IntrospectionException(e);
 		}
 	}
 
@@ -59,7 +60,7 @@ public final class IntrospectionUtil {
             return clazz.getConstructor(parameterTypes);
         } catch (NoSuchMethodException e) {
             Constructor<T> constructor = discoverConstructor(clazz, parameterTypes);
-            if (constructor == null) throw new RuntimeException(e);
+            if (constructor == null) throw new IntrospectionException(e);
             return constructor;
         }
     }
@@ -80,7 +81,7 @@ public final class IntrospectionUtil {
             return clazz.getMethod(methodName,  parameterTypes);
         } catch (NoSuchMethodException e) {
             Method method = discoverMethod(clazz, methodName, parameterTypes);
-            if (method == null) throw new RuntimeException(e);
+            if (method == null) throw new IntrospectionException(e);
             return method;
         }
     }
@@ -106,7 +107,7 @@ public final class IntrospectionUtil {
     }
 
     private static boolean areBoxingCompatible(Class<?> primitiveClass, Class<?> boxedClass) {
-         return boxedClass.getSimpleName().toLowerCase().startsWith(primitiveClass.getSimpleName());
+         return boxedClass.getSimpleName().toLowerCase(Locale.getDefault()).startsWith(primitiveClass.getSimpleName());
     }
 
     private static Class<?>[] objectsToClasses(Object... args) {
