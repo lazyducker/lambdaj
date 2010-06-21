@@ -10,6 +10,7 @@ import org.hamcrest.*;
 import java.util.*;
 
 /**
+ * A Set that extends the Set interface with the fluent interface methods provided by lambdaj
  * @author Gianfranco Tognana
  * @author Mario Fusco
  */
@@ -18,10 +19,6 @@ public class LambdaSet<T> extends LambdaCollection<T> implements Set<T> {
 	LambdaSet(Set<? extends T> inner) {
         super(inner);
 	}
-
-    private Set<T> innerSet() {
-        return (Set<T>) innerIterable;
-    }
 
     /**
      * {@inheritDoc}

@@ -11,6 +11,7 @@ import java.util.*;
 import ch.lambdaj.function.convert.*;
 
 /**
+ * A List that extends the List interface with the fluent interface methods provided by lambdaj
  * @author Gianfranco Tognana
  * @author Mario Fusco
  */

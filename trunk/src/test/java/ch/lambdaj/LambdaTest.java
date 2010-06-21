@@ -718,6 +718,7 @@ public class LambdaTest {
 		assertThat(join(forEach(asList("many", "strings"))), is(equalTo("many, strings")));
         assertThat(join(forEach("many", "strings")), is(equalTo("many, strings")));
 		assertThat(join(asList("many", "strings")), is(equalTo("many, strings")));
+        assertThat(join(new String[] { "many", "strings" }), is(equalTo("many, strings")));
 		assertThat(join(new ArrayList<String>()), is(equalTo("")));
 		assertThat(join(null), is(equalTo("")));
 		assertThat(join(""), is(equalTo("")));

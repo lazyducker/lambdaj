@@ -4,6 +4,7 @@
 
 package ch.lambdaj.collection;
 
+import java.lang.reflect.*;
 import java.util.*;
 import static java.util.Arrays.asList;
 
@@ -11,6 +12,7 @@ import org.hamcrest.*;
 import ch.lambdaj.function.convert.*;
 
 /**
+ * A collection that extends the collection interface with the fluent interface methods provided by lambdaj
  * @author Gianfranco Tognana
  * @author Mario Fusco
  */
@@ -190,5 +192,17 @@ public class LambdaCollection<T> extends LambdaIterable<T> implements Collection
      */
     public <T> T[] toArray(T[] a) {
         return innerCollection().toArray(a);
+    }
+
+    /**
+     * Returns an array containing all of the items in this collection.
+     * @param clazz The class of the items of the array to be created
+     * @return An array containing all of the elements in this collection
+     */
+    public T[] toArray(Class<T> clazz) {
+        T[] array = (T[]) Array.newInstance(clazz, innerCollection().size());
+        int i = 0;
+        for (T item : innerCollection()) { array[i++] = item; }
+        return array;
     }
 }

@@ -14,6 +14,7 @@ import java.util.*;
 import static org.hamcrest.Matchers.not;
 
 /**
+ * An Iterable that extends the Iterable interface with the fluent interface methods provided by lambdaj
  * @author Gianfranco Tognana
  * @author Mario Fusco
  */
@@ -30,12 +31,57 @@ public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements It
         return new LambdaIterator<T>(innerIterable.iterator());
     }
 
+    /**
+     * Returns a proxy of the class of the first object in this iterable that when invoked with a method returning a String
+     * returns a comma separated string that is the concatenation of the Strings resulting from the invocation
+     * of the same method on each item in this iterable
+     * @return A proxy of the class of the first object in this iterable representing a join lambda function
+     * @throws IllegalArgumentException if this iterable is null or empty
+     */
     public T joinFrom() {
         return Lambda.joinFrom(innerIterable);
     }
 
+    /**
+     * Returns a proxy of the class of the first object in this iterable that when invoked with a method returning a String
+     * returns a string separated with the given separator that is the concatenation of the Strings resulting from the invocation
+     * of the same method on each item in this iterable
+     * @param separator The String used to separe the Strings produced by this proxy
+     * @return A proxy of the class of the first object in this iterable representing a join lambda function
+     * @throws IllegalArgumentException if this iterable is null or empty
+     */
     public T joinFrom(String separator) {
         return Lambda.joinFrom(innerIterable, separator);
+    }
+
+    /**
+     * Returns a proxy of the class of the first object in this iterable that when invoked with a method returning a number
+     * returns the sum of the numbers resulting from the invocation of the same method on each item in this iterable
+     * @return A proxy of the class of the first object in this iterable representing a sum lambda function
+     * @throws IllegalArgumentException if this iterable is null or empty
+     */
+    public T sumFrom() {
+        return Lambda.sumFrom(innerIterable);
+    }
+
+    /**
+     * Returns a proxy of the class of the first object in this iterable that when invoked with a method returning a Comparable
+     * returns the maximum of the Caomparables resulting from the invocation of the same method on each item in this iterable
+     * @return A proxy of the class of the first object in this iterable representing a sum lambda function
+     * @throws IllegalArgumentException if this iterable is null or empty
+     */
+    public T maxFrom() {
+        return Lambda.maxFrom(innerIterable);
+    }
+
+    /**
+     * Returns a proxy of the class of the first object in this iterable that when invoked with a method returning a Comparable
+     * returns the minimimum of the Caomparables resulting from the invocation of the same method on each item in this iterable
+     * @return A proxy of the class of the first object in this iterable representing a sum lambda function
+     * @throws IllegalArgumentException if this iterable is null or empty
+     */
+    public T minFrom() {
+        return Lambda.minFrom(innerIterable);
     }
 
     /**

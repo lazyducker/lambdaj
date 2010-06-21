@@ -162,7 +162,7 @@ public class LambdaCollectionsTest {
         LambdaList<Person> myFriends = with(luca, biagio, celestino);
         myFriends.forEach().setBestFriend(me);
 
-        int totalBestFriendAge = myFriends.sum(on(Person.class).getBestFriend().getAge());
+        int totalBestFriendAge = myFriends.sumFrom().getBestFriend().getAge();
         assertThat(totalBestFriendAge, is(equalTo(35*3)));
     }
     @Test
