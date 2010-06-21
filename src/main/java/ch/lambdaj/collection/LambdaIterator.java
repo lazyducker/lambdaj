@@ -12,6 +12,7 @@ import ch.lambdaj.*;
 import ch.lambdaj.function.convert.*;
 
 /**
+ * An Iterator that extends the Iterator interface with the fluent interface methods provided by lambdaj
  * @author Gianfranco Tognana
  * @author Mario Fusco
  */

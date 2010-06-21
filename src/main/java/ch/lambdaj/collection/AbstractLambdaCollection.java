@@ -1,3 +1,7 @@
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco.
+// Licensed under the Apache License, Version 2.0 (the "License")
+
 package ch.lambdaj.collection;
 
 import ch.lambdaj.function.aggregate.*;
@@ -9,6 +13,10 @@ import java.util.*;
 
 import org.hamcrest.*;
 
+/**
+ * The abstract class extended by all the the Lambda collections.
+ * @author Mario Fusco
+ */
 class AbstractLambdaCollection<T> {
 
     protected final Iterable<? extends T> innerIterable;

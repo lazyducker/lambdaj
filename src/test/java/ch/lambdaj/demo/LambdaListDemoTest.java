@@ -65,8 +65,11 @@ public class LambdaListDemoTest {
             if (cost > maxCost) maxCost = cost;
         }
 
-        double max = with(db.getSales()).max(on(Sale.class).getCost());
+        double max = with(db.getSales()).maxFrom().getCost();
         assertEquals(max, maxCost, .001);
+
+        double max2 = with(db.getSales()).max(on(Sale.class).getCost());
+        assertEquals(max2, maxCost, .001);
     }
 
     @Test
@@ -77,7 +80,7 @@ public class LambdaListDemoTest {
                 sumIterative += sale.getCost();
         }
 
-        double sum = with(db.getSales()).filter(having(on(Sale.class).getBuyer().isMale()).and(having(on(Sale.class).getSeller().isMale()))).sum(on(Sale.class).getCost());
+        double sum = with(db.getSales()).filter(having(on(Sale.class).getBuyer().isMale()).and(having(on(Sale.class).getSeller().isMale()))).sumFrom().getCost();
         assertEquals(sum, sumIterative, .001);
 
         double sum2 = with(db.getSales()).filter(having(on(Sale.class).getBuyer().isMale())).filter(having(on(Sale.class).getSeller().isMale())).sum(on(Sale.class).getCost());

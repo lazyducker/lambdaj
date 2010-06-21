@@ -839,6 +839,7 @@ public final class Lambda {
 	/**
 	 * Joins all the object in the given iterable by concatenating all their String representation.
 	 * It invokes toString() an all the objects and concatening them using the default separator ", ". 
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable containing the objects to be joined
 	 * @return The concatenation of the String representation of all the objects in the given iterable or an empty String if the iterable is null or empty
@@ -850,14 +851,18 @@ public final class Lambda {
 	/**
 	 * Joins all the object in the given iterable by concatenating all their String representation.
 	 * It invokes toString() an all the objects and concatening them using the given separator. 
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
 	 * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
 	 * @param iterable The iterable containing the objects to be joined
 	 * @param separator The String used to separe the item's String representation
 	 * @return The concatenation of the String representation of all the objects in the given iterable or an empty String if the iterable is null or empty
 	 */
 	public static String join(Object iterable, String separator) {
-        return iterable instanceof Iterable || iterable instanceof Iterator ? (String) aggregate(iterable, new Concat(separator)) : (iterable == null ? "" : iterable.toString());
-	}
+        if (iterable == null) return "";
+        try {
+            return (String)aggregate(iterable, new Concat(separator));
+        } catch (IllegalArgumentException e) { return iterable.toString(); }
+    }
 
 	// ////////////////////////////////////////////////////////////////////////
 	// /// Conversion
@@ -890,7 +895,7 @@ public final class Lambda {
     }
 
     /**
-	 * Converts all the values in the map  using the given {@link Converter}.
+	 * Converts all the values in the map using the given {@link Converter}.
 	 * @param map The map containing the values to be converted
      * @param converter The converter that specifies how each map's value must be converted
 	 * @return A Map containing the same keys of the original one and the value converted from the ones 
