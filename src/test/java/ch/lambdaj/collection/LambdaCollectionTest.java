@@ -1,3 +1,7 @@
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco.
+// Licensed under the Apache License, Version 2.0 (the "License")
+
 package ch.lambdaj.collection;
 
 import static ch.lambdaj.Lambda.*;
@@ -17,12 +21,15 @@ import ch.lambdaj.function.convert.*;
 import ch.lambdaj.mock.Person;
 import static ch.lambdaj.collection.LambdaCollections.with;
 
+/**
+ * @author Mario Fusco
+ */
 public class LambdaCollectionTest {
 
     @Test
     public void test1() {
         Collection<Integer> numbers = asList(1, 2, 3, 4, 5);
-        Collection<Integer> result = with(numbers).filter(greaterThan(3));
+        Collection<Integer> result = with(numbers).retain(greaterThan(3));
         assertNotNull(result);
         assertEquals(2, result.size());
     }
@@ -40,7 +47,7 @@ public class LambdaCollectionTest {
     @Test
     public void test2() {
         Collection<Integer> numbers = asList(1, 2, 3, 4, 5);
-        LambdaCollection<Integer> result = with(numbers).filter(Odd).append(2, 4);
+        LambdaCollection<Integer> result = with(numbers).retain(Odd).append(2, 4);
         assertNotNull(result);
         assertEquals(5, result.size());
     }
@@ -52,7 +59,7 @@ public class LambdaCollectionTest {
 
     @Test
     public void test3() {
-        Collection<Person> oldFriends = with(meAndMyFriends).filter(having(on(Person.class).getAge(), greaterThan(30)));
+        Collection<Person> oldFriends = with(meAndMyFriends).retain(having(on(Person.class).getAge(), greaterThan(30)));
         assertNotNull(oldFriends);
         assertEquals(2, oldFriends.size());
     }
@@ -76,7 +83,7 @@ public class LambdaCollectionTest {
         Premium p2 = premiumOf("96,563,001.19 GBP");
         Premium p3 = premiumOf("4,443,725.16 GBP");
 
-        List<Premium> totalizer = with(p1, p2, p3).append(asList(p1, p2)).append(p1, p2).filter(having(on(Premium.class).getPremium(), equalTo(money("96,563,001.19 GBP"))));
+        List<Premium> totalizer = with(p1, p2, p3).append(asList(p1, p2)).append(p1, p2).retain(having(on(Premium.class).getPremium(), equalTo(money("96,563,001.19 GBP"))));
 
         assertNotNull(totalizer);
         assertEquals(3, totalizer.size());

@@ -28,8 +28,8 @@ public class LambdaList<T> extends LambdaCollection<T> implements List<T> {
     /**
      * {@inheritDoc}
      */
-    public LambdaList<T> filter(Matcher<?> matcher) {
-        return new LambdaList<T>(doFilter(matcher));
+    public LambdaList<T> retain(Matcher<?> matcher) {
+        return new LambdaList<T>(doRetain(matcher));
     }
 
     /**
