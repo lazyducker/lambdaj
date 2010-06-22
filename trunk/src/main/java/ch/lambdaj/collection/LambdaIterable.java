@@ -85,21 +85,21 @@ public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements It
     }
 
     /**
-     * Filters all the objects in this iterable that match the given hamcrest Matcher
+     * Retains all the objects in this iterable that match the given hamcrest Matcher
      * @param matcher The hamcrest Matcher used to filter this iterable
      * @return A sublist of this containing all the objects that match the given hamcrest Matcher
      */
-    public LambdaIterable<T> filter(Matcher<?> matcher) {
-        return new LambdaIterable<T>(doFilter(matcher));
+    public LambdaIterable<T> retain(Matcher<?> matcher) {
+        return new LambdaIterable<T>(doRetain(matcher));
     }
 
-    List<T> doFilter(Matcher<?> matcher) {
+    List<T> doRetain(Matcher<?> matcher) {
         return (List<T>)Lambda.select(innerIterable, matcher);
     }
 
     /**
      * Removes all the objects in this iterable that match the given hamcrest Matcher
-     * @param matcher The hamcrest Matcher used to filter this iterable
+     * @param matcher The hamcrest Matcher used to retain this iterable
      * @return A sublist of this containing all the objects that don't match the given hamcrest Matcher
      */
     public LambdaIterable<T> remove(Matcher<?> matcher) {
@@ -151,7 +151,7 @@ public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements It
 
     /**
      * Replace with the given replacer all the items in this iterable that match the given matcher
-     * @param matcher The hamcrest Matcher used to filter this iterable
+     * @param matcher The hamcrest Matcher used to retain this iterable
      * @param replacer The item with which all the items that matches will be replaced
      * @return A LambdaIterable with all the items matching the given matcher replaced by the given replacer
      */

@@ -20,7 +20,7 @@ public class LambdaListTest {
 
 	@Test
 	public void test1() {
-		List<Integer> result = with(asList(1, 2, 3, 4, 5)).filter(greaterThan(3));
+		List<Integer> result = with(asList(1, 2, 3, 4, 5)).retain(greaterThan(3));
 		assertNotNull(result);
 		assertEquals(2, result.size());
 	}
@@ -37,7 +37,7 @@ public class LambdaListTest {
 
 	@Test
 	public void test2() {
-		List<Integer> result = with(asList(1, 2, 3, 4, 5)).filter(Odd);
+		List<Integer> result = with(asList(1, 2, 3, 4, 5)).retain(Odd);
 		assertNotNull(result);
 		assertEquals(3, result.size());
 	}
@@ -50,7 +50,7 @@ public class LambdaListTest {
 
 	@Test
 	public void test3() {
-		List<Person> oldFriends = with(meAndMyFriends).filter(having(on(Person.class).getAge(), greaterThan(30)));
+		List<Person> oldFriends = with(meAndMyFriends).retain(having(on(Person.class).getAge(), greaterThan(30)));
 		assertNotNull(oldFriends);
 		assertEquals(2, oldFriends.size());
 	}

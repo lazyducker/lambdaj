@@ -1,7 +1,13 @@
+// Modified or written by Ex Machina SAGL for inclusion with lambdaj.
+// Copyright (c) 2009 Mario Fusco.
+// Licensed under the Apache License, Version 2.0 (the "License")
+
 package ch.lambdaj.collection;
 
 import ch.lambdaj.function.convert.*;
 import org.junit.*;
+
+import static java.util.Arrays.asList;
 import static org.junit.Assert.*;
 import static org.hamcrest.Matchers.*;
 import ch.lambdaj.mock.*;
@@ -12,6 +18,9 @@ import static ch.lambdaj.collection.LambdaCollections.with;
 import java.util.*;
 import java.lang.reflect.*;
 
+/**
+ * @author Mario Fusco
+ */
 public class LambdaCollectionsTest {
 
     private final Person me = new Person("Mario", "Fusco", 35);
@@ -68,7 +77,7 @@ public class LambdaCollectionsTest {
     @Test
     public void testSelectPersonWith4LettersName() {
         LambdaList<Person> family = with(new Person("Domenico"), new Person("Mario"), new Person("Irma"));
-        Collection<Person> results = family.filter(hasNestedProperty("firstName.length", equalTo(4)));
+        Collection<Person> results = family.retain(hasNestedProperty("firstName.length", equalTo(4)));
         assertThat(results.size(), is(equalTo(1)));
         assertThat(results.iterator().next().getFirstName(), is(equalTo("Irma")));
     }
@@ -82,6 +91,20 @@ public class LambdaCollectionsTest {
         assertSame(celestino, sorted.get(1));
         assertSame(me, sorted.get(2));
         assertSame(biagio, sorted.get(3));
+
+        LambdaCollection<Person> meAndMyFriendsCollection = with((Collection<Person>)asList(me, luca, biagio, celestino));
+        LambdaCollection<Person> sortedCollection = meAndMyFriendsCollection.sort(on(Person.class).getAge());
+        assertSame(luca, sortedCollection.iterator().next());
+
+        Person[] personArray = sortedCollection.toArray(Person.class);
+        assertSame(luca, personArray[0]);
+        assertSame(celestino, personArray[1]);
+        assertSame(me, personArray[2]);
+        assertSame(biagio, personArray[3]);
+
+        LambdaIterable<Person> meAndMyFriendsIterable = with((Iterable<Person>)asList(me, luca, biagio, celestino));
+        Iterable<Person> sortedIterable = meAndMyFriendsIterable.sort(on(Person.class).getAge());
+        assertSame(luca, sortedIterable.iterator().next());
     }
 
     @Test
@@ -96,10 +119,10 @@ public class LambdaCollectionsTest {
     }
 
     @Test
-    public void testSelectWithHaving() {
+    public void testRetainWithHaving() {
         LambdaList<Person> meAndMyFriends = with(me, luca, biagio, celestino);
 
-        Collection<Person> friends29aged = meAndMyFriends.filter(having(on(Person.class).getAge(), is(equalTo(29))));
+        Collection<Person> friends29aged = meAndMyFriends.retain(having(on(Person.class).getAge(), is(equalTo(29))));
         assertEquals(2, friends29aged.size());
         Iterator<Person> friendsIterator = friends29aged.iterator();
         assertSame(luca, friendsIterator.next());
@@ -113,6 +136,13 @@ public class LambdaCollectionsTest {
         assertEquals(3, distinctAgedPerson.size());
         LambdaList<Integer> distinctAges = distinctAgedPerson.extract(on(Person.class).getAge());
         assertTrue(distinctAges.contains(me.getAge()) && distinctAges.contains(biagio.getAge()) && distinctAges.contains(luca.getAge()));
+
+        LambdaCollection<Person> meAndMyFriendsCollection = with((Collection<Person>)asList(me, luca, biagio, celestino));
+        Collection<Person> distinctAgedPersonCollection = meAndMyFriendsCollection.distinct(on(Person.class).getAge());
+        assertEquals(3, distinctAgedPersonCollection.size());
+
+        LambdaIterable<Person> meAndMyFriendsIterable = with((Iterable<Person>)asList(me, luca, biagio, celestino));
+        Iterable<Person> distinctAgedPersonIterable = meAndMyFriendsIterable.distinct(on(Person.class).getAge());
     }
 
     @Test
@@ -123,9 +153,16 @@ public class LambdaCollectionsTest {
 
     @Test
     public void testRemoveNull() {
-        Collection<String> results = with("first", null, "second", null, "third").remove(nullValue());
+        List<String> results = with("first", null, "second", null, "third").remove(nullValue());
         assertThat(results.size(), is(equalTo(3)));
         assertFalse(results.contains(null));
+
+        Collection<String> resultsCollection = with((Collection<String>)asList("first", null, "second", null, "third")).remove(nullValue());
+        assertThat(resultsCollection.size(), is(equalTo(3)));
+        assertFalse(resultsCollection.contains(null));
+
+        Iterable<String> resultsIterable = with((Iterable<String>)asList("first", null, "second", null, "third")).remove(nullValue());
+        for (String s : resultsIterable) assertNotNull(s);
     }
 
     @Test
@@ -135,6 +172,12 @@ public class LambdaCollectionsTest {
         assertEquals("second", results.get(1));
         assertEquals("third", results.get(2));
         assertEquals("xxx", results.get(3));
+
+        Collection<String> resultsCollection = with((Collection<String>)asList("first", "second", "third", "fourth")).replace(startsWith("f"), "xxx");
+        assertEquals("xxx", resultsCollection.iterator().next());
+
+        Iterable<String> resultsIterable = with((Iterable<String>)asList("first", "second", "third", "fourth")).replace(startsWith("f"), "xxx");
+        assertEquals("xxx", resultsIterable.iterator().next());
     }
 
     @Test
@@ -147,14 +190,20 @@ public class LambdaCollectionsTest {
             assertEquals(meAndMyFriends.get(i).getFirstName(), meAndMyFriendsDto.get(i).getName());
             assertEquals(meAndMyFriends.get(i).getAge(), meAndMyFriendsDto.get(i).getAge());
         }
+
+        LambdaCollection<Person> meAndMyFriendsCollection = with(((Collection<Person>)asList(me, luca, biagio, celestino)));
+        meAndMyFriendsCollection.project(PersonDto.class, on(Person.class).getFirstName(), on(Person.class).getAge());
+
+        LambdaIterable<Person> meAndMyFriendsIterable = with(((Iterable<Person>)asList(me, luca, biagio, celestino)));
+        meAndMyFriendsIterable.project(PersonDto.class, on(Person.class).getFirstName(), on(Person.class).getAge());
     }
 
     @Test
     public void testTypedSumMinMax() {
         LambdaList<Person> meAndMyFriends = with(me, luca, biagio, celestino);
-        assertThat(meAndMyFriends.sum(on(Person.class).getAge()), is(equalTo(35+29+39+29)));
-        assertThat(meAndMyFriends.min(on(Person.class).getAge()), is(equalTo(29)));
-        assertThat(meAndMyFriends.max(on(Person.class).getAge()), is(equalTo(39)));
+        assertThat(meAndMyFriends.sumFrom().getAge(), is(equalTo(35+29+39+29)));
+        assertThat(meAndMyFriends.minFrom().getAge(), is(equalTo(29)));
+        assertThat(meAndMyFriends.maxFrom().getAge(), is(equalTo(39)));
     }
 
     @Test
@@ -162,18 +211,26 @@ public class LambdaCollectionsTest {
         LambdaList<Person> myFriends = with(luca, biagio, celestino);
         myFriends.forEach().setBestFriend(me);
 
-        int totalBestFriendAge = myFriends.sumFrom().getBestFriend().getAge();
+        int totalBestFriendAge = myFriends.sum(on(Person.class).getBestFriend().getAge());
         assertThat(totalBestFriendAge, is(equalTo(35*3)));
     }
+
     @Test
     public void testExtractAges() {
         LambdaList<Person> meAndMyFriends = with(me, luca, biagio, celestino);
-
         List<Integer> ages = meAndMyFriends.extract(on(Person.class).getAge());
         assertThat(ages.get(0), is(equalTo(35)));
         assertThat(ages.get(1), is(equalTo(29)));
         assertThat(ages.get(2), is(equalTo(39)));
         assertThat(ages.get(3), is(equalTo(29)));
+
+        LambdaCollection<Person> meAndMyFriendsCollection = with(((Collection<Person>)asList(me, luca, biagio, celestino)));
+        Collection<Integer> agesCollection = meAndMyFriendsCollection.extract(on(Person.class).getAge());
+        assertThat(agesCollection.iterator().next(), is(equalTo(35)));
+
+        LambdaIterable<Person> meAndMyFriendsIterable = with(((Iterable<Person>)asList(me, luca, biagio, celestino)));
+        Iterable<Integer> agesIterable = meAndMyFriendsIterable.extract(on(Person.class).getAge());
+        assertThat(agesIterable.iterator().next(), is(equalTo(35)));
     }
 
     @Test
@@ -220,10 +277,18 @@ public class LambdaCollectionsTest {
     @Test
     public void testSelectStringsThatEndsWithD() {
         LambdaList<String> strings = with("first", "second", "third");
-        Collection<String> results = strings.filter(endsWith("d"));
-
+        Collection<String> results = strings.retain(endsWith("d"));
         assertThat(results.size(), is(equalTo(2)));
         assertThat(results, hasItems("second", "third"));
+
+        LambdaCollection<String> stringsCollection = with((Collection<String>)asList("first", "second", "third"));
+        Collection<String> resultsCollection = stringsCollection.retain(endsWith("d"));
+        assertThat(resultsCollection.size(), is(equalTo(2)));
+        assertThat(resultsCollection, hasItems("second", "third"));
+
+        LambdaIterable<String> stringsIterable = with((Iterable<String>)asList("first", "second", "third"));
+        Iterable<String> resultsIterable = stringsIterable.retain(endsWith("d"));
+        assertThat(resultsIterable, hasItems("second", "third"));
     }
 
     @Test
@@ -236,10 +301,8 @@ public class LambdaCollectionsTest {
     @Test
     public void testJoinFrom() {
         LambdaList<Exposure> exposures = with(new Exposure("france", "first"), new Exposure("brazil", "second"));
-
         String result = exposures.joinFrom().getCountryName();
         assertThat(result, is(equalTo("france, brazil")));
-
         result = exposures.joinFrom(" - ").getCountryName();
         assertThat(result, is(equalTo("france - brazil")));
     }
@@ -247,7 +310,17 @@ public class LambdaCollectionsTest {
     @Test
     public void testExtract() {
         LambdaList<Exposure> exposures = with(new Exposure("france", "first"), new Exposure("brazil", "second"));
-        Collection<String> countries = exposures.extract(on(Exposure.class).getCountryName());
+        Iterable<String> countries = exposures.extract(on(Exposure.class).getCountryName());
+        assertThat(countries, hasItem("france"));
+        assertThat(countries, hasItem("brazil"));
+
+        LambdaCollection<Exposure> exposuresCollection = with((Collection<Exposure>)asList(new Exposure("france", "first"), new Exposure("brazil", "second")));
+        countries = exposuresCollection.extract(on(Exposure.class).getCountryName());
+        assertThat(countries, hasItem("france"));
+        assertThat(countries, hasItem("brazil"));
+
+        LambdaIterable<Exposure> exposuresIterable = with((Iterable<Exposure>)asList(new Exposure("france", "first"), new Exposure("brazil", "second")));
+        countries = exposuresIterable.extract(on(Exposure.class).getCountryName());
         assertThat(countries, hasItem("france"));
         assertThat(countries, hasItem("brazil"));
     }
@@ -255,8 +328,18 @@ public class LambdaCollectionsTest {
     @Test
     public void testConvert() {
         LambdaList<String> strings = with("first", "second", "third", "four");
-        Collection<Integer> lengths = strings.convert(new StringLengthConverter());
+        Iterable<Integer> lengths = strings.convert(new StringLengthConverter());
         int i = 0;
+        for (int length : lengths) assertEquals(strings.get(i++).length(), length);
+
+        LambdaCollection<String> stringsCollection = with((Collection<String>)asList("first", "second", "third", "four"));
+        lengths = stringsCollection.convert(new StringLengthConverter());
+        i = 0;
+        for (int length : lengths) assertEquals(strings.get(i++).length(), length);
+
+        LambdaIterable<String> stringIterable = with((Iterable<String>)asList("first", "second", "third", "four"));
+        lengths = stringIterable.convert(new StringLengthConverter());
+        i = 0;
         for (int length : lengths) assertEquals(strings.get(i++).length(), length);
     }
 

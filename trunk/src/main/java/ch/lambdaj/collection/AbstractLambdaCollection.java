@@ -7,7 +7,6 @@ package ch.lambdaj.collection;
 import ch.lambdaj.function.aggregate.*;
 import ch.lambdaj.function.convert.*;
 import ch.lambdaj.*;
-import ch.lambdaj.group.*;
 
 import java.util.*;
 
@@ -196,7 +195,7 @@ class AbstractLambdaCollection<T> {
 
     /**
      * Selects the first object in this iterable that matches the given hamcrest Matcher
-     * @param matcher The hamcrest Matcher used to filter the given iterable
+     * @param matcher The hamcrest Matcher used to retain the given iterable
      * @return The first object in the given iterable that matches the given hamcrest Matcher or null if there is no such object
      */
     public T first(Matcher<?> matcher) {
@@ -205,7 +204,7 @@ class AbstractLambdaCollection<T> {
 
     /**
      * Selects the unique object in this iterable that matches the given hamcrest Matcher
-     * @param matcher The hamcrest Matcher used to filter the given iterable
+     * @param matcher The hamcrest Matcher used to retain the given iterable
      * @return The only object in the given iterable that matches the given hamcrest Matcher or null if there is no such object
      * @throws RuntimeException if there is more than one object that matches the given hamcrest Matcher
      */

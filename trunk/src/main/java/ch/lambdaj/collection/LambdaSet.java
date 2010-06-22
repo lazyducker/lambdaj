@@ -4,7 +4,6 @@
 
 package ch.lambdaj.collection;
 
-import ch.lambdaj.function.convert.*;
 import org.hamcrest.*;
 
 import java.util.*;
@@ -23,8 +22,8 @@ public class LambdaSet<T> extends LambdaCollection<T> implements Set<T> {
     /**
      * {@inheritDoc}
      */
-    public LambdaSet<T> filter(Matcher<?> matcher) {
-        return new LambdaSet<T>(new HashSet<T>(doFilter(matcher)));
+    public LambdaSet<T> retain(Matcher<?> matcher) {
+        return new LambdaSet<T>(new HashSet<T>(doRetain(matcher)));
     }
 
     /**

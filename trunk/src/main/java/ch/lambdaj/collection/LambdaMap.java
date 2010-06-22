@@ -5,10 +5,12 @@
 package ch.lambdaj.collection;
 
 import static ch.lambdaj.Lambda.convertMap;
+import static org.hamcrest.Matchers.not;
 
 import java.util.*;
 
 import ch.lambdaj.function.convert.Converter;
+import org.hamcrest.*;
 
 /**
  * A Map that extends the Map interface with the fluent interface methods provided by lambdaj
@@ -42,6 +44,30 @@ public class LambdaMap<K, V> implements Map<K, V> {
 	public <T> LambdaMap<K, T> convertValues(T argument) {
 		return new LambdaMap<K, T>(convertMap(inner, argument));
 	}
+
+    public LambdaMap<K, V> retainKeys(Matcher<?> matcher) {
+        return retain(matcher, true);
+    }
+
+    public LambdaMap<K, V> removeKeys(Matcher<?> matcher) {
+        return retainKeys(not(matcher));
+    }
+
+    public LambdaMap<K, V> retainValues(Matcher<?> matcher) {
+        return retain(matcher, false);
+    }
+
+    public LambdaMap<K, V> removeValues(Matcher<?> matcher) {
+        return retainValues(not(matcher));
+    }
+
+    private LambdaMap<K, V> retain(Matcher<?> matcher, boolean matchKeys) {
+        Map<K, V> map = new HashMap<K, V>();
+        for (Entry<K, V> entry : inner.entrySet()) {
+            if (matcher.matches(matchKeys ? entry.getKey() : entry.getValue())) map.put(entry.getKey(), entry.getValue());
+        }
+        return new LambdaMap<K, V>(map);
+    }
 
     // ////////////////////////////////////////////////////////////////////////
     // /// Map interface

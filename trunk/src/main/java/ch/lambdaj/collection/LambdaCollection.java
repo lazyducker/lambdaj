@@ -30,8 +30,8 @@ public class LambdaCollection<T> extends LambdaIterable<T> implements Collection
      * {@inheritDoc}
      */
     @Override
-    public LambdaCollection<T> filter(Matcher<?> matcher) {
-        return new LambdaCollection<T>(doFilter(matcher));
+    public LambdaCollection<T> retain(Matcher<?> matcher) {
+        return new LambdaCollection<T>(doRetain(matcher));
     }
 
     /**

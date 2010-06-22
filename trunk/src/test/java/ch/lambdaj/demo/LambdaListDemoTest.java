@@ -35,7 +35,7 @@ public class LambdaListDemoTest {
             if (sale.getCar().getBrand().equals("Ferrari")) salesIterative.add(sale);
         }
 
-        List<Sale> sales = with(db.getSales()).filter(having(on(Sale.class).getCar().getBrand(), equalTo("Ferrari")));
+        List<Sale> sales = with(db.getSales()).retain(having(on(Sale.class).getCar().getBrand(), equalTo("Ferrari")));
 
         assertTrue(listsAreEqual(sales, salesIterative));
     }
@@ -52,7 +52,7 @@ public class LambdaListDemoTest {
         }
 
         Person lambdaYoungest = with(db.getPersons()).selectMin(on(Person.class).getAge());
-        List<Sale> sales = with(db.getSales()).filter(having(on(Sale.class).getBuyer(), equalTo(lambdaYoungest)));
+        List<Sale> sales = with(db.getSales()).retain(having(on(Sale.class).getBuyer(), equalTo(lambdaYoungest)));
 
         assertTrue(listsAreEqual(sales, salesIterative));
     }
@@ -80,10 +80,10 @@ public class LambdaListDemoTest {
                 sumIterative += sale.getCost();
         }
 
-        double sum = with(db.getSales()).filter(having(on(Sale.class).getBuyer().isMale()).and(having(on(Sale.class).getSeller().isMale()))).sumFrom().getCost();
+        double sum = with(db.getSales()).retain(having(on(Sale.class).getBuyer().isMale()).and(having(on(Sale.class).getSeller().isMale()))).sumFrom().getCost();
         assertEquals(sum, sumIterative, .001);
 
-        double sum2 = with(db.getSales()).filter(having(on(Sale.class).getBuyer().isMale())).filter(having(on(Sale.class).getSeller().isMale())).sum(on(Sale.class).getCost());
+        double sum2 = with(db.getSales()).retain(having(on(Sale.class).getBuyer().isMale())).retain(having(on(Sale.class).getSeller().isMale())).sum(on(Sale.class).getCost());
         assertEquals(sum2, sumIterative, .001);
     }
 
