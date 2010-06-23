@@ -45,18 +45,38 @@ public class LambdaMap<K, V> implements Map<K, V> {
 		return new LambdaMap<K, T>(convertMap(inner, argument));
 	}
 
+    /**
+     * Retains only the entries in this map having a key that matches the given matcher
+     * @param matcher The matcher
+     * @return This map without the keys that don't match the given matcher
+     */
     public LambdaMap<K, V> retainKeys(Matcher<?> matcher) {
         return retain(matcher, true);
     }
 
+    /**
+     * Remove the entries in this map having a key that matches the given matcher
+     * @param matcher The matcher
+     * @return This map with only the keys that don't match the given matcher
+     */
     public LambdaMap<K, V> removeKeys(Matcher<?> matcher) {
         return retainKeys(not(matcher));
     }
 
+    /**
+     * Retains only the entries in this map having a value that matches the given matcher
+     * @param matcher The matcher
+     * @return This map without the values that don't match the given matcher
+     */
     public LambdaMap<K, V> retainValues(Matcher<?> matcher) {
         return retain(matcher, false);
     }
 
+    /**
+     * Remove the entries in this map having a value that matches the given matcher
+     * @param matcher The matcher
+     * @return This map with only the values that don't match the given matcher
+     */
     public LambdaMap<K, V> removeValues(Matcher<?> matcher) {
         return retainValues(not(matcher));
     }
@@ -66,7 +86,8 @@ public class LambdaMap<K, V> implements Map<K, V> {
         for (Entry<K, V> entry : inner.entrySet()) {
             if (matcher.matches(matchKeys ? entry.getKey() : entry.getValue())) map.put(entry.getKey(), entry.getValue());
         }
-        return new LambdaMap<K, V>(map);
+        inner = map;
+        return this;
     }
 
     // ////////////////////////////////////////////////////////////////////////

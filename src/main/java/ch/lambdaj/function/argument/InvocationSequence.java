@@ -16,7 +16,7 @@ final class InvocationSequence extends ArrayList<Invocation> {
 	
 	private final Class<?> rootInvokedClass;
 	
-	private String inkvokedPropertyName = "";
+	private String inkvokedPropertyName;
 	
 	InvocationSequence(Class<?> rootInvokedClass) { 
 		this.rootInvokedClass = rootInvokedClass;
@@ -30,7 +30,6 @@ final class InvocationSequence extends ArrayList<Invocation> {
 	InvocationSequence(InvocationSequence sequence, Invocation invocation) {
 		this(sequence);
 		add(invocation);
-		inkvokedPropertyName = sequence.getInkvokedPropertyName() + (sequence.isEmpty() ? "" : ".") + invocation.getInvokedPropertyName();
 	}
 	
 	Class<?> getRootInvokedClass() {
@@ -38,8 +37,16 @@ final class InvocationSequence extends ArrayList<Invocation> {
 	}
 	
 	String getInkvokedPropertyName() {
+        if (inkvokedPropertyName == null) inkvokedPropertyName = calcInkvokedPropertyName();
 		return inkvokedPropertyName;
 	}
+
+    private String calcInkvokedPropertyName() {
+        if (isEmpty()) return "";
+        StringBuilder sb = new StringBuilder();
+        for (Invocation invocation : this) { sb.append(".").append(invocation.getInvokedPropertyName()); }
+        return sb.substring(1);
+    }
 	
 	Class<?> getReturnType() {
 		return get(size()-1).getReturnType();
