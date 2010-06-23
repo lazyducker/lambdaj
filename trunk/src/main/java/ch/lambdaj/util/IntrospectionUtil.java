@@ -22,8 +22,8 @@ public final class IntrospectionUtil {
      */
 	public static String getPropertyName(Method invokedMethod) {
 		String methodName = invokedMethod.getName();
-		if (methodName.startsWith("get") || methodName.startsWith("set")) methodName = methodName.substring(3);
-		else if (methodName.startsWith("is")) methodName = methodName.substring(2);
+		if ((methodName.startsWith("get") || methodName.startsWith("set")) && methodName.length() > 3) methodName = methodName.substring(3);
+		else if (methodName.startsWith("is") && methodName.length() > 2) methodName = methodName.substring(2);
 		return methodName.substring(0, 1).toLowerCase(Locale.getDefault()) + methodName.substring(1);
 	}
 
