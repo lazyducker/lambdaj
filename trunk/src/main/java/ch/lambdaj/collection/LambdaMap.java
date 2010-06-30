@@ -86,7 +86,10 @@ public class LambdaMap<K, V> implements Map<K, V> {
         for (Entry<K, V> entry : inner.entrySet()) {
             if (matcher.matches(matchKeys ? entry.getKey() : entry.getValue())) map.put(entry.getKey(), entry.getValue());
         }
-        inner = map;
+        try {
+            inner.clear();
+            inner.putAll(map);
+        } catch (UnsupportedOperationException e) { inner = map; }
         return this;
     }
 

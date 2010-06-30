@@ -18,7 +18,7 @@ import ch.lambdaj.function.convert.*;
  */
 public class LambdaCollection<T> extends LambdaIterable<T> implements Collection<T> {
 
-    protected LambdaCollection(Collection<? extends T> inner) {
+    LambdaCollection(Collection<? extends T> inner) {
         super(inner);
     }
 
@@ -31,7 +31,8 @@ public class LambdaCollection<T> extends LambdaIterable<T> implements Collection
      */
     @Override
     public LambdaCollection<T> retain(Matcher<?> matcher) {
-        return new LambdaCollection<T>(doRetain(matcher));
+        doRetain(matcher);
+        return this;
     }
 
     /**
@@ -39,7 +40,8 @@ public class LambdaCollection<T> extends LambdaIterable<T> implements Collection
      */
     @Override
     public LambdaCollection<T> remove(Matcher<?> matcher) {
-        return new LambdaCollection<T>(doRemove(matcher));
+        doRemove(matcher);
+        return this;
     }
 
     /**
@@ -47,7 +49,8 @@ public class LambdaCollection<T> extends LambdaIterable<T> implements Collection
      */
     @Override
     public LambdaCollection<T> sort(Object argument) {
-        return new LambdaCollection<T>(doSort(argument));
+        doSort(argument);
+        return this;
     }
 
     /**
@@ -71,7 +74,8 @@ public class LambdaCollection<T> extends LambdaIterable<T> implements Collection
      */
     @Override
     public LambdaCollection<T> replace(Matcher<?> matcher, T replacer) {
-        return new LambdaCollection<T>(doReplace(matcher, replacer));
+        doReplace(matcher, replacer);
+        return this;
     }
 
     /**
@@ -79,7 +83,8 @@ public class LambdaCollection<T> extends LambdaIterable<T> implements Collection
      */
     @Override
     public LambdaCollection<T> distinct(Object argument) {
-        return new LambdaCollection<T>(doDistinct(argument));
+        doDistinct(argument);
+        return this;
     }
 
     /**

@@ -15,15 +15,15 @@ public class Db {
 	}
 	
 	public List<Person> getPersons() {
-		return persons;
+		return new ArrayList<Person>(persons);
 	}
 	
 	public List<Car> getCars() {
-		return cars;
+		return new ArrayList<Car>(cars);
 	}
 	
 	public List<Sale> getSales() {
-		return sales;
+		return new ArrayList<Sale>(sales);
 	}
 	
 	private Db() {
