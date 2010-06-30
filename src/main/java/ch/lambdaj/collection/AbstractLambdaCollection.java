@@ -18,20 +18,32 @@ import org.hamcrest.*;
  */
 class AbstractLambdaCollection<T> {
 
-    protected final Iterable<? extends T> innerIterable;
-    protected final Iterator<? extends T> innerIterator;
+    Iterable<? extends T> innerIterable;
+    Iterator<? extends T> innerIterator;
 
-    protected AbstractLambdaCollection(Iterator<? extends T> innerIterator) {
-        this(null, innerIterator);
-    }
-
-    protected AbstractLambdaCollection(Iterable<? extends T> innerIterable) {
-        this(innerIterable, innerIterable.iterator());
-    }
-
-    private AbstractLambdaCollection(Iterable<? extends T> innerIterable, Iterator<? extends T> innerIterator) {
-        this.innerIterable = innerIterable;
+    AbstractLambdaCollection(Iterator<? extends T> innerIterator) {
+        this.innerIterable = null;
         this.innerIterator = innerIterator;
+    }
+
+    AbstractLambdaCollection(Iterable<? extends T> innerIterable) {
+        this.innerIterable = innerIterable;
+        innerIterator = innerIterable.iterator();
+    }
+
+    void setInner(Iterable<? extends T> inner) {
+        if (inner instanceof Collection && innerIterable instanceof Collection)
+            setInnerCollection((Collection<? extends T>)inner);
+        else
+            innerIterable = inner;
+        innerIterator = innerIterable.iterator();
+    }
+
+    private void setInnerCollection(Collection<? extends T> inner) {
+        try {
+            ((Collection<T>)innerIterable).clear();
+        } catch (UnsupportedOperationException e) { innerIterable = new ArrayList<T>(); }
+        ((Collection<T>)innerIterable).addAll((Collection<T>)inner);
     }
 
     private Object getInner() {

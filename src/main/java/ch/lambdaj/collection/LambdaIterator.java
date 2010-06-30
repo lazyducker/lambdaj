@@ -18,7 +18,7 @@ import ch.lambdaj.function.convert.*;
  */
 public class LambdaIterator<T> extends AbstractLambdaCollection<T> implements Iterator<T> {
 
-	protected LambdaIterator(Iterator<? extends T> inner) {
+	LambdaIterator(Iterator<? extends T> inner) {
         super(inner);
     }
 

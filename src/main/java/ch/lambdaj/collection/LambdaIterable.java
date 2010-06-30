@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.not;
  */
 public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements Iterable<T> {
 
-    protected LambdaIterable(Iterable<? extends T> inner) {
+    LambdaIterable(Iterable<? extends T> inner) {
         super(inner);
     }
 
@@ -90,11 +90,12 @@ public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements It
      * @return A sublist of this containing all the objects that match the given hamcrest Matcher
      */
     public LambdaIterable<T> retain(Matcher<?> matcher) {
-        return new LambdaIterable<T>(doRetain(matcher));
+        doRetain(matcher);
+        return this;
     }
 
-    List<T> doRetain(Matcher<?> matcher) {
-        return (List<T>)Lambda.select(innerIterable, matcher);
+    void doRetain(Matcher<?> matcher) {
+        setInner(Lambda.select(innerIterable, matcher));
     }
 
     /**
@@ -103,11 +104,12 @@ public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements It
      * @return A sublist of this containing all the objects that don't match the given hamcrest Matcher
      */
     public LambdaIterable<T> remove(Matcher<?> matcher) {
-        return new LambdaIterable<T>(doRemove(matcher));
+        doRemove(matcher);
+        return this;
     }
 
-    List<T> doRemove(Matcher<?> matcher) {
-        return (List<T>)Lambda.select(innerIterable, not(matcher));
+    void doRemove(Matcher<?> matcher) {
+        setInner(Lambda.select(innerIterable, not(matcher)));
     }
 
     /**
@@ -116,11 +118,12 @@ public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements It
      * @return A List with the same items of this iterable sorted on the respective value of the given argument
      */
     public LambdaIterable<T> sort(Object argument) {
-        return new LambdaIterable<T>(doSort(argument));
+        doSort(argument);
+        return this;
     }
 
-    List<T> doSort(Object argument) {
-        return Lambda.sort(innerIterable, argument);
+    void doSort(Object argument) {
+        setInner((Iterable<? extends T>)Lambda.sort(innerIterable, argument));
     }
 
     /**
@@ -156,13 +159,14 @@ public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements It
      * @return A LambdaIterable with all the items matching the given matcher replaced by the given replacer
      */
     public LambdaIterable<T> replace(Matcher<?> matcher, T replacer) {
-        return new LambdaIterable<T>(doReplace(matcher, replacer));
+        doReplace(matcher, replacer);
+        return this;
     }
 
-    List<T> doReplace(Matcher<?> matcher, T replacer) {
-        List<T> list = new ArrayList<T>();
+    void doReplace(Matcher<?> matcher, T replacer) {
+        Collection<T> list = new ArrayList<T>();
         for (T item : innerIterable) { list.add(matcher.matches(item) ? replacer : item); }
-        return list;
+        setInner(list);
     }
 
     /**
@@ -181,11 +185,12 @@ public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements It
      * @return A LambdaIterable with the same items of the given iterable but containing no duplicate values on the given argument
      */
     public LambdaIterable<T> distinct(Object argument) {
-        return new LambdaIterable<T>(doDistinct(argument));
+        doDistinct(argument);
+        return this;
     }
 
-    Collection<T> doDistinct(Object argument) {
-        return Lambda.selectDistinctArgument(innerIterable, argument);
+    void doDistinct(Object argument) {
+        setInner((Iterable<? extends T>)Lambda.selectDistinctArgument(innerIterable, argument));
     }
 
     /**

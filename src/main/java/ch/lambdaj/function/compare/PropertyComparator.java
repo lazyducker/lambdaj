@@ -7,8 +7,6 @@ package ch.lambdaj.function.compare;
 import java.util.Comparator;
 import java.io.*;
 
-import ch.lambdaj.util.IntrospectionUtil;
-
 import static ch.lambdaj.function.compare.ComparatorUtil.nullSafeCompare;
 import static ch.lambdaj.util.IntrospectionUtil.getPropertyValue;
 

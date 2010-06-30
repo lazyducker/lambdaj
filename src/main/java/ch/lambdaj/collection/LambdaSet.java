@@ -23,13 +23,15 @@ public class LambdaSet<T> extends LambdaCollection<T> implements Set<T> {
      * {@inheritDoc}
      */
     public LambdaSet<T> retain(Matcher<?> matcher) {
-        return new LambdaSet<T>(new HashSet<T>(doRetain(matcher)));
+        doRetain(matcher);
+        return this;
     }
 
     /**
      * {@inheritDoc}
      */
     public LambdaSet<T> remove(Matcher<?> matcher) {
-        return new LambdaSet<T>(new HashSet<T>(doRemove(matcher)));
+        doRemove(matcher);
+        return this;
     }
 }

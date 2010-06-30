@@ -5,7 +5,6 @@
 package ch.lambdaj.proxy;
 
 import java.lang.reflect.*;
-import java.lang.reflect.InvocationHandler;
 
 import net.sf.cglib.proxy.*;
 
@@ -13,7 +12,7 @@ import net.sf.cglib.proxy.*;
  * An intercptor that seamlessly manages invocations on both a native Java proxy and a cglib one.
  * @author Mario Fusco
  */
-public abstract class InvocationInterceptor implements MethodInterceptor, InvocationHandler {
+public abstract class InvocationInterceptor implements MethodInterceptor, java.lang.reflect.InvocationHandler {
 
 	public interface VoidInterceptor { }
 

@@ -29,21 +29,24 @@ public class LambdaList<T> extends LambdaCollection<T> implements List<T> {
      * {@inheritDoc}
      */
     public LambdaList<T> retain(Matcher<?> matcher) {
-        return new LambdaList<T>(doRetain(matcher));
+        doRetain(matcher);
+        return this;
     }
 
     /**
      * {@inheritDoc}
      */
     public LambdaList<T> remove(Matcher<?> matcher) {
-        return new LambdaList<T>(doRemove(matcher));
+        doRemove(matcher);
+        return this;
     }
 
     /**
      * {@inheritDoc}
      */
     public LambdaList<T> sort(Object argument) {
-        return new LambdaList<T>(doSort(argument));
+        doSort(argument);
+        return this;
     }
 
     /**
@@ -64,14 +67,16 @@ public class LambdaList<T> extends LambdaCollection<T> implements List<T> {
      * {@inheritDoc}
      */
     public LambdaList<T> replace(Matcher<?> matcher, T replacer) {
-        return new LambdaList<T>(doReplace(matcher, replacer));
+        doReplace(matcher, replacer);
+        return this;
     }
 
     /**
      * {@inheritDoc}
      */
     public LambdaList<T> distinct(Object argument) {
-        return new LambdaList<T>(new ArrayList<T>(doDistinct(argument)));
+        doDistinct(argument);
+        return this;
     }
 
     /**
