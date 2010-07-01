@@ -10,14 +10,17 @@ import org.hamcrest.*;
  * A matcher that logically combines a set of matchers returning true if at least one of them satisfies its own condition.
  * @author Mario Fusco
  */
-public class OrMatcher<T> extends LambdaJMatcher<T> {
+public final class OrMatcher<T> extends LambdaJMatcher<T> {
 	
 	private final Matcher<T>[] matchers;
 
-	public OrMatcher(Matcher<T>... matchers) {
+	private OrMatcher(Matcher<T>... matchers) {
 		this.matchers = matchers;
 	}
 	
+    /**
+     * {@inheritDoc}
+     */
 	public boolean matches(Object item) {
 		for (Matcher<T> matcher : matchers) { if (matcher.matches(item)) return true; }
 		return false;

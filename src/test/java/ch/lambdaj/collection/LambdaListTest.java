@@ -25,6 +25,34 @@ public class LambdaListTest {
 		assertEquals(2, result.size());
 	}
 
+    @Test
+    public void testSet() {
+        Set set = new HashSet();
+        set.addAll(with(1, 2, 3, 4, 5));
+        LambdaSet<Integer> lambdaSet = with(set);
+        LambdaSet<Integer> lambdaSet2 = with(lambdaSet);
+        assertEquals(lambdaSet.hashCode(), lambdaSet2.hashCode());
+        assertEquals(lambdaSet, lambdaSet2);
+
+        lambdaSet.retain(greaterThan(2));
+        assertEquals(3, lambdaSet.size());
+        lambdaSet.remove(Odd);
+        assertEquals(1, lambdaSet.size());
+    }
+
+    @Test
+    public void testIterable() {
+        LambdaIterable<Integer> iterable = with(new TestIterable<Integer>(asList(1, 2, 3, 4, 5)));
+        iterable = iterable.retain(greaterThan(3));
+        assertEquals(4, (int)iterable.iterator().next());
+    }
+
+    private static class TestIterable<T> implements Iterable<T> {
+        private Iterable<T> iterable;
+        TestIterable(Iterable<T> iterable) { this.iterable = iterable; }
+        public Iterator<T> iterator() { return iterable.iterator(); }
+    }
+
 	Matcher<Integer> Odd = new TypeSafeMatcher<Integer>() {
 		public boolean matchesSafely(Integer item) {
 			return item % 2 == 1;
@@ -121,4 +149,37 @@ public class LambdaListTest {
 	public interface Premium {
 		Money getPremium();
 	}
+
+    @Test
+    public void testList() {
+        LambdaList<Integer> list = with(1, 2, 3, 4, 5).subList(1, 4);
+        assertEquals(3, list.size());
+
+        list.add(0, 1);
+        assertEquals(4, list.size());
+        assertEquals(1, (int)list.get(0));
+        assertEquals(0, (int)list.indexOf(1));
+
+        list.add(1);
+        assertEquals(5, list.size());
+        assertEquals(4, (int)list.lastIndexOf(1));
+
+        list.clear();
+        assertEquals(0, list.size());
+
+        list.addAll(with(1, 2, 3, 4, 5));
+        assertEquals(5, list.size());
+        list.remove(0);
+        assertEquals(4, list.size());
+        assertEquals(2, (int)list.get(0));
+        list.set(0, 1);
+        assertEquals(4, list.size());
+        assertEquals(1, (int)list.get(0));
+
+        ListIterator<Integer> iterator = list.listIterator();
+        assertEquals(1, (int)iterator.next());
+
+        iterator = list.listIterator(2);
+        assertEquals(4, (int)iterator.next());
+    }
 }

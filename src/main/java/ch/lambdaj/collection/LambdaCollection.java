@@ -94,7 +94,29 @@ public class LambdaCollection<T> extends LambdaIterable<T> implements Collection
     public <V> LambdaCollection<V> project(Class<V> targetClass, Object... arguments) {
         return new LambdaCollection<V>(doProject(targetClass, arguments));
     }
-    
+
+    /**
+     * Appends the given list of items at the end of this Collection
+     * @param list The List of item to be appended
+     * @return This Collection with the given list of items added at its end
+     */
+    public LambdaCollection<T> append(T... list) {
+        addAll(asList(list));
+        return this;
+    }
+
+    /**
+     * Returns an array containing all of the items in this collection.
+     * @param clazz The class of the items of the array to be created
+     * @return An array containing all of the elements in this collection
+     */
+    public T[] toArray(Class<T> clazz) {
+        T[] array = (T[]) Array.newInstance(clazz, innerCollection().size());
+        int i = 0;
+        for (T item : innerCollection()) { array[i++] = item; }
+        return array;
+    }
+
     // ////////////////////////////////////////////////////////////////////////
     // /// Collection interface
     // ////////////////////////////////////////////////////////////////////////
@@ -111,22 +133,6 @@ public class LambdaCollection<T> extends LambdaIterable<T> implements Collection
      */
     public boolean addAll(Collection<? extends T> c) {
         return innerCollection().addAll(c);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public LambdaCollection<T> append(List<T> list) {
-        innerCollection().addAll(list);
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public LambdaCollection<T> append(T... list) {
-        innerCollection().addAll(asList(list));
-        return this;
     }
 
     /**
@@ -197,17 +203,5 @@ public class LambdaCollection<T> extends LambdaIterable<T> implements Collection
      */
     public <T> T[] toArray(T[] a) {
         return innerCollection().toArray(a);
-    }
-
-    /**
-     * Returns an array containing all of the items in this collection.
-     * @param clazz The class of the items of the array to be created
-     * @return An array containing all of the elements in this collection
-     */
-    public T[] toArray(Class<T> clazz) {
-        T[] array = (T[]) Array.newInstance(clazz, innerCollection().size());
-        int i = 0;
-        for (T item : innerCollection()) { array[i++] = item; }
-        return array;
     }
 }

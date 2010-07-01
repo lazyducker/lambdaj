@@ -126,16 +126,24 @@ public class Switcher<T> {
     }
 
     private interface Result<T> {
+        /**
+         * Evaluates a given matching case with the given args
+         * @param args The args used to evaluate the case
+         * @return The evaluation result
+         */
         T exec(Object ... args);
     }
 
     private static class FixedResult<T> implements Result<T> {
         private final T value;
 
-        public FixedResult(T value) {
+        private FixedResult(T value) {
             this.value = value;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public T exec(Object ... args) {
             return value;
         }
@@ -148,6 +156,9 @@ public class Switcher<T> {
             this.closure = closure;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public T exec(Object ... args) {
             return (T)closure.closeOne(args);
         }

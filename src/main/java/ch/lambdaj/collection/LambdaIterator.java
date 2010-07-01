@@ -23,11 +23,11 @@ public class LambdaIterator<T> extends AbstractLambdaCollection<T> implements It
     }
 
     /**
-     * Filters all the objects in this iteraor that match the given hamcrest Matcher
+     * Retains all the objects in this iteraor that match the given hamcrest Matcher
      * @param matcher The hamcrest Matcher used to retain this iterator
      * @return A sublist of this iterator containing all the objects that match the given hamcrest Matcher
      */
-    public LambdaIterator<T> filter(Matcher<?> matcher) {
+    public LambdaIterator<T> retain(Matcher<?> matcher) {
         return new LambdaIterator<T>((Iterator<T>)Lambda.selectIterator(innerIterator, matcher));
     }
 

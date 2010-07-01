@@ -7,7 +7,7 @@ package ch.lambdaj.collection;
 import static ch.lambdaj.Lambda.*;
 import static ch.lambdaj.function.aggregate.Money.money;
 import static java.util.Arrays.asList;
-import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 import java.util.*;
@@ -63,32 +63,7 @@ public class LambdaCollectionTest {
         assertNotNull(oldFriends);
         assertEquals(2, oldFriends.size());
     }
-/*
-    @Test
-    public void test4() {
-        Premium endorsementPremium1 = premiumOf("1,311,314,330.89 GBP");
-        Premium endorsementPremium2 = premiumOf("96,563,001.19 GBP");
-        Premium endorsementPremium3 = premiumOf("4,443,725.16 GBP");
 
-        Collection<Premium> premiums = asList(endorsementPremium1, endorsementPremium2, endorsementPremium3);
-
-        Premium totalizer = with(premiums, Premium.class).aggregate(new Money.MoneyAggregator());
-
-        assertEquals(money("1,412,321,057.24 GBP").getValue(), totalizer.getPremium().getValue(), 0.000001);
-    }
-
-    @Test
-    public void testAppend() {
-        Premium p1 = premiumOf("1,311,314,330.89 GBP");
-        Premium p2 = premiumOf("96,563,001.19 GBP");
-        Premium p3 = premiumOf("4,443,725.16 GBP");
-
-        List<Premium> totalizer = with(p1, p2, p3).append(asList(p1, p2)).append(p1, p2).retain(having(on(Premium.class).getPremium(), equalTo(money("96,563,001.19 GBP"))));
-
-        assertNotNull(totalizer);
-        assertEquals(3, totalizer.size());
-    }
-*/
     @Test
     public void testConcatNull1() {
         String result = with(meAndMyFriends).join();
@@ -127,19 +102,38 @@ public class LambdaCollectionTest {
 
     }
 
-    public static Premium premiumOf(final String value) {
-        return new Premium() {
-            public Money getPremium() {
-                return money(value);
-            }
-        };
-    }
+    @Test
+    public void testCollection() {
+        Collection<Integer> c = with(1, 2, 3, 4, 5);
+        LambdaCollection<Integer> collection = with(c);
+        assertEquals(5, collection.size());
+        assertFalse(collection.isEmpty());
 
-    public interface Premium {
-        Money getPremium();
-    }
+        collection.add(6);
+        assertEquals(6, collection.size());
 
-    public Person convert(Person from) {
-      return null;
-    }
+        collection.clear();
+        assertEquals(0, collection.size());
+        assertTrue(collection.isEmpty());
+
+        collection.addAll(with(1, 2, 3, 4, 5));
+        assertEquals(5, collection.size());
+        collection.remove(6);
+        assertEquals(5, collection.size());
+        collection.remove(5);
+        assertEquals(4, collection.size());
+        collection.removeAll(with(1, 2));
+        assertEquals(2, collection.size());
+        collection.retainAll(with(2, 3));
+        assertEquals(1, collection.size());
+        assertEquals(3, (int)collection.iterator().next());
+
+        Object[] array = collection.toArray();
+        assertEquals(1, array.length);
+        assertEquals(3, array[0]);
+
+        Integer[] typedArray = collection.toArray(new Integer[1]);
+        assertEquals(1, typedArray.length);
+        assertEquals(3, (int)typedArray[0]);
+   }
 }
