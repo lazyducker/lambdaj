@@ -63,6 +63,9 @@ public class LambdaMapTest {
     @Test
     public void testMap() {
         LambdaMap<String, Person> map = with(me, luca, biagio, celestino).index(on(Person.class).getFirstName());
+        LambdaMap<String, Person> map2 = with(map);
+        assertEquals(map, map2);
+
         assertTrue(map.equals(map));
         assertEquals(4, map.entrySet().size());
         map.hashCode();

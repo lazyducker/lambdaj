@@ -174,7 +174,9 @@ public final class ArgumentsFactory {
             try {
                 if (params[0] == String.class) return constructor.newInstance(String.valueOf(placeholderId));
                 if (isNumericClass(params[0])) return constructor.newInstance(placeholderId);
-            } catch (Exception e) { }
+            } catch (IllegalAccessException e1) {
+            } catch (InvocationTargetException e2) {
+            }
         }
         return clazz.newInstance();
     }

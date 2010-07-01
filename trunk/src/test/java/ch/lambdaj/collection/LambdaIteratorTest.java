@@ -16,6 +16,7 @@ import java.util.*;
 import static java.util.Arrays.asList;
 
 import static junit.framework.Assert.*;
+import static org.hamcrest.Matchers.greaterThan;
 
 /**
  * @author Mario Fusco
@@ -99,5 +100,26 @@ public class LambdaIteratorTest {
 
     public Person convert(Person from) {
         return null;
+    }
+
+    @Test
+    public void testIterator() {
+        LambdaIterator<Integer> iterator = with(1, 2, 3, 4, 5).iterator();
+
+        LambdaIterator<Integer> filteredIterator = iterator.retain(greaterThan(3));
+        assertEquals(4, (int)filteredIterator.next());
+        assertEquals(5, (int)filteredIterator.next());
+        assertFalse(filteredIterator.hasNext());
+
+        try {
+            filteredIterator.remove();
+        } catch (UnsupportedOperationException e) { }
+    }
+
+    @Test
+    public void testIteratorExtract() {
+        LambdaIterator<Person> iterator = with(meAndMyFriends).iterator();
+        Iterator<String> nameIterator = iterator.extract(on(Person.class).getFirstName());
+        assertEquals("Mario", nameIterator.next());
     }
 }

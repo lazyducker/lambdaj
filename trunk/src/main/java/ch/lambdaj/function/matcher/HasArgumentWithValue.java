@@ -14,16 +14,19 @@ import ch.lambdaj.function.argument.*;
  * A matcher that returns true if the value resulting from the evaluation af the given argument matches the given matcher.
  * @author Mario Fusco
  */
-public class HasArgumentWithValue<T, A> extends LambdaJMatcher<T> {
+public final class HasArgumentWithValue<T, A> extends LambdaJMatcher<T> {
 	
     private final Argument<A> argument;
     private final Matcher<?> value;
 
-    public HasArgumentWithValue(Argument<A> argument, Matcher<?> value) {
+    private HasArgumentWithValue(Argument<A> argument, Matcher<?> value) {
         this.argument = argument;
         this.value = value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
 	public boolean matches(Object item) {
 		if (argument == null) return false;
         try {
@@ -33,6 +36,9 @@ public class HasArgumentWithValue<T, A> extends LambdaJMatcher<T> {
         } 
 	}
 	
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void describeTo(Description description) {
         description.appendText("hasArgument(");
@@ -66,9 +72,15 @@ public class HasArgumentWithValue<T, A> extends LambdaJMatcher<T> {
 
     private static final BooleanMatcher BOOLEAN_MATCHER = new BooleanMatcher();
     private static class BooleanMatcher extends BaseMatcher<Boolean> {
+        /**
+         * {@inheritDoc}
+         */
 		public boolean matches(Object item) {
 			return (Boolean)item;
 		}
+        /**
+         * {@inheritDoc}
+         */
 		public void describeTo(Description description) { }
     }
 }
