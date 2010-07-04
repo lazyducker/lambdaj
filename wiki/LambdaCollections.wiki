@@ -35,4 +35,8 @@ List<Person> buyersSortedByAgres = with(sales)
 	.sort(on(Sale.class).getValue());
 }}}
 
-Those special collections implements a [http://en.wikipedia.org/wiki/Fluent_interface fluent interface] providing a more handy way to employ the lambdaj features.
+These special collections implements a [http://en.wikipedia.org/wiki/Fluent_interface fluent interface] providing a more handy way to employ the lambdaj features. In more details the with() static method wraps a plain list (set, map or array) with the corresponding lambda collection.
+
+Note that the LambdaCollections actually implement the corresponding java interface (i.e. LambdaList implements java.util.List) so you can use them in all other API as usual. This is done by simply delegating to the original wrapped collection for the methods belonging to the base interface, so you don't have to pay any performance penalty.
+
+A special thanks to Gianfranco Tognana who suggested the main ideas and developed part of the implementation of the LambdaCollections.
