@@ -1,0 +1,38 @@
+#summary The lambdaj's fluent interface collections
+
+lambdaj's API are designed to be easily combined in a single complex statement as in the following example:
+
+{{{
+List<Person> buyersSortedByAgres = sort(
+	extract(
+		select(sales, not(nullValue())
+	), on(Sale.class).getBuyer() 
+), on(Person.class).getAge());
+}}}
+
+Here a list of Sales is purged from its null values, then from each not null sale is extracted its buyer and in the end the resulting Persons are sorted based on their ages. This single statement looks quite powerful, especially if you compare what you should do to achieve the same result in plain java:
+
+{{{
+List<Person> buyersSortedByAgres = new ArrayList<Person>();
+for(Sale sale : sales) {
+	if (sale != null) {
+		buyersSortedByAgres.add(sale.getBuyer());
+	}
+}
+Collections.sort(buyersSortedByAgres, new Comparator<Person>() {
+	public int compare(Person p1, Person p2) {
+	   return p1.getAge() - p2.getAge();
+	}
+});
+}}}
+
+Anyway the lambdaj version could be a bit difficult to be read due to its nested form. That's why the release 2.3 introduced the so called LambdaCollections that allows to use the same features in a more readable way:
+
+{{{
+List<Person> buyersSortedByAgres = with(sales)
+	.remove(nullValue())
+	.extract(on(Sale.class).getBuyer())
+	.sort(on(Sale.class).getValue());
+}}}
+
+Those special collections implements a [http://en.wikipedia.org/wiki/Fluent_interface fluent interface] providing a more handy way to employ the lambdaj features.
