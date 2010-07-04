@@ -250,3 +250,35 @@ so it is possible to find the group of the 29 aged persons and its subgroup of t
 Group<Person> group29aged = group.findGroup("29");
 Group<Person> group29agedNamedLuca = group29aged.findGroup("Luca");
 }}}
+
+==Projecting object's property values==
+
+It is possible to project the property values of a given object on an object of a different class by invoking the constructor of this target class. This feature can be useful for example when you need to transform a list of beans in the corresponding list of data transfer objects. Supposing you have a Person bean as it follows:
+
+{{{
+class Person {
+    public String getFirstName() { return firstName; }
+    public String getLastName() { return lastName; }
+    public String getCompleteName() { return getFirstName() + " " + getLastName(); }
+    public int getAge() { return age; }
+}
+}}}
+
+and a PersonDto? on which you have to transfer the data of a Person:
+
+{{{
+class PersonDto {
+    private final String name;
+    private final int age;
+    PersonDto(String name, int age) {
+            this.name = name;
+            this.age = age;
+    }
+}
+}}}
+
+you can convert a List of Person in the corresponding List of PersonDto? as it follows:
+
+{{{
+List<PersonDto> perosonDtos = project(persons, PersonDto.class, on(Person.class).getCompleteName(), on(Person.class).getAge()); 
+}}}
