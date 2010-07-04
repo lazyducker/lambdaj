@@ -32,7 +32,7 @@ Anyway the lambdaj version could be a bit difficult to be read due to its nested
 List<Person> buyersSortedByAgres = with(sales)
     .remove(nullValue())
     .extract(on(Sale.class).getBuyer())
-    .sort(on(Sale.class).getValue());
+    .sort(on(Person.class).getAge());
 }}}
 
 These special collections implements a [http://en.wikipedia.org/wiki/Fluent_interface fluent interface] providing a more handy way to employ the lambdaj features. In more details the with() static method wraps a plain list (set, map or array) with the corresponding lambda collection.
