@@ -151,4 +151,19 @@ public final class IntrospectionUtil {
         for (int i = 0; i < parameterTypes.length; i++) { parameterTypes[i] = args[i].getClass(); }
         return parameterTypes;
     }
+
+    /**
+     * Returns a clone of the given original Object
+     * @param original The Object to be cloned
+     * @return A clone of the original object
+     * @throws CloneNotSupportedException if the original object is not cloneable
+     */
+    public static Object clone(Object original) throws CloneNotSupportedException {
+        if (!(original instanceof Cloneable)) throw new CloneNotSupportedException();
+        try {
+            return original.getClass().getMethod("clone").invoke(original);
+        } catch (Exception e) {
+            throw new CloneNotSupportedException();
+        }
+    }
 }

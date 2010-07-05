@@ -160,4 +160,21 @@ public class LambdaList<T> extends LambdaCollection<T> implements List<T> {
     public LambdaList<T> subList(int fromIndex, int toIndex) {
         return new LambdaList(innerList().subList(fromIndex, toIndex));
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public LambdaList<T> clone() {
+        return clone(new ArrayList<T>());
+    }
+
+    /**
+     * Returns a shallow copy of this LambdaList instance. (The elements themselves are not copied.)
+     * @param emptyList The empty list to be used as wrapped list of this LambdaList if the current one is not Cloneable
+     * @return A clone of this LambdaList instance
+     */
+    public LambdaList<T> clone(List<? extends T> emptyList) {
+        return new LambdaList<T>((List<T>)innerClone(emptyList));
+    }
 }
