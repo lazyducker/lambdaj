@@ -10,6 +10,7 @@ import static org.hamcrest.Matchers.not;
 import java.util.*;
 
 import ch.lambdaj.function.convert.Converter;
+import ch.lambdaj.util.*;
 import org.hamcrest.*;
 
 /**
@@ -17,12 +18,12 @@ import org.hamcrest.*;
  * @author Gianfranco Tognana
  * @author Mario Fusco
  */
-public class LambdaMap<K, V> implements Map<K, V> {
+public class LambdaMap<K, V> implements Map<K, V>, Cloneable {
     
-	private Map<K, V> inner;
+	private Map<K, V> innerMap;
 	
-	LambdaMap(Map<K, V> inner) {
-		this.inner = inner;
+	LambdaMap(Map<K, V> innerMap) {
+		this.innerMap = innerMap;
 	}
 	
     /**
@@ -32,7 +33,7 @@ public class LambdaMap<K, V> implements Map<K, V> {
      *      in the corresponding entry of the map
 	 */
     public <T> LambdaMap<K, T> convertValues(Converter<V, T> converter) {
-        return new LambdaMap<K, T>(convertMap(inner, converter));
+        return new LambdaMap<K, T>(convertMap(innerMap, converter));
     }
 
     /**
@@ -42,7 +43,7 @@ public class LambdaMap<K, V> implements Map<K, V> {
      *      in the corresponding entry of the map
 	 */
 	public <T> LambdaMap<K, T> convertValues(T argument) {
-		return new LambdaMap<K, T>(convertMap(inner, argument));
+		return new LambdaMap<K, T>(convertMap(innerMap, argument));
 	}
 
     /**
@@ -83,13 +84,13 @@ public class LambdaMap<K, V> implements Map<K, V> {
 
     private LambdaMap<K, V> retain(Matcher<?> matcher, boolean matchKeys) {
         Map<K, V> map = new HashMap<K, V>();
-        for (Entry<K, V> entry : inner.entrySet()) {
+        for (Entry<K, V> entry : innerMap.entrySet()) {
             if (matcher.matches(matchKeys ? entry.getKey() : entry.getValue())) map.put(entry.getKey(), entry.getValue());
         }
         try {
-            inner.clear();
-            inner.putAll(map);
-        } catch (UnsupportedOperationException e) { inner = map; }
+            innerMap.clear();
+            innerMap.putAll(map);
+        } catch (UnsupportedOperationException e) { innerMap = map; }
         return this;
     }
 
@@ -101,97 +102,119 @@ public class LambdaMap<K, V> implements Map<K, V> {
      * {@inheritDoc}
      */
 	public void clear() {
-	    inner.clear();
+	    innerMap.clear();
     }
 
     /**
      * {@inheritDoc}
      */
 	public boolean containsKey(Object key) {
-        return inner.containsKey(key);
+        return innerMap.containsKey(key);
     }
 
     /**
      * {@inheritDoc}
      */
 	public boolean containsValue(Object value) {
-	    return inner.containsValue(value);
+	    return innerMap.containsValue(value);
     }
 
     /**
      * {@inheritDoc}
      */
 	public LambdaSet<java.util.Map.Entry<K, V>> entrySet() {
-	    return new LambdaSet<java.util.Map.Entry<K, V>>(inner.entrySet());
+	    return new LambdaSet<java.util.Map.Entry<K, V>>(innerMap.entrySet());
     }
 
     /**
      * {@inheritDoc}
      */
 	public boolean equals(Object o) {
-	    return inner.equals(o);
+	    return innerMap.equals(o);
     }
 
     /**
      * {@inheritDoc}
      */
 	public V get(Object key) {
-	    return inner.get(key);
+	    return innerMap.get(key);
     }
 
     /**
      * {@inheritDoc}
      */
 	public int hashCode() {
-	    return inner.hashCode();
+	    return innerMap.hashCode();
     }
 
     /**
      * {@inheritDoc}
      */
 	public boolean isEmpty() {
-	    return inner.isEmpty();
+	    return innerMap.isEmpty();
     }
 
     /**
      * {@inheritDoc}
      */
 	public LambdaSet<K> keySet() {
-	    return new LambdaSet<K>(inner.keySet());
+	    return new LambdaSet<K>(innerMap.keySet());
     }
 
     /**
      * {@inheritDoc}
      */
 	public V put(K key, V value) {
-	    return inner.put(key, value);
+	    return innerMap.put(key, value);
     }
 
     /**
      * {@inheritDoc}
      */
 	public void putAll(Map<? extends K, ? extends V> m) {
-	    inner.putAll(m);
+	    innerMap.putAll(m);
     }
 
     /**
      * {@inheritDoc}
      */
 	public V remove(Object key) {
-	    return inner.remove(key);
+	    return innerMap.remove(key);
     }
 
     /**
      * {@inheritDoc}
      */
 	public int size() {
-	    return inner.size();
+	    return innerMap.size();
     }
 
     /**
      * {@inheritDoc}
      */
 	public LambdaCollection<V> values() {
-	    return new LambdaCollection(inner.values());
+	    return new LambdaCollection(innerMap.values());
+    }
+
+    /**
+     * Returns a shallow copy of this LambdaMap instance. (The elements themselves are not copied.)
+     * @return A clone of this LambdaMap instance
+     */
+    @Override
+    public LambdaMap<K, V> clone() {
+        return clone(new HashMap<K, V>());
+    }
+
+    /**
+     * Returns a shallow copy of this LambdaMap instance. (The elements themselves are not copied.)
+     * @param emptyMap The empty map to be used as wrapped set of this LambdaMap if the current one is not Cloneable
+     * @return A clone of this LambdaMap instance
+     */
+    public LambdaMap<K, V> clone(Map<K, V> emptyMap) {
+        try {
+            return (LambdaMap<K, V>)IntrospectionUtil.clone(innerMap);
+        } catch (CloneNotSupportedException e) { }
+        emptyMap.putAll(innerMap);
+        return new LambdaMap<K, V>(emptyMap);
     }
 }

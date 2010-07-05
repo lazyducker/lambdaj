@@ -7,8 +7,10 @@ package ch.lambdaj.collection;
 import ch.lambdaj.*;
 import ch.lambdaj.group.*;
 import ch.lambdaj.function.convert.*;
+import ch.lambdaj.util.*;
 import org.hamcrest.*;
 
+import java.lang.reflect.*;
 import java.util.*;
 
 import static org.hamcrest.Matchers.not;
@@ -18,7 +20,7 @@ import static org.hamcrest.Matchers.not;
  * @author Gianfranco Tognana
  * @author Mario Fusco
  */
-public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements Iterable<T> {
+public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements Iterable<T>, Cloneable {
 
     LambdaIterable(Iterable<? extends T> inner) {
         super(inner);
@@ -216,5 +218,22 @@ public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements It
      */
 	public LambdaGroup<T> group(GroupCondition<?>... conditions) {
          return new LambdaGroup(Lambda.group(innerIterable, conditions));
+    }
+
+    /**
+     * Returns a shallow copy of this Collection instance. (The elements themselves are not copied.)
+     * @return A clone of this Collection instance
+     */
+    @Override
+    public LambdaIterable<T> clone() {
+        return new LambdaIterable<T>(innerClone(new ArrayList<T>()));
+    }
+
+    Iterable<? extends T> innerClone(Collection<? extends T> emptyInner) {
+        try {
+            return (Iterable<T>)IntrospectionUtil.clone(innerIterable);
+        } catch (CloneNotSupportedException e) { }
+        for (T item : innerIterable) ((Collection<T>)emptyInner).add(item);
+        return emptyInner;
     }
 }

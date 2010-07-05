@@ -34,4 +34,21 @@ public class LambdaSet<T> extends LambdaCollection<T> implements Set<T> {
         doRemove(matcher);
         return this;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public LambdaSet<T> clone() {
+        return clone(new HashSet<T>());
+    }
+
+    /**
+     * Returns a shallow copy of this LambdaSet instance. (The elements themselves are not copied.)
+     * @param emptyList The empty set to be used as wrapped set of this LambdaSet if the current one is not Cloneable
+     * @return A clone of this LambdaSet instance
+     */
+    public LambdaSet<T> clone(Set<? extends T> emptyList) {
+        return new LambdaSet<T>((Set<T>)innerClone(emptyList));
+    }
 }

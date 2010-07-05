@@ -204,4 +204,13 @@ public class LambdaCollection<T> extends LambdaIterable<T> implements Collection
     public <T> T[] toArray(T[] a) {
         return innerCollection().toArray(a);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public LambdaCollection<T> clone() {
+        return new LambdaCollection<T>((Collection<T>)super.clone());
+    }
+
 }
