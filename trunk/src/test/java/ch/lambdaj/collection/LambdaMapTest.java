@@ -63,7 +63,7 @@ public class LambdaMapTest {
     @Test
     public void testMap() {
         LambdaMap<String, Person> map = with(me, luca, biagio, celestino).index(on(Person.class).getFirstName());
-        LambdaMap<String, Person> map2 = with(map);
+        LambdaMap<String, Person> map2 = map.clone();
         assertEquals(map, map2);
 
         assertTrue(map.equals(map));
@@ -87,5 +87,22 @@ public class LambdaMapTest {
 
         map.clear();
         assertTrue(map.isEmpty());
+    }
+
+    @Test
+    public void testNonCloneableMap() {
+        Map<String, String> map = new NonCloneableMap<String, String>();
+        map.put("Italy", "Rome");
+        map.put("Germany", "Berlin");
+
+        Map<String, String> clonedMap = with(map).clone();
+        assertEquals(map, clonedMap);
+    }
+
+    public static class NonCloneableMap<K, v> extends HashMap<K, v> {
+        @Override
+        public Object clone() {
+            throw new RuntimeException();
+        }
     }
 }

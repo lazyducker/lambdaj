@@ -12,6 +12,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.*;
 
+import ch.lambdaj.*;
 import org.hamcrest.*;
 import static org.hamcrest.Matchers.*;
 import org.junit.Test;
@@ -108,6 +109,8 @@ public class LambdaCollectionTest {
         LambdaCollection<Integer> collection = with(c);
         assertEquals(5, collection.size());
         assertFalse(collection.isEmpty());
+        assertTrue(collection.containsAll(with(4, 3, 2)));
+        assertEquals(collection, collection.clone());
 
         collection.add(6);
         assertEquals(6, collection.size());

@@ -212,7 +212,7 @@ public class LambdaMap<K, V> implements Map<K, V>, Cloneable {
      */
     public LambdaMap<K, V> clone(Map<K, V> emptyMap) {
         try {
-            return (LambdaMap<K, V>)IntrospectionUtil.clone(innerMap);
+            return new LambdaMap<K, V>((Map<K, V>)IntrospectionUtil.clone(innerMap));
         } catch (CloneNotSupportedException e) { }
         emptyMap.putAll(innerMap);
         return new LambdaMap<K, V>(emptyMap);
