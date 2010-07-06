@@ -210,7 +210,7 @@ public class LambdaCollection<T> extends LambdaIterable<T> implements Collection
      */
     @Override
     public LambdaCollection<T> clone() {
-        return new LambdaCollection<T>((Collection<T>)super.clone());
+        return new LambdaCollection<T>((Collection<T>)innerClone(new ArrayList<T>()));
     }
 
 }

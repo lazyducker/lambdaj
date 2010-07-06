@@ -3,12 +3,13 @@ package ch.lambdaj.collection;
 import static ch.lambdaj.Lambda.*;
 import static ch.lambdaj.function.aggregate.Money.money;
 import static java.util.Arrays.asList;
-import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.*;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertEquals;
 
 import java.util.*;
 
+import junit.framework.*;
 import org.hamcrest.*;
 import org.junit.Test;
 
@@ -29,8 +30,9 @@ public class LambdaListTest {
     public void testSet() {
         Set set = new HashSet();
         set.addAll(with(1, 2, 3, 4, 5));
+
         LambdaSet<Integer> lambdaSet = with(set);
-        LambdaSet<Integer> lambdaSet2 = with(lambdaSet);
+        LambdaSet<Integer> lambdaSet2 = lambdaSet.clone();
         assertEquals(lambdaSet.hashCode(), lambdaSet2.hashCode());
         assertEquals(lambdaSet, lambdaSet2);
 
@@ -43,8 +45,10 @@ public class LambdaListTest {
     @Test
     public void testIterable() {
         LambdaIterable<Integer> iterable = with(new TestIterable<Integer>(asList(1, 2, 3, 4, 5)));
-        iterable = iterable.retain(greaterThan(3));
-        assertEquals(4, (int)iterable.iterator().next());
+        LambdaIterable<Integer> iterable2 = iterable.clone().retain(greaterThan(3));
+        assertFalse(iterable.equals(iterable2));
+        assertEquals(1, (int)iterable.iterator().next());
+        assertEquals(4, (int)iterable2.iterator().next());
     }
 
     private static class TestIterable<T> implements Iterable<T> {
@@ -181,5 +185,22 @@ public class LambdaListTest {
 
         iterator = list.listIterator(2);
         assertEquals(4, (int)iterator.next());
+    }
+
+    @Test
+    public void testNonCloneableMap() {
+        List<String> list = new NonCloneableList<String>();
+        list.add("Italy");
+        list.add("Germany");
+
+        List<String> clonedList = with(list).clone();
+        Assert.assertEquals(list, clonedList);
+    }
+
+    public static class NonCloneableList<T> extends ArrayList<T> {
+        @Override
+        public Object clone() {
+            throw new RuntimeException();
+        }
     }
 }

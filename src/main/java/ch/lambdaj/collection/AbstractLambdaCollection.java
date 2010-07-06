@@ -229,7 +229,7 @@ class AbstractLambdaCollection<T> {
      */
     @Override
     public final boolean equals(Object o) {
-        return getInner().equals(o);
+        return o instanceof AbstractLambdaCollection ? getInner().equals(((AbstractLambdaCollection)o).getInner()) : getInner().equals(o);
     }
 
     /**
