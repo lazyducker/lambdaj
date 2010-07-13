@@ -13,7 +13,7 @@ import java.util.*;
  * @author Gianfranco Tognana
  * @author Mario Fusco
  */
-public class LambdaSet<T> extends LambdaCollection<T> implements Set<T> {
+public class LambdaSet<T> extends LambdaCollection<T> implements Set<T>, Cloneable {
 
 	LambdaSet(Set<? extends T> inner) {
         super(inner);

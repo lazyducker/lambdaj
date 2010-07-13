@@ -134,7 +134,7 @@ public class Switcher<T> {
         T exec(Object ... args);
     }
 
-    private static class FixedResult<T> implements Result<T> {
+    private static final class FixedResult<T> implements Result<T> {
         private final T value;
 
         private FixedResult(T value) {

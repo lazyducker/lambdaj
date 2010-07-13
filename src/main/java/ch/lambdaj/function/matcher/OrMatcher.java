@@ -26,6 +26,11 @@ public final class OrMatcher<T> extends LambdaJMatcher<T> {
 		return false;
 	}
 
+    /**
+     * Creates an or matcher combining all the passed matchers
+     * @param matchers The matchers to be put in or
+     * @return A matcher that return true if at least one of the matchers return true
+     */
     @Factory
     public static <T> OrMatcher<T> or(Matcher<T>... matchers) {
     	return new OrMatcher<T>(matchers);

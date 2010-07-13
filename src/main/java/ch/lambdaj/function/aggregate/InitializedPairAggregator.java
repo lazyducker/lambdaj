@@ -12,10 +12,17 @@ public abstract class InitializedPairAggregator<T> extends PairAggregator<T> {
 
     private final T firstItem;
 
+    /**
+     * Creates a PairAggregator that is initialized to the value of its idempotent item
+     * @param firstItem the value with which this PairAggregator is initialized
+     */
     public InitializedPairAggregator(T firstItem) {
         this.firstItem = firstItem;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public final T emptyItem() {
         return firstItem;
     }

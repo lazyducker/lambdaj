@@ -26,6 +26,11 @@ public final class AndMatcher<T> extends LambdaJMatcher<T> {
 		return true;
 	}
 
+    /**
+     * Creates an and matcher combining all the passed matchers
+     * @param matchers The matchers to be put in and
+     * @return A matcher that return true if all the matchers return true
+     */
     @Factory
     public static <T> AndMatcher<T> and(Matcher<T>... matchers) {
     	return new AndMatcher<T>(matchers);

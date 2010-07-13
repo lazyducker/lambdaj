@@ -10,6 +10,10 @@ package ch.lambdaj.function.aggregate;
  */
 public class SumLong extends InitializedPairAggregator<Long> {
 
+    /**
+     * Creates an aggregator that sums longs
+     * @param firstItem The first long to be summed
+     */
     public SumLong(Long firstItem) {
         super(firstItem);
     }

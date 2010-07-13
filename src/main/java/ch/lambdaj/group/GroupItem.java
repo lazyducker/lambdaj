@@ -47,11 +47,18 @@ public class GroupItem<T> extends TreeMap<String, Object> implements Iterable<T>
 		return children;
 	}
 
+    /**
+     * Convert this GroupItem in the corresponding Group
+     * @return The Group wrapping this GroupItem
+     */
 	@SuppressWarnings("unchecked")
 	public Group<T> asGroup() {
 		return leaf ? new LeafGroup<T>(this, getChildrenNodeName()) : (Group<T>)get(getChildrenNodeName());
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	public Iterator<T> iterator() {
 		return asList().iterator();
 	}

@@ -233,7 +233,7 @@ public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements It
         try {
             return (Iterable<T>)IntrospectionUtil.clone(innerIterable);
         } catch (CloneNotSupportedException e) { }
-        for (T item : innerIterable) ((Collection<T>)emptyInner).add(item);
+        for (T item : innerIterable) { ((Collection<T>)emptyInner).add(item); }
         return emptyInner;
     }
 }
