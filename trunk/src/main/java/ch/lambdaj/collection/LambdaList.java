@@ -15,7 +15,7 @@ import ch.lambdaj.function.convert.*;
  * @author Gianfranco Tognana
  * @author Mario Fusco
  */
-public class LambdaList<T> extends LambdaCollection<T> implements List<T> {
+public class LambdaList<T> extends LambdaCollection<T> implements List<T>, Cloneable {
 
 	LambdaList(List<? extends T> inner) {
         super(inner);

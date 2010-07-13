@@ -10,6 +10,10 @@ package ch.lambdaj.function.aggregate;
  */
 public class SumDouble extends InitializedPairAggregator<Double> {
 
+    /**
+     * Creates an aggregator that sums doubles
+     * @param firstItem The first double to be summed
+     */
     public SumDouble(Double firstItem) {
         super(firstItem);
     }

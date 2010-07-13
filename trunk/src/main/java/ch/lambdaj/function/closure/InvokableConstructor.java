@@ -7,16 +7,24 @@ package ch.lambdaj.function.closure;
 import java.lang.reflect.*;
 
 /**
+ * An Invokable that invokes a constructor
  * @author Mario Fusco
  */
 class InvokableConstructor implements Invokable {
 
     private final Constructor<?> constructor;
 
+    /**
+     * Creates A Invokable that invokes a constructor
+     * @param constructor the constrctor to be invoked
+     */
     public InvokableConstructor(Constructor<?> constructor) {
         this.constructor = constructor;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Object invoke(Object obj, Object... args) {
         try {
             return constructor.newInstance(args);
@@ -25,6 +33,9 @@ class InvokableConstructor implements Invokable {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isStatic() {
         return true;
     }

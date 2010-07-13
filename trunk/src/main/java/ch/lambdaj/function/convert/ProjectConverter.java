@@ -14,6 +14,10 @@ public class ProjectConverter<F> implements Converter<F, Map<String, Object>> {
 
     private final Converter<F, Map.Entry<String, Object>>[] projectors;
 
+    /**
+     * Creates a Converter that converts an Object in map of key/value pairs by projecting them using the given projectors
+     * @param projectors The converters used to convert the object properties in a key/value pair
+     */
     public ProjectConverter(Converter<F, Map.Entry<String, Object>>... projectors) {
         this.projectors = projectors;
     }

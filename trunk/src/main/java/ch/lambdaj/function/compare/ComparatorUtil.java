@@ -15,6 +15,12 @@ public final class ComparatorUtil {
 
     private ComparatorUtil() { }
 
+    /**
+     * Compares 2 objects in a null safe way
+     * @param o1 The first object to be compared
+     * @param o2 The second object to be compared
+     * @return A positive number if the first object is bigger than the second, a negative if is lesser or zero if they are equal
+     */
     public static int nullSafeCompare(Object o1, Object o2) {
         return nullSafeCompare(DEFAULT_ARGUMENT_COMPARATOR, o1, o2);
     }
@@ -27,7 +33,10 @@ public final class ComparatorUtil {
 	static final Comparator<Object> DEFAULT_ARGUMENT_COMPARATOR = new DefaultArgumentComparator();
 
 	static class DefaultArgumentComparator implements Comparator<Object>, Serializable {
-		@SuppressWarnings("unchecked")
+        /**
+         * {@inheritDoc}
+         */
+        @SuppressWarnings("unchecked")
 		public int compare(Object val1, Object val2) {
 			return val1 != null ? ((Comparable)val1).compareTo(val2) : -((Comparable)val2).compareTo(null);
 		}

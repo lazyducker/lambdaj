@@ -105,17 +105,17 @@ public final class ArgumentsFactory {
         	return (Boolean)placeholder ? 1 : 0;
         }
     	
-    	public void setArgument(Object placeholder, Argument<?> argument) {
+    	void setArgument(Object placeholder, Argument<?> argument) {
     		if (placeholder.getClass().isEnum()) enumArguments.put(placeholder, argument);
     		else booleanArguments[booleanToInt(placeholder)] = argument;
     	}
 
-    	public Argument<?> getArgument(Object placeholder) {
+    	Argument<?> getArgument(Object placeholder) {
     		return placeholder.getClass().isEnum() ? enumArguments.get(placeholder) : booleanArguments[booleanToInt(placeholder)];
     	}
     	
     	@SuppressWarnings("unchecked")
-    	public Object getNextPlaceholder(Class<?> clazz) {
+    	Object getNextPlaceholder(Class<?> clazz) {
     		return clazz.isEnum() ? getNextEnumPlaceholder((Class<? extends Enum>)clazz) : getNextBooleanPlaceholder(); 
     	}
     	
@@ -133,7 +133,12 @@ public final class ArgumentsFactory {
 	// ////////////////////////////////////////////////////////////////////////
 	// /// Placeholders
 	// ////////////////////////////////////////////////////////////////////////
-	
+
+    /**
+     * Creates a placeholder of the given class for a non-bound closure argument
+     * @param clazz The class of the placeholder
+     * @return A placeholder of the given class
+     */
     public static <T> T createClosureArgumentPlaceholder(Class<T> clazz) {
         if (clazz == Class.class) return (T)ArgumentsFactory.class;
         return isProxable(clazz) ? createVoidProxy(clazz) : createFinalArgumentPlaceholder(clazz);

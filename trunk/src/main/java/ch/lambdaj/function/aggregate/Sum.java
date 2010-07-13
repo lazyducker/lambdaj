@@ -12,10 +12,17 @@ import java.math.*;
  */
 public class Sum extends InitializedPairAggregator<Number> {
 
+    /**
+     * Creates an aggregator that sums numbers
+     */
     public Sum() {
         super(0);    
     }
 
+    /**
+     * Creates an aggregator that sums numbers
+     * @param firstItem The first number to be summed
+     */
     public Sum(Number firstItem) {
         super(firstItem);
     }

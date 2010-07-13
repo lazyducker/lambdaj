@@ -14,6 +14,9 @@ import net.sf.cglib.proxy.*;
  */
 public abstract class InvocationInterceptor implements MethodInterceptor, java.lang.reflect.InvocationHandler {
 
+    /**
+     * A marker interface for an Interceptor that does nothing
+     */
 	public interface VoidInterceptor { }
 
     /**

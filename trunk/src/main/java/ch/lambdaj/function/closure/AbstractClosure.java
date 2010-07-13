@@ -16,6 +16,9 @@ import java.util.*;
  */
 abstract class AbstractClosure {
 
+    /**
+     * The name used to identify a closure that inokes a constructor
+     */
     public static final String CONSTRUCTOR = "<init>";
 
 	private Object closed;

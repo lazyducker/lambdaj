@@ -46,6 +46,11 @@ public class ArgumentComparator<T, A> implements Comparator<T>, Serializable {
 		this(actualArgument(argument), comparator);
 	}
 	
+    /**
+     * Creates a comparator that compares two objects by comparing the values returned by the invocations on the given Argument
+     * @param argument The argument identifying the property to be compared
+     * @param comparator The comparator used to compare the values of the arguments
+     */
     @SuppressWarnings("unchecked")
 	public ArgumentComparator(Argument<A> argument, Comparator<A> comparator) {
 		this.argument = argument;

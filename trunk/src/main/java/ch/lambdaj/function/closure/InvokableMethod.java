@@ -7,16 +7,24 @@ package ch.lambdaj.function.closure;
 import java.lang.reflect.*;
 
 /**
+ * An Invokable that invokes a method
  * @author Mario Fusco
  */
 class InvokableMethod implements Invokable {
 
     private final Method method;
 
+    /**
+     * Creates A Invokable that invokes a method
+     * @param method the method to be invoked
+     */
     public InvokableMethod(Method method) {
         this.method = method;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Object invoke(Object obj, Object... args) {
         try {
             return method.invoke(obj, args);
@@ -25,6 +33,9 @@ class InvokableMethod implements Invokable {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isStatic() {
         return Modifier.isStatic(method.getModifiers());
     }
