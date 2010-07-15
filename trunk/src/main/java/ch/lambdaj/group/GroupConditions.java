@@ -15,18 +15,38 @@ public class GroupConditions extends LinkedList<StringGroupCondition> {
 
 	private static final long serialVersionUID = 1L;
 
+    /**
+     * Adds a GroupCondition the groups on the property with the given name
+     * @param by The name of property to be used in the new GroupCondition
+     */
 	public void by(String by) {
 		add(new StringGroupCondition(by));
 	}
 
+    /**
+     * Sets an alias for the groups created using this condition
+     * @param alias The alias to be set
+     * @return The GroupCondition itself in order to allow a fluent interface
+     */
 	public void as(String alias) {
 		getLast().as(alias);
 	}
 
+    /**
+     * Adds the value of the property with the given name as a header of the groups produced by applying this Condition
+     * @param property The name of the property
+     * @return This StringGroupCondition
+     */
 	public void head(String property) {
 		getLast().head(property);
 	}
 
+    /**
+     * Adds the value of the property with the given name as a header with the given alias of the groups produced by applying this Condition
+     * @param property The name of the property
+     * @param alias The alias used as name in the group header
+     * @return This StringGroupCondition
+     */
 	public void head(String property, String alias) {
 		getLast().head(alias, property);
 	}
