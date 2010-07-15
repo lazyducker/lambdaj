@@ -1,4 +1,5 @@
 ch.lambdaj
+ch.lambdaj.collection
 ch.lambdaj.function.aggregate
 ch.lambdaj.function.argument
 ch.lambdaj.function.closure
