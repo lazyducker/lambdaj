@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.2.2" timestamp="2010-03-28T11:45:25.750">
-<file name="C:\data\development\IntelliJ\lambdaj\src\main\java\ch\lambdaj\function\argument\ArgumentsFactory.java">
-<violation beginline="177" endline="177" begincolumn="15" endcolumn="37" rule="EmptyCatchBlock" ruleset="Basic Rules" package="ch.lambdaj.function.argument" class="ArgumentsFactory" method="createArgumentPlaceholderForUnknownClass" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
+<pmd version="4.2.5" timestamp="2010-07-15T23:13:23.620">
+<file name="C:\data\dev\intellij\lambdaj\src\main\java\ch\lambdaj\function\argument\ArgumentsFactory.java">
+<violation beginline="182" endline="183" begincolumn="15" endcolumn="13" rule="EmptyCatchBlock" ruleset="Basic Rules" package="ch.lambdaj.function.argument" class="ArgumentsFactory" method="createArgumentPlaceholderForUnknownClass" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
-</file>
-<file name="C:\data\development\IntelliJ\lambdaj\src\main\java\ch\lambdaj\proxy\InvocationInterceptor.java">
-<violation beginline="8" endline="8" begincolumn="8" endcolumn="42" rule="DuplicateImports" ruleset="Import Statement Rules" package="ch.lambdaj.proxy" externalInfoUrl="http://pmd.sourceforge.net/rules/imports.html#DuplicateImports" priority="4">
-Avoid duplicate imports such as 'java.lang.reflect.InvocationHandler'
+<violation beginline="183" endline="184" begincolumn="15" endcolumn="13" rule="EmptyCatchBlock" ruleset="Basic Rules" package="ch.lambdaj.function.argument" class="ArgumentsFactory" method="createArgumentPlaceholderForUnknownClass" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
+Avoid empty catch blocks
 </violation>
 </file>
 </pmd>
