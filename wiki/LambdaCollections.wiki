@@ -5,17 +5,17 @@ lambdaj's API are designed to be easily combined in a single complex statement a
 {{{
 List<Person> buyersSortedByAgres = sort(
     extract(
-        select(sales, not(nullValue())
+        select(sales, having(on(Sale.class).getValue(), greaterThan(50000)))
     ), on(Sale.class).getBuyer() 
 ), on(Person.class).getAge());
 }}}
 
-Here a list of Sales is purged from its null values, then from each not null sale is extracted its buyer and in the end the resulting Persons are sorted based on their ages. This single statement looks quite powerful, especially if you compare what you should do to achieve the same result in plain java:
+Here a list of Sales is filtered in order to select only the sales with a value greater than 50000, then from each of these sale is extracted its buyer and in the end the resulting Persons are sorted based on their ages. This single statement looks quite powerful, especially if you compare what you should do to achieve the same result in plain java:
 
 {{{
 List<Person> buyersSortedByAgres = new ArrayList<Person>();
 for(Sale sale : sales) {
-    if (sale != null) {
+    if (sale.getValue() > 50000) {
         buyersSortedByAgres.add(sale.getBuyer());
     }
 }
@@ -30,7 +30,7 @@ Anyway the lambdaj version could be a bit difficult to be read due to its nested
 
 {{{
 List<Person> buyersSortedByAgres = with(sales)
-    .remove(nullValue())
+    .retain(having(on(Sale.class).getValue(), greaterThan(50000)))
     .extract(on(Sale.class).getBuyer())
     .sort(on(Person.class).getAge());
 }}}
@@ -43,5 +43,12 @@ Thus the LambdaCollections seamlessly enrich the API of the traditional [http://
 
   # While to leave the original collection unchanged is closer to the functional programming principles, it didn't make too much sense to enforce an immutable API on an object that is however widely mutable by invoking the methods of the collection framework API. 
   # By never changing the instance of the wrapped collection assures that its characteristic are always reflected even by the wrapping lambdaj counterpart. It means, for example, that if you are wrapping a SortedSet with a LambdaSet, the items in this last Set are always guaranteed of staying sorted with the same criteria defined in the original Set.
+
+Of course if you need to leave unchanged the original collection (i.e. when it is a list of JPA entities and you don't want to accidentally cascade delete entities from the
+database) it is enough to clone it before to use the other fluent methods as it follows:
+
+{{{
+with(sales).clone().remove(...) ...
+}}}
 
 A special thank to Gianfranco Tognana who suggested the main ideas and developed part of the implementation of the LambdaCollections.
