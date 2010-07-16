@@ -26,7 +26,7 @@ Collections.sort(buyersSortedByAgres, new Comparator<Person>() {
 });
 }}}
 
-Anyway the lambdaj version could be a bit difficult to be read due to its nested form. That's why the release 2.3 introduced the so called LambdaCollections that allows to use the same features in a more readable way:
+Anyway the lambdaj version could be a bit difficult to be read due to its nested form. That's why the release 2.3 introduced the so called [http://lambdaj.googlecode.com/svn/trunk/html/apidocs/ch/lambdaj/collection/LambdaCollections.html LambdaCollections] that allows to use the same features in a more readable way:
 
 {{{
 List<Person> buyersSortedByAgres = with(sales)
@@ -37,12 +37,12 @@ List<Person> buyersSortedByAgres = with(sales)
 
 These special collections implements a [http://en.wikipedia.org/wiki/Fluent_interface fluent interface] providing a more handy way to employ the lambdaj features. In more details the with() static method wraps a plain list (set, map or array) with the corresponding lambda collection.
 
-Note that the LambdaCollections actually implement the corresponding java interface (i.e. LambdaList implements java.util.List) so you can use them in all other API as usual. This is done by simply delegating to the original wrapped collection for the methods belonging to the base interface, so you don't have to pay any performance penalty when invoking these methods.
+Note that the [http://lambdaj.googlecode.com/svn/trunk/html/apidocs/ch/lambdaj/collection/LambdaCollections.html LambdaCollections] actually implement the corresponding java interface (i.e. [http://lambdaj.googlecode.com/svn/trunk/html/apidocs/ch/lambdaj/collection/LambdaList.html LambdaList] implements java.util.List) so you can use them in all other API as usual. This is done by simply delegating to the original wrapped collection for the methods belonging to the base interface, so you don't have to pay any performance penalty when invoking these methods.
 
 Thus the LambdaCollections seamlessly enrich the API of the traditional [http://java.sun.com/docs/books/tutorial/collections/index.html Java Collection Framework] with a fluent interface that allow to leverage the lambdaj's feature in a more comfortable way. The invocations of the methods of this fluent interface also change the state of the original wrapped collection. This implementation choice has been driven by 2 reasons:
 
   # While to leave the original collection unchanged is closer to the functional programming principles, it didn't make too much sense to enforce an immutable API on an object that is however widely mutable by invoking the methods of the collection framework API. 
-  # By never changing the instance of the wrapped collection assures that its characteristic are always reflected even by the wrapping lambdaj counterpart. It means, for example, that if you are wrapping a SortedSet with a LambdaSet, the items in this last Set are always guaranteed of staying sorted with the same criteria defined in the original Set.
+  # By never changing the instance of the wrapped collection assures that its characteristic are always reflected even by the wrapping lambdaj counterpart. It means, for example, that if you are wrapping a [http://java.sun.com/javase/6/docs/api/java/util/SortedSet.html SortedSet] with a [http://lambdaj.googlecode.com/svn/trunk/html/apidocs/ch/lambdaj/collection/LambdaSet.html LambdaSet], the items in this last Set are always guaranteed of staying sorted with the same criteria defined in the original Set.
 
 Of course if you need to leave unchanged the original collection (i.e. when it is a list of JPA entities and you don't want to accidentally cascade delete entities from the
 database) it is enough to clone it before to use the other fluent methods as it follows:
