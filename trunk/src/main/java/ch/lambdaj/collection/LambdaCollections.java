@@ -48,7 +48,7 @@ public final class LambdaCollections {
      * @param collection The collection to be wrapped
      * @return The LambdaCollection that wraps the given Collection
      */
-	public static <T> LambdaCollection<T> with(Collection<T> collection) {
+	public static <T> LambdaCollection<T> with(Collection<? extends T> collection) {
 		return new LambdaCollection<T>(collection);
 	}
 
@@ -66,7 +66,7 @@ public final class LambdaCollections {
      * @param map The Map to be wrapped
      * @return The LambdaMap that wraps the given Map
      */
-	public static <K, V> LambdaMap<K, V> with(Map<K, V> map) {
+	public static <K, V> LambdaMap<K, V> with(Map<? extends K, ? extends V> map) {
 		return new LambdaMap<K, V>(map);
 	}
 
