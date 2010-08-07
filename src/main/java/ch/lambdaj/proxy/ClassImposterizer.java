@@ -59,7 +59,7 @@ final class ClassImposterizer  {
     
     private ClassImposterizer() {}
     
-    private final ObjenesisStd objenesis = new ObjenesisStd();
+    private final Objenesis objenesis = new ObjenesisStd();
     
     private static final NamingPolicy DEFAULT_POLICY = new DefaultNamingPolicy() {
         @Override
@@ -86,14 +86,10 @@ final class ClassImposterizer  {
         }
     };
     
-    public <T> T imposterise(MethodInterceptor interceptor, Class<T> mockedType, Class<?>... ancillaryTypes) {
-        try {
-            setConstructorsAccessible(mockedType, true);
-            Class<?> proxyClass = createProxyClass(mockedType, ancillaryTypes);
-            return mockedType.cast(createProxy(proxyClass, interceptor));
-        } finally {
-            setConstructorsAccessible(mockedType, false);
-        }
+    public <T> T imposterise(Callback callback, Class<T> mockedType, Class<?>... ancillaryTypes) {
+        setConstructorsAccessible(mockedType, true);
+        Class<?> proxyClass = createProxyClass(mockedType, ancillaryTypes);
+        return mockedType.cast(createProxy(proxyClass, callback));
     }
     
     private void setConstructorsAccessible(Class<?> mockedType, boolean accessible) {
@@ -114,11 +110,7 @@ final class ClassImposterizer  {
         enhancer.setCallbackFilter(IGNORE_BRIDGE_METHODS);
         enhancer.setNamingPolicy(mockedType.getSigners() != null ? SIGNED_CLASSES_POLICY : DEFAULT_POLICY);
         
-        try {
-            return enhancer.createClass(); 
-        } catch (CodeGenerationException e) {
-            throw new UnproxableClassException(mockedType, e);
-        }
+        return enhancer.createClass();
     }
 
     private static class ClassEnhancer extends Enhancer {
@@ -127,9 +119,9 @@ final class ClassImposterizer  {
         protected void filterConstructors(Class sc, List constructors) { }
     }
     
-    private Object createProxy(Class<?> proxyClass, MethodInterceptor interceptor) {
+    private Object createProxy(Class<?> proxyClass, Callback callback) {
         Factory proxy = (Factory) objenesis.newInstance(proxyClass);
-        proxy.setCallbacks(new Callback[] {interceptor, NoOp.INSTANCE});
+        proxy.setCallbacks(new Callback[] {callback, NoOp.INSTANCE});
         return proxy;
     }
     
