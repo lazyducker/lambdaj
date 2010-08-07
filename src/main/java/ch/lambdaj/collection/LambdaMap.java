@@ -22,8 +22,8 @@ public class LambdaMap<K, V> implements Map<K, V>, Cloneable {
     
 	private Map<K, V> innerMap;
 	
-	LambdaMap(Map<K, V> innerMap) {
-		this.innerMap = innerMap;
+	LambdaMap(Map<? extends K, ? extends V> innerMap) {
+		this.innerMap = (Map<K, V>)innerMap;
 	}
 	
     /**

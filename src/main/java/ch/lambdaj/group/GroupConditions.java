@@ -26,7 +26,6 @@ public class GroupConditions extends LinkedList<StringGroupCondition> {
     /**
      * Sets an alias for the groups created using this condition
      * @param alias The alias to be set
-     * @return The GroupCondition itself in order to allow a fluent interface
      */
 	public void as(String alias) {
 		getLast().as(alias);
@@ -35,7 +34,6 @@ public class GroupConditions extends LinkedList<StringGroupCondition> {
     /**
      * Adds the value of the property with the given name as a header of the groups produced by applying this Condition
      * @param property The name of the property
-     * @return This StringGroupCondition
      */
 	public void head(String property) {
 		getLast().head(property);
@@ -45,7 +43,6 @@ public class GroupConditions extends LinkedList<StringGroupCondition> {
      * Adds the value of the property with the given name as a header with the given alias of the groups produced by applying this Condition
      * @param property The name of the property
      * @param alias The alias used as name in the group header
-     * @return This StringGroupCondition
      */
 	public void head(String property, String alias) {
 		getLast().head(alias, property);
