@@ -6,9 +6,6 @@ package ch.lambdaj.proxy;
 
 import java.lang.reflect.*;
 
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.MethodInterceptor;
-
 /**
  * An utility class of static factory methods that provide facilities to create proxies
  * @author Mario Fusco
@@ -41,17 +38,29 @@ public final class ProxyUtil {
      * @return The newly created proxy
      */
 	public static <T> T createProxy(InvocationInterceptor interceptor, Class<T> clazz, boolean failSafe, Class<?> ... implementedInterface) {
+        if (clazz.isPrimitive()) return manageUnproxableClass(clazz, failSafe);
 		if (clazz.isInterface()) return (T)createNativeJavaProxy(clazz.getClassLoader(), interceptor, concatClasses(new Class<?>[] { clazz }, implementedInterface));
-
-		try {
-			return (T)createEnhancer(interceptor, clazz, implementedInterface).create();
-		} catch (IllegalArgumentException iae) {
-			if (Proxy.isProxyClass(clazz)) return (T)createNativeJavaProxy(clazz.getClassLoader(), interceptor, concatClasses(implementedInterface, clazz.getInterfaces()));
-			if (isProxable(clazz)) return ClassImposterizer.INSTANCE.imposterise(interceptor, clazz, implementedInterface);
-			if (failSafe) return null;
-			throw new UnproxableClassException(clazz, iae);
-		}
+        if (!Modifier.isFinal(clazz.getModifiers()) && !clazz.isAnonymousClass()) return ClassImposterizer.INSTANCE.imposterise(interceptor, clazz, implementedInterface);
+        if (Proxy.isProxyClass(clazz)) return (T)createNativeJavaProxy(clazz.getClassLoader(), interceptor, concatClasses(implementedInterface, clazz.getInterfaces()));
+        return manageUnproxableClass(clazz, failSafe);
 	}
+
+    private static <T> T manageUnproxableClass(Class<T> clazz, boolean failSafe) {
+        if (failSafe) return null;
+        throw new UnproxableClassException(clazz);
+    }
+
+    /**
+     * Creates a dynamic proxy to be used as argument
+     * @param interceptor The interceptor that manages the invocations to the created proxy
+     * @param clazz The class to be proxied
+     * @return The newly created proxy
+     */
+    public static <T> T createArgumentProxy(InvocationInterceptor interceptor, Class<T> clazz) {
+        return clazz.isInterface() ?
+                (T)createNativeJavaProxy(clazz.getClassLoader(), interceptor, clazz) :
+                ClassImposterizer.INSTANCE.imposterise(interceptor, clazz);
+    }
 
     // ////////////////////////////////////////////////////////////////////////
     // /// Void Proxy
@@ -72,6 +81,7 @@ public final class ProxyUtil {
     
     /**
      * Creates a proxy of the given class that also decorates it with Iterable interface
+     * @param interceptor The object that will intercept all the invocations to the returned proxy
      * @param clazz The class to be proxied
      * @return The newly created proxy
      */
@@ -89,14 +99,6 @@ public final class ProxyUtil {
     // /// Private
     // ////////////////////////////////////////////////////////////////////////
     
-    private static Enhancer createEnhancer(MethodInterceptor interceptor, Class<?> clazz, Class<?> ... interfaces) {
-        Enhancer enhancer = new Enhancer();
-        enhancer.setCallback(interceptor);
-        enhancer.setSuperclass(clazz);
-        if (interfaces != null && interfaces.length > 0) enhancer.setInterfaces(interfaces);
-        return enhancer;
-    }
-	
     private static Object createNativeJavaProxy(ClassLoader classLoader, InvocationHandler interceptor, Class<?> ... interfaces) {
         return Proxy.newProxyInstance(classLoader, interfaces, interceptor);
     }

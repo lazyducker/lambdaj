@@ -51,7 +51,7 @@ public final class ArgumentsFactory {
 	
 	private static Object createPlaceholder(Class<?> clazz, InvocationSequence invocationSequence) {
 		return !Modifier.isFinal(clazz.getModifiers()) ? 
-				createProxy(new ProxyArgument(clazz, invocationSequence), clazz, false) :
+				createArgumentProxy(new ProxyArgument(clazz, invocationSequence), clazz) :
 				createArgumentPlaceholder(clazz);
 	}
 

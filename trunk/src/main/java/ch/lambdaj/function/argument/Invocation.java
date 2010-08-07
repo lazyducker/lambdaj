@@ -24,6 +24,7 @@ final class Invocation {
     Invocation(Class<?> invokedClass, Method invokedMethod, Object[] args) {
 		this.invokedClass = invokedClass;
 		this.invokedMethod = invokedMethod;
+		invokedMethod.setAccessible(true);
 		if (args != null && args.length > 0) {
 			weakArgs = new ArrayList<ParameterReference<Object>>();
 			for (int i = 0; i < args.length; i++) {
