@@ -34,22 +34,21 @@ public final class ArgumentsFactory {
 	private static final Map<InvocationSequence, Object> PLACEHOLDER_BY_INVOCATION = new WeakHashMap<InvocationSequence, Object>();
     
 	@SuppressWarnings("unchecked")
-	static <T> T createArgument(Class<T> clazz, InvocationSequence invocationSequence) {
+	static synchronized <T> T createArgument(Class<T> clazz, InvocationSequence invocationSequence) {
 		T placeholder = (T) PLACEHOLDER_BY_INVOCATION.get(invocationSequence);
-		boolean isNewPlaceholder = placeholder == null;
-		
-		if (isNewPlaceholder) {
-			placeholder = (T)createPlaceholder(clazz, invocationSequence);
-	    	PLACEHOLDER_BY_INVOCATION.put(invocationSequence, placeholder);
-		}
-		
-		if (isNewPlaceholder || isLimitedValues(placeholder))
-			bindArgument(placeholder, new Argument<T>(invocationSequence));
-		
+		if (placeholder == null) placeholder = registerNewArgument(clazz, invocationSequence);
+		else if (isLimitedValues(placeholder)) LIMITED_VALUE_ARGUMENTS.get().setArgument(placeholder, new Argument<T>(invocationSequence));
 		return placeholder;
 	}
-	
-	private static Object createPlaceholder(Class<?> clazz, InvocationSequence invocationSequence) {
+
+    private static <T> T registerNewArgument(Class<T> clazz, InvocationSequence invocationSequence) {
+        T placeholder = (T)createPlaceholder(clazz, invocationSequence);
+        PLACEHOLDER_BY_INVOCATION.put(invocationSequence, placeholder);
+        bindArgument(placeholder, new Argument<T>(invocationSequence));
+        return placeholder;
+    }
+
+    private static Object createPlaceholder(Class<?> clazz, InvocationSequence invocationSequence) {
 		return !Modifier.isFinal(clazz.getModifiers()) ? 
 				createArgumentProxy(new ProxyArgument(clazz, invocationSequence), clazz) :
 				createArgumentPlaceholder(clazz);
