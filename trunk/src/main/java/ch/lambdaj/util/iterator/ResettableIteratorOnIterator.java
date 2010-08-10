@@ -14,10 +14,10 @@ public class ResettableIteratorOnIterator<T> extends ResettableIterator<T> {
 
     private final Iterator<T> iterator;
 
-    private final List<T> innerIterable = new ArrayList<T>();
+    private final List<T> innerIterable = new LinkedList<T>();
     private Iterator<T> innerIterator;
 
-    private final List<T> cache = new ArrayList<T>();
+    private final List<T> cache = new LinkedList<T>();
 
     /**
      * Creates a ResettableIterator that wraps the given Iterator

@@ -18,7 +18,7 @@ public class ConstructorArgumentConverter<F, T> implements Converter<F, T> {
 
     private Constructor<T> constructor;
 
-    private final List<ArgumentConverter<F, Object>> argumentConverters = new ArrayList<ArgumentConverter<F, Object>>();
+    private final List<ArgumentConverter<F, Object>> argumentConverters = new LinkedList<ArgumentConverter<F, Object>>();
 
     public ConstructorArgumentConverter(Class<T> clazz, Object... arguments) {
         for (Constructor<?> c : clazz.getConstructors()) {

@@ -26,7 +26,7 @@ final class Invocation {
 		this.invokedMethod = invokedMethod;
 		invokedMethod.setAccessible(true);
 		if (args != null && args.length > 0) {
-			weakArgs = new ArrayList<ParameterReference<Object>>();
+			weakArgs = new LinkedList<ParameterReference<Object>>();
 			for (int i = 0; i < args.length; i++) {
                 weakArgs.add(new ParameterReference<Object>(args[i], !invokedMethod.getParameterTypes()[i].isPrimitive()));
             }

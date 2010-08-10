@@ -38,6 +38,9 @@ public abstract class DelayedClosure<T> {
 
     private static final ThreadLocal<DelayedClosure<?>> CURRENT_DELAYED = new ThreadLocal<DelayedClosure<?>>();
 
+    /**
+     * Creates a DelayedClosure
+     */
     public DelayedClosure() {
         closure = createClosure();
         closureResult = new ClosureResult<T>() { public T get() { return result; }};

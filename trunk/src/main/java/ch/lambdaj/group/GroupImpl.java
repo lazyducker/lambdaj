@@ -10,7 +10,7 @@ import java.util.*;
  * The standard LambdaJ implementation for the Group interface
  * @author Mario Fusco
  */
-class GroupImpl<T> extends ArrayList<GroupItem<T>> implements Group<T> {
+class GroupImpl<T> extends LinkedList<GroupItem<T>> implements Group<T> {
 
 	private static final long serialVersionUID = 1L;
 

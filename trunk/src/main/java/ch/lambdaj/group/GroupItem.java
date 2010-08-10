@@ -41,7 +41,7 @@ public class GroupItem<T> extends TreeMap<String, Object> implements Iterable<T>
 	private List<T> getChildren() {
 		List<T> children = (List<T>) get(getChildrenNodeName());
 		if (children == null) {
-			children = new ArrayList<T>();
+			children = new LinkedList<T>();
 			put(getChildrenNodeName(), children);
 		}
 		return children;

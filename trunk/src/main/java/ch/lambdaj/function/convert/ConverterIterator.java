@@ -15,6 +15,9 @@ public class ConverterIterator<F, T> implements Iterator<T> {
     private final Converter<F, T> converter;
     private final Iterator<F> iterator;
 
+    /**
+     * Creates a ConverterIterator
+     */
     public ConverterIterator(Converter<F, T> converter, Iterator<F> iterator) {
         this.converter = converter;
         this.iterator = iterator;

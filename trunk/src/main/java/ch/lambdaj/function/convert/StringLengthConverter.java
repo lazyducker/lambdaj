@@ -11,6 +11,9 @@ package ch.lambdaj.function.convert;
  */
 public class StringLengthConverter extends PropertyExtractor<String, Integer> {
 
+    /**
+     * Creates a StringLengthConverter
+     */
 	public StringLengthConverter() {
 		super("length");
 	}

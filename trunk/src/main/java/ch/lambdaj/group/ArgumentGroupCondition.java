@@ -21,10 +21,16 @@ public class ArgumentGroupCondition<T> extends GroupCondition<Argument<?>> {
 		groupName = groupBy.getInkvokedPropertyName();
 	}
 	
+    /**
+     * {@inheritDoc}
+     */
 	protected String getGroupName() {
 		return groupName;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
     protected Object getGroupValue(Object item) {
         return groupBy.evaluate(item);
     }
@@ -39,17 +45,31 @@ public class ArgumentGroupCondition<T> extends GroupCondition<Argument<?>> {
 		return (ArgumentGroupCondition)super.as(alias);
 	}
 
-	public ArgumentGroupCondition head(Object argument) {
+    /**
+     * Adds the value of the given argument in the group's header
+     * @param argument The argument
+     * @return The ArgumentGroupCondition itself
+     */
+    public ArgumentGroupCondition head(Object argument) {
 		Argument<?> actualArgument = actualArgument(argument);
 		additionalProperties.put(actualArgument.getInkvokedPropertyName(), actualArgument);
 		return this;
 	}
 
+    /**
+     * Adds the value of the given argument in the group's header with the given alias
+     * @param argument The argument
+     * @param alias The alias
+     * @return The ArgumentGroupCondition itself
+     */
 	public ArgumentGroupCondition head(Object argument, String alias) {
 		additionalProperties.put(alias, actualArgument(argument));
 		return this;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	protected String getAdditionalPropertyValue(String name, Object item) {
 		return asNotNullString(additionalProperties.get(name).evaluate(item));
 	}

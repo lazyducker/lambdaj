@@ -55,13 +55,16 @@ import org.objenesis.*;
  */
 final class ClassImposterizer  {
 
-    public static final ClassImposterizer INSTANCE = new ClassImposterizer();
+    static final ClassImposterizer INSTANCE = new ClassImposterizer();
     
     private ClassImposterizer() {}
     
     private final Objenesis objenesis = new ObjenesisStd();
     
     private static final NamingPolicy DEFAULT_POLICY = new DefaultNamingPolicy() {
+        /**
+         * {@inheritDoc}
+         */
         @Override
         protected String getTag() {
             return "ByLambdajWithCGLIB";
@@ -69,11 +72,17 @@ final class ClassImposterizer  {
     };
     
     private static final NamingPolicy SIGNED_CLASSES_POLICY = new DefaultNamingPolicy() {
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public String getClassName(String prefix, String source, Object key, Predicate names) {
             return "codegen." + super.getClassName(prefix, source, key, names);
         }
         
+        /**
+         * {@inheritDoc}
+         */
         @Override
         protected String getTag() {
             return "ByLambdajWithCGLIB";
@@ -86,7 +95,7 @@ final class ClassImposterizer  {
         }
     };
     
-    public <T> T imposterise(Callback callback, Class<T> mockedType, Class<?>... ancillaryTypes) {
+    <T> T imposterise(Callback callback, Class<T> mockedType, Class<?>... ancillaryTypes) {
         setConstructorsAccessible(mockedType, true);
         Class<?> proxyClass = createProxyClass(mockedType, ancillaryTypes);
         return mockedType.cast(createProxy(proxyClass, callback));
@@ -114,8 +123,10 @@ final class ClassImposterizer  {
     }
 
     private static class ClassEnhancer extends Enhancer {
+        /**
+         * {@inheritDoc}
+         */
         @Override
-        @SuppressWarnings("unchecked")
         protected void filterConstructors(Class sc, List constructors) { }
     }
     
@@ -125,5 +136,8 @@ final class ClassImposterizer  {
         return proxy;
     }
     
+    /**
+     * Class With Superclass To WorkAround Cglib Bug
+     */
     public static class ClassWithSuperclassToWorkAroundCglibBug {}
 }
