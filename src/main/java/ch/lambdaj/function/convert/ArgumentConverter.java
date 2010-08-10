@@ -15,10 +15,16 @@ public class ArgumentConverter<F, T> implements Converter<F, T> {
 
 	private final Argument<T> argument;
 	
+    /**
+     * Creates an ArgumentConverter
+     */
 	public ArgumentConverter(Argument<T> argument) {
 		this.argument = argument;
 	}
 	
+    /**
+     * Creates an ArgumentConverter
+     */
 	public ArgumentConverter(T argument) {
 		this(actualArgument(argument));
 	}

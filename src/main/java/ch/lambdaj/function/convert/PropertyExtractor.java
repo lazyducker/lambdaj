@@ -15,6 +15,9 @@ public class PropertyExtractor<F, T> implements Converter<F, T> {
 
 	private final String propertyName;
 	
+    /**
+     * Creates a PropertyExtractor
+     */
 	public PropertyExtractor(String propertyName) {
 		this.propertyName = propertyName; 
 	}

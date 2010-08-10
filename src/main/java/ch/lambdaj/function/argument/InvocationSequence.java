@@ -10,7 +10,7 @@ import java.util.*;
  * Registers a sequence of method invocations
  * @author Mario Fusco
  */
-final class InvocationSequence extends ArrayList<Invocation> {
+final class InvocationSequence extends LinkedList<Invocation> {
 
 	private static final long serialVersionUID = 1L;
 	

@@ -46,7 +46,7 @@ public class ProxyIterator<T> extends InvocationInterceptor implements Iterable<
         if (method.getName().equals("finalize")) return null;
         method.setAccessible(true);
         proxiedIterator.reset();
-        List<Object> list = new ArrayList<Object>();
+        List<Object> list = new LinkedList<Object>();
         while (proxiedIterator.hasNext()) { list.add(method.invoke(proxiedIterator.next(), args)); }
 		return new ResettableIteratorOnIterable(list);
 	}

@@ -85,7 +85,7 @@ class LeafGroup<T> implements Group<T> {
      * @return the list of all the subgroups of this group
      */
 	public List<Group<T>> subgroups() {
-		return new ArrayList<Group<T>>();
+		return new LinkedList<Group<T>>();
 	}
 
     /**

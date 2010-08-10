@@ -8,6 +8,8 @@ import static ch.lambdaj.function.argument.ArgumentsFactory.*;
 import static ch.lambdaj.function.closure.ClosuresFactory.*;
 import static ch.lambdaj.function.matcher.HasArgumentWithValue.*;
 import static ch.lambdaj.util.iterator.IteratorFactory.*;
+
+import ch.lambdaj.util.*;
 import ch.lambdaj.util.iterator.*;
 
 import java.util.*;
@@ -169,7 +171,7 @@ public final class Lambda {
 	 * @throws IllegalArgumentException if the iterable is not an Iterable or a Map
 	 */
 	public static <T> List<? extends T> collect(Object iterable) {
-		List<T> collected = new ArrayList<T>();
+		List<T> collected = new LinkedList<T>();
         Iterator i = asIterator(iterable);
 		while (i.hasNext()) {
             Object item = i.next();
@@ -226,7 +228,7 @@ public final class Lambda {
 	 * @return A List with the same items of the given iterable sorted on the respective value of the given argument
 	 */
 	public static <T, A> List<T> sort(Object iterable, A argument, Comparator<A> comparator) {
-		List<T> sorted = new ArrayList<T>();
+		List<T> sorted = new LinkedList<T>();
         for (Iterator<?> i = asIterator(iterable); i.hasNext();) { sorted.add((T)i.next()); }
 		Collections.sort(sorted, new ArgumentComparator<T, A>(argument, comparator));
 		return sorted;
@@ -292,7 +294,7 @@ public final class Lambda {
 	 * @return A sublist of the given iterable containing all the objects that match the given hamcrest Matcher
 	 */
 	public static <T> List<T> select(Iterator<T> iterator, Matcher<?> matcher) {
-		List<T> collected = new ArrayList<T>();
+		List<T> collected = new LinkedList<T>();
         while (iterator.hasNext()) {
             T item = iterator.next();
             if (matcher.matches(item)) collected.add(item);
@@ -343,13 +345,13 @@ public final class Lambda {
 	 * @param iterable The iterable of objects to be filtered
 	 * @param matcher The hamcrest Matcher used to filter the given iterable
 	 * @return The only object in the given iterable that matches the given hamcrest Matcher or null if there is no such object
-	 * @throws RuntimeException if there is more than one object that matches the given hamcrest Matcher
+	 * @throws NotUniqueItemException if there is more than one object that matches the given hamcrest Matcher
 	 */
 	public static <T> T selectUnique(Object iterable, Matcher<?> matcher) {
         Iterator<T> iterator = new MatchingIterator(asIterator(iterable), matcher);
         if (!iterator.hasNext()) return null;
         T unique = iterator.next();
-        if (iterator.hasNext()) throw new RuntimeException("Not unique item");
+        if (iterator.hasNext()) throw new NotUniqueItemException();
         return unique;
 	}
 
@@ -877,7 +879,7 @@ public final class Lambda {
 	 * @return A list containing all the objects in the given iterable converted using the given {@link Converter}
 	 */
 	public static <F, T> List<T> convert(Object iterable, Converter<F, T> converter) {
-		List<T> collected = new ArrayList<T>();
+		List<T> collected = new LinkedList<T>();
 		for (Iterator<T> i = convertIterator(iterable, converter); i.hasNext();) { collected.add(i.next()); }
 		return collected;
 	}
