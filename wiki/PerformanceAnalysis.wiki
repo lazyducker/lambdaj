@@ -18,7 +18,7 @@
     <td width="80px" align="center"><strong>ratio</strong></td>
   </tr>
   <tr>
-    <td><a href="http://code.google.com/p/lambdaj/wiki/PerformanceAnalysis?ts=1281993389&updated=PerformanceAnalysis#Print_All_Brands">Print All Brands</a></td>
+    <td><a href="http://code.google.com/p/lambdaj/wiki/PerformanceAnalysis?ts=1281993389&updated=PerformanceAnalysis#Print_all_brands">Print all brands</a></td>
     <td align="right">265</td>
     <td align="right">327</td>
     <td align="right">283</td>
@@ -27,9 +27,19 @@
     <td align="right">1,298</td>
     <td align="right"><strong>4.587</strong></td>
   </tr>
+  <tr>
+    <td><a href="http://code.google.com/p/lambdaj/wiki/PerformanceAnalysis?ts=1281993389&updated=PerformanceAnalysis#Select_all_sales_of_a_Ferrari">Select all sales of a Ferrari</a></td>
+    <td align="right">297</td>
+    <td align="right">452</td>
+    <td align="right">371</td>
+    <td align="right">1,778</td>
+    <td align="right">1,840</td>
+    <td align="right">1,797</td>
+    <td align="right"><strong>4.844</strong></td>
+  </tr>
 </table>
 
-==Print All Brands==
+==Print all brands==
 ===iterative version:===
 {{{
 StringBuilder sb = new StringBuilder();
@@ -40,4 +50,83 @@ String brands = sb.toString().substring(0, sb.length()-2);
 ===lambdaj version:===
 {{{
 String brands = joinFrom(db.getCars()).getBrand();
+}}}
+
+==Select all sales of a Ferrari==
+===iterative version:===
+{{{
+List<Sale> salesOfAFerrari = new ArrayList<Sale>();
+for (Sale sale : sales) {
+    if (sale.getCar().getBrand().equals("Ferrari")) 
+        salesOfAFerrari.add(sale);
+}
+}}}
+===lambdaj version:===
+{{{
+List<Sale> salesOfAFerrari = select(sales,
+    having(on(Sale.class).getCar().getBrand(),equalTo("Ferrari")));
+}}}
+
+==x==
+===iterative version:===
+{{{
+}}}
+===lambdaj version:===
+{{{
+}}}
+
+==x==
+===iterative version:===
+{{{
+}}}
+===lambdaj version:===
+{{{
+}}}
+
+==x==
+===iterative version:===
+{{{
+}}}
+===lambdaj version:===
+{{{
+}}}
+
+==x==
+===iterative version:===
+{{{
+}}}
+===lambdaj version:===
+{{{
+}}}
+
+==x==
+===iterative version:===
+{{{
+}}}
+===lambdaj version:===
+{{{
+}}}
+
+==x==
+===iterative version:===
+{{{
+}}}
+===lambdaj version:===
+{{{
+}}}
+
+==x==
+===iterative version:===
+{{{
+}}}
+===lambdaj version:===
+{{{
+}}}
+
+==x==
+===iterative version:===
+{{{
+}}}
+===lambdaj version:===
+{{{
 }}}
