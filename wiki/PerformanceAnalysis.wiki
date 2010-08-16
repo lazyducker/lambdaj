@@ -39,6 +39,16 @@
     <td align="right">1,797</td>
     <td align="right"><strong>4.844</strong></td>
   </tr>
+  <tr>
+    <td><a href="http://code.google.com/p/lambdaj/wiki/PerformanceAnalysis?ts=1281993389&updated=PerformanceAnalysis#Find_buys_of_youngest_person">Find buys of youngest person</a></td>
+    <td align="right">5,538</td>
+    <td align="right">6,115</td>
+    <td align="right">6,013</td>
+    <td align="right">7,191</td>
+    <td align="right">7,348</td>
+    <td align="right">7,240</td>
+    <td align="right"><strong>1.204</strong></td>
+  </tr>
 </table>
 
 ==Print all brands==
@@ -69,12 +79,22 @@ List<Sale> salesOfAFerrari = select(sales,
     having(on(Sale.class).getCar().getBrand(),equalTo("Ferrari")));
 }}}
 
-==x==
+==Find buys of youngest person==
 ===iterative version:===
 {{{
+Person youngest = null;
+for (Person person : persons)
+    if (youngest == null || person.getAge() < youngest.getAge())
+        youngest = person;
+List<Sale> buys = new ArrayList<Sale>();
+for (Sale sale : sales)
+    if (sale.getBuyer().equals(youngest)) 
+        buys.add(sale);
 }}}
 ===lambdaj version:===
 {{{
+List<Sale> sales = select(sales,having(on(Sale.class).getBuyer(),
+    equalTo(selectMin(persons, on(Person.class).getAge()))));
 }}}
 
 ==x==
