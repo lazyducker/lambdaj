@@ -18,7 +18,7 @@
     <td width="80px" align="center"><strong>ratio</strong></td>
   </tr>
   <tr>
-    <td><a href="http://code.google.com/p/lambdaj/w/edit.do#Print_All_Brands">Print All Brands</a></td>
+    <td><a href="http://code.google.com/p/lambdaj/wiki/PerformanceAnalysis?ts=1281993389&updated=PerformanceAnalysis#Print_All_Brands">Print All Brands</a></td>
     <td align="right">265</td>
     <td align="right">327</td>
     <td align="right">283</td>
