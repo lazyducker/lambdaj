@@ -1,0 +1,43 @@
+#summary Compares performances of same algorithms implemented with and without lambdaj
+
+<table border="1">
+  <tr>
+    <td></td>
+    <td colspan="3" align="center"><strong>iterative</strong></td>
+    <td colspan="3" align="center"><strong>lambdaj</strong></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td width="240px"></td>
+    <td width="80px" align="center">min</td>
+    <td width="80px" align="center">max</td>
+    <td width="80px" align="center">avg</td>
+    <td width="80px" align="center">min</td>
+    <td width="80px" align="center">max</td>
+    <td width="80px" align="center">avg</td>
+    <td width="80px" align="center"><strong>ratio</strong></td>
+  </tr>
+  <tr>
+    <td><a href="http://code.google.com/p/lambdaj/w/edit.do#Print_All_Brands">Print All Brands</a></td>
+    <td align="right">265</td>
+    <td align="right">327</td>
+    <td align="right">283</td>
+    <td align="right">1,233</td>
+    <td align="right">1,1482</td>
+    <td align="right">1,298</td>
+    <td align="right"><strong>4.587</strong></td>
+  </tr>
+</table>
+
+==Print All Brands==
+===iterative version:===
+{{{
+StringBuilder sb = new StringBuilder();
+for (Car car : db.getCars()) 
+    sb.append(car.getBrand()).append(", ");
+String brands = sb.toString().substring(0, sb.length()-2);
+}}}
+===lambdaj version:===
+{{{
+String brands = joinFrom(db.getCars()).getBrand();
+}}}
