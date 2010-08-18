@@ -1,6 +1,6 @@
 #summary Compares performances of same algorithms implemented with and without lambdaj
 
-=WORK IN PROGESS!!!=
+This table show the minimum, maximum and average duration in milliseconds of 20 runs of 100,000 iterations of the examples below. These examples are referred to a very simple data model of some sales of cars between two persons, a seller and a buyer. They show a comparison of how the same results can be achieved in the usual iterative java style and by using lambdaj. 
 
 <table border="1">
   <tr>
@@ -10,7 +10,7 @@
     <td></td>
   </tr>
   <tr>
-    <td width="240px"></td>
+    <td width="240px"><strong>Test name</strong></td>
     <td width="80px" align="center">min</td>
     <td width="80px" align="center">max</td>
     <td width="80px" align="center">avg</td>
