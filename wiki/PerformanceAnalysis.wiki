@@ -1,8 +1,6 @@
 #summary Compares performances of same algorithms implemented with and without lambdaj
 
-This table show the minimum, maximum and average duration in milliseconds of 20 runs of 100,000 iterations of the examples below. These examples are referred to a very simple data model of some sales of cars between two persons, a seller and a buyer. They show a comparison of how the same results can be achieved in the usual iterative java style and by using lambdaj. 
-
-=WARNING: This numbers are referred to the upcoming 2.3.1 release=
+This table show the minimum, maximum and average duration in milliseconds of 20 runs of 100,000 iterations of the examples below. These examples are referred to a very simple data model of some sales of cars between two persons, a seller and a buyer. They show a comparison of how the same results can be achieved in the usual iterative java style and by using lambdaj. These figures are referred to the last 2.3.1 release=
 
 <table border="1">
   <tr>
