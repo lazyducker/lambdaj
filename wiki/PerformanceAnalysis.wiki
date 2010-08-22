@@ -1,6 +1,6 @@
 #summary Compares performances of same algorithms implemented with and without lambdaj
 
-This table show the minimum, maximum and average duration in milliseconds of 20 runs of 100,000 iterations of the examples below. These examples are referred to a very simple data model of some sales of cars between two persons, a seller and a buyer. They show a comparison of how the same results can be achieved in the usual iterative java style and by using lambdaj. These figures are referred to the last 2.3.1 release
+This table show the minimum, maximum and average duration in milliseconds of 20 runs of 100,000 iterations of the examples below. These examples are referred to a very simple data model made of some sales of cars between two persons, a seller and a buyer. They show a comparison of how the same results can be achieved in the usual iterative java style and by using lambdaj. These figures are referred to the last 2.3.1 release
 
 <table border="1">
   <tr>
@@ -135,6 +135,7 @@ This table show the minimum, maximum and average duration in milliseconds of 20 
 </table>
 
 ==Print all brands==
+It concatenates, in a comma separated String, all the cars' brands 
 ===iterative version:===
 {{{
 StringBuilder sb = new StringBuilder();
@@ -148,6 +149,7 @@ String brands = joinFrom(db.getCars()).getBrand();
 }}}
 
 ==Select all sales of a Ferrari==
+It filters all the sales of a car having the brand equals to "Ferrari" 
 ===iterative version:===
 {{{
 List<Sale> salesOfAFerrari = new ArrayList<Sale>();
@@ -163,6 +165,7 @@ List<Sale> salesOfAFerrari = select(sales,
 }}}
 
 ==Find buys of youngest person==
+It finds the youngest person and then filters all the sales where that person was the buyer
 ===iterative version:===
 {{{
 Person youngest = null;
@@ -196,6 +199,7 @@ Sol. 2 -> double maxCost = maxFrom(sales).getCost();
 }}}
 
 ==Sum costs where both are males==
+It sums up the values of all the sales where both the buyer and the seller are males
 ===iterative version:===
 {{{
 double sum = 0.0;
@@ -298,6 +302,7 @@ Sale sale = group.findGroup(youngest).find(oldest).get(0);
 }}}
 
 ==Find most bought car==
+It finds the car that has been bought more times
 ===iterative version:===
 {{{
 Map<Car, Integer> carsBought = new HashMap<Car, Integer>();
