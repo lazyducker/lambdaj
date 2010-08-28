@@ -227,7 +227,7 @@ The [http://lambdaj.googlecode.com/svn/trunk/html/apidocs/ch/lambdaj/group/Group
 
 {{{
 Group<Person> group29aged = group.findGroup("29");
-assertEquals(2, group29aged.size());
+assertEquals(2, group29aged.getSize());
 }}}
 
 or even just to get the Collection of that Persons:
