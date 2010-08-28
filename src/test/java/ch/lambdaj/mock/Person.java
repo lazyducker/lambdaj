@@ -57,7 +57,11 @@ public class Person implements IPerson {
 	public void setFailingLastName(String lastName) {
 		throw new UnsupportedOperationException();
 	}
-	
+
+    public double getIncome() {
+        return 0.0;
+    }
+
 	public int getAge() {
 		return age;
 	}

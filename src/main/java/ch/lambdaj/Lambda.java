@@ -539,9 +539,7 @@ public final class Lambda {
 	 * @throws IllegalArgumentException if the iterable is not neither an Iterable nor a Number
 	 */
 	public static Number sum(Object iterable) {
-		if (iterable instanceof Number) return (Number)iterable;
-		Iterator<?> iterator = asIterator(iterable);
-		return iterator.hasNext() ? aggregate(iterator, getSumAggregator(iterator.next())) : 0.0;
+        return typedSum(iterable, Double.class);
 	}
 
 	/**
@@ -554,9 +552,20 @@ public final class Lambda {
 	 * @throws IllegalArgumentException if the iterable is not an Iterable
 	 */
 	public static <T> T sum(Object iterable, T argument) {
-        return (T)sum(convertIterator(iterable, new ArgumentConverter<Object, T>(argument)));
+        return (T)typedSum(convertIterator(iterable, new ArgumentConverter<Object, T>(argument)), argument.getClass());
 	}
 	
+    private static Number typedSum(Object iterable, Class<?> numberClass) {
+        if (iterable instanceof Number) return (Number)iterable;
+        Iterator<?> iterator = asIterator(iterable);
+        return iterator.hasNext() ? aggregate(iterator, getSumAggregator(iterator.next())) : typedZero(numberClass);
+    }
+
+    private static Number typedZero(Class<?> numberClass) {
+        if (numberClass == Double.class) return 0.0;
+        return 0;
+    }
+
 	/**
 	 * Returns a lambda function defined as:
 	 * <p/>
