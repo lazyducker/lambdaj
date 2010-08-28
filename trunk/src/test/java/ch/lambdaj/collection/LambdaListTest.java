@@ -203,4 +203,21 @@ public class LambdaListTest {
             throw new RuntimeException();
         }
     }
+
+    @Test
+    public void testIterateAfterModifyCollection() {
+        List<Integer> list = new ArrayList<Integer>() {{ add(2); add(2); }};
+        LambdaList<Integer> lambdaList = with(list);
+        lambdaList.add(0, 1);
+        assertEquals(1, (int)lambdaList.iterator().next());
+    }
+
+    @Test
+    public void testForEachAfterModifyCollection() {
+        List<Person> list = new ArrayList<Person>() {{ add(new Person("Domenico")); add(new Person("Irma")); }};
+        LambdaList<Person> lambdaList = with(list);
+        lambdaList.add(0, new Person("Mario"));
+        lambdaList.forEach().setLastName("Fusco");
+        assertEquals("Fusco", lambdaList.get(0).getLastName());
+    }
 }
