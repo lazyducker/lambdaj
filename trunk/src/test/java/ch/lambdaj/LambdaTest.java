@@ -474,7 +474,16 @@ public class LambdaTest {
 			fail("forEach on empty iterable should throw an exception");
 		} catch (Exception e) { }
 	}
-	
+
+    @Test
+    public void testSumOnEmptyList() {
+        int age = sum(Collections.emptyList(), on(Person.class).getAge());
+        assertEquals(0, age);
+
+        double income = sum(Collections.emptyList(), on(Person.class).getIncome());
+        assertEquals(0.0, income, 0.001);
+    }
+
 	@Test
 	public void testSumMinMaxFrom() {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
