@@ -99,8 +99,7 @@ public class LambdaCollectionTest {
         public Person convert(Person from) {
         System.out.println(from);
             return from;
-    }
-
+        }
     }
 
     @Test

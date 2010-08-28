@@ -50,6 +50,10 @@ class AbstractLambdaCollection<T> {
         return innerIterable != null ? innerIterable : innerIterator;
     }
 
+    private Iterator<? extends T> getInnerIterator() {
+        return innerIterable != null ? innerIterable.iterator() : innerIterator;
+    }
+
     /**
      * Aggregates the items in this iterable using the given {@link Aggregator}.
      * @param aggregator The function that defines how the objects in this iterable have to be aggregated
@@ -143,7 +147,7 @@ class AbstractLambdaCollection<T> {
      * @return An object that proxies all the item in the iterator or null if the iterator is null or empty
      */
     public T forEach() {
-        return Lambda.forEach(innerIterator);
+        return Lambda.forEach(getInnerIterator());
     }
 
     /**
@@ -201,7 +205,8 @@ class AbstractLambdaCollection<T> {
      * @return True if all the items in this iterable match the given hamcrest Matcher, false otherwise
      */
     public boolean all(Matcher<?> matcher) {
-        while (innerIterator.hasNext()) { if (!matcher.matches(innerIterator.next())) return false; }
+        Iterator<? extends T> iterator = getInnerIterator();
+        while (iterator.hasNext()) { if (!matcher.matches(iterator.next())) return false; }
         return true;
     }
 
