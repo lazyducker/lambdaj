@@ -67,7 +67,7 @@ public interface Group<T> {
     T first();
 
 	/**
-	 * Returns how many items are present in this group.
+	 * Returns how many items are present in this group, including the ones in the subgruoups at any level 
 	 */
 	int getSize();
 	
