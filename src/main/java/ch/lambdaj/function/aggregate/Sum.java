@@ -63,10 +63,10 @@ public class Sum extends InitializedPairAggregator<Number> {
 	}
 
     private BigInteger aggregate(Number first, BigInteger second) {
-        return (first == null || first == emptyItem() ? BigInteger.ZERO : (BigInteger)first).add(second);
+        return (first == null || !(first instanceof BigInteger) ? BigInteger.ZERO : (BigInteger)first).add(second);
     }
 
     private BigDecimal aggregate(Number first, BigDecimal second) {
-        return (first == null || first == emptyItem() ? BigDecimal.ZERO : (BigDecimal)first).add(second);
+        return (first == null || !(first instanceof BigDecimal) ? BigDecimal.ZERO : (BigDecimal)first).add(second);
     }
 }
