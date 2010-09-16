@@ -31,6 +31,7 @@ public class LambdaMapTest {
         assertEquals(1, map.size());
         assertEquals(me, map.get("Mario"));
         assertNull(map.get("Luca"));
+        assertEquals(map.toString(), "{Mario=Mario Fusco}");
     }
 
     @Test

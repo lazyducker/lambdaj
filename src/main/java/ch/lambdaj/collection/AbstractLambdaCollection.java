@@ -244,4 +244,12 @@ class AbstractLambdaCollection<T> {
     public final int hashCode() {
         return getInner().hashCode();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return getInner().toString();
+    }
 }
