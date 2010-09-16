@@ -25,7 +25,6 @@ import static ch.lambdaj.Lambda.*;
 
 /**
  * @author Mario Fusco
- * @author Luca Marrocco
  */
 public class LambdaTest {
 
@@ -502,7 +501,19 @@ public class LambdaTest {
 		int maxAge = maxFrom(meAndMyFriends).getAge();
 		assertThat(maxAge, is(equalTo(39)));
 	}
-	
+
+    @Test
+    public void testSumInteger() {
+        List<Integer> list = Arrays.asList(new Integer("1"), new Integer("2"), new Integer("3"));
+        assertThat((Integer)sum(list), equalTo(new Integer("6")));
+    }
+
+    @Test
+    public void testSumBigDecimal() {
+        List<BigDecimal> list = Arrays.asList(new BigDecimal("1.1"), new BigDecimal("2.2"), new BigDecimal("3.3"));
+        assertThat((BigDecimal)sum(list), equalTo(new BigDecimal("6.6")));
+    }
+
 	@Test
 	public void testEmptySumMinMaxFrom() {
 		assertThat(0, is(equalTo(sumFrom(new ArrayList<Person>(), Person.class).getAge())));
