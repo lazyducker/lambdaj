@@ -217,4 +217,12 @@ public class LambdaMap<K, V> implements Map<K, V>, Cloneable {
         emptyMap.putAll(innerMap);
         return new LambdaMap<K, V>(emptyMap);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return innerMap.toString();
+    }
 }

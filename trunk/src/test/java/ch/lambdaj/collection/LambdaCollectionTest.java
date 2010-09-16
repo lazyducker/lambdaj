@@ -51,6 +51,7 @@ public class LambdaCollectionTest {
         LambdaCollection<Integer> result = with(numbers).retain(Odd).append(2, 4);
         assertNotNull(result);
         assertEquals(5, result.size());
+        assertEquals("[1, 3, 5, 2, 4]", result.toString());
     }
 
     Person me = new Person("Mario", "Fusco", 35);
