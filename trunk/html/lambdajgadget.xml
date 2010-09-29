@@ -3,7 +3,7 @@
   <ModulePrefs title="LambdaJ Google Gadget" />
   <Content type="html">
      <![CDATA[
-       <div style="border:1px solid #ccc;width:480px;height:400px;">
+       <div style="border:1px solid #ccc;width:600px;height:400px;">
        <object type="application/x-shockwave-flash" data="http://www.snoopal.com/js/viewer/viewer.swf" width="480" height="420">
        <param name="movie" value="http://www.snoopal.com/js/viewer/viewer.swf">
        <param name="menu" value="false">
