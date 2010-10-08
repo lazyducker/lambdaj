@@ -12,8 +12,14 @@ To build a jar that includes all maven assemblies, call:
 
 mvn assembly:assembly
 
-(TODO: @craschka  what about versioning numbers, as we use maven-release-plugin for release process and versioning?)
-
 = Release to public Maven Repos =
 
-(TODO: @craschka  please document here)
+Lambdaj is available in the maven public repository, so in order to use it in your maven project it is enough to add the following dependency to your pom file:
+
+{{{
+<dependency>
+    <groupId>com.googlecode.lambdaj</groupId>
+    <artifactId>lambdaj</artifactId>
+    <version>2.3.1</version>
+</dependency>
+}}}
