@@ -11,7 +11,11 @@ lambdaj tries to partially fill this lack by introducing in its release 2.0 a ne
 Closure println = closure(); { of(System.out).println(var(String.class)); }
 }}}
 
-I believe it is straightforward to understand what the println closure does. In particular the var() method binds a free variable of type String to the closure. Moreover, note that the curly brackets around the statement that define the behaviour of the closure are only syntactic sugar and then could be safely removed even if I find the code more readable by keeping them. Also note that the method invoked on the object returned by the of(...) statement cannot be a private one. You can then invoke this closure by "closing" its free variable once:
+I believe it is straightforward to understand what the println closure does. In particular the var() method binds a free variable of type String to the closure. Moreover, note that the curly brackets around the statement that define the behaviour of the closure are only syntactic sugar and then could be safely removed even if I find the code more readable by keeping them. 
+
+Also note that the method invoked on the object returned by the of(...) statement *cannot be a private*. Indeed what the of(object) does is to create a proxy that extends the same class of the object in order to register the invocation on it and bind this invocation to the last created closure. Of course private method are not overridable and then not proxable, so in that case this mechanism doesn't work. If you, by mistake, try to create a closure that invokes a private method, the net effect that you will experience, is that the method itself, not being under the proxy control, get unexpectedly called.
+
+You can then invoke this closure by "closing" its free variable once:
 
 {{{
 println.apply("one");
