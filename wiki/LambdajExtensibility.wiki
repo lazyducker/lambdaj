@@ -3,7 +3,7 @@
 
 = Introduction =
 
-Lambdaj comes with lots of feautures that should help to make your code more readable and in many cases shorter than its original imperative version. Conciseness anyway it's just a side effect in using the DSL provided by lambdaj and in my opinion not the most remarkable one. The main purpose in using lambdaj should be to improve the readability of the code, decrease its cyclomatic complexity and promote reusability. That's why lambdaj has been thought to be easily extensible allowing to deal with the specific needs of your domain model that of course cannot be directly covered out-of-the-box by the library. Let's see in more details how you can do that.
+Lambdaj comes with lots of features that should help to make your code more readable and in many cases shorter than its original imperative version. Conciseness anyway it's just a side effect in using the DSL provided by lambdaj and in my opinion not the most remarkable one. The main purpose in using lambdaj should be to improve the readability of the code, decrease its cyclomatic complexity and promote reusability and maintainability. That's why lambdaj has been thought to be easily extensible allowing to deal with the specific needs of your domain model that of course cannot be directly covered out-of-the-box by the library. Let's see in more details how you can do that.
 
 = Converting objects by implementing the Converter interface =
 
