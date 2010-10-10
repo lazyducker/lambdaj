@@ -12,6 +12,7 @@ import java.lang.reflect.*;
 import java.util.*;
 import java.math.*;
 
+import ch.lambdaj.function.aggregate.*;
 import org.hamcrest.*;
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -512,6 +513,14 @@ public class LambdaTest {
     public void testSumBigDecimal() {
         List<BigDecimal> list = Arrays.asList(new BigDecimal("1.1"), new BigDecimal("2.2"), new BigDecimal("3.3"));
         assertThat((BigDecimal)sum(list), equalTo(new BigDecimal("6.6")));
+    }
+
+    @Test
+    public void testAvg() {
+        List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+        int averageAge = (Integer)aggregate(meAndMyFriends, new Avg(), on(Person.class).getAge());
+        assertEquals(averageAge, (35+29+39+29)/4);
+        System.out.println(averageAge);
     }
 
 	@Test
