@@ -158,7 +158,7 @@ public class LambdaDemoTest {
 		Person youngest = selectMin(db.getPersons(), on(Person.class).getAge());
 		Person oldest = selectMax(db.getPersons(), on(Person.class).getAge());
 		Group<Sale> group = group(db.getSales(), by(on(Sale.class).getBuyer()), by(on(Sale.class).getSeller()));
-		Sale sale = group.findGroup(youngest).find(oldest).get(0);
+		Sale sale = group.findGroup(youngest).findGroup(oldest).first();
 
 		assertEquals(sale, saleIterative);
 	}
