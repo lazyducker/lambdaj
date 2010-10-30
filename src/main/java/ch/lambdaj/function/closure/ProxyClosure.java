@@ -32,7 +32,7 @@ class ProxyClosure extends InvocationInterceptor {
 
         Class<?> returnType = method.getReturnType();
         if (returnType == Void.TYPE) {
-            closure.closeUnhandeledInvocations();
+            closure.closeUnhandledInvocations();
             return null;
         }
 		return createProxyClosure(closure, returnType);

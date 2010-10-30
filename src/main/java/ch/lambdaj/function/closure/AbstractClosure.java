@@ -132,7 +132,7 @@ abstract class AbstractClosure {
 		argsList.add(args);
 	}
 
-    void closeUnhandeledInvocations() {
+    void closeUnhandledInvocations() {
         for (Object[] vars : unhandeledInvocations) { closeOne(vars); }
         unhandeledInvocations.clear();
     }
