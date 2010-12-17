@@ -4,6 +4,7 @@
 
 package ch.lambdaj.collection;
 
+import java.io.*;
 import java.lang.reflect.*;
 import java.util.*;
 import static java.util.Arrays.asList;
@@ -16,7 +17,7 @@ import ch.lambdaj.function.convert.*;
  * @author Gianfranco Tognana
  * @author Mario Fusco
  */
-public class LambdaCollection<T> extends LambdaIterable<T> implements Collection<T>, Cloneable {
+public class LambdaCollection<T> extends LambdaIterable<T> implements Collection<T>, Cloneable, Serializable {
 
     LambdaCollection(Collection<? extends T> inner) {
         super(inner);

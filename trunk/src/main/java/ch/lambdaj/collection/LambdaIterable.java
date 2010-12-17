@@ -10,6 +10,7 @@ import ch.lambdaj.function.convert.*;
 import ch.lambdaj.util.*;
 import org.hamcrest.*;
 
+import java.io.*;
 import java.lang.reflect.*;
 import java.util.*;
 
@@ -20,7 +21,7 @@ import static org.hamcrest.Matchers.not;
  * @author Gianfranco Tognana
  * @author Mario Fusco
  */
-public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements Iterable<T>, Cloneable {
+public class LambdaIterable<T> extends AbstractLambdaCollection<T> implements Iterable<T>, Cloneable, Serializable {
 
     LambdaIterable(Iterable<? extends T> inner) {
         super(inner);

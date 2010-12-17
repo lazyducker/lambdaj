@@ -6,6 +6,7 @@ package ch.lambdaj.collection;
 
 import org.hamcrest.*;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -13,7 +14,7 @@ import java.util.*;
  * @author Gianfranco Tognana
  * @author Mario Fusco
  */
-public class LambdaSet<T> extends LambdaCollection<T> implements Set<T>, Cloneable {
+public class LambdaSet<T> extends LambdaCollection<T> implements Set<T>, Cloneable, Serializable {
 
 	LambdaSet(Set<? extends T> inner) {
         super(inner);
