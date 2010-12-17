@@ -5,6 +5,7 @@
 package ch.lambdaj.function.aggregate;
 
 import java.lang.reflect.*;
+import java.math.*;
 import java.util.*;
 
 import ch.lambdaj.util.iterator.*;
@@ -25,8 +26,15 @@ public class ProxyAggregator<T, A> extends ProxyIterator<T> {
 
 	@Override
 	public Object invoke(Object obj, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
-		return aggregator.aggregate((Iterator<A>)iterateOnValues(method, args));
+		return normalizeResult(method.getReturnType(), aggregator.aggregate((Iterator<A>)iterateOnValues(method, args)));
 	}
+
+    private Object normalizeResult(Class<?> expectedResultType, Object result) {
+        if (result == null || expectedResultType.isInstance(result)) return result;
+        if (expectedResultType == BigInteger.class) return new BigInteger(result.toString());
+        if (expectedResultType == BigDecimal.class) return new BigDecimal(result.toString());
+        return result;
+    }
 
 	@SuppressWarnings("unchecked")
 	public static <T, A> T createProxyAggregator(ResettableIterator<T> proxiedIterator, Aggregator<A> aggregator, Class<?> clazz) {
