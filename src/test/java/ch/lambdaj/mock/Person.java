@@ -62,6 +62,10 @@ public class Person implements IPerson {
         return 0.0;
     }
 
+    public float getFloatIncome() {
+        return 0.0f;
+    }
+
 	public int getAge() {
 		return age;
 	}

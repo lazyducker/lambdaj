@@ -563,6 +563,7 @@ public final class Lambda {
 
     private static Number typedZero(Class<?> numberClass) {
         if (numberClass == Double.class) return 0.0;
+        if (numberClass == Float.class) return 0.0f;
         return 0;
     }
 
