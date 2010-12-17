@@ -6,6 +6,7 @@ package ch.lambdaj.collection;
 
 import org.hamcrest.*;
 
+import java.io.*;
 import java.util.*;
 
 import ch.lambdaj.function.convert.*;
@@ -15,7 +16,7 @@ import ch.lambdaj.function.convert.*;
  * @author Gianfranco Tognana
  * @author Mario Fusco
  */
-public class LambdaList<T> extends LambdaCollection<T> implements List<T>, Cloneable {
+public class LambdaList<T> extends LambdaCollection<T> implements List<T>, Cloneable, Serializable {
 
 	LambdaList(List<? extends T> inner) {
         super(inner);

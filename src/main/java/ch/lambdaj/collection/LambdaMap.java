@@ -7,6 +7,7 @@ package ch.lambdaj.collection;
 import static ch.lambdaj.Lambda.convertMap;
 import static org.hamcrest.Matchers.not;
 
+import java.io.*;
 import java.util.*;
 
 import ch.lambdaj.function.convert.Converter;
@@ -18,7 +19,7 @@ import org.hamcrest.*;
  * @author Gianfranco Tognana
  * @author Mario Fusco
  */
-public class LambdaMap<K, V> implements Map<K, V>, Cloneable {
+public class LambdaMap<K, V> implements Map<K, V>, Cloneable, Serializable {
     
 	private Map<K, V> innerMap;
 	

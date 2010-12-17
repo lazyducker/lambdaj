@@ -6,6 +6,7 @@ package ch.lambdaj.collection;
 
 import org.hamcrest.*;
 
+import java.io.*;
 import java.util.*;
 
 import ch.lambdaj.*;
@@ -16,7 +17,7 @@ import ch.lambdaj.function.convert.*;
  * @author Gianfranco Tognana
  * @author Mario Fusco
  */
-public class LambdaIterator<T> extends AbstractLambdaCollection<T> implements Iterator<T> {
+public class LambdaIterator<T> extends AbstractLambdaCollection<T> implements Iterator<T>, Serializable {
 
 	LambdaIterator(Iterator<? extends T> inner) {
         super(inner);
