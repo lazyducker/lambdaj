@@ -878,4 +878,21 @@ public class LambdaTest {
 		assertSame(frenchExposure, indexed.get("france"));
 		assertSame(brazilianExposure, indexed.get("brazil"));
 	}
+
+    private static class BigDecimalWrapper {
+        public BigDecimal getBigDecimal() {
+            return BigDecimal.ZERO;
+        }
+    }
+
+    @Test
+    public void testSumBigDecimalOnEmptyList() {
+        List<BigDecimalWrapper> list = new ArrayList<BigDecimalWrapper>();
+        
+        BigDecimal result = sumFrom(list, BigDecimalWrapper.class).getBigDecimal();
+        assertEquals(result, BigDecimal.ZERO);
+
+        BigDecimal result2 = sum(list, on(BigDecimalWrapper.class).getBigDecimal());
+        assertEquals(result2, BigDecimal.ZERO);
+    }
 }

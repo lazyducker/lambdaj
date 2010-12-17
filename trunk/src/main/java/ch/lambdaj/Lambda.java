@@ -12,6 +12,7 @@ import static ch.lambdaj.util.iterator.IteratorFactory.*;
 import ch.lambdaj.util.*;
 import ch.lambdaj.util.iterator.*;
 
+import java.math.*;
 import java.util.*;
 
 import org.hamcrest.*;
@@ -564,6 +565,8 @@ public final class Lambda {
     private static Number typedZero(Class<?> numberClass) {
         if (numberClass == Double.class) return 0.0;
         if (numberClass == Float.class) return 0.0f;
+        if (BigInteger.class.isAssignableFrom(numberClass)) return BigInteger.ZERO;
+        if (BigDecimal.class.isAssignableFrom(numberClass)) return BigDecimal.ZERO;
         return 0;
     }
 
