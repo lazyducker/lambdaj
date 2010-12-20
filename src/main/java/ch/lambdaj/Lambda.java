@@ -296,6 +296,7 @@ public final class Lambda {
 	 */
 	public static <T> List<T> select(Iterator<T> iterator, Matcher<?> matcher) {
 		List<T> collected = new LinkedList<T>();
+        if (iterator == null) return collected;
         while (iterator.hasNext()) {
             T item = iterator.next();
             if (matcher.matches(item)) collected.add(item);
@@ -310,6 +311,7 @@ public final class Lambda {
      * @return A sublist of the given iterable containing all the objects that match the given hamcrest Matcher
      */
     public static <T> List<T> select(Iterable<T> iterable, Matcher<?> matcher) {
+        if (iterable == null) return new LinkedList<T>();
         return select(iterable.iterator(), matcher);
     }
 

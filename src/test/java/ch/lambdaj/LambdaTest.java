@@ -179,6 +179,17 @@ public class LambdaTest {
 		forEach(asList(new FinalPerson("Domenico"), new FinalPerson("Mario"), new FinalPerson("Irma")), Person.class);
 	}
 	
+    @Test
+    public void testSelectOnNull() {
+        Iterable<Person> nullIterable = null;
+        List<Person> result = select(nullIterable, having(on(Person.class).getAge(), equalTo(35)));
+        assertTrue(result.isEmpty());
+
+        Iterator<Person> nullIterator = null;
+        result = select(nullIterator, having(on(Person.class).getAge(), equalTo(35)));
+        assertTrue(result.isEmpty());
+    }
+
 	@Test
 	public void testSelectPersonWith4LettersName() {
 		List<Person> family = asList(new Person("Domenico"), new Person("Mario"), new Person("Irma"));
