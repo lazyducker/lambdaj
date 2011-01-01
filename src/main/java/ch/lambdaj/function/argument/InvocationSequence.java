@@ -4,76 +4,104 @@
 
 package ch.lambdaj.function.argument;
 
-import java.util.*;
-
 /**
  * Registers a sequence of method invocations
+ *
  * @author Mario Fusco
+ * @author Frode Carlsen
  */
-final class InvocationSequence extends LinkedList<Invocation> {
+final class InvocationSequence {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
-	
-	private final Class<?> rootInvokedClass;
-	
-	private String inkvokedPropertyName;
-	
-	InvocationSequence(Class<?> rootInvokedClass) { 
-		this.rootInvokedClass = rootInvokedClass;
-	}
-	
-	private InvocationSequence(InvocationSequence sequence) {
-		this(sequence.getRootInvokedClass());
-		addAll(sequence);
-	}
+    private final Class<?> rootInvokedClass;
+    private String inkvokedPropertyName;
+    private Invocation lastInvocation;
+    private transient int hashCode;
 
-	InvocationSequence(InvocationSequence sequence, Invocation invocation) {
-		this(sequence);
-		add(invocation);
-	}
-	
-	Class<?> getRootInvokedClass() {
-		return rootInvokedClass;
-	}
-	
-	String getInkvokedPropertyName() {
+    InvocationSequence(Class<?> rootInvokedClass) {
+        this.rootInvokedClass = rootInvokedClass;
+    }
+
+    InvocationSequence(InvocationSequence sequence, Invocation invocation) {
+        this(sequence.getRootInvokedClass());
+        invocation.previousInvocation = sequence.lastInvocation;
+        lastInvocation = invocation;
+    }
+
+    Class<?> getRootInvokedClass() {
+        return rootInvokedClass;
+    }
+
+    String getInkvokedPropertyName() {
         if (inkvokedPropertyName == null) inkvokedPropertyName = calcInkvokedPropertyName();
-		return inkvokedPropertyName;
-	}
+        return inkvokedPropertyName;
+    }
 
     private String calcInkvokedPropertyName() {
-        if (isEmpty()) return "";
+        if (null == lastInvocation) return "";
         StringBuilder sb = new StringBuilder();
-        for (Invocation invocation : this) { sb.append(".").append(invocation.getInvokedPropertyName()); }
+
+        calcInkvokedPropertyName(lastInvocation, lastInvocation.previousInvocation, sb);
         return sb.substring(1);
     }
-	
-	Class<?> getReturnType() {
-		return get(size()-1).getReturnType();
-	}
-	
+
+    private void calcInkvokedPropertyName(Invocation inv, Invocation prevInv, StringBuilder sb) {
+        if (prevInv != null) {
+            calcInkvokedPropertyName(prevInv, prevInv.previousInvocation, sb);
+        }
+        sb.append(".").append(inv.getInvokedPropertyName());
+    }
+
+    Class<?> getReturnType() {
+        return lastInvocation.getReturnType();
+    }
+
     /**
      * {@inheritDoc}
      */
-	@Override
-	public boolean equals(Object object) {
-		if (!(object instanceof InvocationSequence)) return false;
-		InvocationSequence othersSequence = (InvocationSequence)object;
-		if (!rootInvokedClass.equals(othersSequence.getRootInvokedClass())) return false;
-		if (size() != othersSequence.size()) return false;
-		for (int i = 0; i < size(); i++) { if (!get(i).equals(othersSequence.get(i))) return false; }
-		return true;
-	}
-	
-	final int[] primes = new int[] { 13, 17, 19, 23, 29, 31, 37 };
-	
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof InvocationSequence)) return false;
+        return Invocation.areNullSafeEquals(lastInvocation, ((InvocationSequence)object).lastInvocation);
+    }
+
     /**
      * {@inheritDoc}
      */
-	@Override
-	public int hashCode() {
-		int hashCode = 11 * rootInvokedClass.hashCode();
-		for (int i = 0; i < size(); i++) { hashCode += primes[i % primes.length] * get(i).hashCode(); }
-		return hashCode;
-	}
+    @Override
+    public int hashCode() {
+        if (hashCode != 0) return hashCode;
+        hashCode = 13 * rootInvokedClass.hashCode();
+        int factor = 17;
+        for (Invocation invocation = lastInvocation; invocation != null; invocation = invocation.previousInvocation) {
+            hashCode += factor * invocation.hashCode();
+            factor += 2;
+        }
+        return hashCode;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T invokeOn(Object object) {
+        return (T)invokeOn(lastInvocation, object);
+    }
+
+    private Object invokeOn(Invocation invocation, Object value) {
+        if (invocation.previousInvocation != null) value = invokeOn(invocation.previousInvocation, value);
+        return invocation.invokeOn(value);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder(100);
+        sb.append("[");
+        toString(lastInvocation, lastInvocation.previousInvocation, sb, true);
+        sb.append("]");
+        return sb.toString();
+    }
+
+    private void toString(Invocation inv, Invocation prevInv, StringBuilder sb, boolean first) {
+        if (prevInv != null) toString(prevInv, prevInv.previousInvocation, sb, false);
+        sb.append(inv);
+        if (!first) sb.append(", ");
+    }
 }
