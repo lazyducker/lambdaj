@@ -32,9 +32,7 @@ public class Argument<T> {
 	 */
 	@SuppressWarnings("unchecked")
 	public T evaluate(Object object) {
-        Object result = object;
-		for (Invocation invocation : invocationSequence) { result = invocation.invokeOn(result); }
-		return (T)result;
+        return (T)invocationSequence.invokeOn(object);
 	}
 	
 	/**
