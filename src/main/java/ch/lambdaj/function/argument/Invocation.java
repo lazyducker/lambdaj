@@ -21,7 +21,7 @@ final class Invocation {
     private final Class<?> invokedClass;
     private final Method invokedMethod;
     private String invokedPropertyName;
-    private List<ParameterReference<Object>> weakArgs;
+    private ParameterReference[] weakArgs;
     private transient int hashCode;
     Invocation previousInvocation;
 
@@ -30,19 +30,18 @@ final class Invocation {
         this.invokedMethod = invokedMethod;
         invokedMethod.setAccessible(true);
         if (args != null && args.length > 0) {
-            weakArgs = new LinkedList<ParameterReference<Object>>();
+            weakArgs = new ParameterReference[args.length];
             for (int i = 0; i < args.length; i++) {
-                weakArgs.add(new ParameterReference<Object>(args[i], !invokedMethod.getParameterTypes()[i].isPrimitive()));
+                weakArgs[i] = invokedMethod.getParameterTypes()[i].isPrimitive() ? new StrongParameterReference(args[i]) : new WeakParameterReference(args[i]);
             }
         }
     }
 
     private Object[] getConcreteArgs() {
         if (weakArgs == null) return new Object[0];
-        Object[] args = new Object[weakArgs.size()];
-        int i = 0;
-        for (ParameterReference<Object> weakArg : weakArgs) {
-            args[i++] = weakArg.get();
+        Object[] args = new Object[weakArgs.length];
+        for (int i = 0; i < weakArgs.length; i++) {
+            args[i] = weakArgs[i].get();
         }
         return args;
     }
@@ -78,10 +77,10 @@ final class Invocation {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(invokedMethod.toString());
-        if (weakArgs != null && weakArgs.size() > 0) {
+        if (weakArgs != null) {
             sb.append(" with args ");
             boolean first = true;
-            for (ParameterReference<?> arg : weakArgs) {
+            for (ParameterReference arg : weakArgs) {
                 sb.append(first ? "" : ", ").append(arg.get());
                 first = false;
             }
@@ -96,7 +95,7 @@ final class Invocation {
     public int hashCode() {
         if (hashCode != 0) return hashCode;
         hashCode = 13 * invokedClass.hashCode() + 17 * invokedMethod.hashCode();
-        if (weakArgs != null) hashCode += 19 + weakArgs.size();
+        if (weakArgs != null) hashCode += 19 * weakArgs.length;
         if (previousInvocation != null) hashCode += 23 * previousInvocation.hashCode();
         return hashCode;
     }
@@ -106,40 +105,47 @@ final class Invocation {
      */
     @Override
     public boolean equals(Object object) {
-        if (object == this) return true;
-        if (!(object instanceof Invocation)) return false;
-        Invocation otherInvocation = (Invocation) object;
+        Invocation otherInvocation = (Invocation)object;
         return areNullSafeEquals(invokedClass, otherInvocation.getInvokedClass()) &&
                 areNullSafeEquals(invokedMethod, otherInvocation.getInvokedMethod()) &&
                 areNullSafeEquals(previousInvocation, otherInvocation.previousInvocation) &&
-                areNullSafeEquals(weakArgs, otherInvocation.weakArgs);
+                Arrays.equals(weakArgs, otherInvocation.weakArgs);
     }
 
     static boolean areNullSafeEquals(Object first, Object second) {
-        return (first == null && second == null) || (first != null && second != null && first.equals(second));
+        return first == second || (first != null && second != null && first.equals(second));
     }
 
-    private static final class ParameterReference<T> {
-        private final boolean garbageCollectable;
-        private WeakReference<T> weakRef;
-        private T strongRef;
+    private static abstract class ParameterReference {
+        protected abstract Object get();
 
-        private ParameterReference(T referent, boolean garbageCollectable) {
-            this.garbageCollectable = garbageCollectable;
-            if (garbageCollectable) weakRef = new WeakReference<T>(referent);
-            else strongRef = referent;
-        }
-
-        private T get() {
-            return garbageCollectable ? weakRef.get() : strongRef;
-        }
-
-        @SuppressWarnings("unchecked")
         @Override
-        public boolean equals(Object obj) {
-            if (!(obj instanceof ParameterReference)) return false;
-            ParameterReference<T> otherRef = (ParameterReference<T>) obj;
-            return areNullSafeEquals(get(), otherRef.get());
+        public final boolean equals(Object obj) {
+            return obj instanceof ParameterReference && areNullSafeEquals(get(), ((ParameterReference)obj).get());
+        }
+    }
+
+    private static final class StrongParameterReference extends ParameterReference {
+        private final Object strongRef;
+
+        private StrongParameterReference(Object referent) {
+            strongRef = referent;
+        }
+
+        protected Object get() {
+            return strongRef;
+        }
+    }
+
+    private static final class WeakParameterReference extends ParameterReference {
+        private final WeakReference<Object> weakRef;
+
+        private WeakParameterReference(Object referent) {
+            weakRef = new WeakReference<Object>(referent);
+        }
+
+        protected Object get() {
+            return weakRef.get();
         }
     }
 }
