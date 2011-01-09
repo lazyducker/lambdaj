@@ -59,11 +59,15 @@ public class Person implements IPerson {
 	}
 
     public double getIncome() {
-        return 0.0;
+        return getAge() * 1.1;
+    }
+
+    public BigDecimal getBigDecimalIncome() {
+        return new BigDecimal(getAge()).multiply(new BigDecimal(1.1));
     }
 
     public float getFloatIncome() {
-        return 0.0f;
+        return getAge() * 1.1f;
     }
 
 	public int getAge() {
