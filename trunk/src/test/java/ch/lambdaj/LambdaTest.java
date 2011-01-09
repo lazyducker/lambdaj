@@ -533,15 +533,36 @@ public class LambdaTest {
         assertThat((BigDecimal)sum(list), equalTo(new BigDecimal("6.6")));
     }
 
-/* -- TODO
+
     @Test
     public void testAvg() {
+        assertEquals((Double)0.0, (Double)avg(new ArrayList<Person>()));
+
+        assertEquals((Integer)0, (Integer)avg(new ArrayList<Person>(), on(Person.class).getAge()));
+        assertEquals((Double)0.0, (Double)avg(new ArrayList<Person>(), on(Person.class).getIncome()));
+        assertEquals(BigDecimal.ZERO, avg(new ArrayList<Person>(), on(Person.class).getBigDecimalIncome()));
+
+        assertEquals((Integer)0, (Integer)avgFrom(new ArrayList<Person>(), Person.class).getAge());
+        assertEquals((Double)0.0, (Double)avgFrom(new ArrayList<Person>(), Person.class).getIncome());
+        assertEquals(BigDecimal.ZERO, avgFrom(new ArrayList<Person>(), Person.class).getBigDecimalIncome());
+
         List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
-        int averageAge = (Integer)aggregate(meAndMyFriends, new Avg(), on(Person.class).getAge());
+        int averageAge = avg(meAndMyFriends, on(Person.class).getAge());
         assertEquals(averageAge, (35+29+39+29)/4);
-        System.out.println(averageAge);
+        int averageAgeFrom = avgFrom(meAndMyFriends).getAge();
+        assertEquals(averageAgeFrom, (35+29+39+29)/4);
+
+        double averageIncome = avg(meAndMyFriends, on(Person.class).getIncome());
+        assertEquals(averageIncome, (me.getIncome() + luca.getIncome() + biagio.getIncome() + celestino.getIncome())/4, 0.001);
+        double averageIncomeFrom = avgFrom(meAndMyFriends).getIncome();
+        assertEquals(averageIncomeFrom, (me.getIncome() + luca.getIncome() + biagio.getIncome() + celestino.getIncome())/4, 0.001);
+
+        BigDecimal averageBigIncome = avg(meAndMyFriends, on(Person.class).getBigDecimalIncome());
+        assertEquals(averageBigIncome.doubleValue(), (me.getIncome() + luca.getIncome() + biagio.getIncome() + celestino.getIncome())/4, 0.001);
+        BigDecimal averageBigIncomeFrom = avgFrom(meAndMyFriends).getBigDecimalIncome();
+        assertEquals(averageBigIncomeFrom.doubleValue(), (me.getIncome() + luca.getIncome() + biagio.getIncome() + celestino.getIncome())/4, 0.001);
     }
- */
+
 	@Test
 	public void testEmptySumMinMaxFrom() {
 		assertThat(0, is(equalTo(sumFrom(new ArrayList<Person>(), Person.class).getAge())));

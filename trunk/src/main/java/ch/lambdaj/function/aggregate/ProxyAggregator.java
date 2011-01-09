@@ -30,13 +30,20 @@ public class ProxyAggregator<T, A> extends ProxyIterator<T> {
 	}
 
     private Object normalizeResult(Class<?> expectedResultType, Object result) {
-        if (result == null || expectedResultType.isInstance(result)) return result;
+        if (result == null) return normalizeNullResult(expectedResultType, result);
+        if (expectedResultType.isInstance(result)) return result;
         if (expectedResultType == BigInteger.class) return new BigInteger(result.toString());
         if (expectedResultType == BigDecimal.class) return new BigDecimal(result.toString());
         return result;
     }
 
-	@SuppressWarnings("unchecked")
+    private Object normalizeNullResult(Class<?> expectedResultType, Object result) {
+        if (expectedResultType == BigInteger.class) return BigInteger.ZERO;
+        if (expectedResultType == BigDecimal.class) return BigDecimal.ZERO;
+        return result;
+    }
+
+    @SuppressWarnings("unchecked")
 	public static <T, A> T createProxyAggregator(ResettableIterator<T> proxiedIterator, Aggregator<A> aggregator, Class<?> clazz) {
 		return (T)ProxyUtil.createIterableProxy(new ProxyAggregator<T, A>(proxiedIterator, aggregator), clazz);
 	}

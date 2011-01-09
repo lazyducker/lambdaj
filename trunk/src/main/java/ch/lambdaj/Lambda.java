@@ -466,6 +466,7 @@ public final class Lambda {
 	}
 
     private static final Sum SUM = new Sum();
+    private static final Avg AVG = new Avg();
 	private static final Min MIN = new Min();
 	private static final Max MAX = new Max();
 	private static final Concat CONCAT = new Concat();
@@ -614,6 +615,30 @@ public final class Lambda {
 	public static <T> T sumFrom(Iterable<T> iterable, Class<?> clazz) {
 		return aggregateFrom(iterable, clazz, SUM);
 	}
+
+	// -- (Avg) ---------------------------------------------------------------
+
+    public static Number avg(Object iterable) {
+        return typedAvg(iterable, Double.class);
+    }
+
+    public static <T> T avg(Object iterable, T argument) {
+        return (T)typedAvg(convertIterator(iterable, new ArgumentConverter<Object, T>(argument)), argument.getClass());
+    }
+
+    private static Number typedAvg(Object iterable, Class<?> numberClass) {
+        if (iterable instanceof Number) return (Number)iterable;
+        Iterator<?> iterator = asIterator(iterable);
+        return iterator.hasNext() ? aggregate(iterator, AVG) : typedZero(numberClass);
+    }
+
+    public static <T> T avgFrom(Iterable<T> iterable) {
+        return aggregateFrom(iterable, AVG);
+    }
+
+    public static <T> T avgFrom(Iterable<T> iterable, Class<?> clazz) {
+        return aggregateFrom(iterable, clazz, AVG);
+    }
 
 	// -- (Min) ---------------------------------------------------------------
 
