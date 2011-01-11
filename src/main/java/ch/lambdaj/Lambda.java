@@ -618,10 +618,27 @@ public final class Lambda {
 
 	// -- (Avg) ---------------------------------------------------------------
 
+    /**
+     * Calculates the average of the items in the given iterable of Numbers or the iterable itself if it actually is already a single number.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
+     * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
+     * @param iterable The iterable of numbers to be summed
+     * @return The average of all the Number in the given iterable or the iterable itself if it actually is already a single number
+     * @throws IllegalArgumentException if the iterable is not neither an Iterable nor a Number
+     */
     public static Number avg(Object iterable) {
         return typedAvg(iterable, Double.class);
     }
 
+    /**
+     * Calculates the average of the property values of the items in the given iterable defined by the given argument.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
+     * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
+     * @param iterable The iterable of items containing the property for which the average of its the values has to be calculated.
+     * @param argument An argument defined using the {@link Lambda#on(Class)} method
+     * @return The average of the property values extracted from all the items in the given iterable
+     * @throws IllegalArgumentException if the iterable is not an Iterable
+     */
     public static <T> T avg(Object iterable, T argument) {
         return (T)typedAvg(convertIterator(iterable, new ArgumentConverter<Object, T>(argument)), argument.getClass());
     }
@@ -632,10 +649,45 @@ public final class Lambda {
         return iterator.hasNext() ? aggregate(iterator, AVG) : typedZero(numberClass);
     }
 
+    /**
+     * Returns a lambda function defined as:
+     * <p/>
+     * 		avgFrom : (avg, iterable) => lambda : (convert : object => number) => number
+     * <p/>
+     * It is then possibly to curry this function by selecting the convert function that defines of each item must be converted in a number.
+     * This is done by invoking on that returned object the method that returns the values of the property fro which the average has to be calculated as in the following example
+     * <p/>
+     * <code>
+     * 		int averageAge = avgFrom(persons).getAge();
+     * </code>
+     * <p/>
+     * The actual class of T is inferred from the class of the first iterable's item, but you can
+     * specify a particular class by using the overloaded method.
+     * @param iterable The iterable of the objects to containing the property for which the average has to be calculated.
+     * @return A proxy of the class of the first object in the iterable representing a sum lambda function
+     * @throws IllegalArgumentException if the iterable is null or empty
+     */
     public static <T> T avgFrom(Iterable<T> iterable) {
         return aggregateFrom(iterable, AVG);
     }
 
+    /**
+     * Returns a lambda function defined as:
+     * <p/>
+     * 		avgFrom : (avg, iterable) => lambda : (convert : object => number) => number
+     * <p/>
+     * It is then possibly to curry this function by selecting the convert function that defines of each item must be converted in a number.
+     * This is done by invoking on that returned object the method that returns the values of the property fro which the average has to be calculated as in the following example
+     * <p/>
+     * <code>
+     * 		int averageAge = avgFrom(persons, Person.class).getAge();
+     * </code>
+     * <p/>
+     * This overloaded version should be always used when it is not insured that the given iterable is null or empty.
+     * @param iterable The iterable of the objects to containing the property for which the average has to be calculated.
+     * @param clazz The class proxied by the returned object
+     * @return A proxy of the class of the first object in the iterable representing a sum lambda function
+     */
     public static <T> T avgFrom(Iterable<T> iterable, Class<?> clazz) {
         return aggregateFrom(iterable, clazz, AVG);
     }
