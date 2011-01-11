@@ -20,7 +20,7 @@ public abstract class LambdaJMatcher<T> extends BaseMatcher<T> {
      * @return A matcher that return true if this matcher and the passed one return true
      */
 	@SuppressWarnings("unchecked")
-	public LambdaJMatcher<T> and(Matcher<T> matcher) {
+	public final LambdaJMatcher<T> and(Matcher<T> matcher) {
 		return AndMatcher.and(this, matcher);
 	}
 
@@ -30,7 +30,7 @@ public abstract class LambdaJMatcher<T> extends BaseMatcher<T> {
      * @return A matcher that return true if this matcher or the passed one return true
      */
 	@SuppressWarnings("unchecked")
-	public LambdaJMatcher<T> or(Matcher<T> matcher) {
+	public final LambdaJMatcher<T> or(Matcher<T> matcher) {
 		return OrMatcher.or(this, matcher);
 	}
 
