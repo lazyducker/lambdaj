@@ -9,6 +9,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.*;
 
+import ch.lambdaj.function.matcher.*;
 import junit.framework.*;
 import org.hamcrest.*;
 import org.junit.Test;
@@ -86,6 +87,16 @@ public class LambdaListTest {
 		assertNotNull(oldFriends);
 		assertEquals(2, oldFriends.size());
 	}
+
+    @Test
+    public void testPredicate() {
+        List<Person> oldFriends = with(meAndMyFriends).retain(new Predicate<Person>() {
+            @Override
+            public boolean apply(Person person) { return person.getAge() > 30; }
+        });
+        assertNotNull(oldFriends);
+        assertEquals(2, oldFriends.size());
+    }
 
 	@Test
 	public void test4() {
