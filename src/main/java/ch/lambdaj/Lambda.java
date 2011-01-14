@@ -466,7 +466,6 @@ public final class Lambda {
 	}
 
     private static final Sum SUM = new Sum();
-    private static final Avg AVG = new Avg();
 	private static final Min MIN = new Min();
 	private static final Max MAX = new Max();
 	private static final Concat CONCAT = new Concat();
@@ -646,7 +645,7 @@ public final class Lambda {
     private static Number typedAvg(Object iterable, Class<?> numberClass) {
         if (iterable instanceof Number) return (Number)iterable;
         Iterator<?> iterator = asIterator(iterable);
-        return iterator.hasNext() ? aggregate(iterator, AVG) : typedZero(numberClass);
+        return iterator.hasNext() ? aggregate(iterator, new Avg()) : typedZero(numberClass);
     }
 
     /**
@@ -668,7 +667,7 @@ public final class Lambda {
      * @throws IllegalArgumentException if the iterable is null or empty
      */
     public static <T> T avgFrom(Iterable<T> iterable) {
-        return aggregateFrom(iterable, AVG);
+        return aggregateFrom(iterable, new Avg());
     }
 
     /**
@@ -689,7 +688,7 @@ public final class Lambda {
      * @return A proxy of the class of the first object in the iterable representing a sum lambda function
      */
     public static <T> T avgFrom(Iterable<T> iterable, Class<?> clazz) {
-        return aggregateFrom(iterable, clazz, AVG);
+        return aggregateFrom(iterable, clazz, new Avg());
     }
 
 	// -- (Min) ---------------------------------------------------------------

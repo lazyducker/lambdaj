@@ -4,31 +4,26 @@ import java.math.*;
 import java.util.*;
 
 /**
+ * An aggregator calculating numbers' average
  * @author Mario Fusco
  */
-public class Avg implements Aggregator<Number> {
+public class Avg extends Sum {
 
+    int itemsCounter = 0;
+
+    /**
+     * {@inheritDoc}
+     */
     public Number aggregate(Iterator<? extends Number> iterator) {
-        int counter = 0;
-        Number total = null;
-        while (iterator.hasNext()) {
-            total = aggregate(total, iterator.next());
-            counter++;
-        }
-        return divide(total, counter);
+        return divide(super.aggregate(iterator), itemsCounter);
     }
 
-    private Number aggregate(Number first, Number second) {
-        if (second == null) return first == null ? 0.0 : first;
-
-        if (second instanceof Integer) return aggregate(first, (Integer)second);
-        if (second instanceof Long) return aggregate(first, (Long)second);
-        if (second instanceof Float) return aggregate(first, (Float)second);
-        if (second instanceof Double) return aggregate(first, (Double)second);
-        if (second instanceof BigInteger) return aggregate(first, (BigInteger)second);
-        if (second instanceof BigDecimal) return aggregate(first, (BigDecimal)second);
-
-        throw new RuntimeException("unable to aggregate " + first + " and " + second);
+    /**
+     * {@inheritDoc}
+     */
+    public Number aggregate(Number first, Number second) {
+        itemsCounter++;
+        return super.aggregate(first, second);
     }
 
     private Number divide(Number total, int count) {
@@ -39,31 +34,6 @@ public class Avg implements Aggregator<Number> {
         if (total instanceof Double) return total.doubleValue() / count;
         if (total instanceof BigInteger) return ((BigInteger)total).divide(BigInteger.valueOf(count));
         if (total instanceof BigDecimal) return ((BigDecimal)total).divide(new BigDecimal(count));
-
         throw new RuntimeException("Unknown number type");
-    }
-
-    private Integer aggregate(Number first, Integer second) {
-        return first == null ? second : first.intValue() + second;
-    }
-
-    private Long aggregate(Number first, Long second) {
-        return first == null ? second : first.longValue() + second;
-    }
-
-    private Float aggregate(Number first, Float second) {
-        return first == null ? second : first.floatValue() + second;
-    }
-
-    private Double aggregate(Number first, Double second) {
-        return first == null ? second : first.doubleValue() + second;
-    }
-
-    private BigInteger aggregate(Number first, BigInteger second) {
-        return first == null ? second : ((BigInteger)first).add(second);
-    }
-
-    private BigDecimal aggregate(Number first, BigDecimal second) {
-        return first == null ? second : ((BigDecimal)first).add(second);
     }
 }
