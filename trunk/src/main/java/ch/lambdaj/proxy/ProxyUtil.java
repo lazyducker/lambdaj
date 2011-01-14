@@ -4,11 +4,11 @@
 
 package ch.lambdaj.proxy;
 
-import net.sf.cglib.proxy.*;
+
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.MethodInterceptor;
 
 import java.lang.reflect.*;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Proxy;
 
 /**
  * An utility class of static factory methods that provide facilities to create proxies

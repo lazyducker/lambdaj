@@ -430,6 +430,10 @@ public class LambdaTest {
             project(meAndMyFriends, PersonDto.class, on(Person.class).getFirstName(), on(Person.class).getLastName());
             fail("Project using non existent constructor must fail");
         } catch (RuntimeException e) { }
+        try {
+            project(meAndMyFriends, ValidatingPersonDto.class, on(Person.class).getFirstName(), on(Person.class).getAge());
+            fail("Project invoking a constructor throwing and exception must fail");
+        } catch (RuntimeException e) { }
     }
 
 	@Test
