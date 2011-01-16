@@ -186,25 +186,40 @@ public final class ArgumentsFactory {
     }
 
     private static boolean isNumericClass(Class<?> clazz) {
-        return clazz == Integer.TYPE || clazz == Long.TYPE || clazz == Integer.class || clazz == Long.class;
+        return isInt(clazz) || isLong(clazz);
     }
 
     private static Object getPrimitivePlaceHolder(Class<?> clazz, Integer placeholderId) {
-        switch (Character.toLowerCase(clazz.getSimpleName().charAt(0))) {
-            case 'l':
-                return placeholderId.longValue();
-            case 'd':
-                return placeholderId.doubleValue();
-            case 'f':
-                return placeholderId.floatValue();
-            case 'c':
-                return Character.forDigit(placeholderId % Character.MAX_RADIX, Character.MAX_RADIX);
-            case 'b':
-                return placeholderId.byteValue();
-            case 's':
-                return placeholderId.shortValue();
-            default:
-                return placeholderId;
-        }
+        if (isInt(clazz)) return placeholderId;
+        if (isLong(clazz)) return placeholderId.longValue();
+        if (isDouble(clazz)) return placeholderId.doubleValue();
+        if (isFloat(clazz)) return placeholderId.floatValue();
+        if (isCharacter(clazz)) return Character.forDigit(placeholderId % Character.MAX_RADIX, Character.MAX_RADIX);
+        if (isShort(clazz)) return placeholderId.shortValue();
+        return placeholderId.byteValue();
 	}
+
+    private static boolean isInt(Class<?> clazz) {
+        return clazz == Integer.TYPE || clazz == Integer.class;
+    }
+
+    private static boolean isLong(Class<?> clazz) {
+        return clazz == Long.TYPE || clazz == Long.class;
+    }
+
+    private static boolean isDouble(Class<?> clazz) {
+        return clazz == Double.TYPE || clazz == Double.class;
+    }
+
+    private static boolean isFloat(Class<?> clazz) {
+        return clazz == Float.TYPE || clazz == Float.class;
+    }
+
+    private static boolean isCharacter(Class<?> clazz) {
+        return clazz == Character.TYPE || clazz == Character.class;
+    }
+
+    private static boolean isShort(Class<?> clazz) {
+        return clazz == Short.TYPE || clazz == Short.class;
+    }
 }

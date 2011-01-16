@@ -16,12 +16,15 @@ public class ArgumentsFactoryTest {
         assertThat(createArgumentPlaceholder(StringBuilder.class), instanceOf(StringBuilder.class));
 		assertThat(createArgumentPlaceholder(Integer.class), instanceOf(Integer.class));
 		assertThat(createArgumentPlaceholder(Long.class), instanceOf(Long.class));
+		assertThat(createArgumentPlaceholder(Long.TYPE), instanceOf(Long.class));
 		assertThat(createArgumentPlaceholder(Float.class), instanceOf(Float.class));
 		assertThat(createArgumentPlaceholder(Double.class), instanceOf(Double.class));
 		assertThat(createArgumentPlaceholder(Short.class), instanceOf(Short.class));
+		assertThat(createArgumentPlaceholder(Short.TYPE), instanceOf(Short.class));
 		assertThat(createArgumentPlaceholder(Byte.class), instanceOf(Byte.class));
 		assertThat(createArgumentPlaceholder(Boolean.class), instanceOf(Boolean.class));
         assertThat(createArgumentPlaceholder(Character.class), instanceOf(Character.class));
+        assertThat(createArgumentPlaceholder(Character.TYPE), instanceOf(Character.class));
 		assertThat(createArgumentPlaceholder(Date.class), instanceOf(Date.class));
 	}
 
