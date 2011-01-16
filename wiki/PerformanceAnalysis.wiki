@@ -1,6 +1,6 @@
 #summary Compares performances of same algorithms implemented with and without lambdaj
 
-This table show the minimum, maximum and average duration in milliseconds of 20 runs of 100,000 iterations of the examples below. These examples are referred to a very simple data model made of some sales of cars between two persons, a seller and a buyer. They show a comparison of how the same results can be achieved in the usual iterative java style and by using lambdaj. These figures are referred to the last 2.3.1 release
+This table show the minimum, maximum and average duration in milliseconds of 20 runs of 100,000 iterations of the examples below. These examples are referred to a very simple data model made of some sales of cars between two persons, a seller and a buyer. They show a comparison of how the same results can be achieved in the usual iterative java style and by using lambdaj. These figures are referred to the last 2.3.2 release
 
 <table border="1">
   <tr>
@@ -22,115 +22,115 @@ This table show the minimum, maximum and average duration in milliseconds of 20 
   <tr>
     <td><a href="http://code.google.com/p/lambdaj/wiki/PerformanceAnalysis?ts=1281993389&updated=PerformanceAnalysis#Print_all_brands">Print all brands</a></td>
     <td align="right">265</td>
-    <td align="right">327</td>
+    <td align="right">312</td>
     <td align="right">283</td>
-    <td align="right">1,233</td>
-    <td align="right">1,482</td>
-    <td align="right">1,298</td>
-    <td align="right"><strong>4.587</strong></td>
+    <td align="right">1,310</td>
+    <td align="right">1,591</td>
+    <td align="right">1,377</td>
+    <td align="right"><strong>4.866</strong></td>
   </tr>
   <tr>
     <td><a href="http://code.google.com/p/lambdaj/wiki/PerformanceAnalysis?ts=1281993389&updated=PerformanceAnalysis#Select_all_sales_of_a_Ferrari">Select all sales of a Ferrari</a></td>
-    <td align="right">297</td>
-    <td align="right">452</td>
-    <td align="right">371</td>
-    <td align="right">1,778</td>
-    <td align="right">1,840</td>
-    <td align="right">1,797</td>
-    <td align="right"><strong>4.844</strong></td>
+    <td align="right">281</td>
+    <td align="right">437</td>
+    <td align="right">366</td>
+    <td align="right">1,528</td>
+    <td align="right">1,607</td>
+    <td align="right">1,566</td>
+    <td align="right"><strong>4.279</strong></td>
   </tr>
   <tr>
     <td><a href="http://code.google.com/p/lambdaj/wiki/PerformanceAnalysis?ts=1281993389&updated=PerformanceAnalysis#Find_buys_of_youngest_person">Find buys of youngest person</a></td>
-    <td align="right">5,538</td>
-    <td align="right">6,115</td>
-    <td align="right">6,013</td>
-    <td align="right">7,191</td>
-    <td align="right">7,348</td>
-    <td align="right">7,240</td>
-    <td align="right"><strong>1.204</strong></td>
+    <td align="right">5,585</td>
+    <td align="right">5,975</td>
+    <td align="right">5,938</td>
+    <td align="right">6,895</td>
+    <td align="right">6,989</td>
+    <td align="right">6,936</td>
+    <td align="right"><strong>1.168</strong></td>
   </tr>
   <tr>
     <td><a href="http://code.google.com/p/lambdaj/wiki/PerformanceAnalysis?ts=1281993389&updated=PerformanceAnalysis#Find_most_costly_sale">Find most costly sale</a></td>
     <td align="right">218</td>
     <td align="right">234</td>
-    <td align="right">223</td>
-    <td align="right">795</td>
-    <td align="right">827</td>
-    <td align="right">808</td>
-    <td align="right"><strong>3.623</strong></td>
+    <td align="right">227</td>
+    <td align="right">655</td>
+    <td align="right">702</td>
+    <td align="right">670</td>
+    <td align="right"><strong>2.952</strong></td>
   </tr>
   <tr>
     <td><a href="http://code.google.com/p/lambdaj/wiki/PerformanceAnalysis?ts=1281993389&updated=PerformanceAnalysis#Sum_costs_where_both_are_males">Sum costs where both are males</a></td>
     <td align="right">358</td>
-    <td align="right">406</td>
+    <td align="right">452</td>
     <td align="right">375</td>
-    <td align="right">2,667</td>
-    <td align="right">2,730</td>
-    <td align="right">2,697</td>
-    <td align="right"><strong>7.192</strong></td>
+    <td align="right">2,199</td>
+    <td align="right">2,637</td>
+    <td align="right">2,247</td>
+    <td align="right"><strong>5.592</strong></td>
   </tr>
   <tr>
     <td><a href="http://code.google.com/p/lambdaj/wiki/PerformanceAnalysis?ts=1281993389&updated=PerformanceAnalysis#Find_age_of_youngest_who_bought_for_more_than_50000">Age of youngest who bought for > 50,000</a></td>
-    <td align="right">4,306</td>
-    <td align="right">4,368</td>
-    <td align="right">4,333</td>
-    <td align="right">8,736</td>
-    <td align="right">9,095</td>
-    <td align="right">8,825</td>
-    <td align="right"><strong>2.037</strong></td>
+    <td align="right">5,257</td>
+    <td align="right">5,319</td>
+    <td align="right">5,292</td>
+    <td align="right">9,625</td>
+    <td align="right">9,750</td>
+    <td align="right">9,696</td>
+    <td align="right"><strong>1.832</strong></td>
   </tr>
   <tr>
     <td><a href="http://code.google.com/p/lambdaj/wiki/PerformanceAnalysis?ts=1281993389&updated=PerformanceAnalysis#Sort_sales_by_cost">Sort sales by cost</a></td>
-    <td align="right">1,342</td>
-    <td align="right">1,514</td>
-    <td align="right">1,461</td>
-    <td align="right">4,695</td>
-    <td align="right">4,758</td>
-    <td align="right">4,719</td>
-    <td align="right"><strong>3.230</strong></td>
+    <td align="right">1,388</td>
+    <td align="right">1,482</td>
+    <td align="right">1,448</td>
+    <td align="right">3,213</td>
+    <td align="right">3,245</td>
+    <td align="right">3,231</td>
+    <td align="right"><strong>2.231</strong></td>
   </tr>
   <tr>
     <td><a href="http://code.google.com/p/lambdaj/wiki/PerformanceAnalysis?ts=1281993389&updated=PerformanceAnalysis#Extract_cars_original_cost">Extract cars original cost</a></td>
-    <td align="right">124</td>
+    <td align="right">140</td>
+    <td align="right">156</td>
     <td align="right">141</td>
-    <td align="right">135</td>
-    <td align="right">266</td>
-    <td align="right">297</td>
-    <td align="right">283</td>
-    <td align="right"><strong>2.096</strong></td>
+    <td align="right">234</td>
+    <td align="right">249</td>
+    <td align="right">236</td>
+    <td align="right"><strong>1.674</strong></td>
   </tr>
   <tr>
     <td><a href="http://code.google.com/p/lambdaj/wiki/PerformanceAnalysis?ts=1281993389&updated=PerformanceAnalysis#Index_cars_by_brand">Index cars by brand</a></td>
-    <td align="right">171</td>
-    <td align="right">202</td>
-    <td align="right">184</td>
-    <td align="right">405</td>
-    <td align="right">422</td>
-    <td align="right">415</td>
-    <td align="right"><strong>2.255</strong></td>
+    <td align="right">172</td>
+    <td align="right">203</td>
+    <td align="right">186</td>
+    <td align="right">327</td>
+    <td align="right">343</td>
+    <td align="right">336</td>
+    <td align="right"><strong>1.806</strong></td>
   </tr>
   <tr>
     <td><a href="http://code.google.com/p/lambdaj/wiki/PerformanceAnalysis?ts=1281993389&updated=PerformanceAnalysis#Group_sales_by_buyers_and_sellers">Group sales by buyers and sellers</a></td>
-    <td align="right">9,531</td>
-    <td align="right">9,625</td>
-    <td align="right">9,584</td>
-    <td align="right">13,354</td>
-    <td align="right">13,556</td>
-    <td align="right">13,422</td>
-    <td align="right"><strong>1.400</strong></td>
+    <td align="right">9,469</td>
+    <td align="right">9,766</td>
+    <td align="right">9,507</td>
+    <td align="right">12,698</td>
+    <td align="right">12,838</td>
+    <td align="right">12,753</td>
+    <td align="right"><strong>1.341</strong></td>
   </tr>
   <tr>
     <td><a href="http://code.google.com/p/lambdaj/wiki/PerformanceAnalysis?ts=1281993389&updated=PerformanceAnalysis#Find_most_bought_car">Find most bought car</a></td>
-    <td align="right">3,776</td>
-    <td align="right">3,885</td>
-    <td align="right">3,822</td>
-    <td align="right">4,368</td>
-    <td align="right">4,477</td>
-    <td align="right">4,412</td>
-    <td align="right"><strong>1.154</strong></td>
+    <td align="right">3,744</td>
+    <td align="right">3,884</td>
+    <td align="right">3,846</td>
+    <td align="right">4,181</td>
+    <td align="right">4,259</td>
+    <td align="right">4,211</td>
+    <td align="right"><strong>1.095</strong></td>
   </tr>
   <tr>
-    <td colspan="8" align="right"><h2>Average ratio = 3.057</h2></td>
+    <td colspan="8" align="right"><h2>Average ratio = 2.658</h2></td>
   </tr>
 </table>
 
