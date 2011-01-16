@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.2.5" timestamp="2010-08-21T13:23:00.966">
+<pmd version="4.2.5" timestamp="2011-01-16T20:49:35.080">
 <file name="C:\data\dev\intellij\lambdaj\src\main\java\ch\lambdaj\function\argument\ArgumentsFactory.java">
 <violation beginline="181" endline="182" begincolumn="15" endcolumn="13" rule="EmptyCatchBlock" ruleset="Basic Rules" package="ch.lambdaj.function.argument" class="ArgumentsFactory" method="createArgumentPlaceholderForUnknownClass" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
