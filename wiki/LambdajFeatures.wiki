@@ -22,12 +22,9 @@ List<Integer> biggerThan3 = filter(greaterThan(3), asList(1, 2, 3, 4, 5));
 The condition that defines how to filter the list is expressed as an hamcrest matcher. [http://code.google.com/p/hamcrest/ Hamcrest] is a library used by default even in Junit4 to describe in a DSL way the assertions that need to be verified during a unit test. In case you can find an hamcrest matcher that defines the condition you need, it is possible to define your own matchers as it follows:
 
 {{{
-Matcher<Integer> odd = new TypeSafeMatcher<Integer>() {
-	public boolean matchesSafely(Integer item) {
+Matcher<Integer> odd = new Predicate<Integer>() {
+	public boolean apply(Integer item) {
 		return item % 2 == 1;
-	}
-	public void describeTo(Description description) {
-		description.appendText("odd()");
 	}
 };
 }}}
@@ -38,7 +35,9 @@ and then you can filter the odds number of a list of Integer in a way similar as
 List<Integer> oddNumbers = filter(odd, asList(1, 2, 3, 4, 5));
 }}}
 
-In the end, it is also possible to filter a list of objects based on the value of one their property. For example given the following list of Persons:
+Note that the class Predicate is a proprietary lambdaj implementation of an Hamcrest Matcher allowing type safety and the possibility to combine more of them in a fluent way through its or() and and() methods.
+
+It is also possible to filter a list of objects based on the value of one their property. For example given the following list of Persons:
 
 {{{
 Person me = new Person("Mario", "Fusco", 35);
