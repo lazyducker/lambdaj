@@ -3,7 +3,7 @@
   <ModulePrefs title="LambdaJ Google Gadget" />
   <Content type="html">
      <![CDATA[
-        <div style="width:425px" id="__ss_6688488">
+        <div style="width:850px" id="__ss_6688488">
         <object id="__sse6688488" width="850" height="650">
         <param name="movie" value="http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=lambdaj-110124161033-phpapp01&stripped_title=no-more-loops-with-lambdaj&userName=mariofusco" />
         <param name="allowFullScreen" value="true"/><param name="allowScriptAccess" value="always"/>
