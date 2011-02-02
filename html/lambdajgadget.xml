@@ -3,19 +3,16 @@
   <ModulePrefs title="LambdaJ Google Gadget" />
   <Content type="html">
      <![CDATA[
-       <div style="border:1px solid #ccc;width:850px;height:650px;">
-       <object type="application/x-shockwave-flash" data="http://www.snoopal.com/js/viewer/viewer.swf" width="850" height="650">
-       <param name="movie" value="http://www.snoopal.com/js/viewer/viewer.swf">
-       <param name="menu" value="false">
-       <param name="scale" value="noScale">
-       <param name="allowFullscreen" value="true">
-       <param name="allowScriptAccess" value="always">
-       <param name="bgcolor" value="#333">
-       <param name="wmode" value="opaque">
-       <param name="flashvars" value="documentUrl=%2fdocuments%2f6600283f-0c72-4ba5-8af3-73f11d1cb0ca%2fLambdaj-javaone-slides%2fswfstream%3fclipNumber%3d1%2c%2fdocuments%2f6600283f-0c72-4ba5-8af3-73f11d1cb0ca%2fLambdaj-javaone-slides%2fswfstream%3fclipNumber%3d2&pages=10%2c22&email=&documentTitle=lambdaj-javaone-slides&topBar=1&serverUrl=http%3a%2f%2fwww.snoopal.com">
-       <embed src="http://www.snoopal.com/js/viewer/viewer.swf?documentUrl=%2fdocuments%2f6600283f-0c72-4ba5-8af3-73f11d1cb0ca%2fLambdaj-javaone-slides%2fswfstream%3fclipNumber%3d1%2c%2fdocuments%2f6600283f-0c72-4ba5-8af3-73f11d1cb0ca%2fLambdaj-javaone-slides%2fswfstream%3fclipNumber%3d2&pages=10%2c22&email=&documentTitle=lambdaj-javaone-slides&topBar=1&serverUrl=http%3a%2f%2fwww.snoopal.com" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="850" height="650" />
-       </object>
-       </div>
+        <div style="width:425px" id="__ss_6688488"><strong style="display:block;margin:12px 0 4px">
+        <a href="http://www.slideshare.net/mariofusco/no-more-loops-with-lambdaj" title="No more loops with lambdaj">No more loops with lambdaj</a></strong>
+        <object id="__sse6688488" width="425" height="355">
+        <param name="movie" value="http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=lambdaj-110124161033-phpapp01&stripped_title=no-more-loops-with-lambdaj&userName=mariofusco" />
+        <param name="allowFullScreen" value="true"/><param name="allowScriptAccess" value="always"/>
+        <embed name="__sse6688488" src="http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=lambdaj-110124161033-phpapp01&stripped_title=no-more-loops-with-lambdaj&userName=mariofusco" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="355"></embed>
+        </object>
+        <div style="padding:5px 0 12px">View more <a href="http://www.slideshare.net/">presentations</a> from <a href="http://www.slideshare.net/mariofusco">Mario Fusco</a>.
+        </div>
+        </div>
      ]]>
   </Content>
 </Module>
