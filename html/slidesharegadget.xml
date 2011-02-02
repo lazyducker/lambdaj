@@ -3,11 +3,11 @@
   <ModulePrefs title="LambdaJ Google Gadget" />
   <Content type="html">
      <![CDATA[
-        <div style="width:850px" id="__ss_6688488">
-        <object id="__sse6688488" width="845" height="650">
+        <div style="width:845px" id="__ss_6688488">
+        <object id="__sse6688488" width="845" height="648">
         <param name="movie" value="http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=lambdaj-110124161033-phpapp01&stripped_title=no-more-loops-with-lambdaj&userName=mariofusco" />
         <param name="allowFullScreen" value="true"/><param name="allowScriptAccess" value="always"/>
-        <embed name="__sse6688488" src="http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=lambdaj-110124161033-phpapp01&stripped_title=no-more-loops-with-lambdaj&userName=mariofusco" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="845" height="650"></embed>
+        <embed name="__sse6688488" src="http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=lambdaj-110124161033-phpapp01&stripped_title=no-more-loops-with-lambdaj&userName=mariofusco" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="845" height="648"></embed>
         </object>
         </div>
      ]]>
