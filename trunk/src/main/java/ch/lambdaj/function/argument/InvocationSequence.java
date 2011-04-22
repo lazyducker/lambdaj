@@ -61,7 +61,8 @@ final class InvocationSequence {
      */
     @Override
     public boolean equals(Object object) {
-        return object != null && Invocation.areNullSafeEquals(lastInvocation, ((InvocationSequence)object).lastInvocation);
+        return object != null && rootInvokedClass == ((InvocationSequence)object).rootInvokedClass
+            && Invocation.areNullSafeEquals(lastInvocation, ((InvocationSequence)object).lastInvocation);
     }
 
     /**
