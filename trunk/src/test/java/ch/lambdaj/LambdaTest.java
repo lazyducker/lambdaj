@@ -935,4 +935,16 @@ public class LambdaTest {
         BigDecimal result2 = sum(list, on(BigDecimalWrapper.class).getBigDecimal());
         assertEquals(result2, BigDecimal.ZERO);
     }
+
+    @Test
+    public void testExists() {
+        assertTrue("Anything", exists(Collections.singleton("foo"), anything()));
+        assertFalse("Nothing", exists(Collections.singleton("foo"), not(anything())));
+        assertFalse("Empty", exists(Collections.emptySet(), anything()));
+
+        assertTrue("Has match", exists(Collections.singleton("foo"), equalTo("foo")));
+        assertFalse("Has no match", exists(Collections.singleton("bar"), equalTo("foo")));
+        assertTrue("One of many", exists(Arrays.asList("bar", "foo"), equalTo("foo")));
+
+    }
 }
