@@ -358,7 +358,19 @@ public final class Lambda {
         return unique;
 	}
 
-	/**
+    /**
+     * Returns true if the given iterable contains at least an item that matches the given hamcrest Matcher
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
+     * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
+	 * @param iterable The iterable of objects to be filtered
+	 * @param matcher The hamcrest Matcher used to filter the given iterable
+	 * @return True if the given iterable contains at least an item that matches the given hamcrest Matcher false otherwise
+	 */
+    public static boolean exists(Object iterable, Matcher<?> matcher) {
+        return selectFirst(iterable, matcher) != null;
+    }
+
+    /**
 	 * Selects the first object in the given iterable that matches the given hamcrest Matcher
      * Actually it handles also Maps, Arrays and Iterator by collecting their values.
      * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
