@@ -42,8 +42,10 @@ class AbstractLambdaCollection<T> {
     private void setInnerCollection(Collection<? extends T> inner) {
         try {
             ((Collection<T>)innerIterable).clear();
-        } catch (UnsupportedOperationException e) { innerIterable = new LinkedList<T>(); }
-        ((Collection<T>)innerIterable).addAll((Collection<T>)inner);
+            ((Collection<T>)innerIterable).addAll((Collection<T>)inner);
+        } catch (UnsupportedOperationException e) {
+            innerIterable = new LinkedList<T>((Collection<T>)inner);
+        }
     }
 
     private Object getInner() {

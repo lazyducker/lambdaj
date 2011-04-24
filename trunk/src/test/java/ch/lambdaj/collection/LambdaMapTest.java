@@ -62,6 +62,18 @@ public class LambdaMapTest {
     }
 
     @Test
+    public void testChangeMapValues() {
+        LambdaMap<String, Person> map = with(me, luca, biagio, celestino).index(on(Person.class).getFirstName());
+        Collection<Person> values = map.values();
+
+        Collection<String> extract = with(values)
+            .retain(having(on(Person.class).getAge(), equalTo(29)))
+            .extract(on(Person.class).getLastName());
+
+          assertEquals(2, extract.size());
+    }
+
+    @Test
     public void testMap() {
         LambdaMap<String, Person> map = with(me, luca, biagio, celestino).index(on(Person.class).getFirstName());
         LambdaMap<String, Person> map2 = map.clone();
