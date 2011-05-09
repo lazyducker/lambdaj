@@ -58,19 +58,6 @@ public final class ProxyUtil {
     }
 
     // ////////////////////////////////////////////////////////////////////////
-    // /// Void Proxy
-    // ////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Creates a proxy of the given class that just ignores any invocation on it
-     * @param clazz The class to be proxied
-     * @return The newly created proxy
-     */
-	public static <T> T createVoidProxy(Class<T> clazz) {
-		return createProxy(InvocationInterceptor.VOID, clazz, false, InvocationInterceptor.VoidInterceptor.class);
-	}
-	
-    // ////////////////////////////////////////////////////////////////////////
     // /// Iterable Proxy
     // ////////////////////////////////////////////////////////////////////////
     

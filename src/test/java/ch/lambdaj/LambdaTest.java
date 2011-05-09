@@ -945,6 +945,5 @@ public class LambdaTest {
         assertTrue("Has match", exists(Collections.singleton("foo"), equalTo("foo")));
         assertFalse("Has no match", exists(Collections.singleton("bar"), equalTo("foo")));
         assertTrue("One of many", exists(Arrays.asList("bar", "foo"), equalTo("foo")));
-
     }
 }

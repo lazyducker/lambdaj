@@ -86,6 +86,7 @@ final class InvocationSequence {
     }
 
     private Object invokeOn(Invocation invocation, Object value) {
+        if (invocation == null) return value;
         if (invocation.previousInvocation != null) value = invokeOn(invocation.previousInvocation, value);
         return invocation.invokeOn(value);
     }
