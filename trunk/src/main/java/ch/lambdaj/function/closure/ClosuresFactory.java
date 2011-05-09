@@ -6,6 +6,8 @@ package ch.lambdaj.function.closure;
 
 import static ch.lambdaj.function.argument.ArgumentsFactory.*;
 import static ch.lambdaj.proxy.ProxyUtil.*;
+
+import ch.lambdaj.function.argument.*;
 import ch.lambdaj.proxy.*;
 
 /**
@@ -112,7 +114,21 @@ public final class ClosuresFactory {
      * @param object The object to be tested
      * @return true if the given object is actually a placeholder for a free variable of a closure
      */
-	public static boolean isClosureVarPlaceholder(Object object) {
-		return object instanceof InvocationInterceptor.VoidInterceptor || createClosureArgumentPlaceholder(object.getClass()).equals(object);
+	static ClosureVarType getClosureVarType(Object object) {
+		if (getClosureVarArgument(object) != null) return ClosuresFactory.ClosureVarType.VAR;
+        if (createClosureArgumentPlaceholder(object.getClass()).equals(object)) return ClosuresFactory.ClosureVarType.FINAL_VAR;
+        return ClosuresFactory.ClosureVarType.FIXED;
 	}
+
+    static <T> Argument<T> getClosureVarArgument(T placeholder) {
+        return placeholderToClosureArgument(placeholder);
+    }
+
+    enum ClosureVarType {
+        VAR, FINAL_VAR, FIXED;
+
+        boolean isClosureVarPlaceholder() {
+            return this == VAR || this == FINAL_VAR;
+        }
+    }
 }

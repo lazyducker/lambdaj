@@ -6,12 +6,12 @@ package ch.lambdaj;
 
 import static ch.lambdaj.Lambda.*;
 import static java.util.Arrays.*;
+import static org.junit.Assert.*;
 
 import java.io.*;
 import java.util.*;
 
 import org.junit.*;
-import static org.junit.Assert.*;
 
 import ch.lambdaj.function.closure.*;
 import ch.lambdaj.function.convert.*;
@@ -333,5 +333,15 @@ public class ClosureTest {
             stringifier.apply();
             fail("stringifier without any param must fail");
         } catch (WrongClosureInvocationException e) { }
+    }
+
+    @Test
+    public void testInvocationOnVar() {
+        Person me = new Person("Mario");
+        Closure ageSetter = closure(); {
+            of(me).setAge(var(Person.class).getAge());
+        }
+        ageSetter.apply(new Person("Mario", 37));
+        assertEquals(37, me.getAge());
     }
 }

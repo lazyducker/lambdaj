@@ -15,27 +15,6 @@ import net.sf.cglib.proxy.*;
 public abstract class InvocationInterceptor implements MethodInterceptor, java.lang.reflect.InvocationHandler {
 
     /**
-     * A marker interface for an Interceptor that does nothing
-     */
-	public interface VoidInterceptor { }
-
-    /**
-     * A dummy InvocationInterceptor that just ignores any invocation on it
-     */
-	public static final InvocationInterceptor VOID = new InvocationInterceptor() {
-        /**
-         * {@inheritDoc}
-         */
-		public Object invoke(Object proxy, Method method, Object[] args) {
-			return (method.getName().equals("equals") && args != null && args.length == 1) ? isVoidProxy(args[0]) : null;
-		}
-
-        private boolean isVoidProxy(Object object) {
-            return object instanceof VoidInterceptor;
-        }
-	};
-	
-    /**
      * {@inheritDoc}
      */
 	public final Object intercept(Object proxy, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {

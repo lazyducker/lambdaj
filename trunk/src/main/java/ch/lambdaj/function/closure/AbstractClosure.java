@@ -128,7 +128,7 @@ abstract class AbstractClosure {
 
     private void bindInvocation(Invokable invokable, Object[] args) {
 		invokables.add(invokable);
-		if (args != null) for (Object arg : args) { if (isClosureVarPlaceholder(arg)) freeVarsNumber++; }
+		if (args != null) for (Object arg : args) { if (getClosureVarType(arg).isClosureVarPlaceholder()) freeVarsNumber++; }
 		argsList.add(args);
 	}
 
@@ -217,10 +217,24 @@ abstract class AbstractClosure {
             }
             Object[] objs = new Object[args.length];
             for (int i = 0; i < args.length; i++) {
-                if (isClosureVarPlaceholder(args[i])) {
-                    objs[i] = (curriedVars != null && curriedVarsFlags[curriedParamCounter]) ? curriedVars[curriedParamCounter] : vars[varCounter++];
-                    curriedParamCounter++;
-                } else objs[i] = args[i];
+                switch (getClosureVarType(args[i])) {
+                    case VAR:
+                        objs[i] = (curriedVars != null && curriedVarsFlags[curriedParamCounter]) ?
+                                curriedVars[curriedParamCounter] :
+                                getClosureVarArgument(args[i]).evaluate(vars[varCounter++]);
+                        curriedParamCounter++;
+                        break;
+                    case FINAL_VAR:
+                        objs[i] = (curriedVars != null && curriedVarsFlags[curriedParamCounter]) ?
+                                curriedVars[curriedParamCounter] :
+                                vars[varCounter++];
+                        curriedParamCounter++;
+                        break;
+                    case FIXED:
+                        objs[i] = args[i];
+                        break;
+
+                }
             }
             boundParams.add(objs);
 		}

@@ -72,10 +72,14 @@ public final class ArgumentsFactory {
      */
 	@SuppressWarnings("unchecked")
     public static <T> Argument<T> actualArgument(T placeholder) {
-    	if (placeholder instanceof Argument) return (Argument<T>)placeholder;
-    	Argument<T> actualArgument = (Argument<T>)(isLimitedValues(placeholder) ? LIMITED_VALUE_ARGUMENTS.get().getArgument(placeholder) : ARGUMENTS_BY_PLACEHOLDER.get(placeholder));
+    	Argument<T> actualArgument = placeholderToArgument(placeholder);
     	if (actualArgument == null) throw new ArgumentConversionException("Unable to convert the placeholder " + placeholder + " in a valid argument");
     	return actualArgument;
+    }
+
+    private static <T> Argument<T> placeholderToArgument(T placeholder) {
+        if (placeholder instanceof Argument) return (Argument<T>)placeholder;
+        return (Argument<T>)(isLimitedValues(placeholder) ? LIMITED_VALUE_ARGUMENTS.get().getArgument(placeholder) : ARGUMENTS_BY_PLACEHOLDER.get(placeholder));
     }
     
 	private static final ThreadLocal<LimitedValuesArgumentHolder> LIMITED_VALUE_ARGUMENTS = new ThreadLocal<LimitedValuesArgumentHolder>() {
@@ -140,14 +144,20 @@ public final class ArgumentsFactory {
      */
     public static <T> T createClosureArgumentPlaceholder(Class<T> clazz) {
         if (clazz == Class.class) return (T)ArgumentsFactory.class;
-        return isProxable(clazz) ? createVoidProxy(clazz) : createFinalArgumentPlaceholder(clazz);
+        return isProxable(clazz) ? createArgument(clazz) : createFinalArgumentPlaceholder(clazz);
     }
+
+    public static <T> Argument<T> placeholderToClosureArgument(T placeholder) {
+        return placeholderToArgument(placeholder);
+    }
+
+    private static final Integer FINAL_PLACEHOLDER_SEED = Integer.MIN_VALUE / 2 - 1974;
 
     @SuppressWarnings("unchecked")
     private static <T> T createFinalArgumentPlaceholder(Class<T> clazz) {
     	if (clazz == Boolean.TYPE || clazz == Boolean.class) return (T)Boolean.FALSE; 
     	if (clazz.isEnum()) return (T)EnumSet.allOf((Class<? extends Enum>)clazz).iterator().next();
-    	return (T)createArgumentPlaceholder(clazz, Integer.MIN_VALUE+1);
+    	return (T)createArgumentPlaceholder(clazz, FINAL_PLACEHOLDER_SEED);
 	}
     
     private static final AtomicInteger PLACEHOLDER_COUNTER = new AtomicInteger(Integer.MIN_VALUE);
