@@ -95,7 +95,8 @@ final class InvocationSequence {
     public String toString() {
         StringBuilder sb = new StringBuilder(100);
         sb.append("[");
-        toString(lastInvocation, lastInvocation.previousInvocation, sb, true);
+        if (lastInvocation == null) sb.append(rootInvokedClass);
+        else toString(lastInvocation, lastInvocation.previousInvocation, sb, true);
         sb.append("]");
         return sb.toString();
     }
