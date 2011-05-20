@@ -13,10 +13,16 @@ import java.util.*;
 /**
  * Proxies a list of objects in order to seamlessly iterate on them by exposing the API of a single object.
  * @author Mario Fusco
+ * @author Mattias Jiderhamn, adding ability to disable or enable
  */
 public class ProxyIterator<T> extends InvocationInterceptor implements Iterable<T> {
 
 	private final ResettableIterator<? extends T> proxiedIterator;
+
+    /**
+     * Set to true (default) the interceptor will work on the proxiedIterator, if set to false it will ignore any method invocations.
+     */
+    protected boolean enabled = true;
 
     /**
      * Creates a proxy that wraps the given Iterator in order to seamlessly iterate on them by exposing the API of a single object
@@ -31,7 +37,8 @@ public class ProxyIterator<T> extends InvocationInterceptor implements Iterable<
      */
     public Object invoke(Object obj, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
 		if (method.getName().equals("iterator")) return iterator();
-		return createProxyIterator(iterateOnValues(method, args), (Class<Object>)method.getReturnType());
+        if (enabled) return createProxyIterator(iterateOnValues(method, args), (Class<Object>)method.getReturnType());
+        return null; 
 	}
 
     /**

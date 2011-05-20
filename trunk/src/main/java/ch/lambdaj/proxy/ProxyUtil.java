@@ -43,12 +43,16 @@ public final class ProxyUtil {
      */
     public static <T> T createProxy(InvocationInterceptor interceptor, Class<T> clazz, boolean failSafe, Class<?> ... implementedInterface) {
         if (clazz.isInterface()) return (T)createNativeJavaProxy(clazz.getClassLoader(), interceptor, concatClasses(new Class<?>[] { clazz }, implementedInterface));
+        final ProxyIterator proxyIterator = (interceptor instanceof ProxyIterator) ? (ProxyIterator)interceptor : null;
         try {
+            if (proxyIterator != null) proxyIterator.enabled = false;
             return (T)createEnhancer(interceptor, clazz, implementedInterface).create();
         } catch (IllegalArgumentException iae) {
             if (Proxy.isProxyClass(clazz)) return (T)createNativeJavaProxy(clazz.getClassLoader(), interceptor, concatClasses(implementedInterface, clazz.getInterfaces()));
             if (isProxable(clazz)) return ClassImposterizer.INSTANCE.imposterise(interceptor, clazz, implementedInterface);
             return manageUnproxableClass(clazz, failSafe);
+        } finally {
+            if (proxyIterator != null) proxyIterator.enabled = true;
         }
     }
 
