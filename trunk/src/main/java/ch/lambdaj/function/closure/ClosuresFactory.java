@@ -115,6 +115,7 @@ public final class ClosuresFactory {
      * @return true if the given object is actually a placeholder for a free variable of a closure
      */
 	static ClosureVarType getClosureVarType(Object object) {
+        if (object == null) return ClosuresFactory.ClosureVarType.FIXED;
 		if (getClosureVarArgument(object) != null) return ClosuresFactory.ClosureVarType.VAR;
         if (createClosureArgumentPlaceholder(object.getClass()).equals(object)) return ClosuresFactory.ClosureVarType.FINAL_VAR;
         return ClosuresFactory.ClosureVarType.FIXED;
