@@ -20,3 +20,7 @@ having defined this factory you can register it as it follows:
 {{{
 ArgumentsFactory.registerFinalClassArgumentCreator(LocalDate.class, new LocalDateArgumentCreator());
 }}}
+
+*2.* More precise exceptions (re)throw.
+
+When a method invoked through a lambdaj proxy throws an Exception it is no longer wrapped inside an InvocationTargetException. Now if the original Exception is a Runtime one it is thrown as it is, otherwise it's wrapped inside a RuntimeExcption and then rethrown.
