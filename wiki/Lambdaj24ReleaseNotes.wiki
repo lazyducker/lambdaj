@@ -2,7 +2,7 @@
 
 The following new features and improvements have been added with the release 2.4:
 
-*1.* Allow to define a custom strategy to create placeholder for final classes.
+*1. Allow to define a custom strategy to create placeholder for final classes.*
 
 As reported by [http://code.google.com/p/lambdaj/issues/detail?id=70 this issue]: "the use of `AgumentsFactory.createArgumentPlaceholderForUnknownClass` assumes if a constructor with a string or numeric value is located, that the equals - relation will return false" Unfortunately this is not always true as for the case `org.joda.time.LocalDate`. This improvement allows to overcome this limitation by allowing to register a custom argument creator factory for unknown final class as in the following example:
 
@@ -21,9 +21,30 @@ having defined this factory you can register it as it follows:
 ArgumentsFactory.registerFinalClassArgumentCreator(LocalDate.class, new LocalDateArgumentCreator());
 }}}
 
-*2.* More precise exceptions (re)throw.
+*2. More precise exceptions (re)throw.*
 
 When a method invoked through a lambdaj proxy throws an Exception it is no longer wrapped inside an `InvocationTargetException`. Now if the original Exception is a Runtime one it is thrown as it is, otherwise it's wrapped inside a `RuntimeExcption` and then rethrown.
 
 
-*3.* 
+*3. Sort options*
+
+2 sort options, DESCENDING and IGNORE_CASE are now available for the lambdaj sorting features, so for example you can write:
+
+{{{
+sort(persons, on(Person.class).getAge(), DESCENDING);
+}}}
+
+or
+
+{{{
+sort(persons, on(Person.class).getFirstName(), IGNORE_CASE);
+}}}
+
+
+Of course you can also combine them: 
+
+{{{
+sort(persons, on(Person.class).getFirstName(), IGNORE_CASE + DESCENDING);
+}}}
+
+and use them in the lambdaj's fluent interface collections. More options will be possible made available in the future as per lambda's users requests.
