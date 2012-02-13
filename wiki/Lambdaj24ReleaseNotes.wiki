@@ -18,7 +18,7 @@ As reported by [http://code.google.com/p/lambdaj/issues/detail?id=70 this issue]
 having defined this factory you can register it as it follows:
 
 {{{
-ArgumentsFactory.registerFinalClassArgumentCreator(LocalDate.class, new LocalDateArgumentCreator());
+Lambda.registerFinalClassArgumentCreator(LocalDate.class, new LocalDateArgumentCreator());
 }}}
 
 *2. More precise exceptions (re)throw.*
@@ -48,3 +48,11 @@ sort(persons, on(Person.class).getFirstName(), IGNORE_CASE + DESCENDING);
 }}}
 
 and use them in the lambdaj's fluent interface collections. More options will be possible made available in the future as per lambda's users requests.
+
+*4. Arguments JITting*
+
+Now the evaluation of lambdaj's arguments (the references created with the on() method) can be made as fast as the invocation of a compiled Java method. Indeed it is optionally possible to JIT them (i.e. precompile them in plain Java classes) using ASM. This compilation process is performed in background and in my experience can make the evaluation of lambdaj's expressions using the on() construct 10 to 20% faster. This optimization is switched off by default but can be easily enabled just by invoking:
+
+{{{
+Lambda.enableJitting();
+}}}
