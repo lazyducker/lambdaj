@@ -56,3 +56,13 @@ Now the evaluation of lambdaj's arguments (the references created with the on() 
 {{{
 Lambda.enableJitting();
 }}}
+
+*5. Bugs fixing*
+
+The following bugs/issues have been fixed:
+
+  * [http://code.google.com/p/lambdaj/issues/detail?id=74 Sum over collection returns wrong value when done again]
+  * [http://code.google.com/p/lambdaj/issues/detail?id=76 java.lang.ClassCastException has orrcued if list is empty for sum function]
+  * [http://code.google.com/p/lambdaj/issues/detail?id=79 Dependency: use hamcrest-library instead of hamcrest-all in pom.xml]
+  * [http://code.google.com/p/lambdaj/issues/detail?id=80 Unwrap InvocationTargetException for Runtime Exceptions]
+  * [http://code.google.com/p/lambdaj/issues/detail?id=83 Lambda should properly collect objects that are iterables]
