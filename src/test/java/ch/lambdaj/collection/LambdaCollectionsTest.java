@@ -92,6 +92,12 @@ public class LambdaCollectionsTest {
         assertSame(me, sorted.get(2));
         assertSame(biagio, sorted.get(3));
 
+        meAndMyFriends.sort(on(Person.class).getAge(), DESCENDING);
+        assertSame(biagio, sorted.get(0));
+        assertSame(me, sorted.get(1));
+        assertSame(luca, sorted.get(2));
+        assertSame(celestino, sorted.get(3));
+
         LambdaCollection<Person> meAndMyFriendsCollection = with((Collection<Person>)asList(me, luca, biagio, celestino));
         LambdaCollection<Person> sortedCollection = meAndMyFriendsCollection.sort(on(Person.class).getAge());
         assertSame(luca, sortedCollection.iterator().next());
