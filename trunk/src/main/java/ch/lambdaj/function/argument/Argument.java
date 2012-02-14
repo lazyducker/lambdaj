@@ -4,6 +4,12 @@
 
 package ch.lambdaj.function.argument;
 
+import ch.lambdaj.Lambda;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * An Argument represents a statically defined sequence of method invocations on a given Class.
  * @author Mario Fusco
@@ -11,8 +17,8 @@ package ch.lambdaj.function.argument;
 public class Argument<T> {
 
 	private final InvocationSequence invocationSequence;
-	
-	Argument(InvocationSequence invocationSequence) {
+
+    Argument(InvocationSequence invocationSequence) {
 		this.invocationSequence = invocationSequence;
 	}
 	
@@ -32,7 +38,7 @@ public class Argument<T> {
 	 */
 	@SuppressWarnings("unchecked")
 	public T evaluate(Object object) {
-        return (T)invocationSequence.invokeOn(object);
+        return (T)invocationSequence.evaluate(object);
 	}
 	
 	/**

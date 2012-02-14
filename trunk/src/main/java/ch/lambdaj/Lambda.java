@@ -6,6 +6,7 @@ package ch.lambdaj;
 
 import static ch.lambdaj.function.argument.ArgumentsFactory.*;
 import static ch.lambdaj.function.closure.ClosuresFactory.*;
+import static ch.lambdaj.function.compare.ComparatorUtil.getStandardComparator;
 import static ch.lambdaj.function.matcher.HasArgumentWithValue.*;
 import static ch.lambdaj.util.iterator.IteratorFactory.*;
 
@@ -34,7 +35,25 @@ import ch.lambdaj.group.*;
 public final class Lambda {
 
     private Lambda() { }
-	
+
+    /**
+     * Enable or disable the JIT optimization of lambdaj's arguments. Disabled by default
+     * @param enable True to enable the JIT optimization, false to disable it
+     */
+    public static void enableJitting(boolean enable) {
+        ArgumentsFactory.enableJitting(enable);
+    }
+
+    /**
+     * Register a custom argument creator factory for an unknown final class
+     * @param clazz  The class for which this factory should be used
+     * @param creator The argument factory
+     * @param <T>
+     */
+    public static <T> void registerFinalClassArgumentCreator(Class<T> clazz, FinalClassArgumentCreator<T> creator) {
+        ArgumentsFactory.registerFinalClassArgumentCreator(clazz, creator);
+    }
+
 	/**
 	 * Constructs a proxy object that mocks the given Class registering all the subsequent invocations on the object.
 	 * @param clazz The class of the object to be mocked
@@ -174,12 +193,7 @@ public final class Lambda {
 	public static <T> List<? extends T> collect(Object iterable) {
 		List<T> collected = new LinkedList<T>();
         Iterator i = asIterator(iterable);
-		while (i.hasNext()) {
-            Object item = i.next();
-			if (item instanceof Iterable) collected.addAll((Collection<T>) collect(item));
-			else if (item instanceof Map) collected.addAll((Collection<T>) collect(((Map<?,?>)item).values()));
-			else collected.add((T)item);
-		}
+		while (i.hasNext()) collected.add((T)i.next());
 		return collected;
 	}
 	
@@ -207,6 +221,9 @@ public final class Lambda {
 	// /// Sort
 	// ////////////////////////////////////////////////////////////////////////
 
+    public static final int DESCENDING = 1;
+    public static final int IGNORE_CASE = 2;
+
 	/**
 	 * Sorts all the items in the given iterable on the respective values of the given argument.
      * Actually it handles also Maps, Arrays and Iterator by collecting their values.
@@ -216,9 +233,22 @@ public final class Lambda {
 	 * @return A List with the same items of the given iterable sorted on the respective value of the given argument
 	 */
 	public static <T> List<T> sort(Object iterable, Object argument) {
-		return sort(iterable, argument, null);
+		return sort(iterable, argument, 0);
 	}
-	
+
+    /**
+     * Sorts all the items in the given iterable on the respective values of the given argument.
+     * Actually it handles also Maps, Arrays and Iterator by collecting their values.
+     * Note that this method accepts an Object in order to be used in conjunction with the {@link Lambda#forEach(Iterable)}.
+     * @param iterable The iterable of objects to be sorted
+     * @param argument An argument defined using the {@link Lambda#on(Class)} method
+     * @param option  Sorting option e.g.: DESCENDING + IGNORE_CASE
+     * @return A List with the same items of the given iterable sorted on the respective value of the given argument
+     */
+    public static <T> List<T> sort(Object iterable, Object argument, int option) {
+        return sort(iterable, argument, getStandardComparator(option));
+    }
+
 	/**
 	 * Sorts all the items in the given iterable on the respective values of the given argument comparing them with the given comparator.
      * Actually it handles also Maps, Arrays and Iterator by collecting their values.
@@ -577,6 +607,7 @@ public final class Lambda {
     }
 
     private static Number typedZero(Class<?> numberClass) {
+        if (numberClass == Long.class) return 0L;
         if (numberClass == Double.class) return 0.0;
         if (numberClass == Float.class) return 0.0f;
         if (BigInteger.class.isAssignableFrom(numberClass)) return BigInteger.ZERO;

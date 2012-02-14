@@ -12,7 +12,6 @@ import java.lang.reflect.*;
 import java.util.*;
 import java.math.*;
 
-import ch.lambdaj.function.aggregate.*;
 import org.hamcrest.*;
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -67,6 +66,17 @@ public class LambdaTest {
 		forEach(personInFamily).setLastName("Fusco");
 		for (Person person : personInFamily) assertEquals("Fusco", person.getLastName());
 	}
+
+    @Test
+    public void testForEachThrowingException() {
+        List<Person> personInFamily = asList(new Person("Domenico"), new Person("Mario"), new PersonThrowingException());
+        try {
+            forEach(personInFamily).setLastName("Fusco");
+            fail("Must throw a RuntimeException");
+        } catch (RuntimeException e) {
+            assertEquals("Cannot set last name", e.getMessage());
+        }
+    }
 
     @Test
     public void testForEachOnIterator() {
@@ -237,13 +247,45 @@ public class LambdaTest {
 	public void testSortOnAgeArgument() {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
 		
-		List<Person> sorted = sort(meAndMyFriends, argument(on(Person.class).getAge()));
+		List<Person> sorted = sort(meAndMyFriends, on(Person.class).getAge());
 		assertSame(luca, sorted.get(0));
 		assertSame(celestino, sorted.get(1));
 		assertSame(me, sorted.get(2));
 		assertSame(biagio, sorted.get(3));
+
+        List<Person> descSorted = sort(meAndMyFriends, on(Person.class).getAge(), DESCENDING);
+        assertSame(biagio, descSorted.get(0));
+        assertSame(me, descSorted.get(1));
+        assertSame(luca, descSorted.get(2));
+        assertSame(celestino, descSorted.get(3));
 	}
-	
+
+    @Test
+    public void testSortIgnoreCase() {
+        luca.setFirstName("luca");
+        List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+
+        List<Person> sorted = sort(meAndMyFriends, on(Person.class).getFirstName());
+        assertSame(biagio, sorted.get(0));
+        assertSame(celestino, sorted.get(1));
+        assertSame(me, sorted.get(2));
+        assertSame(luca, sorted.get(3));
+
+        List<Person> sortedIgnoreCase = sort(meAndMyFriends, on(Person.class).getFirstName(), IGNORE_CASE);
+        assertSame(biagio, sortedIgnoreCase.get(0));
+        assertSame(celestino, sortedIgnoreCase.get(1));
+        assertSame(luca, sortedIgnoreCase.get(2));
+        assertSame(me, sortedIgnoreCase.get(3));
+
+        List<Person> sortedDescIgnoreCase = sort(meAndMyFriends, on(Person.class).getFirstName(), DESCENDING + IGNORE_CASE);
+        assertSame(me, sortedDescIgnoreCase.get(0));
+        assertSame(luca, sortedDescIgnoreCase.get(1));
+        assertSame(celestino, sortedDescIgnoreCase.get(2));
+        assertSame(biagio, sortedDescIgnoreCase.get(3));
+
+        luca.setFirstName("Luca");
+    }
+
 	@Test
 	public void testFindOldest() {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
@@ -386,7 +428,7 @@ public class LambdaTest {
 		assertSame(luca, youngFriends.get(0));
 		assertSame(celestino, youngFriends.get(1));
 	}
-	
+
 	@Test
 	public void testSelectOnEnumMustFailWithHaving() {
 		List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
@@ -481,7 +523,16 @@ public class LambdaTest {
 		assertSame(me, friendsIterator.next());
 		assertSame(biagio, friendsIterator.next());
 	}
-	
+
+    @Test
+    public void testRepeatedSum() {
+        List<Person> meAndMyFriends = asList(me, luca, biagio, celestino);
+        assertEquals((Float)4.4f, sum(meAndMyFriends, on(Person.class).getFloat()));
+        assertEquals((Integer)132, sum(meAndMyFriends, on(Person.class).getAge()));
+        assertEquals((Float)4.4f, sum(meAndMyFriends, on(Person.class).getFloat()));
+        assertEquals((Integer)132, sum(meAndMyFriends, on(Person.class).getAge()));
+    }
+
 	@Test
 	public void testIllegalSumFrom() {
 		try {
@@ -945,5 +996,53 @@ public class LambdaTest {
         assertTrue("Has match", exists(Collections.singleton("foo"), equalTo("foo")));
         assertFalse("Has no match", exists(Collections.singleton("bar"), equalTo("foo")));
         assertTrue("One of many", exists(Arrays.asList("bar", "foo"), equalTo("foo")));
+    }
+
+    @Test
+    public void testFloatArgument() {
+        Set<CostItem> costItems = new HashSet<CostItem>();
+
+        CostItem costItem = new CostItem();
+        costItem.setCashOut(5f);
+        costItem.setTravel(10f);
+        costItems.add(costItem);
+
+        costItem = new CostItem();
+        costItem.setCashOut(2f);
+        costItem.setTravel(20f);
+        costItems.add(costItem);
+
+        costItem = new CostItem();
+        costItem.setCashOut(3f);
+        costItem.setTravel(30f);
+        costItems.add(costItem);
+
+        float f = Lambda.sum(costItems, Lambda.on(CostItem.class).getCashOut());
+        assertEquals(10f, f, 0.1);
+        f = Lambda.sum(costItems , Lambda.on(CostItem.class).getTravel());
+        assertEquals(60f, f, 0.1);
+        f = Lambda.sum(costItems , Lambda.on(CostItem.class).getCashOut());
+        assertEquals(10f, f, 0.1);
+    }
+
+    public static class CostItem {
+
+        private float _travel;
+
+        private float _cashOut;
+
+        public float getTravel() {
+            return _travel;
+        }
+        public void setTravel(float travel) {
+            _travel = travel;
+        }
+
+        public float getCashOut() {
+            return _cashOut;
+        }
+        public void setCashOut(float cashOut) {
+            _cashOut = cashOut;
+        }
     }
 }
