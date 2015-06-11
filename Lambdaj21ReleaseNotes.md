@@ -1,0 +1,133 @@
+The following new features and improvements have been added with the release 2.1:
+
+  1. **Improved delayed closure features and syntax** (suggested and implemented by Guillaume Bort)
+
+The delayed closure syntax was present already in the 2.0 release but it didn't work as expected because the closure invocation was actually performed out of sequence at the end of the method that uses the closure itself. More details about closures in lambdaj are available [here](http://code.google.com/p/lambdaj/wiki/Closures). The solution suggested by Guillaume Bort fixes this problem as in the following example:
+
+```
+    PrintWriter out;
+    public void sayHello() {
+        out.print("Hello !");
+    }
+
+    public void withTransaction() {
+        delayedClosure(new DelayedClosure<Void>() {
+
+            @Override
+            public Void doWithClosure(Closure closure) {
+                out.print("BEGIN -- ");
+                closure.apply();
+                out.print(" -- COMMIT");
+                return null;
+            }
+        });
+    }
+```
+
+This allows the withTransaction() method to invoke the closure between the start and the commit of the transaction as demonstrated by this test:
+
+```
+    @Test
+    public void testWithTransaction() {
+        StringWriter sw = new StringWriter();
+        out = new PrintWriter(sw);
+
+        withTransaction(); {
+            of(this).sayHello();
+        }
+
+        System.out.println(sw.toString());
+        assertEquals("BEGIN -- Hello ! -- COMMIT", sw.toString());
+    }
+```
+
+This new syntax also have another great advantage since it allows the delayed closure to return a value as in this second example:
+
+```
+    public boolean moreThan2Chars(String c) {
+        return c.length() > 2;
+    }
+
+    public <T> ClosureResult<List<T>> grep(final List<T> objects) {
+        return delayedClosure(new DelayedClosure<List<T>>() {
+
+            @Override
+            public List<T> doWithClosure(Closure closure) {
+                List<T> filtered = new ArrayList<T>();
+                for (T object : objects) {
+                    if ((Boolean) closure.apply(object)) {
+                        filtered.add(object);
+                    }
+                }
+                return filtered;
+            }
+        });
+    }
+```
+
+In this case the result of the invocation of the method that uses the closure is placed in the ClosureResult object from which the result itself can be read through its get method:
+
+```
+    @Test
+    public void testMyGrep() throws Exception {
+        List<String> strings = new ArrayList<String>();
+        strings.add("Yop");
+        strings.add("Ho");
+        strings.add("Kiki");
+        strings.add("Bi");
+
+        ClosureResult<List<String>> result = grep(strings); {
+            of(this).moreThan2Chars(var(String.class));
+        }
+
+        List<String> resultList = result.get();
+        assertEquals(2, resultList.size());
+        assertEquals("Yop", resultList.get(0));
+        assertEquals("Kiki", resultList.get(1));
+    }
+```
+
+> 2. **Better support for arrays and iterators** (suggested and partially implemented by Andrea Polci)
+
+Now all the lambdaj methods that accept an iterable work even if you pass them an Iterator or an Array. Moreover the methods returning a List now have been paired with some similar methods that return an Iterator instead. This can be very useful especially when you don't need to use the whole returned list of objects, but you have to iterate only on some of them.
+
+> 3. **Flatten** (suggested by Matt Stine)
+
+This new lambdaj function recursively descends through nested Collections and create a flat Collection of all of the leaves.
+
+> 4. **Support for sums of BigInteger and BigDecimal**
+
+> 5. **Projection**
+
+This feature allows to project the property values of a given object on an object of a different class by invoking the constructor of this target class. It can be useful for example when you need to transform a list of beans in the corresponding list of data transfer objects. Supposing you have a Person bean as it follows:
+
+```
+    class Person {
+        public String getFirstName() { return firstName; }
+        public String getLastName() { return lastName; }
+        public String getCompleteName() { return getFirstName() + " " + getLastName(); }
+        public int getAge() { return age; }
+
+    }
+```
+
+and a PersonDto on which you have to transfer the data of a Person:
+
+```
+    class PersonDto {
+        private final String name;
+        private final int age;
+        PersonDto(String name, int age) {
+                this.name = name;
+                this.age = age;
+        }
+    }
+```
+
+you can convert a List of Person in the corresponding List of PersonDto as it follows:
+
+```
+    List<PersonDto> perosonDtos = project(persons, PersonDto.class, on(Person.class).getCompleteName(), on(Person.class).getAge()); 
+```
+
+> 6. Improved heuristic used to **generate an argument placeholder** (the one generated by the on(Class<?> class) invocation) when a **final class** must be returned.
